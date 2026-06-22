@@ -31,52 +31,53 @@ export default function ForgotPasswordPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#030014] flex items-center justify-center px-4">
-      <div className="pointer-events-none fixed inset-0 overflow-hidden">
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-full bg-violet-600/10 blur-[120px]" />
-      </div>
-
-      <div className="relative w-full max-w-md">
-        <div className="text-center mb-8">
-          <span className="text-2xl font-bold text-white tracking-tight">
-            Auto<span className="text-violet-400">shipp</span>
-          </span>
-          <p className="mt-2 text-slate-400 text-sm">Reset your password</p>
+    <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4">
+      <div className="w-full max-w-[400px]">
+        {/* Logo */}
+        <div className="flex justify-center mb-8">
+          <Link href="/" className="flex items-center gap-2 font-semibold text-xl tracking-tight text-foreground">
+            <div className="w-8 h-8 rounded-md overflow-hidden">
+              <img src="/images/logo.png" alt="Autoshipp Logo" className="w-full h-full object-contain" />
+            </div>
+            Autoshipp
+          </Link>
         </div>
 
-        <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-8 backdrop-blur-sm">
+        <div className="bg-card border border-border shadow-sm rounded-xl p-8">
           {sent ? (
-            <div className="text-center py-4">
-              <div className="w-12 h-12 rounded-full bg-violet-500/20 flex items-center justify-center mx-auto mb-4">
-                <svg className="w-6 h-6 text-violet-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div className="text-center">
+              <div className="w-12 h-12 rounded-full bg-success/10 flex items-center justify-center mx-auto mb-4">
+                <svg className="w-6 h-6 text-success" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
               </div>
-              <p className="text-white font-medium mb-1">Check your inbox</p>
-              <p className="text-slate-400 text-sm">
-                If an account exists for <strong className="text-slate-300">{email}</strong>, you&apos;ll
-                receive a reset link shortly.
+              <h2 className="text-lg font-semibold text-foreground mb-1">Check your email</h2>
+              <p className="text-sm text-muted-foreground mb-6">
+                We've sent a password reset link to <span className="font-medium text-foreground">{email}</span>.
               </p>
               <Link
                 href="/login"
-                className="mt-6 inline-block text-sm text-violet-400 hover:text-violet-300 transition"
+                className="w-full block py-2.5 border border-border rounded-md text-sm font-medium hover:bg-muted transition-colors text-center"
               >
-                Back to sign in
+                Return to login
               </Link>
             </div>
           ) : (
             <>
+              <div className="text-center mb-6">
+                <h1 className="text-xl font-semibold tracking-tight text-foreground">Reset password</h1>
+                <p className="text-sm text-muted-foreground mt-1">Enter your email to receive a reset link</p>
+              </div>
+
               {error && (
-                <div className="mb-5 px-4 py-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
+                <div className="mb-4 p-3 rounded-md bg-destructive/10 border border-destructive/20 text-destructive text-sm text-center font-medium">
                   {error}
                 </div>
               )}
-              <p className="text-slate-400 text-sm mb-5">
-                Enter your email and we&apos;ll send you a link to reset your password.
-              </p>
-              <form onSubmit={handleSubmit} className="space-y-5">
+
+              <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                  <label className="block text-sm text-slate-300 mb-1.5" htmlFor="email">
+                  <label className="block text-sm font-medium text-foreground mb-1.5" htmlFor="email">
                     Email address
                   </label>
                   <input
@@ -86,26 +87,29 @@ export default function ForgotPasswordPage() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="you@example.com"
-                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-violet-500/60 focus:ring-1 focus:ring-violet-500/40 transition"
+                    className="w-full px-3 py-2 border border-border rounded-md bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-shadow sm:text-sm"
                   />
                 </div>
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-violet-600 hover:bg-violet-500 disabled:opacity-60 disabled:cursor-not-allowed text-white font-medium py-2.5 rounded-xl text-sm transition-colors"
+                  className="w-full py-2.5 rounded-md bg-primary text-primary-foreground font-medium hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:opacity-50 disabled:cursor-not-allowed transition-colors sm:text-sm"
                 >
-                  {loading ? 'Sending…' : 'Send reset link'}
+                  {loading ? 'Sending link...' : 'Send reset link'}
                 </button>
-                <p className="text-center text-sm text-slate-500">
-                  Remember your password?{' '}
-                  <Link href="/login" className="text-violet-400 hover:text-violet-300 transition">
-                    Sign in
-                  </Link>
-                </p>
               </form>
             </>
           )}
         </div>
+
+        {!sent && (
+          <p className="text-center mt-6 text-sm text-muted-foreground">
+            Remember your password?{' '}
+            <Link href="/login" className="text-foreground font-medium hover:underline">
+              Sign in
+            </Link>
+          </p>
+        )}
       </div>
     </div>
   );

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import DashboardHeader from '@/components/dashboard/DashboardHeader';
+import { PageHeader as DashboardHeader } from '@/components/PageHeader';
 
 export default function NewBrandPage() {
   const router = useRouter();

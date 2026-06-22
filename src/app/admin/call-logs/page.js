@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, Fragment } from 'react';
-import DashboardHeader from '@/components/dashboard/DashboardHeader';
+import { PageHeader as DashboardHeader } from '@/components/PageHeader';
 
 // TODO: Replace with GET /api/v1/admin/call-logs
 const CALL_LOGS = [

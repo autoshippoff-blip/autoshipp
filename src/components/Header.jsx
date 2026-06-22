@@ -1,155 +1,245 @@
-import React, { useRef, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Sun, Moon, Zap, Menu, X } from 'lucide-react';
-import gsap from 'gsap';
-import { useGSAP } from '@gsap/react';
-import { gsapSmoothScroll } from '../utils/smoothScroll';
+import { Sun, Moon, Menu, X, ChevronDown, Headset, MessageSquare, RotateCcw, ShoppingCart, ShieldCheck, RefreshCw, ArrowRight } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
 
-export default function Header({ isScrolled, isDark, setIsDark, onBookDemo, theme }) {
-  const headerRef = useRef(null);
-  const menuRef = useRef(null);
+const products = [
+  {
+    name: 'Autoshipp Care',
+    desc: 'AI 24/7 Customer Care Calls & Chat Support',
+    icon: <Headset className="w-5 h-5 text-primary" />,
+    href: '/products/care'
+  },
+  {
+    name: 'Autoshipp Engage',
+    desc: 'WhatsApp Marketing, Utility Messages & Visitor Connect',
+    icon: <MessageSquare className="w-5 h-5 text-primary" />,
+    badge: 'MOST POPULAR',
+    href: '/products/engage'
+  },
+  {
+    name: 'Autoshipp Returns',
+    desc: 'Returns & Exchange Management',
+    icon: <RotateCcw className="w-5 h-5 text-primary" />,
+    href: '/products/returns'
+  },
+  {
+    name: 'Autoshipp Convert',
+    desc: 'AI Size Rec, Virtual Try-On, ETA & Smart Upsells',
+    icon: <ShoppingCart className="w-5 h-5 text-primary" />,
+    badge: 'NEW LAUNCH',
+    href: '/products/convert'
+  },
+  {
+    name: 'Autoshipp Shield',
+    desc: 'COD Confirmation, WhatsApp Verification & AI RTO Risk Detection',
+    icon: <ShieldCheck className="w-5 h-5 text-primary" />,
+    href: '/products/shield'
+  },
+  {
+    name: 'Autoshipp Recover',
+    desc: 'AI Cart Recovery & COD to Prepaid Conversions',
+    icon: <RefreshCw className="w-5 h-5 text-primary" />,
+    href: '/products/recover'
+  }
+];
+
+const platforms = [
+  { name: 'Shopify', color: 'text-green-600' },
+  { name: 'WooCommerce', color: 'text-purple-600' },
+  { name: 'Magento', color: 'text-orange-500' },
+];
+
+export default function Header({ isDark, setIsDark, onBookDemo }) {
   const [isOpen, setIsOpen] = useState(false);
-
-  // --- GSAP Animations ---
-  useGSAP(() => {
-    // 1. Initial Desktop Entrance
-    const tl = gsap.timeline();
-    tl.from(".gsap-header-logo", { x: -20, opacity: 0, duration: 0.6, ease: "power3.out" })
-      .from(".gsap-nav-item", { y: -10, opacity: 0, stagger: 0.08, duration: 0.4, ease: "power2.out" }, "-=0.4")
-      .from(".gsap-header-actions", { x: 20, opacity: 0, duration: 0.6, ease: "power3.out" }, "-=0.6");
-
-    // 2. Mobile Menu Animation Logic
-    if (isOpen) {
-      gsap.to(menuRef.current, {
-        clipPath: "circle(150% at 100% 0%)",
-        duration: 0.8,
-        ease: "power4.inOut",
-      });
-      gsap.fromTo(".gsap-mobile-link",
-        { y: 20, opacity: 0 },
-        { y: 0, opacity: 1, stagger: 0.1, duration: 0.5, delay: 0.3 }
-      );
-    } else {
-      gsap.to(menuRef.current, {
-        clipPath: "circle(0% at 100% 0%)",
-        duration: 0.6,
-        ease: "power4.inOut",
-      });
-    }
-
-    // 3. Magnetic Links (Desktop)
-    const navItems = gsap.utils.toArray(".gsap-nav-item");
-    navItems.forEach(item => {
-      item.addEventListener("mousemove", (e) => {
-        const { clientX, clientY } = e;
-        const { left, top, width, height } = item.getBoundingClientRect();
-        const x = clientX - (left + width / 2);
-        const y = clientY - (top + height / 2);
-        gsap.to(item, { x: x * 0.3, y: y * 0.3, duration: 0.2 });
-      });
-      item.addEventListener("mouseleave", () => {
-        gsap.to(item, { x: 0, y: 0, duration: 0.4, ease: "back.out(2)" });
-      });
-    });
-  }, { scope: headerRef, dependencies: [isOpen] });
-
+  const [productsOpen, setProductsOpen] = useState(false);
+  const { user } = useAuth();
   const toggleMenu = () => setIsOpen(!isOpen);
 
-  const glassClasses = isScrolled
-    ? isDark
-      ? 'bg-[#030014]/80 border-white/10 backdrop-blur-xl py-4 shadow-2xl'
-      : 'bg-white/80 border-slate-200 backdrop-blur-xl py-4 shadow-sm'
-    : 'bg-transparent border-transparent py-6';
+  // Close mega menu on scroll
+  useEffect(() => {
+    const handleScroll = () => {
+      if (productsOpen) setProductsOpen(false);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [productsOpen]);
 
   return (
-    <nav ref={headerRef} className={`fixed top-0 w-full z-50 transition-all duration-500 border-b ${glassClasses}`}>
-      <div className="max-w-7xl mx-auto px-6 md:px-12 flex items-center justify-between relative z-[60]">
-
+    <nav className="fixed top-0 w-full z-50 border-b bg-background/95 backdrop-blur-md border-border transition-all">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16 relative">
+        
         {/* Logo */}
-        <div className="gsap-header-logo flex items-center gap-2 font-bold text-2xl tracking-tight cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-          <div className="w-9 h-9 rounded-xl overflow-hidden shadow-lg">
-            <img src="/images/logo.png" alt="Autoship Logo" className="w-full h-full object-contain" />
+        <Link href="/" className="flex items-center gap-2 font-semibold text-lg tracking-tight text-foreground z-50">
+          <div className="w-8 h-8 rounded-md overflow-hidden">
+            <img src="/images/logo.png" alt="Autoshipp Logo" className="w-full h-full object-contain" />
           </div>
-          <span className={theme.heading}>Autoship</span>
-        </div>
+          Autoshipp
+        </Link>
 
         {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center gap-2 text-sm font-bold">
+        <div className="hidden md:flex items-center gap-6 text-sm font-medium text-muted-foreground z-50">
+          <div 
+            className="flex items-center gap-1 cursor-pointer hover:text-foreground transition-colors py-5"
+            onMouseEnter={() => setProductsOpen(true)}
+            onMouseLeave={() => setProductsOpen(false)}
+          >
+            Products <ChevronDown size={14} className={`transition-transform duration-200 ${productsOpen ? 'rotate-180 text-foreground' : ''}`} />
+          </div>
           {['Problem', 'Solution', 'Flow', 'Pricing'].map((item) => (
-            <button
-              key={item}
-              onClick={() => gsapSmoothScroll(`#${item.toLowerCase()}`)}
-              className={`gsap-nav-item relative px-4 py-2 group transition-colors hover:${theme.accent} ${isDark ? 'text-slate-300' : 'text-slate-600'}`}
-              type="button"
-            >
+            <Link key={item} href={`#${item.toLowerCase()}`} className="hover:text-foreground transition-colors py-5">
               {item}
-              <span className={`absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-[2px] ${isDark ? 'bg-violet-500' : 'bg-blue-600'} transition-all duration-300 group-hover:w-1/2`} />
-            </button>
+            </Link>
           ))}
         </div>
 
         {/* Actions */}
-        <div className="gsap-header-actions flex items-center gap-2 sm:gap-4">
+        <div className="flex items-center gap-4 z-50">
           <button
             onClick={() => setIsDark(!isDark)}
-            className={`p-2.5 rounded-full transition-all border ${isDark ? 'bg-white/5 border-white/10 text-violet-400' : 'bg-slate-100 border-slate-200 text-blue-600'}`}
+            className="p-2 text-muted-foreground hover:text-foreground transition-colors"
+            aria-label="Toggle theme"
           >
             {isDark ? <Sun size={18} /> : <Moon size={18} />}
           </button>
 
-          <Link
-            href="/login"
-            className={`hidden sm:block text-sm font-black px-5 py-2.5 rounded-full border transition-all active:scale-95 ${isDark ? 'border-white/10 text-slate-300 hover:border-violet-500/50 hover:text-white' : 'border-slate-200 text-slate-600 hover:border-blue-400 hover:text-blue-700'}`}
-          >
-            Sign in
-          </Link>
-          <button
-            onClick={onBookDemo}
-            className={`hidden sm:block text-sm font-black px-8 py-3 rounded-full transition-all active:scale-95 shadow-lg ${theme.primaryBtn}`}
-          >
-            Book Demo
-          </button>
+          <div className="hidden sm:flex items-center gap-3">
+            {user ? (
+              <Link
+                href="/brand/dashboard"
+                className="text-sm font-medium px-4 py-2 text-foreground hover:text-foreground/80 transition-colors"
+              >
+                Dashboard
+              </Link>
+            ) : (
+              <Link
+                href="/login"
+                className="text-sm font-medium px-4 py-2 text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Login
+              </Link>
+            )}
+            <button
+              onClick={onBookDemo}
+              className="text-sm font-medium px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
+            >
+              Book Demo
+            </button>
+          </div>
 
-          {/* Hamburger Menu Icon */}
-          <button
-            onClick={toggleMenu}
-            className={`md:hidden p-2.5 rounded-xl transition-all ${isDark ? 'bg-white/5 text-slate-300' : 'bg-slate-100 text-slate-600'}`}
-          >
-            {isOpen ? <X size={24} /> : <Menu size={24} />}
+          {/* Mobile menu button */}
+          <button onClick={toggleMenu} className="md:hidden p-2 text-muted-foreground">
+            {isOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
         </div>
       </div>
 
-      {/* --- Mobile Menu Overlay --- */}
-      <div
-        ref={menuRef}
-        style={{ clipPath: "circle(0% at 100% 0%)" }}
-        className={`fixed inset-0 w-full h-screen flex flex-col items-center justify-center gap-8 z-[55] md:hidden ${isDark ? 'bg-[#030014]/98 backdrop-blur-2xl' : 'bg-white/98 backdrop-blur-2xl'
-          }`}
-      >
-        {['Problem', 'Solution', 'Flow', 'Pricing'].map((item) => (
-          <button
-            key={item}
-            onClick={() => { toggleMenu(); gsapSmoothScroll(`#${item.toLowerCase()}`); }}
-            className={`gsap-mobile-link text-4xl font-black tracking-tighter ${theme.heading} hover:${theme.accent}`}
-          >
-            {item}
-          </button>
-        ))}
-        <Link
-          href="/login"
-          onClick={toggleMenu}
-          className={`gsap-mobile-link text-2xl font-black tracking-tighter border-b pb-2 ${isDark ? 'text-slate-400 border-white/10 hover:text-white' : 'text-slate-500 border-slate-200 hover:text-slate-900'}`}
+      {/* Mega Menu Dropdown */}
+      {productsOpen && (
+        <div 
+          className="absolute top-16 left-0 w-full bg-background border-b border-border shadow-xl animate-in fade-in slide-in-from-top-2 duration-200"
+          onMouseEnter={() => setProductsOpen(true)}
+          onMouseLeave={() => setProductsOpen(false)}
         >
-          Sign in →
-        </Link>
-        <button
-          onClick={toggleMenu}
-          className={`gsap-mobile-link mt-4 px-10 py-4 rounded-2xl font-black text-xl ${theme.primaryBtn}`}
-        >
-          Book Demo
-        </button>
-      </div>
+          <div className="max-w-7xl mx-auto flex flex-col md:flex-row">
+            
+            {/* Left Column: Products Grid */}
+            <div className="flex-1 p-8 pb-10">
+              <h3 className="text-xs font-semibold text-muted-foreground tracking-widest uppercase mb-6">Products</h3>
+              <div className="grid grid-cols-2 gap-x-8 gap-y-6">
+                {products.map((p, idx) => (
+                  <Link href={p.href} key={idx} onClick={toggleMenu} className="group flex items-start gap-4 p-3 -m-3 rounded-xl hover:bg-muted/50 transition-colors">
+                    <div className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center shrink-0 group-hover:bg-background group-hover:shadow-sm transition-all border border-transparent group-hover:border-border">
+                      {p.icon}
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="font-semibold text-foreground text-sm">{p.name}</span>
+                        {p.badge && (
+                          <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-primary/10 text-primary uppercase tracking-wider">
+                            {p.badge}
+                          </span>
+                        )}
+                      </div>
+                      <p className="text-xs text-muted-foreground leading-relaxed">{p.desc}</p>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+              
+              <div className="mt-10 pt-6 border-t border-border flex items-center gap-6">
+                <span className="text-xs font-semibold text-muted-foreground tracking-widest uppercase">Platform</span>
+                <div className="flex items-center gap-4">
+                  {platforms.map(plat => (
+                    <div key={plat.name} className="px-3 py-1.5 rounded-full border border-border bg-card text-xs font-medium flex items-center gap-2 text-muted-foreground">
+                      <div className={`w-2 h-2 rounded-full bg-current ${plat.color}`} />
+                      {plat.name}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column: Featured */}
+            <div className="w-full md:w-[320px] lg:w-[380px] bg-muted/30 p-8 border-l border-border flex flex-col">
+              <h3 className="text-xs font-semibold text-muted-foreground tracking-widest uppercase mb-6">Featured Merchant</h3>
+              
+              <div className="bg-card border border-border rounded-xl overflow-hidden shadow-sm flex-1 group cursor-pointer hover:border-primary/30 transition-colors">
+                <div className="h-32 bg-primary/5 relative overflow-hidden flex items-center justify-center">
+                  <div className="absolute inset-0 bg-gradient-to-br from-violet-500/10 to-fuchsia-500/10" />
+                  <span className="font-bold text-2xl tracking-tighter text-primary/40 relative z-10">D2C BRAND</span>
+                </div>
+                <div className="p-5">
+                  <h4 className="font-bold text-foreground text-sm mb-2">Reduced RTO by 35% in the first three months</h4>
+                  <p className="text-xs text-muted-foreground leading-relaxed mb-4">
+                    Learn how this top tier D2C brand leveraged Autoshipp Shield and Voice Automation to dramatically improve margins.
+                  </p>
+                  <span className="text-xs font-semibold text-primary flex items-center gap-1 group-hover:gap-2 transition-all">
+                    Read Case Study <ArrowRight size={14} />
+                  </span>
+                </div>
+              </div>
+              
+            </div>
+
+          </div>
+        </div>
+      )}
+
+      {/* Mobile Menu */}
+      {isOpen && (
+        <div className="md:hidden border-t border-border bg-background h-[calc(100vh-64px)] overflow-y-auto">
+          <div className="px-4 py-6 space-y-4 flex flex-col">
+            <div className="font-semibold text-sm text-foreground mb-2">Products</div>
+            <div className="grid grid-cols-1 gap-4 pl-4 border-l border-border ml-2 mb-4">
+              {products.map((p, idx) => (
+                <Link href={p.href} key={p.name} onClick={toggleMenu} className="flex flex-col gap-1 py-2">
+                  <span className="text-sm font-medium text-foreground">{p.name}</span>
+                  <span className="text-xs text-muted-foreground leading-relaxed">{p.desc}</span>
+                </Link>
+              ))}
+            </div>
+            
+            {['Problem', 'Solution', 'Flow', 'Pricing'].map((item) => (
+              <Link
+                key={item}
+                href={`#${item.toLowerCase()}`}
+                onClick={toggleMenu}
+                className="text-sm font-medium text-muted-foreground hover:text-foreground py-2"
+              >
+                {item}
+              </Link>
+            ))}
+            <hr className="border-border my-2" />
+            <Link href="/login" onClick={toggleMenu} className="text-sm font-medium text-foreground py-2">
+              Login
+            </Link>
+            <button onClick={() => { toggleMenu(); onBookDemo(); }} className="text-sm font-medium bg-primary text-primary-foreground py-3 mt-2 rounded-md text-center">
+              Book Demo
+            </button>
+          </div>
+        </div>
+      )}
     </nav>
   );
 }

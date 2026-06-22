@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import DashboardHeader from '@/components/dashboard/DashboardHeader';
+import { PageHeader as DashboardHeader } from '@/components/PageHeader';
 
 // TODO: Replace with GET /api/v1/brand/orders
 const ORDERS = [

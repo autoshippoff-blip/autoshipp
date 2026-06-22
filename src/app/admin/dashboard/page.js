@@ -12,7 +12,7 @@ import {
   ArrowUpRight,
   MoreHorizontal
 } from 'lucide-react';
-import DashboardHeader from '@/components/dashboard/DashboardHeader';
+import { PageHeader as DashboardHeader } from '@/components/PageHeader';
 
 const STATS = [
   { label: 'Orders Processed Today', value: '1,284', delta: '+12%', icon: Activity, color: 'violet' },

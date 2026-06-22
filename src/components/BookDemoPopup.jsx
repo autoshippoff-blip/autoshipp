@@ -1,280 +1,212 @@
-'use client';
+import React, { useState } from 'react';
+import { X, User, Mail, Building2, Phone, MessageSquare, Send, CheckCircle2 } from 'lucide-react';
 
-import { useState, useRef, useEffect } from 'react';
-import { X, Send, User, Mail, MessageSquare, Building, Phone } from 'lucide-react';
-
-export default function BookDemoPopup({ isOpen, onClose, theme }) {
+export default function BookDemoPopup({ isOpen, onClose }) {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     company: '',
     phone: '',
-    message: ''
+    details: ''
   });
-
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const modalRef = useRef(null);
-
-  // Close on escape key
-  useEffect(() => {
-    const handleEscape = (e) => {
-      if (e.key === 'Escape') onClose();
-    };
-
-    if (isOpen) {
-      document.addEventListener('keydown', handleEscape);
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-
-    return () => {
-      document.removeEventListener('keydown', handleEscape);
-      document.body.style.overflow = 'unset';
-    };
-  }, [isOpen, onClose]);
-
-  // Close on outside click
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (modalRef.current && !modalRef.current.contains(event.target)) {
-        onClose();
-      }
-    };
-
-    if (isOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [isOpen, onClose]);
-
-  const handleChange = (e) => {
-    setFormData(prev => ({
-      ...prev,
-      [e.target.name]: e.target.value
-    }));
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-
-    // Simulate API call
-    setTimeout(() => {
-      setIsSubmitting(false);
-      console.log('Demo request submitted:', formData);
-      alert('Demo request submitted successfully! We\'ll contact you within 24 hours.');
-      onClose();
-      setFormData({
-        name: '',
-        email: '',
-        company: '',
-        phone: '',
-        message: ''
-      });
-    }, 1500);
-  };
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState('');
 
   if (!isOpen) return null;
 
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+
+    try {
+      const response = await fetch('/api/book-demo', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to send email');
+      }
+
+      setSuccess(true);
+      setTimeout(() => {
+        setSuccess(false);
+        setFormData({ name: '', email: '', company: '', phone: '', details: '' });
+        onClose();
+      }, 3000);
+    } catch (err) {
+      setError('Something went wrong. Please try again later.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4">
-      {/* Backdrop */}
-      <div
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300"
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+      <div 
+        className="absolute inset-0 bg-background/80 backdrop-blur-sm"
         onClick={onClose}
       />
-
-      {/* Modal */}
-      <div
-        ref={modalRef}
-        className={`relative w-full max-w-md sm:max-w-lg mx-auto rounded-2xl sm:rounded-3xl shadow-2xl border transition-all duration-300 transform max-h-[90vh] overflow-y-auto ${theme.dark
-          ? 'bg-[#030014] border-white/10'
-          : 'bg-white border-slate-200'
-          }`}
-        style={{
-          animation: isOpen ? 'slideUp 0.3s ease-out' : 'slideDown 0.3s ease-out'
-        }}
-      >
+      
+      <div className="relative bg-card border border-border w-full max-w-xl rounded-2xl shadow-2xl overflow-hidden flex flex-col animate-in zoom-in-95 duration-200">
+        
         {/* Header */}
-        <div className={`px-4 sm:px-6 py-4 sm:py-5 border-b flex items-center justify-between ${theme.dark ? 'border-white/10' : 'border-slate-200'
-          }`}>
+        <div className="bg-muted/30 px-6 py-5 flex items-center justify-between border-b border-border">
           <div>
-            <h2 className={`text-xl font-bold ${theme.heading}`}>Book a Demo</h2>
-            <p className={`text-sm ${theme.text} mt-1`}>
-              See how Autoship can transform your logistics
+            <h3 className="text-xl font-bold text-foreground tracking-tight">Book a Demo</h3>
+            <p className="text-sm text-muted-foreground mt-1">See how Autoshipp can scale your brand.</p>
+          </div>
+          <button 
+            onClick={onClose}
+            className="p-2 bg-background hover:bg-muted border border-border text-muted-foreground hover:text-foreground rounded-full transition-colors"
+          >
+            <X size={18} />
+          </button>
+        </div>
+
+        {/* Content */}
+        <div className="p-6">
+          {success ? (
+            <div className="py-12 flex flex-col items-center justify-center text-center animate-in fade-in zoom-in">
+              <div className="w-16 h-16 bg-success/20 text-success rounded-full flex items-center justify-center mb-4">
+                <CheckCircle2 size={32} />
+              </div>
+              <h4 className="text-2xl font-bold text-foreground mb-2">Request Sent!</h4>
+              <p className="text-muted-foreground">We'll be in touch with you shortly.</p>
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit} className="space-y-5">
+              
+              {error && (
+                <div className="p-3 bg-destructive/10 border border-destructive/20 text-destructive text-sm rounded-lg">
+                  {error}
+                </div>
+              )}
+
+              <div className="grid grid-cols-2 gap-5">
+                {/* Full Name */}
+                <div className="space-y-2">
+                  <label className="flex items-center gap-2 text-sm font-semibold text-foreground">
+                    <User size={14} className="text-muted-foreground" />
+                    Full Name <span className="text-destructive">*</span>
+                  </label>
+                  <input 
+                    type="text" 
+                    name="name"
+                    required
+                    value={formData.name}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 border border-border rounded-xl bg-muted/40 text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all placeholder:text-muted-foreground/50 text-sm"
+                    placeholder="John Doe"
+                  />
+                </div>
+
+                {/* Work Email */}
+                <div className="space-y-2">
+                  <label className="flex items-center gap-2 text-sm font-semibold text-foreground">
+                    <Mail size={14} className="text-muted-foreground" />
+                    Work Email <span className="text-destructive">*</span>
+                  </label>
+                  <input 
+                    type="email" 
+                    name="email"
+                    required
+                    value={formData.email}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 border border-border rounded-xl bg-muted/40 text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all placeholder:text-muted-foreground/50 text-sm"
+                    placeholder="john@company.com"
+                  />
+                </div>
+
+                {/* Company Name */}
+                <div className="space-y-2">
+                  <label className="flex items-center gap-2 text-sm font-semibold text-foreground">
+                    <Building2 size={14} className="text-muted-foreground" />
+                    Company Name
+                  </label>
+                  <input 
+                    type="text" 
+                    name="company"
+                    value={formData.company}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 border border-border rounded-xl bg-muted/40 text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all placeholder:text-muted-foreground/50 text-sm"
+                    placeholder="Acme Corp"
+                  />
+                </div>
+
+                {/* Phone Number */}
+                <div className="space-y-2">
+                  <label className="flex items-center gap-2 text-sm font-semibold text-foreground">
+                    <Phone size={14} className="text-muted-foreground" />
+                    Phone Number
+                  </label>
+                  <input 
+                    type="tel" 
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 border border-border rounded-xl bg-muted/40 text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all placeholder:text-muted-foreground/50 text-sm"
+                    placeholder="+1 (555) 000-0000"
+                  />
+                </div>
+              </div>
+
+              {/* Additional Details */}
+              <div className="space-y-2">
+                <label className="flex items-center gap-2 text-sm font-semibold text-foreground">
+                  <MessageSquare size={14} className="text-muted-foreground" />
+                  Additional Details
+                </label>
+                <textarea 
+                  name="details"
+                  rows="3"
+                  value={formData.details}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 border border-border rounded-xl bg-muted/40 text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all placeholder:text-muted-foreground/50 text-sm resize-none"
+                  placeholder="Tell us about your current logistics challenges..."
+                />
+              </div>
+
+              {/* Submit Button */}
+              <button 
+                type="submit"
+                disabled={loading}
+                className="w-full flex items-center justify-center gap-2 bg-primary text-primary-foreground py-4 rounded-xl font-bold hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20 disabled:opacity-70"
+              >
+                {loading ? (
+                  <span className="flex items-center gap-2">
+                    <div className="w-4 h-4 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin" />
+                    Sending Request...
+                  </span>
+                ) : (
+                  <>
+                    <Send size={18} />
+                    Submit Demo Request
+                  </>
+                )}
+              </button>
+            </form>
+          )}
+        </div>
+
+        {/* Footer */}
+        {!success && (
+          <div className="bg-muted/20 px-6 py-4 border-t border-border text-center">
+            <p className="text-xs text-muted-foreground font-medium flex items-center justify-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-success animate-pulse" />
+              We'll contact you within 24 hours to schedule your personalized demo.
             </p>
           </div>
-          <button
-            onClick={onClose}
-            className={`p-2 rounded-xl transition-colors ${theme.dark
-              ? 'hover:bg-white/10 text-slate-400'
-              : 'hover:bg-slate-100 text-slate-500'
-              }`}
-          >
-            <X size={20} />
-          </button>
-        </div>
+        )}
 
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="p-4 sm:p-6 space-y-4 sm:space-y-5">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
-            {/* Name */}
-            <div>
-              <label className={`flex items-center gap-2 text-sm font-bold mb-3 ${theme.heading}`}>
-                <User size={16} />
-                Full Name *
-              </label>
-              <input
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                required
-                className={`w-full px-4 py-3 rounded-xl border transition-all focus:outline-none focus:ring-2 ${theme.dark
-                  ? 'bg-white/5 border-white/10 text-white placeholder:text-slate-500 focus:border-violet-500 focus:ring-violet-500/20'
-                  : 'bg-slate-50 border-slate-200 text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:ring-blue-500/20'
-                  }`}
-                placeholder="John Doe"
-              />
-            </div>
-
-            {/* Email */}
-            <div>
-              <label className={`flex items-center gap-2 text-sm font-bold mb-3 ${theme.heading}`}>
-                <Mail size={16} />
-                Email Address *
-              </label>
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                required
-                className={`w-full px-4 py-3 rounded-xl border transition-all focus:outline-none focus:ring-2 ${theme.dark
-                  ? 'bg-white/5 border-white/10 text-white placeholder:text-slate-500 focus:border-violet-500 focus:ring-violet-500/20'
-                  : 'bg-slate-50 border-slate-200 text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:ring-blue-500/20'
-                  }`}
-                placeholder="john@company.com"
-              />
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
-            {/* Company */}
-            <div>
-              <label className={`flex items-center gap-2 text-sm font-bold mb-3 ${theme.heading}`}>
-                <Building size={16} />
-                Company Name
-              </label>
-              <input
-                type="text"
-                name="company"
-                value={formData.company}
-                onChange={handleChange}
-                className={`w-full px-4 py-3 rounded-xl border transition-all focus:outline-none focus:ring-2 ${theme.dark
-                  ? 'bg-white/5 border-white/10 text-white placeholder:text-slate-500 focus:border-violet-500 focus:ring-violet-500/20'
-                  : 'bg-slate-50 border-slate-200 text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:ring-blue-500/20'
-                  }`}
-                placeholder="Your Company Ltd."
-              />
-            </div>
-
-            {/* Phone */}
-            <div>
-              <label className={`flex items-center gap-2 text-sm font-bold mb-3 ${theme.heading}`}>
-                <Phone size={16} />
-                Phone Number
-              </label>
-              <input
-                type="tel"
-                name="phone"
-                value={formData.phone}
-                onChange={handleChange}
-                className={`w-full px-4 py-3 rounded-xl border transition-all focus:outline-none focus:ring-2 ${theme.dark
-                  ? 'bg-white/5 border-white/10 text-white placeholder:text-slate-500 focus:border-violet-500 focus:ring-violet-500/20'
-                  : 'bg-slate-50 border-slate-200 text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:ring-blue-500/20'
-                  }`}
-                placeholder="+91 98765 43210"
-              />
-            </div>
-          </div>
-
-          {/* Message */}
-          <div>
-            <label className={`flex items-center gap-2 text-sm font-bold mb-3 ${theme.heading}`}>
-              <MessageSquare size={16} />
-              Additional Details
-            </label>
-            <textarea
-              name="message"
-              value={formData.message}
-              onChange={handleChange}
-              rows={4}
-              className={`w-full px-4 py-3 rounded-xl border transition-all focus:outline-none focus:ring-2 resize-none ${theme.dark
-                ? 'bg-white/5 border-white/10 text-white placeholder:text-slate-500 focus:border-violet-500 focus:ring-violet-500/20'
-                : 'bg-slate-50 border-slate-200 text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:ring-blue-500/20'
-                }`}
-              placeholder="Tell us about your current logistics challenges..."
-            />
-          </div>
-
-          {/* Submit Button */}
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className={`w-full flex items-center justify-center gap-3 px-6 py-4 rounded-xl font-bold text-lg transition-all ${theme.dark
-              ? 'bg-violet-600 hover:bg-violet-500 text-white disabled:opacity-50 disabled:cursor-not-allowed'
-              : 'bg-blue-600 hover:bg-blue-700 text-white disabled:opacity-50 disabled:cursor-not-allowed'
-              }`}
-          >
-            {isSubmitting ? (
-              <>
-                <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                Submitting...
-              </>
-            ) : (
-              <>
-                <Send size={18} />
-                Submit Demo Request
-              </>
-            )}
-          </button>
-        </form>
-
-        {/* Footer Note */}
-        <div className={`px-4 sm:px-6 py-3 sm:py-4 border-t text-center text-sm ${theme.text} ${theme.dark ? 'border-white/10' : 'border-slate-200'
-          }`}>
-          <p>We'll contact you within 24 hours to schedule your personalized demo</p>
-        </div>
       </div>
-
-      <style jsx>{`
-        @keyframes slideUp {
-          from {
-            opacity: 0;
-            transform: translateY(20px) scale(0.95);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-          }
-        }
-
-        @keyframes slideDown {
-          from {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-          }
-          to {
-            opacity: 0;
-            transform: translateY(20px) scale(0.95);
-          }
-        }
-      `}</style>
     </div>
   );
 }

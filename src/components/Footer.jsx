@@ -1,173 +1,52 @@
-import React, { useRef } from 'react';
-import Link from 'next/link'; // This is the Next.js Routing component
-import gsap from 'gsap';
-import { useGSAP } from '@gsap/react';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-// Renamed 'Link' icon to 'LinkIcon' to avoid conflict with Next.js Link
-import { Zap, Globe, MessageCircle, Link as LinkIcon, Mail, Phone } from 'lucide-react';
+import React from 'react';
+import Link from 'next/link';
 
-if (typeof window !== 'undefined') {
-  gsap.registerPlugin(ScrollTrigger);
-}
-
-export default function Footer({ theme, isDark }) {
-  const footerRef = useRef(null);
-
-  useGSAP(() => {
-    // 1. Column Entrance: Staggered slide up
-    gsap.from(".gsap-footer-col", {
-      scrollTrigger: {
-        trigger: footerRef.current,
-        start: "top 85%",
-      },
-      y: 30,
-      opacity: 0,
-      stagger: 0.08,
-      duration: 0.8,
-      ease: "power2.out"
-    });
-
-    // 2. Logo Breathing Animation
-    gsap.to(".gsap-footer-logo-icon", {
-      scale: 1.15,
-      duration: 2,
-      repeat: -1,
-      yoyo: true,
-      ease: "sine.inOut"
-    });
-
-    // 3. Magnetic Social Icons Logic
-    const socialIcons = gsap.utils.toArray(".gsap-footer-social");
-    socialIcons.forEach(icon => {
-      icon.addEventListener("mousemove", (e) => {
-        const { clientX, clientY } = e;
-        const { left, top, width, height } = icon.getBoundingClientRect();
-        const x = clientX - (left + width / 2);
-        const y = clientY - (top + height / 2);
-
-        gsap.to(icon, {
-          x: x * 0.4,
-          y: y * 0.4,
-          duration: 0.2,
-          ease: "power2.out"
-        });
-      });
-
-      icon.addEventListener("mouseleave", () => {
-        gsap.to(icon, { x: 0, y: 0, duration: 0.5, ease: "elastic.out(1, 0.3)" });
-      });
-    });
-  }, { scope: footerRef });
-
+export default function Footer() {
   return (
-    <footer
-      ref={footerRef}
-      className={`py-20 border-t transition-colors relative overflow-hidden ${isDark ? 'bg-[#05050a] border-white/5' : 'bg-slate-50 border-slate-200'
-        }`}
-    >
-      <div className="absolute bottom-[-10%] right-[-5%] w-[400px] h-[400px] bg-violet-600/5 blur-[120px] rounded-full pointer-events-none -z-10" />
-
-      <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-16 mb-20">
-
-          {/* Brand Info */}
-          <div className="gsap-footer-col col-span-1">
-            <div className={`flex items-center gap-2 ${theme.heading} font-bold text-2xl tracking-tight mb-8`}>
-              <div className="gsap-footer-logo-icon w-9 h-9 rounded-xl overflow-hidden shadow-lg">
-                <img src="/images/logo.png" alt="Autoship Logo" className="w-full h-full object-contain" />
-              </div>
-              Autoship
+    <footer className="border-t border-border bg-background py-16 mt-0">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row justify-between items-start gap-12 lg:gap-8">
+        <div className="max-w-sm">
+          <Link href="/" className="flex items-center gap-2 font-semibold text-lg tracking-tight text-foreground mb-4">
+            <div className="w-8 h-8 rounded overflow-hidden">
+              <img src="/images/logo.png" alt="Autoshipp Logo" className="w-full h-full object-contain" />
             </div>
-            <p className="text-slate-500 font-medium leading-relaxed mb-8">
-              The AI-native dispatch engine for high-growth Indian D2C brands. Stop RTO, Start Profit.
-            </p>
-            <div className="flex items-center gap-4">
-              {/* Used specific icons here to avoid the 'Link' variable error */}
-              {[Globe, MessageCircle, Mail, Phone].map((Icon, idx) => (
-                <div
-                  key={idx}
-                  className={`gsap-footer-social w-11 h-11 rounded-full flex items-center justify-center transition-all cursor-pointer border ${isDark
-                    ? 'bg-white/5 border-white/10 text-slate-400 hover:text-white hover:border-white/20'
-                    : 'bg-white border-slate-200 text-slate-500 hover:text-blue-600 shadow-sm'
-                    }`}
-                >
-                  <Icon size={18} />
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Dynamic Link Columns */}
-          {[
-            {
-              title: "Product",
-              links: [
-                { name: "AI Voice", href: "#" },
-                { name: "WhatsApp Flow", href: "#" },
-                { name: "Smart Carrier", href: "#" },
-                { name: "Analytics", href: "#" }
-              ]
-            },
-            {
-              title: "Company",
-              links: [
-                { name: "About Us", href: "/about" },
-                { name: "Brand Assets", href: "#" },
-                { name: "Careers", href: "#" },
-                { name: "Contact", href: "#" }
-              ]
-            },
-            {
-              title: "Legal",
-              links: [
-                { name: "Privacy Policy", href: "/privacy" },
-                { name: "Terms of Service", href: "/terms" },
-                { name: "Security", href: "#" },
-                { name: "SLA", href: "#" }
-              ]
-            }
-          ].map((col, i) => (
-            <div key={i} className="gsap-footer-col">
-              <h4 className={`font-black text-sm uppercase tracking-[0.15em] ${theme.heading} mb-8`}>
-                {col.title}
-              </h4>
-              <ul className="space-y-4">
-                {col.links.map((link, j) => (
-                  <li key={j}>
-                    <Link
-                      href={link.href}
-                      className="group flex items-center gap-0 text-slate-500 font-bold hover:text-inherit transition-all duration-300"
-                    >
-                      <span className={`w-0 group-hover:w-4 h-[2px] ${isDark ? 'bg-violet-500' : 'bg-blue-600'} transition-all duration-300 mr-0 group-hover:mr-2`} />
-                      <span className={`transition-colors group-hover:${theme.accent}`}>
-                        {link.name}
-                      </span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+            Autoshipp
+          </Link>
+          <p className="text-sm text-muted-foreground leading-relaxed">
+            The AI-native dispatch engine for high-growth Indian D2C brands. Stop RTO, Start Profit.
+          </p>
         </div>
-
-        {/* Bottom Section */}
-        <div className={`pt-10 border-t flex flex-col md:flex-row items-center justify-between text-[11px] font-black uppercase tracking-[0.2em] text-slate-500/60 gap-6 ${isDark ? 'border-white/5' : 'border-slate-200'
-          }`}>
-          <div className="flex flex-col md:flex-row items-center gap-2 md:gap-8">
-            <p>© 2026 Autoship Technologies. All rights reserved.</p>
-            <div className="hidden md:block w-1 h-1 bg-slate-400 rounded-full" />
-            <p>Made in India for the World</p>
+        
+        <div className="flex flex-wrap sm:flex-nowrap gap-12 sm:gap-16">
+          <div className="flex flex-col gap-3 text-sm min-w-[120px]">
+            <h4 className="font-semibold text-foreground mb-1">Products</h4>
+            <Link href="/products/care" className="text-muted-foreground hover:text-foreground transition-colors">Autoshipp Care</Link>
+            <Link href="/products/engage" className="text-muted-foreground hover:text-foreground transition-colors">Autoshipp Engage</Link>
+            <Link href="/products/returns" className="text-muted-foreground hover:text-foreground transition-colors">Autoshipp Returns</Link>
+            <Link href="/products/convert" className="text-muted-foreground hover:text-foreground transition-colors">Autoshipp Convert</Link>
+            <Link href="/products/shield" className="text-muted-foreground hover:text-foreground transition-colors">Autoshipp Shield</Link>
+            <Link href="/products/recover" className="text-muted-foreground hover:text-foreground transition-colors">Autoshipp Recover</Link>
           </div>
-
-          <div className="flex items-center gap-6">
-            <div className="flex items-center gap-2">
-              <span className="relative flex h-2 w-2">
-                <span className={`animate-ping absolute inline-flex h-full w-full rounded-full ${isDark ? 'bg-violet-400' : 'bg-emerald-400'} opacity-75`}></span>
-                <span className={`relative inline-flex rounded-full h-2 w-2 ${isDark ? 'bg-violet-500' : 'bg-emerald-500'}`}></span>
-              </span>
-              <span className="opacity-80">All Systems Operational</span>
-            </div>
+          <div className="flex flex-col gap-3 text-sm min-w-[120px]">
+            <h4 className="font-semibold text-foreground mb-1">Company</h4>
+            <Link href="/about" className="text-muted-foreground hover:text-foreground transition-colors">About Us</Link>
+            <Link href="/brand" className="text-muted-foreground hover:text-foreground transition-colors">Brand Assets</Link>
+            <Link href="/careers" className="text-muted-foreground hover:text-foreground transition-colors">Careers</Link>
+            <Link href="/contact" className="text-muted-foreground hover:text-foreground transition-colors">Contact</Link>
           </div>
+          <div className="flex flex-col gap-3 text-sm min-w-[120px]">
+            <h4 className="font-semibold text-foreground mb-1">Legal</h4>
+            <Link href="/privacy" className="text-muted-foreground hover:text-foreground transition-colors">Privacy Policy</Link>
+            <Link href="/terms" className="text-muted-foreground hover:text-foreground transition-colors">Terms of Service</Link>
+            <Link href="/security" className="text-muted-foreground hover:text-foreground transition-colors">Security</Link>
+            <Link href="/sla" className="text-muted-foreground hover:text-foreground transition-colors">SLA</Link>
+          </div>
+        </div>
+      </div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16 pt-8 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
+        <p>© 2026 Autoshipp Technologies. All rights reserved.</p>
+        <div className="flex items-center gap-2 font-medium text-foreground">
+          Made in India for the World
         </div>
       </div>
     </footer>

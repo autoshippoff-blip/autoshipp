@@ -1,6 +1,6 @@
 'use client';
 
-import DashboardHeader from '@/components/dashboard/DashboardHeader';
+import { PageHeader as DashboardHeader } from '@/components/PageHeader';
 
 // TODO: Replace with GET /api/v1/admin/billing
 const BILLING = [

@@ -3,7 +3,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Clock, TrendingUp, BarChart3, Info, ChevronRight } from 'lucide-react';
-import DashboardHeader from '@/components/dashboard/DashboardHeader';
+import { PageHeader as DashboardHeader } from '@/components/PageHeader';
 
 const COD_BREAKDOWN = [
   { label: 'Confirmed', value: 80, color: 'bg-emerald-500', glow: 'shadow-emerald-500/20' },

@@ -12,7 +12,7 @@ import {
   AlertCircle,
   ExternalLink 
 } from 'lucide-react';
-import DashboardHeader from '@/components/dashboard/DashboardHeader';
+import { PageHeader as DashboardHeader } from '@/components/PageHeader';
 
 const STATS = [
   { label: 'Total Orders Routed', value: '24,381', sub: 'Historical volume', icon: Zap, color: 'violet' },

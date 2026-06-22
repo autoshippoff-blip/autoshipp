@@ -11,7 +11,7 @@ import {
   Sparkles,
   ArrowDownRight
 } from 'lucide-react';
-import DashboardHeader from '@/components/dashboard/DashboardHeader';
+import { PageHeader as DashboardHeader } from '@/components/PageHeader';
 
 const BIG_NUMBERS = [
   { label: 'RTOs Prevented', value: '284', sub: 'vs 412 last month', icon: ShieldCheck, color: 'emerald', trend: '-31%' },

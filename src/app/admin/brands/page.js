@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import DashboardHeader from '@/components/dashboard/DashboardHeader';
+import { PageHeader as DashboardHeader } from '@/components/PageHeader';
 
 // TODO: Replace with GET /api/v1/admin/brands
 const BRANDS = [

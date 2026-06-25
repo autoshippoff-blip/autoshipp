@@ -10,7 +10,7 @@ export default function PricingSection() {
             ₹4 per confirmed order.
           </h2>
           <p className="text-lg text-muted-foreground">
-            No setup fees. No monthly subscriptions. Just pay for results.
+            Lowest integration fees. No monthly subscriptions. Just pay for results.
           </p>
         </div>
 
@@ -22,7 +22,7 @@ export default function PricingSection() {
 
             <div className="p-8 border-b border-border bg-muted/30 pt-10">
               <div className="flex items-baseline gap-2 mb-2">
-                <span className="text-5xl font-bold tracking-tight text-foreground">₹4</span>
+                <span className="text-3xl font-bold tracking-tight text-foreground">₹4</span>
                 <span className="text-muted-foreground font-medium">/ confirmation</span>
               </div>
             </div>
@@ -35,7 +35,7 @@ export default function PricingSection() {
                   "WhatsApp Fallback Automation",
                   "Smart Carrier Optimization",
                   "Real-time Dashboard & Analytics",
-                  "Zero Setup & Onboarding Fees"
+                  "Lowest Integration & Onboarding Fees"
                 ].map((f, i) => (
                   <li key={i} className="flex items-start gap-3">
                     <CheckCircle2 className="w-5 h-5 text-success shrink-0 mt-0.5" />

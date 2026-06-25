@@ -1,103 +1,76 @@
-import React, { useState } from 'react';
+'use client';
+
+import React from 'react';
 import Link from 'next/link';
+import { FadeInUp, ScaleIn } from './AnimatedUI';
 
 export default function Hero({ onBookDemo }) {
-  const [feedItems] = useState([
-    { id: 'ORD-882', user: 'Rajesh K.', flow: 'AI Voice Flow Triggered', amount: '₹2,499 COD Order', status: 'Verified', color: 'text-success' },
-    { id: 'ORD-881', user: 'Ananya S.', flow: 'WhatsApp Flow Triggered', amount: '₹1,200 COD Order', status: 'Confirming', color: 'text-warning' },
-    { id: 'ORD-880', user: 'Unknown', flow: 'AI Voice Flow Triggered', amount: '₹5,400 COD Order', status: 'Cancelled', color: 'text-destructive' },
-  ]);
-
   return (
-    <section className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-      <div className="grid lg:grid-cols-2 gap-12 items-center">
-        {/* Copy */}
-        <div className="space-y-8">
-          <div className="inline-flex items-center px-3 py-1 rounded-full bg-destructive/10 text-xs font-semibold text-destructive tracking-wide uppercase border border-destructive/20">
-            Stop Losing COD Profits
-          </div>
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-foreground leading-[1.1]">
-            Verify orders with AI Voice Automation
-          </h1>
-          <p className="text-lg text-muted-foreground max-w-lg leading-relaxed">
-            Reduce RTO by up to 70% by confirming intent before you ship. Zero setup fees. Zero monthly costs.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4">
-            <Link
-              href="/login"
-              className="inline-flex items-center justify-center px-6 py-3 rounded-md bg-primary text-primary-foreground font-medium hover:bg-primary/90 transition-colors shadow-sm"
-            >
-              Start Free Trial
-            </Link>
-            <button
-              onClick={onBookDemo}
-              className="inline-flex items-center justify-center px-6 py-3 rounded-md bg-background border border-border text-foreground font-medium hover:bg-muted transition-colors"
-            >
-              Book Demo
-            </button>
-          </div>
-          <div className="pt-4 flex items-center gap-3">
-            <div className="flex -space-x-2">
-              <div className="w-8 h-8 rounded-full border-2 border-background bg-slate-200" />
-              <div className="w-8 h-8 rounded-full border-2 border-background bg-slate-300" />
-              <div className="w-8 h-8 rounded-full border-2 border-background bg-slate-400" />
-              <div className="w-8 h-8 rounded-full border-2 border-background bg-slate-500 flex items-center justify-center text-[10px] text-white font-medium">+5k</div>
-            </div>
-            <p className="text-sm font-medium text-muted-foreground">Join 500+ India&apos;s top D2C brands</p>
-          </div>
-        </div>
-
-        {/* Live Dispatch Stream UI */}
-        <div className="relative w-full max-w-lg mx-auto lg:ml-auto">
-          {/* Subtle background blur */}
-          <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 to-transparent blur-3xl -z-10 rounded-full opacity-50" />
-          
-          <div className="rounded-xl border border-border bg-card shadow-2xl overflow-hidden flex flex-col">
-            <div className="p-5 border-b border-border bg-muted/30 flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <span className="flex h-2 w-2 relative">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-success"></span>
-                </span>
-                <span className="text-sm font-semibold tracking-tight text-foreground">Active Verification Stream</span>
-              </div>
-            </div>
-            
-            <div className="p-2 flex flex-col gap-2 bg-background">
-              {feedItems.map((item, i) => (
-                <div key={i} className="p-3 rounded-lg border border-border bg-card flex flex-col gap-2 text-sm shadow-sm transition-all hover:border-primary/30">
-                  <div className="flex items-center justify-between">
-                    <span className="font-semibold text-foreground">{item.id} &mdash; {item.user}</span>
-                    <span className={`font-semibold text-xs ${item.color} bg-background px-2 py-0.5 rounded-full border border-border`}>{item.status}</span>
-                  </div>
-                  <div className="flex items-center justify-between text-muted-foreground text-xs">
-                    <span className="flex items-center gap-1.5">
-                      <div className="w-1.5 h-1.5 rounded-full bg-primary/50" />
-                      {item.flow}
-                    </span>
-                    <span className="font-medium text-foreground">{item.amount}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="p-4 border-t border-border bg-muted/30 grid grid-cols-3 gap-4">
-              <div>
-                <p className="text-xs text-muted-foreground mb-0.5 font-medium">Total Savings</p>
-                <p className="font-bold text-foreground tracking-tight">&#8377;84,200</p>
-              </div>
-              <div>
-                <p className="text-xs text-muted-foreground mb-0.5 font-medium">RTO Drop</p>
-                <p className="font-bold text-success tracking-tight">12%</p>
-              </div>
-              <div>
-                <p className="text-xs text-muted-foreground mb-0.5 font-medium">Success Rate</p>
-                <p className="font-bold text-foreground tracking-tight">94.8%</p>
-              </div>
-            </div>
-          </div>
-        </div>
+    <section className="relative z-0 w-full bg-background text-foreground overflow-hidden pt-28 pb-16 lg:pt-40 lg:pb-24 border-b border-border">
+      {/* Decorative Background SVGs / Shapes */}
+      <div className="absolute top-0 right-0 -z-10 w-full h-full pointer-events-none opacity-40">
+        <div className="absolute top-1/4 right-0 w-96 h-96 bg-brand-orange/20 rounded-full blur-[100px]" />
+        <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-brand-blue/10 rounded-full blur-[100px]" />
       </div>
+
+      <div className="relative z-10 w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-11">
+        <div className="flex flex-col items-center justify-center text-center max-w-4xl mx-auto">
+          
+          <FadeInUp delay={0.1}>
+            <div className="inline-flex items-center px-5 py-2 rounded-full bg-brand-orange/10 text-brand-orange border border-brand-orange/20 text-xs tracking-widest font-extrabold mb-8 uppercase shadow-2xs">
+              Transform Your Ecommerce Growth
+            </div>
+          </FadeInUp>
+
+          <FadeInUp delay={0.2}>
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight text-foreground leading-[1.08] mb-6">
+              Unlock Your Highest CLTV with Customer Engagement
+            </h1>
+          </FadeInUp>
+
+          <FadeInUp delay={0.3}>
+            <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed mb-10">
+              Reduce RTO by up to 70% and turn one-time buyers into loyal customers with intelligent AI Voice and WhatsApp automation.
+            </p>
+          </FadeInUp>
+
+          <FadeInUp delay={0.4} className="flex flex-col sm:flex-row gap-4 items-center justify-center w-full sm:w-auto">
+            <button 
+              onClick={onBookDemo}
+              className="relative group h-14 w-full sm:w-[180px] flex items-center justify-center rounded-full text-foreground bg-card border border-border hover:border-brand-orange transition-all duration-300 shadow-md cursor-pointer font-extrabold text-sm"
+            >
+              <span>Book a Demo</span>
+            </button>
+            <Link 
+              href="/login"
+              className="relative group h-14 w-full sm:w-[180px] flex items-center justify-center rounded-full text-white bg-brand-orange hover:bg-brand-orange/90 transition-all duration-300 shadow-xl shadow-brand-orange/25 cursor-pointer font-extrabold text-sm"
+            >
+              <span>Start Free Trial</span>
+            </Link>
+          </FadeInUp>
+        </div>
+
+        {/* Hero Image / Graphic */}
+        <ScaleIn delay={0.6} className="mt-16 sm:mt-20 relative w-full max-w-5xl mx-auto h-[280px] sm:h-[400px] md:h-[500px] bg-card rounded-3xl sm:rounded-[2.5rem] border border-border shadow-2xl overflow-hidden flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-gradient-to-tr from-brand-orange/10 to-transparent z-0" />
+          <div className="relative z-10 flex flex-col items-center gap-4">
+            <div className="w-16 h-16 rounded-2xl bg-brand-orange text-white flex items-center justify-center shadow-lg">
+              <span className="font-bold text-2xl">A</span>
+            </div>
+            <div className="flex flex-wrap gap-3 justify-center">
+              <div className="px-4 py-2 rounded-full bg-background shadow-sm flex items-center justify-center border border-border">
+                <div className="w-2 h-2 rounded-full bg-success mr-2 animate-pulse" />
+                <span className="text-xs font-semibold text-foreground">Order Verified</span>
+              </div>
+              <div className="px-4 py-2 rounded-full bg-background shadow-sm flex items-center justify-center border border-border">
+                <div className="w-2 h-2 rounded-full bg-brand-blue mr-2 animate-pulse" />
+                <span className="text-xs font-semibold text-foreground">Message Sent</span>
+              </div>
+            </div>
+          </div>
+        </ScaleIn>
+      </div>
+
     </section>
   );
 }

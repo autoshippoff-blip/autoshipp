@@ -1,6 +1,9 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
 import { Headset, MessageSquare, RotateCcw, ShoppingCart, ShieldCheck, RefreshCw, ArrowRight } from 'lucide-react';
+import { FadeInUp, StaggerContainer, StaggerItem } from './AnimatedUI';
 
 const products = [
   {
@@ -9,9 +12,9 @@ const products = [
     desc: 'Handle thousands of customer queries simultaneously with human-like voice AI and instant chat resolution.',
     icon: <Headset className="w-6 h-6" />,
     href: '/products/care',
-    color: 'text-blue-500',
-    bg: 'bg-blue-500/10',
-    border: 'border-blue-500/20'
+    color: 'text-brand-orange',
+    bg: 'bg-brand-orange/10',
+    border: 'border-brand-orange/20'
   },
   {
     name: 'Autoshipp Engage',
@@ -19,9 +22,9 @@ const products = [
     desc: 'Drive repeat purchases and turn anonymous visitors into loyal customers through hyper-personalized messaging.',
     icon: <MessageSquare className="w-6 h-6" />,
     href: '/products/engage',
-    color: 'text-[#25D366]',
-    bg: 'bg-[#25D366]/10',
-    border: 'border-[#25D366]/20'
+    color: 'text-success',
+    bg: 'bg-success/10',
+    border: 'border-success/20'
   },
   {
     name: 'Autoshipp Returns',
@@ -29,9 +32,9 @@ const products = [
     desc: 'Turn a logistical nightmare into a seamless customer experience while retaining revenue through exchanges.',
     icon: <RotateCcw className="w-6 h-6" />,
     href: '/products/returns',
-    color: 'text-orange-500',
-    bg: 'bg-orange-500/10',
-    border: 'border-orange-500/20'
+    color: 'text-brand-blue',
+    bg: 'bg-brand-blue/10',
+    border: 'border-brand-blue/20'
   },
   {
     name: 'Autoshipp Convert',
@@ -39,9 +42,9 @@ const products = [
     desc: 'Maximize every visitor\'s value with AI-powered conversion tools that reduce friction and increase AOV.',
     icon: <ShoppingCart className="w-6 h-6" />,
     href: '/products/convert',
-    color: 'text-green-500',
-    bg: 'bg-green-500/10',
-    border: 'border-green-500/20'
+    color: 'text-brand-navy',
+    bg: 'bg-brand-navy/10',
+    border: 'border-brand-navy/20'
   },
   {
     name: 'Autoshipp Shield',
@@ -49,9 +52,9 @@ const products = [
     desc: 'Protect your margins. Prevent fake orders and reduce RTO before the package even leaves your warehouse.',
     icon: <ShieldCheck className="w-6 h-6" />,
     href: '/products/shield',
-    color: 'text-red-500',
-    bg: 'bg-red-500/10',
-    border: 'border-red-500/20'
+    color: 'text-destructive',
+    bg: 'bg-destructive/10',
+    border: 'border-destructive/20'
   },
   {
     name: 'Autoshipp Recover',
@@ -59,54 +62,55 @@ const products = [
     desc: 'Reclaim lost revenue and improve cash flow with intelligent automated follow-ups via WhatsApp.',
     icon: <RefreshCw className="w-6 h-6" />,
     href: '/products/recover',
-    color: 'text-primary',
-    bg: 'bg-primary/10',
-    border: 'border-primary/20'
+    color: 'text-brand-orange',
+    bg: 'bg-brand-orange/10',
+    border: 'border-brand-orange/20'
   }
 ];
 
 export default function DashboardPreview() {
   return (
-    <section id="products" className="py-24 bg-background border-t border-border">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-5xl font-black tracking-tight text-foreground mb-4">
+    <section id="products" className="py-24 sm:py-32 bg-background text-foreground border-b border-border transition-colors duration-300">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-11">
+        <FadeInUp className="text-center mb-16 sm:mb-20 max-w-3xl mx-auto">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-foreground mb-6">
             The Autoshipp Suite
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+          <p className="text-base sm:text-lg md:text-xl text-muted-foreground leading-relaxed">
             A complete AI-powered operating system designed to automate, optimize, and scale every aspect of your D2C brand.
           </p>
-        </div>
+        </FadeInUp>
         
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
           {products.map((product) => (
-            <Link 
-              key={product.name} 
-              href={product.href}
-              className="group bg-card border border-border rounded-2xl p-8 hover:border-primary/50 transition-all hover:shadow-xl hover:-translate-y-1 duration-300 flex flex-col"
-            >
-              <div className={`w-14 h-14 rounded-xl flex items-center justify-center mb-6 border ${product.bg} ${product.color} ${product.border} transition-colors`}>
-                {product.icon}
-              </div>
-              
-              <h3 className="text-xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
-                {product.name}
-              </h3>
-              
-              <div className="text-sm font-semibold text-muted-foreground mb-4 uppercase tracking-widest">
-                {product.tagline}
-              </div>
-              
-              <p className="text-muted-foreground leading-relaxed mb-8 flex-1">
-                {product.desc}
-              </p>
-              
-              <div className="flex items-center text-sm font-bold text-primary group-hover:gap-2 transition-all">
-                Explore Product <ArrowRight className="w-4 h-4 ml-1" />
-              </div>
-            </Link>
+            <StaggerItem key={product.name}>
+              <Link 
+                href={product.href}
+                className="group bg-card border border-border rounded-3xl sm:rounded-[2.5rem] p-6 sm:p-10 hover:border-brand-orange/40 transition-all hover:shadow-xl hover:-translate-y-1.5 duration-300 flex flex-col h-full shadow-md"
+              >
+                <div className={`w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center mb-6 sm:mb-8 border ${product.bg} ${product.color} ${product.border} transition-transform group-hover:scale-110 duration-300`}>
+                  {product.icon}
+                </div>
+                
+                <h3 className="text-xl sm:text-2xl font-bold text-foreground mb-2 sm:mb-3 group-hover:text-brand-orange transition-colors">
+                  {product.name}
+                </h3>
+                
+                <div className="text-[10px] sm:text-xs font-bold text-muted-foreground mb-4 sm:mb-6 uppercase tracking-widest">
+                  {product.tagline}
+                </div>
+                
+                <p className="text-muted-foreground leading-relaxed mb-8 flex-1 text-base sm:text-lg">
+                  {product.desc}
+                </p>
+                
+                <div className="flex items-center text-xs sm:text-sm font-extrabold text-brand-orange group-hover:gap-3 transition-all mt-auto uppercase tracking-wider">
+                  <span>Explore Product</span> <ArrowRight className="w-4 h-4 ml-1 transition-transform group-hover:translate-x-1" />
+                </div>
+              </Link>
+            </StaggerItem>
           ))}
-        </div>
+        </StaggerContainer>
       </div>
     </section>
   );

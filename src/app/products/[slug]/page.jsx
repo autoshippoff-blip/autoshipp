@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { useTheme } from '../../../hooks/useTheme';
 import Link from 'next/link';
 import { useParams, notFound } from 'next/navigation';
 import Header from '@/components/Header';
@@ -308,7 +309,7 @@ export default function ProductPage() {
   const slug = params.slug;
   const product = productsData[slug];
 
-  const [isDark, setIsDark] = useState(true);
+  const [isDark, setIsDark] = useTheme();
   const [mounted, setMounted] = useState(false);
   const [bookDemoOpen, setBookDemoOpen] = useState(false);
 

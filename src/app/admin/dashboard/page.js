@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useTheme } from '@/hooks/useTheme';
 import { motion } from 'framer-motion';
 import { 
   Activity, 
@@ -35,7 +36,7 @@ const BRANDS_SUMMARY = [
 ];
 
 export default function AdminDashboard() {
-  const [isDark, setIsDark] = useState(true);
+  const [isDark, setIsDark] = useTheme();
   
   // Theme-specific color classes
   const theme = {

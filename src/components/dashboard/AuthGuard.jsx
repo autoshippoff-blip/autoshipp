@@ -18,6 +18,7 @@ export default function AuthGuard({ allowedRole, children }) {
     } else if (role && role !== allowedRole) {
       const destinations = {
         admin: '/admin/dashboard',
+        super_admin: '/admin/dashboard',
         brand: '/brand/dashboard',
         aggregator: '/aggregator/dashboard',
       };

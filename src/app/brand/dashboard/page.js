@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useTheme } from '@/hooks/useTheme';
 import { motion } from 'framer-motion';
 import { 
   ShieldCheck, 
@@ -29,7 +30,7 @@ const FUNNEL = [
 ];
 
 export default function BrandDashboard() {
-  const [isDark, setIsDark] = useState(true);
+  const [isDark, setIsDark] = useTheme();
   
   // Theme-specific color classes
   const theme = {

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useTheme } from '@/hooks/useTheme';
 import { motion } from 'framer-motion';
 import { 
   Zap, 
@@ -24,7 +25,7 @@ const STATS = [
 const LATENCY = [12, 14, 11, 13, 10, 15, 12, 9, 11, 13, 14, 12, 10, 11, 13, 15, 11, 10, 12, 14];
 
 export default function AggregatorDashboard() {
-  const [isDark, setIsDark] = useState(true);
+  const [isDark, setIsDark] = useTheme();
   
   // Theme-specific color classes
   const theme = {

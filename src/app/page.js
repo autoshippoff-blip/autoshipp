@@ -1,19 +1,20 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useTheme } from '../hooks/useTheme';
 import Header from '../components/Header';
 import Hero from '../components/Hero';
 import DashboardPreview from '../components/DashboardPreview';
-import ProblemSection from '../components/ProblemSection';
+
 import SolutionSection from '../components/SolutionSection';
-import PricingSection from '../components/PricingSection';
+
 import CTASection from '../components/CTASection';
 import Footer from '../components/Footer';
 import BookDemoPopup from '../components/BookDemoPopup';
 import useSmoothScroll from '../hooks/useSmoothScroll';
 
 export default function Home() {
-  const [isDark, setIsDark] = useState(true);
+  const [isDark, setIsDark] = useTheme();
   const [mounted, setMounted] = useState(false);
   const [bookDemoOpen, setBookDemoOpen] = useState(false);
 
@@ -44,9 +45,9 @@ export default function Home() {
         <main>
           <Hero onBookDemo={() => setBookDemoOpen(true)} />
           <DashboardPreview />
-          <ProblemSection />
+
           <SolutionSection />
-          <PricingSection />
+
           <CTASection onBookDemo={() => setBookDemoOpen(true)} />
         </main>
 

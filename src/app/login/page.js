@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '@/contexts/AuthContext';
+import BookDemoPopup from '@/components/BookDemoPopup';
 
 export default function LoginPage() {
   const { login } = useAuth();
@@ -13,25 +14,24 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [bookDemoOpen, setBookDemoOpen] = useState(false);
 
   async function handleSubmit(e) {
     e.preventDefault();
     setError('');
     setLoading(true);
     try {
-      await login(email, password);
-      const { auth, db } = await import('@/lib/firebase');
-      const { doc, getDoc } = await import('firebase/firestore');
-      const uid = auth.currentUser?.uid;
-      let userRole = 'brand';
-      if (uid) {
-        const snap = await getDoc(doc(db, 'users', uid));
-        if (snap.exists()) userRole = snap.data().role ?? 'brand';
-      }
-      const destinations = { admin: '/admin/dashboard', brand: '/brand/dashboard', aggregator: '/aggregator/dashboard' };
+      const response = await login(email, password);
+      const userRole = response.user?.role || 'brand';
+      const destinations = { 
+        admin: '/admin/dashboard', 
+        super_admin: '/admin/dashboard', 
+        brand: '/brand/dashboard', 
+        aggregator: '/aggregator/dashboard' 
+      };
       router.push(destinations[userRole] ?? '/brand/dashboard');
     } catch (err) {
-      setError(friendlyError(err.code));
+      setError(err.message || 'Invalid email or password.');
     } finally {
       setLoading(false);
     }
@@ -114,26 +114,21 @@ export default function LoginPage() {
 
         <p className="text-center mt-6 text-sm text-muted-foreground">
           Don't have an account?{' '}
-          <Link href="/register" className="text-foreground font-medium hover:underline">
+          <button 
+            type="button"
+            onClick={() => setBookDemoOpen(true)}
+            className="text-foreground font-medium hover:underline focus:outline-none"
+          >
             Contact sales
-          </Link>
+          </button>
         </p>
       </div>
+
+      <BookDemoPopup 
+        isOpen={bookDemoOpen} 
+        onClose={() => setBookDemoOpen(false)} 
+      />
     </div>
   );
 }
 
-function friendlyError(code) {
-  switch (code) {
-    case 'auth/user-not-found':
-    case 'auth/wrong-password':
-    case 'auth/invalid-credential':
-      return 'Invalid email or password.';
-    case 'auth/too-many-requests':
-      return 'Too many attempts. Please try again later.';
-    case 'auth/network-request-failed':
-      return 'Network error. Check your connection.';
-    default:
-      return 'Something went wrong. Please try again.';
-  }
-}

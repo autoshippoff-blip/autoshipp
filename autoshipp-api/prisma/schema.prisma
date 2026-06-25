@@ -1,0 +1,61 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id               String             @id @default(uuid())
+  email            String             @unique
+  passwordHash     String
+  name             String?
+  role             String             @default("client") // e.g. super_admin, admin, brand, aggregator, client
+  status           String             @default("active")
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+
+  OrganizationUser OrganizationUser[]
+}
+
+model Organization {
+  id               String                @id @default(uuid())
+  name             String
+  status           String                @default("active")
+  createdAt        DateTime              @default(now())
+
+  users            OrganizationUser[]
+  products         OrganizationProduct[]
+}
+
+model OrganizationUser {
+  id             String       @id @default(uuid())
+  userId         String
+  organizationId String
+  role           String       @default("owner")
+
+  user           User         @relation(fields: [userId], references: [id])
+  organization   Organization @relation(fields: [organizationId], references: [id])
+}
+
+model Product {
+  id          String                @id @default(uuid())
+  name        String
+  description String?
+  status      String                @default("active")
+  createdAt   DateTime              @default(now())
+
+  organizations OrganizationProduct[]
+}
+
+model OrganizationProduct {
+  id             String       @id @default(uuid())
+  organizationId String
+  productId      String
+  status         String       @default("active")
+  createdAt      DateTime     @default(now())
+
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  product        Product      @relation(fields: [productId], references: [id])
+}

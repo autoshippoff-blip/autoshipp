@@ -102,6 +102,14 @@ export default function Header({ isDark, setIsDark, onBookDemo }) {
 
           {/* Desktop Actions */}
           <div className="hidden lg:flex items-center gap-4">
+            <button
+              onClick={() => setIsDark(!isDark)}
+              className="p-2.5 rounded-full hover:bg-brand-surface dark:hover:bg-white/10 text-brand-navy dark:text-white transition-colors cursor-pointer"
+              aria-label="Toggle Theme"
+            >
+              {isDark ? <Sun className="w-5 h-5 text-amber-400" /> : <Moon className="w-5 h-5 text-brand-navy" />}
+            </button>
+
             <Link href="/login" className="text-sm font-semibold text-brand-navy dark:text-white px-4 py-2 rounded-full hover:bg-brand-surface dark:hover:bg-white/5 transition-all">
               Login
             </Link>
@@ -235,9 +243,31 @@ export default function Header({ isDark, setIsDark, onBookDemo }) {
               </Link>
 
               {/* 5. Login */}
-              <Link href="/login" onClick={toggleMenu} className="text-base font-semibold text-brand-navy dark:text-white py-2">
+              <Link href="/login" onClick={toggleMenu} className="text-base font-semibold text-brand-navy dark:text-white py-2 border-b border-border/60">
                 Login
               </Link>
+
+              {/* 6. Theme Toggle */}
+              <div className="pt-2 flex items-center justify-between">
+                <span className="text-sm font-semibold text-muted-foreground">Appearance</span>
+                <button
+                  onClick={() => setIsDark(!isDark)}
+                  className="flex items-center gap-2 px-4 py-2 rounded-full bg-muted border border-border text-sm font-bold text-foreground cursor-pointer hover:border-brand-orange transition-colors"
+                  aria-label="Toggle Theme"
+                >
+                  {isDark ? (
+                    <>
+                      <Sun className="w-4 h-4 text-amber-400" />
+                      <span>Light Mode</span>
+                    </>
+                  ) : (
+                    <>
+                      <Moon className="w-4 h-4 text-brand-navy" />
+                      <span>Dark Mode</span>
+                    </>
+                  )}
+                </button>
+              </div>
             </div>
           </motion.div>
         )}

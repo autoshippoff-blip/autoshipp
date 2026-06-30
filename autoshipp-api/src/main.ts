@@ -7,8 +7,17 @@ async function bootstrap() {
   
   app.use(cookieParser());
   
+  const origins = [
+    'http://localhost:3000',
+    'https://autoshipp.in',
+    'https://autoshipp-official.vercel.app'
+  ];
+  if (process.env.FRONTEND_URL) {
+    origins.push(process.env.FRONTEND_URL);
+  }
+
   app.enableCors({
-    origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+    origin: origins,
     credentials: true,
   });
 

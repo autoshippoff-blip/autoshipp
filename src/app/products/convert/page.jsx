@@ -233,7 +233,7 @@ export default function ConvertProductPage() {
                               {/* Step 1 */}
                               <div className="flex items-center gap-4 p-3 bg-white/5 border border-white/10 rounded-xl">
                                 <div className="w-12 h-16 rounded-lg overflow-hidden shrink-0 bg-slate-800 border border-white/10 relative">
-                                  <img src="/images/user.webp" className="w-full h-full object-cover" alt="User selfie" />
+                                  <img src="/images/User.webp" className="w-full h-full object-cover" alt="User selfie" />
                                 </div>
                                 <div className="text-left">
                                   <span className="text-[9px] font-bold text-cyan-300 uppercase block">Step 1: Customer Image</span>

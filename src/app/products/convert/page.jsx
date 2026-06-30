@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTheme } from '../../../hooks/useTheme';
 import Header from '../../../components/Header';
 import Footer from '../../../components/Footer';
@@ -16,7 +16,115 @@ export default function ConvertProductPage() {
   // Interactive Tab State for Hero Showcase
   const [activeTab, setActiveTab] = useState('tryon'); // tryon | size | pincode
   const [pincode, setPincode] = useState('600001');
-  const [etaResult, setEtaResult] = useState('Estimated Delivery: 3 to 5 Days');
+  const [etaResult, setEtaResult] = useState('Estimated Delivery: 2 to 3 Days (Metro Air)');
+  const [courierPartner, setCourierPartner] = useState('BlueDart Express');
+  const [codAvailable, setCodAvailable] = useState(true);
+  const [expressEligible, setExpressEligible] = useState(true);
+
+  // Size AI Form States
+  const [height, setHeight] = useState(175);
+  const [weight, setWeight] = useState(70);
+  const [fitPref, setFitPref] = useState('Regular');
+  const [gender, setGender] = useState('Male');
+  const [recommendation, setRecommendation] = useState(null);
+
+  const handleGetRecommendation = () => {
+    let size = 'M';
+    let confidence = 94.5;
+    
+    // Simple logic based on height/weight/fit
+    const bmi = weight / ((height / 100) * (height / 100));
+    
+    if (bmi < 18.5) {
+      size = fitPref === 'Oversized' ? 'M' : 'S';
+      confidence = 96.2;
+    } else if (bmi >= 18.5 && bmi < 24.9) {
+      size = fitPref === 'Slim' ? 'S' : fitPref === 'Oversized' ? 'L' : 'M';
+      confidence = 98.4;
+    } else if (bmi >= 24.9 && bmi < 29.9) {
+      size = fitPref === 'Slim' ? 'M' : fitPref === 'Oversized' ? 'XL' : 'L';
+      confidence = 95.1;
+    } else {
+      size = fitPref === 'Slim' ? 'L' : 'XL';
+      confidence = 92.8;
+    }
+    
+    setRecommendation({
+      size,
+      confidence: confidence.toFixed(1),
+      explanation: `Based on your body measurements (${height}cm, ${weight}kg) and ${fitPref.toLowerCase()} fit preference, ${size} provides the best fit.`
+    });
+  };
+
+  useEffect(() => {
+    if (activeTab === 'pincode') {
+      const existingScript = document.querySelector('script[data-mount-id="eta-widget"]');
+      if (existingScript) {
+        existingScript.remove();
+      }
+
+      const script = document.createElement('script');
+      script.src = window.location.hostname === 'localhost'
+        ? 'http://localhost:3000/widget/eta-widget.js'
+        : 'https://pincode-delivery-estimate-lljv.onrender.com/widget/eta-widget.js';
+      script.setAttribute('data-api-key', 'tk_public_fe3275b47c7f574534a0b036');
+      script.setAttribute('data-mount-id', 'eta-widget');
+      script.async = true;
+
+      const timer = setTimeout(() => {
+        document.body.appendChild(script);
+      }, 50);
+
+      // Shadow DOM Stylist Poller (penetrates shadow boundary to enforce mobile layout)
+      const styleInterval = setInterval(() => {
+        const widgetRoot = document.getElementById('eta-widget');
+        if (widgetRoot && widgetRoot.shadowRoot) {
+          const shadow = widgetRoot.shadowRoot;
+          const styleId = 'eta-mobile-fix-style';
+          if (!shadow.getElementById(styleId)) {
+            const styleEl = document.createElement('style');
+            styleEl.id = styleId;
+            styleEl.textContent = `
+              :host {
+                width: 100% !important;
+                max-width: 100% !important;
+                display: block !important;
+                box-sizing: border-box !important;
+              }
+              .eta-widget-container {
+                width: 100% !important;
+                max-width: 100% !important;
+                box-sizing: border-box !important;
+              }
+              .eta-widget-form {
+                display: flex !important;
+                flex-direction: row !important;
+                flex-wrap: nowrap !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
+              }
+              .eta-widget-input {
+                min-width: 0 !important;
+                flex: 1 1 auto !important;
+                box-sizing: border-box !important;
+              }
+              .eta-widget-button {
+                flex: 0 0 auto !important;
+                box-sizing: border-box !important;
+              }
+            `;
+            shadow.appendChild(styleEl);
+          }
+        }
+      }, 100);
+
+      return () => {
+        clearTimeout(timer);
+        clearInterval(styleInterval);
+        script.remove();
+      };
+    }
+  }, [activeTab]);
 
   const features = [
     {
@@ -112,32 +220,55 @@ export default function ConvertProductPage() {
                       
                       {activeTab === 'tryon' && (
                         <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="w-full space-y-4">
-                          <div className="p-4 sm:p-6 rounded-2xl bg-gradient-to-br from-slate-900 to-brand-navy text-white relative overflow-hidden border border-white/10 shadow-lg space-y-5">
-                            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+                          <div className="p-4 sm:p-6 rounded-2xl bg-gradient-to-br from-slate-900 to-brand-navy text-white relative overflow-hidden border border-white/10 shadow-lg space-y-4">
+                            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 border-b border-white/10 pb-3">
                               <span className="text-xs font-bold text-slate-300 uppercase tracking-widest">AI Image Try-On Engine</span>
                               <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-cyan-500/20 text-cyan-300 font-mono text-[11px] font-bold border border-cyan-500/30">
                                 <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping shrink-0" /> Generative Diffusion
                               </span>
                             </div>
 
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                              <div className="p-3 rounded-xl bg-white/5 border border-white/10 space-y-1 text-center">
-                                <span className="text-[10px] text-slate-400 uppercase block">1. User Upload</span>
-                                <p className="text-xs font-extrabold text-white">📸 Full-Body Photo</p>
+                            {/* Three-step visual workflow */}
+                            <div className="flex flex-col items-stretch gap-3">
+                              {/* Step 1 */}
+                              <div className="flex items-center gap-4 p-3 bg-white/5 border border-white/10 rounded-xl">
+                                <div className="w-12 h-16 rounded-lg overflow-hidden shrink-0 bg-slate-800 border border-white/10 relative">
+                                  <img src="/images/user.webp" className="w-full h-full object-cover" alt="User selfie" />
+                                </div>
+                                <div className="text-left">
+                                  <span className="text-[9px] font-bold text-cyan-300 uppercase block">Step 1: Customer Image</span>
+                                  <h4 className="text-xs font-extrabold text-white">Upload your selfie</h4>
+                                  <p className="text-[10px] text-slate-400">Provide a front-facing full-body or half-body photo.</p>
+                                </div>
                               </div>
-                              <div className="p-3 rounded-xl bg-white/5 border border-white/10 space-y-1 text-center">
-                                <span className="text-[10px] text-slate-400 uppercase block">2. Opened Product</span>
-                                <p className="text-xs font-extrabold text-brand-orange">👗 Floral Anarkali Dress</p>
-                              </div>
-                            </div>
 
-                            <div className="p-4 rounded-xl bg-gradient-to-r from-cyan-500/10 via-brand-blue/20 to-brand-orange/10 border border-cyan-500/30 text-center space-y-2 relative overflow-hidden">
-                              <div className="absolute -right-4 -bottom-4 w-20 h-20 bg-brand-orange/20 rounded-full blur-xl pointer-events-none" />
-                              <span className="text-xs font-extrabold text-cyan-300 uppercase tracking-wider block">✨ AI Generated Synthesis</span>
-                              <p className="text-sm font-bold text-white">Dress Placed Perfectly on User Contour</p>
-                              <p className="text-[11px] text-slate-300">
-                                Ultra-accurate fit &bull; Natural shadow wrapping &bull; Authentic fabric drape
-                              </p>
+                              <div className="text-brand-orange text-center text-xs font-black">↓</div>
+
+                              {/* Step 2 */}
+                              <div className="flex items-center gap-4 p-3 bg-white/5 border border-white/10 rounded-xl">
+                                <div className="w-12 h-16 rounded-lg overflow-hidden shrink-0 bg-slate-800 border border-white/10 relative">
+                                  <img src="/images/Product.webp" className="w-full h-full object-cover" alt="Product thumbnail" />
+                                </div>
+                                <div className="text-left">
+                                  <span className="text-[9px] font-bold text-cyan-300 uppercase block">Step 2: Selected Product</span>
+                                  <h4 className="text-xs font-extrabold text-white">Choose any product</h4>
+                                  <p className="text-[10px] text-slate-400">Select any apparel from the merchant catalog.</p>
+                                </div>
+                              </div>
+
+                              <div className="text-brand-orange text-center text-xs font-black">↓</div>
+
+                              {/* Step 3 */}
+                              <div className="flex items-center gap-4 p-3 bg-gradient-to-r from-cyan-500/15 via-brand-blue/25 to-brand-orange/15 border border-cyan-500/30 rounded-xl">
+                                <div className="w-12 h-16 rounded-lg overflow-hidden shrink-0 bg-slate-800 border border-cyan-500/30 relative">
+                                  <img src="/images/Result.jpg" className="w-full h-full object-cover" alt="AI Try-On Synthesis" />
+                                </div>
+                                <div className="text-left">
+                                  <span className="text-[9px] font-bold text-cyan-300 uppercase block">Step 3: Generated AI Try-On</span>
+                                  <h4 className="text-xs font-extrabold text-white">Receive try-on in seconds</h4>
+                                  <p className="text-[10px] text-slate-300 leading-normal">Diffusion models map the garment to your body shape perfectly.</p>
+                                </div>
+                              </div>
                             </div>
                           </div>
                         </motion.div>
@@ -145,56 +276,143 @@ export default function ConvertProductPage() {
 
                       {activeTab === 'pincode' && (
                         <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="w-full space-y-4">
-                          <div className="p-4 sm:p-6 rounded-2xl bg-muted/50 border border-border space-y-5">
-                            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
-                              <span className="text-xs font-extrabold text-muted-foreground tracking-widest uppercase">Live Delivery Estimate Engine</span>
-                              <span className="text-[11px] font-bold text-success bg-success/10 px-2.5 py-0.5 rounded-full">SLA Verified</span>
+                          <div className="p-4 sm:p-6 rounded-2xl bg-muted/60 border border-border space-y-4 text-left">
+                            <div className="flex items-center justify-between border-b border-border pb-3 mb-2">
+                              <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Live Delivery Estimate Widget</span>
+                              <span className="text-[10px] font-bold bg-brand-orange/15 text-brand-orange px-2 py-0.5 rounded-full uppercase text-center">Pincode Script Active</span>
                             </div>
 
-                            <div className="flex flex-col sm:flex-row gap-2">
-                              <div className="relative flex-1 w-full">
-                                <Search className="w-4 h-4 text-muted-foreground absolute left-3.5 top-1/2 -translate-y-1/2" />
-                                <input 
-                                  type="text" 
-                                  value={pincode}
-                                  onChange={(e) => { setPincode(e.target.value); setEtaResult(e.target.value === '600001' ? 'Estimated Delivery: 2 to 3 Days (Metro Air)' : 'Estimated Delivery: 3 to 5 Days (Standard)'); }}
-                                  placeholder="Enter Delivery Pincode"
-                                  className="w-full h-12 pl-10 pr-4 rounded-xl bg-background border border-border font-mono font-bold text-sm focus:outline-none focus:border-brand-orange"
-                                />
-                              </div>
-                              <button className="px-5 h-12 rounded-xl bg-brand-orange text-white font-bold text-xs uppercase cursor-pointer w-full sm:w-auto shrink-0">
-                                Check ETA
-                              </button>
-                            </div>
-
-                            <div className="p-4 rounded-xl bg-background border border-brand-orange/30 shadow-2xs space-y-2">
-                              <div className="flex items-center gap-2 text-brand-orange font-bold text-sm">
-                                <Clock className="w-4 h-4 shrink-0" />
-                                <span>{etaResult}</span>
-                              </div>
-                              <p className="text-xs text-muted-foreground leading-relaxed">
-                                ✓ Serviceable by BlueDart Express &bull; COD Available &bull; Instant WhatsApp Tracking
-                              </p>
-                            </div>
+                            <div id="eta-widget" className="min-h-[220px] w-full text-foreground" />
+                            
+                            <style dangerouslySetInnerHTML={{ __html: `
+                              #eta-widget {
+                                width: 100% !important;
+                                max-width: 100% !important;
+                                box-sizing: border-box !important;
+                              }
+                              #eta-widget form, 
+                              #eta-widget .flex-row,
+                              #eta-widget div[class*="flex"] {
+                                display: flex !important;
+                                flex-direction: row !important;
+                                flex-wrap: nowrap !important;
+                                align-items: center !important;
+                                gap: 8px !important;
+                                width: 100% !important;
+                                box-sizing: border-box !important;
+                              }
+                              #eta-widget input {
+                                min-width: 0 !important;
+                                flex: 1 1 auto !important;
+                                box-sizing: border-box !important;
+                              }
+                              #eta-widget button {
+                                flex: 0 0 auto !important;
+                                box-sizing: border-box !important;
+                                margin-left: 0 !important;
+                              }
+                            ` }} />
                           </div>
                         </motion.div>
                       )}
 
                       {activeTab === 'size' && (
                         <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="w-full space-y-4">
-                          <div className="p-4 sm:p-6 rounded-2xl bg-muted/50 border border-border space-y-4">
-                            <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">AI Size Recommendation Engine</p>
-                            <div className="flex flex-wrap gap-1 sm:gap-2">
-                              {['XS','S','M','L','XL'].map(s => (
-                                <div key={s} className={`flex-1 min-w-[45px] py-3 rounded-xl text-center text-xs font-bold border transition-all ${s === 'M' ? 'bg-success text-white border-success shadow-md scale-105' : 'bg-background border-border text-muted-foreground'}`}>
-                                  {s}
+                          <div className="p-4 sm:p-6 rounded-2xl bg-muted/60 border border-border w-full space-y-4 text-left">
+                            <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">AI Size Recommendation Form</p>
+                            
+                            <div className="grid grid-cols-2 gap-4">
+                              {/* Height */}
+                              <div className="flex flex-col space-y-1">
+                                <label className="text-[10px] font-black uppercase text-muted-foreground">Height (cm)</label>
+                                <input 
+                                  type="number" 
+                                  value={height} 
+                                  onChange={(e) => setHeight(Number(e.target.value))} 
+                                  className="h-10 px-3 bg-background border border-border rounded-xl text-xs font-mono font-bold focus:outline-none focus:border-success" 
+                                />
+                              </div>
+                              {/* Weight */}
+                              <div className="flex flex-col space-y-1">
+                                <label className="text-[10px] font-black uppercase text-muted-foreground">Weight (kg)</label>
+                                <input 
+                                  type="number" 
+                                  value={weight} 
+                                  onChange={(e) => setWeight(Number(e.target.value))} 
+                                  className="h-10 px-3 bg-background border border-border rounded-xl text-xs font-mono font-bold focus:outline-none focus:border-success" 
+                                />
+                              </div>
+                            </div>
+
+                            <div className="grid grid-cols-2 gap-4">
+                              {/* Fit Preference */}
+                              <div className="flex flex-col space-y-1">
+                                <label className="text-[10px] font-black uppercase text-muted-foreground">Fit Preference</label>
+                                <select 
+                                  value={fitPref} 
+                                  onChange={(e) => setFitPref(e.target.value)}
+                                  className="h-10 px-3 bg-background border border-border rounded-xl text-xs font-bold focus:outline-none focus:border-success"
+                                >
+                                  {['Regular', 'Slim', 'Relaxed', 'Oversized'].map(f => (
+                                    <option key={f} value={f}>{f}</option>
+                                  ))}
+                                </select>
+                              </div>
+                              {/* Gender */}
+                              <div className="flex flex-col space-y-1">
+                                <label className="text-[10px] font-black uppercase text-muted-foreground">Gender</label>
+                                <select 
+                                  value={gender} 
+                                  onChange={(e) => setGender(e.target.value)}
+                                  className="h-10 bg-background border border-border rounded-xl text-xs font-bold focus:outline-none focus:border-success"
+                                >
+                                  {['Male', 'Female', 'Unisex'].map(g => (
+                                    <option key={g} value={g}>{g}</option>
+                                  ))}
+                                </select>
+                              </div>
+                            </div>
+
+                            <button 
+                              onClick={handleGetRecommendation}
+                              className="w-full h-11 bg-success hover:bg-success/90 text-white font-extrabold text-xs uppercase tracking-wider rounded-xl transition-all cursor-pointer shadow-md shadow-success/15"
+                            >
+                              Get Recommendation
+                            </button>
+
+                            {/* Recommendation Card */}
+                            {recommendation && (
+                              <motion.div 
+                                initial={{ opacity: 0, y: 10 }} 
+                                animate={{ opacity: 1, y: 0 }} 
+                                className="p-4 bg-card border border-success/30 rounded-xl space-y-3"
+                              >
+                                <div className="flex items-center justify-between">
+                                  <span className="text-[10px] font-black text-muted-foreground uppercase">Recommended Size</span>
+                                  <span className="text-[10px] font-bold text-success bg-success/10 px-2 py-0.5 rounded-full">{recommendation.confidence}% Confidence</span>
                                 </div>
-                              ))}
-                            </div>
-                            <div className="bg-success/10 border border-success/30 rounded-xl p-3 text-xs text-success font-bold text-center flex items-center justify-center gap-2">
-                              <Sparkles className="w-4 h-4 shrink-0" />
-                              <span>AI recommends Size M (99.4% Fit Confidence) based on your height & past purchases.</span>
-                            </div>
+
+                                <div className="flex gap-1.5">
+                                  {['XS', 'S', 'M', 'L', 'XL', 'XXL'].map(s => (
+                                    <div 
+                                      key={s} 
+                                      className={`flex-1 py-2 text-center text-xs font-black rounded-lg border transition-all ${
+                                        recommendation.size === s 
+                                          ? 'bg-success text-white border-success shadow-sm scale-105' 
+                                          : 'bg-muted/40 border-border text-muted-foreground'
+                                      }`}
+                                    >
+                                      {s}
+                                    </div>
+                                  ))}
+                                </div>
+
+                                <p className="text-[11px] text-muted-foreground leading-relaxed pt-1.5 border-t border-border flex items-start gap-2">
+                                  <span className="text-success text-xs">ℹ</span>
+                                  <span>{recommendation.explanation}</span>
+                                </p>
+                              </motion.div>
+                            )}
                           </div>
                         </motion.div>
                       )}
@@ -342,6 +560,97 @@ export default function ConvertProductPage() {
                         </div>
                         <span className="text-xs font-bold text-success">Verified</span>
                       </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </section>
+
+          {/* Deep-Dive Section 3: AI Size Recommendation */}
+          <section className="py-24 bg-background border-b border-border overflow-hidden">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="grid lg:grid-cols-12 gap-16 items-center">
+                
+                {/* Visual Mockup for Size AI */}
+                <div className="lg:col-span-6 order-2 lg:order-1">
+                  <div className="bg-gradient-to-tr from-success/10 via-card to-brand-blue/10 border border-border rounded-3xl sm:rounded-[3rem] p-6 sm:p-10 shadow-xl space-y-6">
+                    <div className="flex items-center justify-between pb-4 border-b border-border">
+                      <div className="flex items-center gap-3 font-bold text-foreground">
+                        <Ruler className="w-5 h-5 text-success" />
+                        <span>Dynamic Size Intelligence Flow</span>
+                      </div>
+                      <span className="text-xs text-success font-semibold bg-success/10 px-2 py-0.5 rounded-full">Real-Time Sync</span>
+                    </div>
+
+                    <div className="space-y-4">
+                      {/* Brand DB Step */}
+                      <div className="p-4 bg-muted/50 border border-border rounded-2xl flex items-center gap-4">
+                        <div className="w-10 h-10 rounded-full bg-success/10 text-success flex items-center justify-center font-bold">🏢</div>
+                        <div>
+                          <h4 className="text-xs font-black text-foreground uppercase">1. Merchant Database Fetch</h4>
+                          <p className="text-xs text-muted-foreground mt-0.5">Fetches specific sizing charts (chest, waist, inseam) directly from your OMS.</p>
+                        </div>
+                      </div>
+
+                      {/* Customer Body Step */}
+                      <div className="p-4 bg-muted/50 border border-border rounded-2xl flex items-center gap-4">
+                        <div className="w-10 h-10 rounded-full bg-brand-blue/10 text-brand-blue flex items-center justify-center font-bold">👤</div>
+                        <div>
+                          <h4 className="text-xs font-black text-foreground uppercase">2. Customer Body Input</h4>
+                          <p className="text-xs text-muted-foreground mt-0.5">Shopper enters height, weight, and preferred wear profile (Slim, Oversized, etc.).</p>
+                        </div>
+                      </div>
+
+                      {/* Recommendation Step */}
+                      <div className="p-4 bg-success/10 border border-success/30 rounded-2xl flex items-center gap-4">
+                        <div className="w-10 h-10 rounded-full bg-success/20 text-success flex items-center justify-center font-bold">✨</div>
+                        <div>
+                          <h4 className="text-xs font-black text-success uppercase">3. Matched AI Output</h4>
+                          <p className="text-xs text-success font-medium mt-0.5">Delivers a personalized recommendation (98.4% accuracy) instead of generic size tables.</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Content */}
+                <div className="lg:col-span-6 order-1 lg:order-2 space-y-6">
+                  <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-success/10 text-success text-xs font-extrabold tracking-wider uppercase">
+                    <Ruler className="w-3.5 h-3.5" /> AI Size Intelligence
+                  </div>
+                  <h2 className="text-4xl md:text-5xl font-black text-foreground tracking-tight leading-[1.1]">
+                    Tailored Size Recommendations. <span className="text-success">Goodbye Returns.</span>
+                  </h2>
+                  <p className="text-lg text-muted-foreground leading-relaxed">
+                    Sizing discrepancies account for over 50% of apparel exchanges. Autoshipp Convert&apos;s Size AI bypasses generic size charts by dynamically reading the merchant&apos;s database parameters and comparing them with shopper height, weight, and fit style goals.
+                  </p>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                    <div className="p-4 rounded-xl border border-border bg-card">
+                      <h4 className="text-sm font-bold text-foreground mb-1">Brand-Specific Sizing</h4>
+                      <p className="text-xs text-muted-foreground leading-relaxed font-medium">Reads unique product measurements directly from the brand&apos;s database.</p>
+                    </div>
+                    <div className="p-4 rounded-xl border border-border bg-card">
+                      <h4 className="text-sm font-bold text-foreground mb-1">AI Body Analysis</h4>
+                      <p className="text-xs text-muted-foreground leading-relaxed">Calculates body mass index and proportions from basic height/weight inputs.</p>
+                    </div>
+                    <div className="p-4 rounded-xl border border-border bg-card">
+                      <h4 className="text-sm font-bold text-foreground mb-1">Product Size Chart Matching</h4>
+                      <p className="text-xs text-muted-foreground leading-relaxed">Matches data segments instantly with item dimensions.</p>
+                    </div>
+                    <div className="p-4 rounded-xl border border-border bg-card">
+                      <h4 className="text-sm font-bold text-foreground mb-1">Personalized Recommendations</h4>
+                      <p className="text-xs text-muted-foreground leading-relaxed font-medium">Replaces static size charts with customized shopper fit predictions.</p>
+                    </div>
+                    <div className="p-4 rounded-xl border border-border bg-card">
+                      <h4 className="text-sm font-bold text-foreground mb-1">Reduced Exchanges</h4>
+                      <p className="text-xs text-muted-foreground leading-relaxed">Minimizes size-related reverse logistics calls and costs by up to 45%.</p>
+                    </div>
+                    <div className="p-4 rounded-xl border border-border bg-card">
+                      <h4 className="text-sm font-bold text-foreground mb-1">Increased Customer Confidence</h4>
+                      <p className="text-xs text-muted-foreground leading-relaxed">Boosts shopping cart progression by removing size hesitation before purchase.</p>
                     </div>
                   </div>
                 </div>

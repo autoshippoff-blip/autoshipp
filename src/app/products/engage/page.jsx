@@ -5,6 +5,7 @@ import { useTheme } from '../../../hooks/useTheme';
 import Header from '../../../components/Header';
 import Footer from '../../../components/Footer';
 import BookDemoPopup from '../../../components/BookDemoPopup';
+import ConnectToMetaButton from '../../../components/ConnectToMetaButton';
 import { FadeInUp, ScaleIn, StaggerContainer, StaggerItem } from '../../../components/AnimatedUI';
 import { ArrowRight, CheckCircle2, MessageSquare, Zap, Activity, Users, Sparkles, Send, BellRing, Target, BarChart3 } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -21,6 +22,54 @@ export default function EngageProductPage() {
     { title: 'Conversational Commerce', desc: 'Embed 1-click checkout buttons directly inside WhatsApp messages so users buy without redirecting to a browser.', icon: <MessageSquare className="w-6 h-6 text-success" /> },
     { title: 'AI RFM Audience Clustering', desc: 'Automatically segment your customer base into VIPs, Churn Risks, and Discount Seekers for maximum campaign ROAS.', icon: <Users className="w-6 h-6 text-brand-navy dark:text-amber-400" /> }
   ];
+
+  const campaignData = {
+    'High AOV Repeaters': {
+      audienceName: 'High AOV Repeaters',
+      estimatedCustomers: '12,450',
+      campaignObjective: 'VIP Exclusive Product Launch Drop',
+      expectedCtr: '18.6%',
+      expectedConversion: '4.8%',
+      expectedRevenue: '₹8,96,400',
+      message: 'Hey Rahul! 🌟 Because you’re in our Top 5% shoppers, we’ve unlocked an exclusive 20% OFF on the new Monochrome Sneaker drop. Tap below to claim before stock runs out!',
+      offerBadge: 'VIP EXCLUSIVE 20% OFF',
+      discountCode: 'MONOVIP20',
+      brandLogo: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=120&auto=format&fit=crop&q=60&ixlib=rb-4.0.3',
+      customerName: 'Rahul Sharma',
+      ctaText: 'Claim 20% Discount',
+      deliveryCta: '⚡ Instant WhatsApp Delivery via Autoshipp'
+    },
+    'Cart Abandoners (24h)': {
+      audienceName: 'Cart Abandoners (24h)',
+      estimatedCustomers: '4,820',
+      campaignObjective: 'Abandoned Cart Recovery & Checkout Conversion',
+      expectedCtr: '24.2%',
+      expectedConversion: '9.5%',
+      expectedRevenue: '₹4,12,000',
+      message: 'Hi Sneha! We noticed you left some items in your cart. We’ve reserved them for the next 1 hour and applied a flat 10% discount to help you finish checkout!',
+      offerBadge: 'CART RESERVED 10% OFF',
+      discountCode: 'RESTORE10',
+      brandLogo: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=120&auto=format&fit=crop&q=60&ixlib=rb-4.0.3',
+      customerName: 'Sneha Patel',
+      ctaText: 'Complete My Purchase',
+      deliveryCta: '⚡ Secure Checkout Link via Autoshipp'
+    },
+    'Inactive VIPs': {
+      audienceName: 'Inactive VIPs',
+      estimatedCustomers: '8,900',
+      campaignObjective: 'Customer Winback & Re-engagement Campaign',
+      expectedCtr: '14.8%',
+      expectedConversion: '3.2%',
+      expectedRevenue: '₹5,70,000',
+      message: 'Hello Vikram! It’s been a while since your last purchase. To welcome you back, here is a special ₹500 credit valid on our entire collection this weekend.',
+      offerBadge: '₹500 WELCOME BACK CREDIT',
+      discountCode: 'WELCOME500',
+      brandLogo: 'https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=120&auto=format&fit=crop&q=60&ixlib=rb-4.0.3',
+      customerName: 'Vikram Singh',
+      ctaText: 'Use My ₹500 Credit',
+      deliveryCta: '⚡ 1-Click Store Sync via Autoshipp'
+    }
+  };
 
   return (
     <div className={isDark ? 'dark' : ''}>
@@ -50,13 +99,10 @@ export default function EngageProductPage() {
                     </p>
                   </FadeInUp>
                   <FadeInUp delay={0.4} className="flex flex-wrap gap-4">
-                    <button
-                      onClick={() => setBookDemoOpen(true)}
+                    <ConnectToMetaButton
+                      onOpenBookDemo={() => setBookDemoOpen(true)}
                       className="h-14 px-8 flex items-center justify-center rounded-full text-white bg-brand-orange hover:bg-brand-orange/90 shadow-xl shadow-brand-orange/25 transition-all font-extrabold text-base cursor-pointer group"
-                    >
-                      <span>Launch Campaign Simulator</span>
-                      <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
-                    </button>
+                    />
                   </FadeInUp>
                 </div>
 
@@ -72,7 +118,7 @@ export default function EngageProductPage() {
                         onClick={() => setEngageTab('campaign')}
                         className={`flex-1 py-3 rounded-xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all cursor-pointer ${engageTab === 'campaign' ? 'bg-background text-brand-orange shadow-md border border-border/80' : 'text-muted-foreground hover:text-foreground'}`}
                       >
-                        <Send className="w-4 h-4" /> Broadcast AI
+                        <Send className="w-4 h-4" /> Marketing Message AI
                       </button>
                       <button
                         onClick={() => setEngageTab('alert')}
@@ -85,30 +131,118 @@ export default function EngageProductPage() {
                     {/* View */}
                     <div className="min-h-[340px] flex items-center justify-center">
                       {engageTab === 'campaign' && (
-                        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="w-full space-y-4">
-                          <div className="p-6 rounded-2xl bg-slate-950 text-white border border-white/10 shadow-xl space-y-4 font-sans">
-                            <div className="flex items-center justify-between border-b border-white/10 pb-3">
-                              <span className="text-xs font-bold text-slate-300 uppercase">Audience Target Selector</span>
-                              <span className="text-[11px] font-mono text-emerald-400 bg-emerald-500/20 px-2 py-0.5 rounded font-bold">98.4% Open Rate</span>
-                            </div>
-
-                            <div className="flex gap-1.5 flex-wrap">
-                              {['High AOV Repeaters','Cart Abandoners (24h)','Inactive VIPs'].map(seg => (
-                                <button key={seg} onClick={() => setSelectedAudience(seg)} className={`px-3 py-1.5 rounded-xl text-xs font-bold cursor-pointer transition-all ${selectedAudience === seg ? 'bg-brand-orange text-white shadow-md' : 'bg-white/5 text-slate-400 hover:text-white border border-white/5'}`}>{seg}</button>
+                        <motion.div
+                          initial={{ opacity: 0, y: 15 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.4 }}
+                          className="w-full space-y-6 text-left"
+                        >
+                          {/* Audience Target Selector */}
+                          <div className="flex flex-col space-y-2">
+                            <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Audience Target Selector</span>
+                            <div className="flex gap-2 flex-wrap">
+                              {['High AOV Repeaters', 'Cart Abandoners (24h)', 'Inactive VIPs'].map(seg => (
+                                <button
+                                  key={seg}
+                                  onClick={() => setSelectedAudience(seg)}
+                                  className={`px-3 py-1.5 rounded-xl text-xs font-bold cursor-pointer transition-all ${
+                                    selectedAudience === seg
+                                      ? 'bg-brand-orange text-white shadow-md shadow-brand-orange/20'
+                                      : 'bg-white/5 text-slate-400 hover:text-white border border-white/5'
+                                  }`}
+                                >
+                                  {seg}
+                                </button>
                               ))}
                             </div>
+                          </div>
 
-                            <div className="p-4 rounded-xl bg-white/5 border border-white/10 space-y-3 relative overflow-hidden">
-                              <div className="flex items-center justify-between text-xs font-bold text-slate-300">
-                                <span>WhatsApp Template: VIP Private Drop</span>
-                                <span className="text-brand-orange">● Ready to Fire</span>
+                          {/* Split View */}
+                          <div className="grid grid-cols-1 md:grid-cols-12 gap-5 items-stretch">
+                            {/* Campaign Preview Info */}
+                            <div className="md:col-span-6 bg-slate-950/60 rounded-2xl p-5 border border-white/10 flex flex-col justify-between">
+                              <div className="space-y-4">
+                                <div className="flex items-center justify-between border-b border-white/10 pb-2.5">
+                                  <span className="text-[10px] font-black uppercase tracking-wider text-slate-400">Campaign Preview</span>
+                                  <span className="text-[9px] font-bold text-success bg-success/15 px-2 py-0.5 rounded">Predictive Model Active</span>
+                                </div>
+                                <div className="grid grid-cols-2 gap-4">
+                                  <div>
+                                    <span className="text-[9px] font-black text-slate-500 uppercase block">Audience Name</span>
+                                    <span className="text-xs font-extrabold text-white">{campaignData[selectedAudience].audienceName}</span>
+                                  </div>
+                                  <div>
+                                    <span className="text-[9px] font-black text-slate-500 uppercase block">Est. Customers</span>
+                                    <span className="text-xs font-extrabold text-white">{campaignData[selectedAudience].estimatedCustomers}</span>
+                                  </div>
+                                </div>
+                                <div>
+                                  <span className="text-[9px] font-black text-slate-500 uppercase block">Campaign Objective</span>
+                                  <span className="text-xs font-semibold text-slate-300 leading-relaxed block">{campaignData[selectedAudience].campaignObjective}</span>
+                                </div>
+                                <div>
+                                  <span className="text-[9px] font-black text-slate-500 uppercase block mb-1">Message Preview</span>
+                                  <div className="p-3 bg-white/5 border border-white/10 rounded-xl text-[11px] text-slate-300 italic leading-relaxed">
+                                    {campaignData[selectedAudience].message}
+                                  </div>
+                                </div>
                               </div>
-                              <div className="p-3 rounded-lg bg-emerald-950/60 border border-emerald-500/30 text-xs text-emerald-200 leading-relaxed">
-                                "Hey Rahul! 🌟 Because you’re in our Top 5% shoppers, we’ve unlocked an exclusive 20% OFF on the new Monochrome Sneaker drop. Tap below to claim before stock runs out!"
+
+                              <div className="grid grid-cols-3 gap-2 border-t border-white/10 pt-4 mt-4">
+                                <div className="bg-white/5 p-2 rounded-xl border border-white/5 text-center">
+                                  <span className="text-[8px] font-black text-slate-500 uppercase block mb-0.5">Expected CTR</span>
+                                  <span className="text-xs font-black text-brand-orange">{campaignData[selectedAudience].expectedCtr}</span>
+                                </div>
+                                <div className="bg-white/5 p-2 rounded-xl border border-white/5 text-center">
+                                  <span className="text-[8px] font-black text-slate-500 uppercase block mb-0.5">Conversion</span>
+                                  <span className="text-xs font-black text-brand-blue">{campaignData[selectedAudience].expectedConversion}</span>
+                                </div>
+                                <div className="bg-white/5 p-2 rounded-xl border border-white/5 text-center">
+                                  <span className="text-[8px] font-black text-slate-500 uppercase block mb-0.5">Est. Revenue</span>
+                                  <span className="text-xs font-black text-emerald-400">{campaignData[selectedAudience].expectedRevenue}</span>
+                                </div>
                               </div>
-                              <button className="w-full py-2.5 rounded-lg bg-emerald-500 hover:bg-emerald-600 text-white font-extrabold text-xs tracking-wider uppercase shadow-md transition-all cursor-pointer">
-                                ⚡ Send Broadcast (14,200 Recipients)
-                              </button>
+                            </div>
+
+                            {/* WhatsApp conversation preview */}
+                            <div className="md:col-span-6 bg-slate-950 rounded-2xl border border-white/10 p-4 flex flex-col justify-between text-left relative overflow-hidden font-sans">
+                              {/* Header */}
+                              <div className="flex items-center gap-2.5 border-b border-white/10 pb-2.5 mb-3">
+                                <div className="w-8 h-8 rounded-full overflow-hidden border border-white/15 bg-white/10 shrink-0">
+                                  <img
+                                    src={campaignData[selectedAudience].brandLogo}
+                                    alt="Brand Logo"
+                                    className="w-full h-full object-cover"
+                                  />
+                                </div>
+                                <div className="flex-1 min-w-0 text-white">
+                                  <div className="flex items-center gap-1">
+                                    <span className="text-xs font-extrabold truncate">Autoshipp Store</span>
+                                    <span className="w-3 h-3 text-[#25D366] shrink-0 font-bold">✓</span>
+                                  </div>
+                                  <span className="text-[9px] text-white/50 block">Official Account</span>
+                                </div>
+                              </div>
+
+                              {/* Message bubble */}
+                              <div className="bg-[#1f2c34] rounded-2xl rounded-tl-xs p-3.5 text-xs leading-relaxed max-w-[95%] border border-white/5 space-y-2.5 shadow-md text-white">
+                                <div className="rounded-lg overflow-hidden border border-white/5 bg-black/25 flex flex-col items-center p-3 text-center">
+                                  <span className="text-[9px] font-black tracking-widest text-[#25D366] mb-1">{campaignData[selectedAudience].offerBadge}</span>
+                                  <span className="text-xs font-extrabold text-white/95">Code: <code className="bg-white/10 px-2 py-0.5 rounded font-mono text-brand-orange">{campaignData[selectedAudience].discountCode}</code></span>
+                                </div>
+
+                                <p className="text-white/90 leading-relaxed font-normal">
+                                  Hey {campaignData[selectedAudience].customerName}! {campaignData[selectedAudience].message.replace('Hey Rahul!', '').replace('Hi Sneha!', '').replace('Hello Vikram!', '').trim()}
+                                </p>
+
+                                <button className="w-full py-2 bg-[#25D366] hover:bg-[#1fa855] text-white font-extrabold text-[10px] rounded-lg tracking-wide uppercase transition-colors shadow-md">
+                                  👉 {campaignData[selectedAudience].ctaText}
+                                </button>
+                              </div>
+
+                              <span className="text-[9px] text-white/40 italic block mt-3 text-center shrink-0">
+                                {campaignData[selectedAudience].deliveryCta}
+                              </span>
                             </div>
                           </div>
                         </motion.div>

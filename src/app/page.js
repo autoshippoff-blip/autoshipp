@@ -5,6 +5,7 @@ import { useTheme } from '../hooks/useTheme';
 import Header from '../components/Header';
 import Hero from '../components/Hero';
 import DashboardPreview from '../components/DashboardPreview';
+import AIFeaturesSection from '../components/AIFeaturesSection';
 
 import SolutionSection from '../components/SolutionSection';
 
@@ -21,6 +22,7 @@ export default function Home() {
   useSmoothScroll({ enabled: true });
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
 
@@ -44,6 +46,7 @@ export default function Home() {
 
         <main>
           <Hero onBookDemo={() => setBookDemoOpen(true)} />
+          <AIFeaturesSection />
           <DashboardPreview />
 
           <SolutionSection />

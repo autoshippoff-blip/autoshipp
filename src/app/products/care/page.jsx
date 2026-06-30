@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useTheme } from '../../../hooks/useTheme';
 import Header from '../../../components/Header';
 import Footer from '../../../components/Footer';
@@ -14,6 +14,62 @@ export default function CareProductPage() {
   const [bookDemoOpen, setBookDemoOpen] = useState(false);
   const [careTab, setCareTab] = useState('voice'); // voice | chat
   const [selectedLang, setSelectedLang] = useState('Hindi');
+  const [isPlaying, setIsPlaying] = useState(false);
+  const audioRef = useRef(null);
+
+  const audioFiles = {
+    Hindi: '/audio/hindi.mp3',
+    Tamil: '/audio/tamil.mp3',
+    Telugu: '/audio/telugu.mp3',
+    English: '/audio/english.mp3',
+  };
+
+  const transcripts = {
+    Hindi: 'Namaste! Aapka order #ORD-992 aaj shaam 5 baje se pehle delivery ke liye scheduled hai.',
+    Tamil: 'Vanakkam! Ungaladhu order #ORD-992 indru maalai 5 manikkul delivery seiyya scheduled seiyapattulladhu.',
+    Telugu: 'Namaskaram! Mee order #ORD-992 eeroju saayantram 5 gantalalopu delivery ki schedule cheyabadindhi.',
+    English: 'Hello! Your shipment #ORD-992 is scheduled for courier delivery today before 5 PM.',
+  };
+
+  const handleLangChange = (lang) => {
+    setSelectedLang(lang);
+    
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+    }
+    
+    const audio = new Audio(audioFiles[lang]);
+    audioRef.current = audio;
+    
+    audio.play()
+      .then(() => setIsPlaying(true))
+      .catch((err) => {
+        console.log('Playback failed:', err);
+        setIsPlaying(false);
+      });
+
+    audio.onended = () => {
+      setIsPlaying(false);
+    };
+  };
+
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setIsPlaying(false);
+    }
+  }, [careTab]);
+
+  useEffect(() => {
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+      }
+    };
+  }, []);
 
   const features = [
     {
@@ -63,7 +119,7 @@ export default function CareProductPage() {
                   </FadeInUp>
                   <FadeInUp delay={0.3}>
                     <p className="text-base sm:text-lg md:text-xl text-muted-foreground leading-relaxed mb-10 max-w-xl">
-                      Resolve customer service inquiries instantly with human-quality AI voice calls and intelligent WhatsApp chatbots. Cut support costs by 60% while boosting CSAT.
+                      Resolve customer service inquiries instantly with human-quality AI voice calls and intelligent WhatsApp chatbots. Cut support costs by <b>60%</b> while boosting CSAT.
                     </p>
                   </FadeInUp>
                   <FadeInUp delay={0.4} className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
@@ -105,10 +161,31 @@ export default function CareProductPage() {
                         <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="w-full space-y-4">
                           <div className="p-4 sm:p-6 rounded-2xl bg-gradient-to-br from-slate-900 to-brand-navy text-white border border-white/10 shadow-lg space-y-5">
                             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-                              <span className="text-xs font-bold text-slate-300 uppercase tracking-widest">Live Neural Voice Stream</span>
+                              <span className="text-xs font-bold text-slate-300 uppercase tracking-widest flex items-center gap-2">
+                                <span>Live Neural Voice Stream</span>
+                                {isPlaying && (
+                                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 text-[9px] font-black uppercase tracking-wider animate-pulse">
+                                    ● Now Playing
+                                  </span>
+                                )}
+                              </span>
                               <div className="flex flex-wrap gap-1">
                                 {['Hindi','Tamil','Telugu','English'].map(l => (
-                                  <button key={l} onClick={() => setSelectedLang(l)} className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold cursor-pointer transition-all ${selectedLang === l ? 'bg-brand-orange text-white' : 'bg-white/10 text-slate-400 hover:text-white'}`}>{l}</button>
+                                  <button
+                                    key={l}
+                                    onClick={() => handleLangChange(l)}
+                                    aria-label={`Play AI voice sample in ${l}`}
+                                    className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold cursor-pointer transition-all flex items-center gap-1 ${
+                                      selectedLang === l 
+                                        ? 'bg-brand-orange text-white' 
+                                        : 'bg-white/10 text-slate-400 hover:text-white'
+                                    }`}
+                                  >
+                                    <span>{l}</span>
+                                    {selectedLang === l && isPlaying && (
+                                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
+                                    )}
+                                  </button>
                                 ))}
                               </div>
                             </div>
@@ -119,14 +196,19 @@ export default function CareProductPage() {
                               </div>
                               <div className="flex-1">
                                 <p className="text-xs font-extrabold text-white">Autoshipp AI Voice ({selectedLang})</p>
-                                <p className="text-[11px] text-emerald-300 font-mono">&quot;Namaste! Your shipment #ORD-992 is scheduled for courier delivery today before 5 PM.&quot;</p>
+                                <p className="text-[11px] text-emerald-300 font-mono">&quot;{transcripts[selectedLang]}&quot;</p>
                               </div>
                             </div>
 
                             {/* Audio Waveform Graphic */}
                             <div className="flex items-end justify-center gap-1 sm:gap-1.5 h-12 px-2 sm:px-4 py-2 bg-black/40 rounded-xl border border-white/5 overflow-hidden">
                               {[40, 70, 30, 90, 60, 100, 50, 80, 45, 85, 35, 95, 60, 40].map((h, i) => (
-                                <motion.div key={i} animate={{ height: [`${h}%`, `${Math.max(20, (h*i*7)%100)}%`, `${h}%`] }} transition={{ repeat: Infinity, duration: 1.2, delay: i*0.05 }} className="w-1.5 bg-gradient-to-t from-brand-orange to-amber-400 rounded-full shrink-0" />
+                                <motion.div
+                                  key={i}
+                                  animate={isPlaying ? { height: [`${h}%`, `${Math.max(20, (h * i * 7) % 100)}%`, `${h}%`] } : { height: '6px' }}
+                                  transition={isPlaying ? { repeat: Infinity, duration: 1.2, delay: i * 0.05 } : { duration: 0.3 }}
+                                  className="w-1.5 bg-gradient-to-t from-brand-orange to-amber-400 rounded-full shrink-0"
+                                />
                               ))}
                             </div>
                           </div>
@@ -199,7 +281,7 @@ export default function CareProductPage() {
                     Human-Like Voice Calls. <span className="text-brand-orange">Zero Hold Times.</span>
                   </h2>
                   <p className="text-lg text-muted-foreground leading-relaxed">
-                    Delight your customers with empathetic, natural inbound and outbound telephone support. From confirming COD orders to handling NDR delivery rescheduling, AI executes telephone calls effortlessly at scale.
+                    Delight your customers with empathetic, natural inbound voice support. From answering shipment inquiries to processing cancellations, our voice agent resolves customer queries instantly with human-like understanding.
                   </p>
                   <ul className="space-y-3 pt-2 text-foreground font-medium text-base">
                     <li className="flex items-center gap-3">

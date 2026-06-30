@@ -24,34 +24,36 @@ const faqs = [
 ];
 
 const PricingCard = ({ plan, returnsVolume, setReturnsVolume, onBookDemo }) => (
-  <div className={`relative rounded-[2.5rem] border ${plan.isPopular ? 'border-primary shadow-lg shadow-primary/10' : 'border-border'} bg-card p-8 flex flex-col overflow-hidden`}>
+  <div className={`relative rounded-[2.5rem] border ${plan.isPopular ? 'border-primary shadow-lg shadow-primary/10' : 'border-border'} bg-card p-8 flex flex-col overflow-hidden h-full`}>
     <div className="absolute top-0 left-0 right-0 h-40 bg-muted/40 border-b border-border -z-10" />
     
     <div className="text-center mb-10 pt-4">
       <h3 className="text-2xl font-bold text-foreground mb-2">{plan.name}</h3>
-      <p className="text-sm text-muted-foreground mx-auto">
+      <p className="text-sm text-muted-foreground mx-auto min-h-[40px] line-clamp-2">
         {plan.description}
       </p>
     </div>
 
-    <div className="mb-8 min-h-[120px]">
-      <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Platform Fees</div>
-      <div className="flex items-baseline gap-1">
-        <span className={`text-3xl font-bold tracking-tight ${plan.price === 'Custom' ? 'text-primary' : 'text-foreground'}`}>
-          {plan.price}
-        </span>
-        {plan.price !== 'Custom' && <span className="text-muted-foreground whitespace-nowrap">/ month</span>}
+    <div className="mb-8 min-h-[130px] flex flex-col justify-between">
+      <div>
+        <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Platform Fees</div>
+        <div className="flex items-baseline gap-1">
+          <span className={`text-3xl font-bold tracking-tight ${plan.price === 'Custom' ? 'text-primary' : 'text-foreground'}`}>
+            {plan.price}
+          </span>
+          {plan.price !== 'Custom' && <span className="text-muted-foreground whitespace-nowrap">/ month</span>}
+        </div>
       </div>
 
       {plan.isReturnsBasic && (
-        <div className="mt-6 mb-2">
-          <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3 text-center">Requests Every Month</p>
+        <div className="mt-4">
+          <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2.5 text-center">Requests Every Month</p>
           <div className="flex bg-muted/50 p-1 rounded-full border border-border">
             {[80, 200, 500].map(vol => (
               <button
                 key={vol}
                 onClick={() => setReturnsVolume(vol)}
-                className={`flex-1 text-sm py-2 rounded-full transition-all ${
+                className={`flex-1 text-xs py-1.5 rounded-full transition-all ${
                   returnsVolume === vol 
                     ? 'bg-background text-primary shadow-sm border border-primary font-medium' 
                     : 'text-muted-foreground hover:text-foreground'
@@ -65,7 +67,7 @@ const PricingCard = ({ plan, returnsVolume, setReturnsVolume, onBookDemo }) => (
       )}
 
       {plan.customText ? (
-        <p className="text-sm font-medium text-foreground mt-4 leading-relaxed">
+        <p className="text-xs font-medium text-foreground mt-4 leading-relaxed">
           {plan.customText}
         </p>
       ) : (
@@ -77,7 +79,18 @@ const PricingCard = ({ plan, returnsVolume, setReturnsVolume, onBookDemo }) => (
       )}
     </div>
 
-    <div className={`p-1 mb-8 rounded-full border transition-colors ${plan.name === 'Enterprise' || plan.isPopular ? 'border-primary/30' : 'border-border/60'}`}>
+    {/* Middle Stretch: Features List */}
+    <div className="space-y-4 flex-1 mb-8">
+      {plan.features.map((feat, idx) => (
+        <div key={idx} className="flex items-start gap-3">
+          <CheckCircle2 className="w-5 h-5 text-foreground shrink-0 mt-0.5" />
+          <span className="text-sm text-muted-foreground">{feat}</span>
+        </div>
+      ))}
+    </div>
+
+    {/* Bottom: Contact Sales Button Container */}
+    <div className={`p-1 rounded-full border transition-colors ${plan.name === 'Enterprise' || plan.isPopular ? 'border-primary/30' : 'border-border/60'} mt-auto`}>
       <button 
         onClick={onBookDemo}
         className={`w-full py-3 px-6 rounded-full font-bold tracking-wide text-sm transition-all flex items-center justify-between group ${
@@ -89,15 +102,6 @@ const PricingCard = ({ plan, returnsVolume, setReturnsVolume, onBookDemo }) => (
         <span>CONTACT SALES</span>
         <ChevronRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
       </button>
-    </div>
-
-    <div className="space-y-4 flex-1">
-      {plan.features.map((feat, idx) => (
-        <div key={idx} className="flex items-start gap-3">
-          <CheckCircle2 className="w-5 h-5 text-foreground shrink-0 mt-0.5" />
-          <span className="text-sm text-muted-foreground">{feat}</span>
-        </div>
-      ))}
     </div>
   </div>
 );
@@ -254,8 +258,8 @@ export default function PricingPage() {
           '2000 Unique customers',
           'Team Seats (2)',
           'Team support',
-          'Utilities messages ₹1.5 per message',
-          'Marketing Message ₹4 per message'
+          'Utilities messages ₹1 per message',
+          'Marketing Message ₹1.8 per message'
         ]
       },
       {
@@ -271,8 +275,8 @@ export default function PricingPage() {
           'Smart marketing automation',
           'Team Seats (5)',
           'Fast team support',
-          'Utilities messages ₹1.2 per message',
-          'Marketing Message ₹3.5 per message'
+          'Utilities messages ₹1 per message',
+          'Marketing Message ₹1.8 per message'
         ]
       },
       {

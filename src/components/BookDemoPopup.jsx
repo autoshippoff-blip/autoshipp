@@ -49,13 +49,14 @@ export default function BookDemoPopup({ isOpen, onClose }) {
   };
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-      <div 
-        className="absolute inset-0 bg-background/80 backdrop-blur-sm"
-        onClick={onClose}
-      />
-      
-      <div className="relative bg-card border border-border w-full max-w-xl rounded-2xl shadow-2xl overflow-hidden flex flex-col animate-in zoom-in-95 duration-200">
+    <div className="fixed inset-0 z-[2000] overflow-y-auto">
+      <div className="flex min-h-full items-center justify-center p-4 sm:p-6 md:p-10">
+        <div 
+          className="fixed inset-0 bg-background/80 backdrop-blur-sm transition-opacity"
+          onClick={onClose}
+        />
+        
+        <div className="relative bg-card border border-border w-full max-w-xl rounded-2xl shadow-2xl overflow-hidden flex flex-col animate-in zoom-in-95 duration-200 z-10 my-8">
         
         {/* Header */}
         <div className="bg-muted/30 px-6 py-5 flex items-center justify-between border-b border-border">
@@ -79,7 +80,7 @@ export default function BookDemoPopup({ isOpen, onClose }) {
                 <CheckCircle2 size={32} />
               </div>
               <h4 className="text-2xl font-bold text-foreground mb-2">Request Sent!</h4>
-              <p className="text-muted-foreground">We'll be in touch with you shortly.</p>
+              <p className="text-muted-foreground">We&apos;ll be in touch with you shortly.</p>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-5">
@@ -201,11 +202,11 @@ export default function BookDemoPopup({ isOpen, onClose }) {
           <div className="bg-muted/20 px-6 py-4 border-t border-border text-center">
             <p className="text-xs text-muted-foreground font-medium flex items-center justify-center gap-1.5">
               <span className="w-2 h-2 rounded-full bg-success animate-pulse" />
-              We'll contact you within 24 hours to schedule your personalized demo.
+              We&apos;ll contact you within 24 hours to schedule your personalized demo.
             </p>
           </div>
         )}
-
+        </div>
       </div>
     </div>
   );

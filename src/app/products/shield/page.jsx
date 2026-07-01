@@ -13,7 +13,37 @@ export default function ShieldProductPage() {
   const [isDark, setIsDark] = useTheme();
   const [bookDemoOpen, setBookDemoOpen] = useState(false);
   const [shieldTab, setShieldTab] = useState('risk'); // risk | verify
-  const [sampleRisk, setSampleRisk] = useState('low'); // low | high
+  const [sampleRisk, setSampleRisk] = useState('low'); // low | medium | high
+
+  const sampleOrders = {
+    low: {
+      customer: 'Deepak S. (+91 98821 XXXXX)',
+      details: 'PIN: 560034 (Koramangala, Bangalore)',
+      risk: '4.2%',
+      riskClass: 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30',
+      policy: 'Order auto-approved for instant BlueDart dispatch.',
+      policyClass: 'text-emerald-300',
+      policyIcon: <CheckCircle2 className="w-4 h-4 shrink-0" />
+    },
+    medium: {
+      customer: 'Preeti K. (+91 70192 XXXXX)',
+      details: 'PIN: 400001 (Colaba, Mumbai - High COD Vol)',
+      risk: '58.7%',
+      riskClass: 'bg-amber-500/20 text-amber-400 border border-amber-500/30',
+      policy: 'AI verification call scheduled to confirm dispatch intent.',
+      policyClass: 'text-amber-300',
+      policyIcon: <PhoneCall className="w-4 h-4 shrink-0" />
+    },
+    high: {
+      customer: 'Anonymous Buyer (+91 88291 XXXXX)',
+      details: 'PIN: 284001 (High RTO Zone Cluster)',
+      risk: '89.4%',
+      riskClass: 'bg-destructive/20 text-red-400 border border-destructive/30 animate-pulse',
+      policy: 'COD blocked. Mandatory UPI advance payment link triggered.',
+      policyClass: 'text-red-300',
+      policyIcon: <FileWarning className="w-4 h-4 shrink-0" />
+    }
+  };
 
   const features = [
     {
@@ -103,32 +133,53 @@ export default function ShieldProductPage() {
                       {shieldTab === 'risk' && (
                         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="w-full space-y-4">
                           <div className="p-5 rounded-2xl bg-slate-950 text-white border border-white/10 shadow-xl space-y-4 font-mono">
-                            <div className="flex items-center justify-between border-b border-white/10 pb-3">
+                            <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-white/10 pb-3 gap-2">
                               <span className="text-xs font-bold text-slate-300">Live RTO Neural Engine</span>
-                              <div className="flex gap-1">
-                                <button onClick={() => setSampleRisk('low')} className={`px-2 py-0.5 rounded text-[10px] font-bold cursor-pointer transition-all ${sampleRisk === 'low' ? 'bg-emerald-500 text-white' : 'bg-white/10 text-slate-400'}`}>Sample: Safe Order</button>
-                                <button onClick={() => setSampleRisk('high')} className={`px-2 py-0.5 rounded text-[10px] font-bold cursor-pointer transition-all ${sampleRisk === 'high' ? 'bg-destructive text-white' : 'bg-white/10 text-slate-400'}`}>Sample: Risky Order</button>
+                              <div className="flex gap-1 flex-wrap">
+                                <button 
+                                  onClick={() => setSampleRisk('low')} 
+                                  className={`px-2 py-0.5 rounded text-[10px] font-bold cursor-pointer transition-all ${
+                                    sampleRisk === 'low' ? 'bg-emerald-500 text-white' : 'bg-white/10 text-slate-400 hover:text-white'
+                                  }`}
+                                >
+                                  Non-Risk (0-45%)
+                                </button>
+                                <button 
+                                  onClick={() => setSampleRisk('medium')} 
+                                  className={`px-2 py-0.5 rounded text-[10px] font-bold cursor-pointer transition-all ${
+                                    sampleRisk === 'medium' ? 'bg-amber-500 text-white' : 'bg-white/10 text-slate-400 hover:text-white'
+                                  }`}
+                                >
+                                  Medium Risk (45-70%)
+                                </button>
+                                <button 
+                                  onClick={() => setSampleRisk('high')} 
+                                  className={`px-2 py-0.5 rounded text-[10px] font-bold cursor-pointer transition-all ${
+                                    sampleRisk === 'high' ? 'bg-destructive text-white' : 'bg-white/10 text-slate-400 hover:text-white'
+                                  }`}
+                                >
+                                  High Risk (70-100%)
+                                </button>
                               </div>
                             </div>
 
                             <div className="space-y-3 font-sans">
                               <div className="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/10">
                                 <div>
-                                  <p className="text-xs font-bold text-white">{sampleRisk === 'low' ? 'Deepak S. (+91 98821 XXXXX)' : 'Anonymous Buyer (+91 88291 XXXXX)'}</p>
-                                  <p className="text-[11px] text-slate-400">{sampleRisk === 'low' ? 'PIN: 560034 (Koramangala, Bangalore)' : 'PIN: 284001 (High RTO Zone Cluster)'}</p>
+                                  <p className="text-xs font-bold text-white">{sampleOrders[sampleRisk].customer}</p>
+                                  <p className="text-[11px] text-slate-400">{sampleOrders[sampleRisk].details}</p>
                                 </div>
-                                <span className={`px-2.5 py-1 rounded-lg font-mono text-xs font-bold ${sampleRisk === 'low' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-destructive/20 text-red-400 border border-destructive/30 animate-pulse'}`}>
-                                  {sampleRisk === 'low' ? 'RTO Risk: 4.2%' : 'RTO Risk: 89.4%'}
+                                <span className={`px-2.5 py-1 rounded-lg font-mono text-xs font-bold ${sampleOrders[sampleRisk].riskClass}`}>
+                                  RTO Risk: {sampleOrders[sampleRisk].risk}
                                 </span>
                               </div>
 
                               <div className="p-3 rounded-xl bg-white/5 border border-white/10 text-xs space-y-1.5">
                                 <span className="font-bold text-slate-300 block font-mono uppercase text-[10px]">Automated Enforcement Policy</span>
-                                {sampleRisk === 'low' ? (
-                                  <p className="text-emerald-300 flex items-center gap-1.5"><CheckCircle2 className="w-4 h-4 shrink-0" /> Order auto-approved for instant BlueDart dispatch.</p>
-                                ) : (
-                                  <p className="text-red-300 flex items-center gap-1.5"><FileWarning className="w-4 h-4 shrink-0" /> COD blocked. Mandatory UPI advance payment link triggered.</p>
-                                )}
+                                <p className={`${sampleOrders[sampleRisk].policyClass} flex items-center gap-1.5`}>
+                                  {sampleOrders[sampleRisk].policyIcon}
+                                  <span>{sampleOrders[sampleRisk].policy}</span>
+                                </p>
                               </div>
                             </div>
                           </div>
@@ -137,7 +188,7 @@ export default function ShieldProductPage() {
 
                       {shieldTab === 'verify' && (
                         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="w-full space-y-4">
-                          <div className="p-5 rounded-2xl bg-muted/60 border border-border space-y-3 font-sans">
+                          <div className="p-5 rounded-2xl bg-muted/60 border border-border space-y-3 font-sans text-left">
                             <div className="flex items-center justify-between border-b border-border pb-2.5">
                               <span className="text-xs font-extrabold uppercase text-foreground">AI Automated Order Call</span>
                               <span className="text-[10px] font-mono font-bold bg-success/20 text-success px-2 py-0.5 rounded animate-pulse">● Dialing Customer</span>
@@ -152,6 +203,70 @@ export default function ShieldProductPage() {
                                 <span>Customer Pressed [ 1 ]</span>
                                 <span className="text-success font-mono font-bold">✓ Confirmed Safe</span>
                               </div>
+                            </div>
+                          </div>
+
+                          {/* Recent Call Logs */}
+                          <div className="p-5 rounded-2xl bg-card border border-border space-y-4 font-sans text-left">
+                            <div>
+                              <span className="text-xs font-bold text-foreground block">Call Verification Logs (Recent)</span>
+                              <p className="text-[10px] text-muted-foreground mt-0.5">Logs of automated telephone dispatches and outcomes.</p>
+                            </div>
+
+                            <div className="space-y-2.5">
+                              {[
+                                {
+                                  customer: 'Suresh M. (+91 81291 XXXXX)',
+                                  details: 'Order #4489 | ₹1,450 COD | 5m ago',
+                                  status: 'Failed: Pressed 2 (Cancel)',
+                                  action: 'Order Cancelled',
+                                  statusClass: 'text-rose-600 dark:text-rose-400 bg-rose-500/10 border-rose-500/20',
+                                  icon: <Ban className="w-4 h-4 text-rose-500 shrink-0 mt-0.5" />
+                                },
+                                {
+                                  customer: 'Neha G. (+91 99120 XXXXX)',
+                                  details: 'Order #4488 | ₹3,200 COD | 12m ago',
+                                  status: 'Safe: Confirmed Dispatch',
+                                  action: 'Auto-Approved',
+                                  statusClass: 'text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 border-emerald-500/20',
+                                  icon: <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
+                                },
+                                {
+                                  customer: 'Karan T. (+91 78921 XXXXX)',
+                                  details: 'Order #4485 | ₹1,999 COD | 28m ago',
+                                  status: 'Failed: Unanswered (3 attempts)',
+                                  action: 'Held - WhatsApp Sent',
+                                  statusClass: 'text-amber-600 dark:text-amber-400 bg-amber-500/10 border-amber-500/20',
+                                  icon: <AlertTriangle className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
+                                },
+                                {
+                                  customer: 'Fake Buyer (+91 00000 XXXXX)',
+                                  details: 'Order #4481 | ₹5,899 COD | 45m ago',
+                                  status: 'Failed: Carrier Error (Invalid)',
+                                  action: 'Blocked & Held',
+                                  statusClass: 'text-rose-600 dark:text-rose-400 bg-rose-500/10 border-rose-500/20',
+                                  icon: <FileWarning className="w-4 h-4 text-rose-500 shrink-0 mt-0.5" />
+                                }
+                              ].map((log, idx) => (
+                                <div key={idx} className="p-3 bg-muted/40 border border-border/80 rounded-xl flex flex-col sm:flex-row justify-between sm:items-center gap-3 transition-all">
+                                  <div className="flex gap-2.5 items-start">
+                                    {log.icon}
+                                    <div>
+                                      <p className="text-xs font-bold text-foreground">{log.customer}</p>
+                                      <p className="text-[10px] text-muted-foreground mt-0.5">{log.details}</p>
+                                    </div>
+                                  </div>
+                                  <div className="flex items-center gap-4 justify-between sm:justify-end text-right">
+                                    <div className="text-left sm:text-right">
+                                      <span className="text-[9px] font-bold text-muted-foreground uppercase block">Outcome</span>
+                                      <span className="text-[11px] font-semibold text-foreground">{log.status}</span>
+                                    </div>
+                                    <span className={`px-2 py-0.5 rounded-full text-[9px] font-bold border shrink-0 ${log.statusClass}`}>
+                                      {log.action}
+                                    </span>
+                                  </div>
+                                </div>
+                              ))}
                             </div>
                           </div>
                         </motion.div>

@@ -20,18 +20,33 @@ async function main() {
 
   // Optionally create a super admin if none exists
   const superAdminEmail = 'admin@autoshipp.com';
-  const existingAdmin = await prisma.user.findUnique({ where: { email: superAdminEmail } });
+  const existingAdmin = await prisma.user.findUnique({
+    where: { email: superAdminEmail },
+  });
   if (!existingAdmin) {
     console.log('Creating default super_admin...');
     const bcrypt = require('bcryptjs');
     const hash = await bcrypt.hash('superadmin123', 10);
-    await prisma.user.create({
+    const user = await prisma.user.create({
       data: {
         email: superAdminEmail,
         passwordHash: hash,
-        name: 'Super Admin',
-        role: 'super_admin',
-        status: 'active',
+        firstName: 'Super',
+        lastName: 'Admin',
+        status: 'ACTIVE',
+      },
+    });
+    // Create an organization and membership to establish role context
+    const org = await prisma.organization.create({
+      data: {
+        name: 'AutoShipp Root Platform',
+      },
+    });
+    await prisma.membership.create({
+      data: {
+        userId: user.id,
+        organizationId: org.id,
+        status: 'ACTIVE',
       },
     });
   }

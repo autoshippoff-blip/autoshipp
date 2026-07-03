@@ -20,15 +20,31 @@ export class AuthService {
   }
 
   async login(user: any) {
-    const payload = { email: user.email, sub: user.id, role: user.role };
+    const membership =
+      user.memberships?.find((m) => m.status === 'ACTIVE') ||
+      user.memberships?.[0];
+    const payload = {
+      sub: user.id,
+      organization_id: membership?.organizationId || null,
+      // TODO(Organization-Phase): Replace hard-coded 'BRAND' with actual membership.organization.type once the Organization schema is implemented.
+      organization_type: 'BRAND',
+      role: membership?.userRoles?.[0]?.role?.code || null,
+      token_version: user.tokenVersion,
+    };
     return {
       access_token: this.jwtService.sign(payload),
-      user,
+      user: {
+        id: user.id,
+        email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        role: payload.role,
+      },
     };
   }
 
   async register(data: any) {
-    const { email, password, name } = data;
+    const { email, password, firstName, lastName } = data;
     const existing = await this.usersService.findOne(email);
     if (existing) {
       throw new UnauthorizedException('Email already exists');
@@ -37,7 +53,8 @@ export class AuthService {
     const user = await this.usersService.create({
       email,
       passwordHash: hash,
-      name,
+      firstName,
+      lastName,
     });
     const { passwordHash, ...result } = user;
     return result;

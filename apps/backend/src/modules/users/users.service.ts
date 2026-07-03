@@ -89,4 +89,10 @@ export class UsersService {
       data,
     });
   }
+
+  async countAll() {
+    return this.prisma.user.count({
+      where: { deletedAt: null },
+    });
+  }
 }

@@ -104,4 +104,26 @@ export class OrganizationsService {
       },
     });
   }
+
+  async countAll() {
+    return this.prisma.organization.count({
+      where: { deletedAt: null },
+    });
+  }
+
+  async getRecent(limit: number = 5) {
+    return this.prisma.organization.findMany({
+      where: { deletedAt: null },
+      orderBy: { createdAt: 'desc' },
+      take: limit,
+      include: {
+        type: {
+          select: {
+            code: true,
+            displayName: true,
+          },
+        },
+      },
+    });
+  }
 }

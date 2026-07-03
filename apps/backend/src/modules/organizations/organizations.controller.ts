@@ -25,17 +25,17 @@ export class OrganizationsController {
 
   @Post()
   create(@Body() createDto: CreateOrganizationDto, @Request() req) {
-    return this.organizationsService.create(createDto, req.user.sub);
+    return this.organizationsService.create(createDto, req.user.id);
   }
 
   @Get()
   findAll(@Request() req) {
-    return this.organizationsService.findAll(req.user.sub);
+    return this.organizationsService.findAll(req.user.id);
   }
 
   @Get(':id')
   findOne(@Param('id') id: string, @Request() req) {
-    return this.organizationsService.findOne(id, req.user.sub);
+    return this.organizationsService.findOne(id, req.user.id);
   }
 
   @Patch(':id')
@@ -44,6 +44,6 @@ export class OrganizationsController {
     @Body() updateDto: UpdateOrganizationDto,
     @Request() req,
   ) {
-    return this.organizationsService.update(id, updateDto, req.user.sub);
+    return this.organizationsService.update(id, updateDto, req.user.id);
   }
 }

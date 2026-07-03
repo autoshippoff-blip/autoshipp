@@ -10,7 +10,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     super({
       jwtFromRequest: ExtractJwt.fromExtractors([
         (request: Request) => {
-          let data = request?.cookies['access_token'];
+          let data = request?.cookies?.['access_token'];
           if (!data) {
             // Fallback to bearer token for easier dev/testing
             const authHeader = request?.headers['authorization'];
@@ -45,6 +45,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     return {
       ...result,
       tenantId: payload.organization_id,
+      organization_type: payload.organization_type,
     };
   }
 }

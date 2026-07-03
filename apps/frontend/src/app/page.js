@@ -7,8 +7,6 @@ import Hero from '../components/Hero';
 import DashboardPreview from '../components/DashboardPreview';
 import AIFeaturesSection from '../components/AIFeaturesSection';
 
-import SolutionSection from '../components/SolutionSection';
-
 import CTASection from '../components/CTASection';
 import Footer from '../components/Footer';
 import BookDemoPopup from '../components/BookDemoPopup';
@@ -48,8 +46,6 @@ export default function Home() {
           <Hero onBookDemo={() => setBookDemoOpen(true)} />
           <AIFeaturesSection />
           <DashboardPreview />
-
-          <SolutionSection />
 
           <CTASection onBookDemo={() => setBookDemoOpen(true)} />
         </main>

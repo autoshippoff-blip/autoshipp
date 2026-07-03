@@ -37,9 +37,24 @@ async function main() {
       },
     });
     // Create an organization and membership to establish role context
+    const orgType = await prisma.organizationType.upsert({
+      where: { code: 'PLATFORM' },
+      update: {},
+      create: {
+        code: 'PLATFORM',
+        displayName: 'Platform Administrator',
+      },
+    });
+
     const org = await prisma.organization.create({
       data: {
         name: 'AutoShipp Root Platform',
+        slug: 'autoshipp-root',
+        displayName: 'AutoShipp',
+        timezone: 'UTC',
+        currencyCode: 'USD',
+        languageCode: 'en-US',
+        typeId: orgType.id,
       },
     });
     await prisma.membership.create({

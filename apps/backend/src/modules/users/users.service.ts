@@ -12,7 +12,11 @@ export class UsersService {
       include: {
         memberships: {
           include: {
-            organization: true,
+            organization: {
+              include: {
+                type: true,
+              },
+            },
             userRoles: {
               include: {
                 role: true,
@@ -30,7 +34,11 @@ export class UsersService {
       include: {
         memberships: {
           include: {
-            organization: true,
+            organization: {
+              include: {
+                type: true,
+              },
+            },
             userRoles: {
               include: {
                 role: true,

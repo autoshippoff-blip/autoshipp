@@ -26,8 +26,7 @@ export class AuthService {
     const payload = {
       sub: user.id,
       organization_id: membership?.organizationId || null,
-      // TODO(Organization-Phase): Replace hard-coded 'BRAND' with actual membership.organization.type once the Organization schema is implemented.
-      organization_type: 'BRAND',
+      organization_type: membership?.organization?.type?.code || null,
       role: membership?.userRoles?.[0]?.role?.code || null,
       token_version: user.tokenVersion,
     };

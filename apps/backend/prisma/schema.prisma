@@ -22,6 +22,12 @@ enum MembershipStatus {
   REMOVED
 }
 
+enum OrganizationStatus {
+  ACTIVE
+  SUSPENDED
+  ARCHIVED
+}
+
 model User {
   id            String     @id @default(uuid()) @db.Uuid
   email         String     @unique @db.VarChar(255)
@@ -45,16 +51,49 @@ model User {
   loginHistory            LoginHistory[]
   passwordResetTokens     PasswordResetToken[]
   emailVerificationTokens EmailVerificationToken[]
+  createdOrganizations    Organization[]           @relation("OrganizationCreator")
+  updatedOrganizations    Organization[]           @relation("OrganizationUpdater")
 
   @@map("users")
 }
 
-model Organization {
-  id        String   @id @default(uuid()) @db.Uuid
-  name      String
-  status    String   @default("active")
-  createdAt DateTime @default(now()) @map("created_at")
+model OrganizationType {
+  id          String   @id @default(uuid()) @db.Uuid
+  code        String   @unique @db.VarChar(50)
+  displayName String   @map("display_name") @db.VarChar(255)
+  description String?
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
 
+  organizations Organization[]
+
+  @@map("organization_types")
+}
+
+model Organization {
+  id                 String             @id @default(uuid()) @db.Uuid
+  typeId             String             @map("type_id") @db.Uuid
+  name               String             @db.VarChar(255)
+  slug               String             @unique @db.VarChar(120)
+  displayName        String             @map("display_name") @db.VarChar(255)
+  legalName          String?            @map("legal_name") @db.VarChar(255)
+  registrationNumber String?            @map("registration_number") @db.VarChar(100)
+  taxIdentifier      String?            @map("tax_identifier") @db.VarChar(100)
+  status             OrganizationStatus @default(ACTIVE)
+  timezone           String             @db.VarChar(100)
+  currencyCode       String             @map("currency_code") @db.Char(3)
+  languageCode       String             @map("language_code") @db.VarChar(10)
+  logoUrl            String?            @map("logo_url") @db.Text
+  website            String?            @db.Text
+  createdAt          DateTime           @default(now()) @map("created_at")
+  updatedAt          DateTime           @updatedAt @map("updated_at")
+  deletedAt          DateTime?          @map("deleted_at")
+  createdBy          String?            @map("created_by") @db.Uuid
+  updatedBy          String?            @map("updated_by") @db.Uuid
+
+  type        OrganizationType      @relation(fields: [typeId], references: [id])
+  creator     User?                 @relation("OrganizationCreator", fields: [createdBy], references: [id])
+  updater     User?                 @relation("OrganizationUpdater", fields: [updatedBy], references: [id])
   memberships Membership[]
   products    OrganizationProduct[]
 

@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import {
   LayoutDashboard,
@@ -32,9 +33,11 @@ export function AppShell({ navigation, children, userRole }) {
       <div className="md:hidden flex items-center justify-between p-4 border-b border-border bg-card text-foreground">
         <div className="flex items-center gap-2">
           <div className="w-6 h-6 rounded overflow-hidden">
-            <img
+            <Image
               src="/images/logo.png"
               alt="Autoshipp Logo"
+              width={24}
+              height={24}
               className="w-full h-full object-contain"
             />
           </div>
@@ -64,9 +67,11 @@ export function AppShell({ navigation, children, userRole }) {
         <div className="h-16 flex items-center px-6 border-b border-sidebar-border text-sidebar-foreground">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded overflow-hidden">
-              <img
+              <Image
                 src="/images/logo.png"
                 alt="Autoshipp Logo"
+                width={32}
+                height={32}
                 className="w-full h-full object-contain"
               />
             </div>

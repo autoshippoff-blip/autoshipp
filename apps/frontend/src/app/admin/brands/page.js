@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { PageHeader as DashboardHeader } from "@/components/PageHeader";
 import { EmptyState } from "@/components/EmptyState";
+import { Users } from "lucide-react";
 
 export default function AdminBrandsPage() {
   const [brands, setBrands] = useState([]);
@@ -50,13 +51,27 @@ export default function AdminBrandsPage() {
         </div>
 
         {loading ? (
-          <div className="text-slate-400">Loading brands...</div>
+          <div className="bg-white/[0.03] border border-white/10 rounded-2xl overflow-hidden animate-pulse">
+            <div className="h-12 bg-white/[0.02] border-b border-white/10" />
+            <div className="p-6 space-y-4">
+              <div className="h-4 bg-white/5 rounded w-1/3" />
+              <div className="h-4 bg-white/5 rounded w-2/3" />
+              <div className="h-4 bg-white/5 rounded w-1/2" />
+            </div>
+          </div>
         ) : brands.length === 0 ? (
           <EmptyState
+            icon={Users}
             title="No brands found"
             description="Get started by onboarding your first brand."
-            actionLabel="Onboard Brand"
-            actionLink="/admin/brands/new"
+            action={
+              <Link
+                href="/admin/brands/new"
+                className="inline-flex items-center justify-center text-sm font-medium bg-violet-600 hover:bg-violet-500 text-white px-4 py-2 rounded-xl transition-colors"
+              >
+                + Onboard brand
+              </Link>
+            }
           />
         ) : (
           <div className="bg-white/[0.03] border border-white/10 rounded-2xl overflow-hidden">

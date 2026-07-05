@@ -168,9 +168,16 @@ export default function NewBrandPage() {
               <button
                 type="submit"
                 disabled={submitting || !form.typeId}
-                className="bg-violet-600 hover:bg-violet-500 disabled:opacity-60 text-white text-sm font-medium px-5 py-2.5 rounded-xl transition-colors"
+                className="inline-flex items-center justify-center bg-violet-600 hover:bg-violet-500 disabled:opacity-60 text-white text-sm font-medium px-5 py-2.5 rounded-xl transition-colors gap-2 min-w-[150px]"
               >
-                {submitting ? "Creating…" : "Create Organization"}
+                {submitting ? (
+                  <>
+                    <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    <span>Creating…</span>
+                  </>
+                ) : (
+                  "Create Organization"
+                )}
               </button>
               <button
                 type="button"

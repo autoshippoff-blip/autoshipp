@@ -1,6 +1,12 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useCallback,
+} from "react";
 
 const AuthContext = createContext(null);
 
@@ -11,8 +17,8 @@ export function AuthProvider({ children }) {
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
 
-  async function fetchMe() {
-    setLoading(true);
+  const fetchMe = useCallback(async () => {
+    setLoading((prev) => (prev ? prev : true));
     try {
       const res = await fetch(`${API_URL}/auth/me`, {
         method: "GET",
@@ -35,11 +41,14 @@ export function AuthProvider({ children }) {
     } finally {
       setLoading(false);
     }
-  }
+  }, [API_URL]);
 
   useEffect(() => {
-    fetchMe();
-  }, []);
+    const timer = setTimeout(() => {
+      fetchMe();
+    }, 0);
+    return () => clearTimeout(timer);
+  }, [fetchMe]);
 
   async function login(email, password) {
     const res = await fetch(`${API_URL}/auth/login`, {

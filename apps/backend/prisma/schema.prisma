@@ -47,6 +47,13 @@ enum TransactionDirection {
   DEBIT
 }
 
+enum RelationshipType {
+  MANAGES
+  OWNS
+  RESELLS
+  PARTNERS_WITH
+}
+
 model User {
   id            String     @id @default(uuid()) @db.Uuid
   email         String     @unique @db.VarChar(255)
@@ -70,8 +77,11 @@ model User {
   loginHistory            LoginHistory[]
   passwordResetTokens     PasswordResetToken[]
   emailVerificationTokens EmailVerificationToken[]
-  createdOrganizations    Organization[]           @relation("OrganizationCreator")
-  updatedOrganizations    Organization[]           @relation("OrganizationUpdater")
+  createdOrganizations    Organization[]             @relation("OrganizationCreator")
+  updatedOrganizations    Organization[]             @relation("OrganizationUpdater")
+  approvedRelationships   OrganizationRelationship[] @relation("OrganizationRelationshipApprover")
+  createdRelationships    OrganizationRelationship[] @relation("OrganizationRelationshipCreator")
+  updatedRelationships    OrganizationRelationship[] @relation("OrganizationRelationshipUpdater")
 
   @@map("users")
 }
@@ -110,14 +120,41 @@ model Organization {
   createdBy          String?            @map("created_by") @db.Uuid
   updatedBy          String?            @map("updated_by") @db.Uuid
 
-  type        OrganizationType      @relation(fields: [typeId], references: [id])
-  creator     User?                 @relation("OrganizationCreator", fields: [createdBy], references: [id])
-  updater     User?                 @relation("OrganizationUpdater", fields: [updatedBy], references: [id])
-  memberships Membership[]
-  products    OrganizationProduct[]
-  wallets     Wallet[]
+  type                OrganizationType           @relation(fields: [typeId], references: [id])
+  creator             User?                      @relation("OrganizationCreator", fields: [createdBy], references: [id])
+  updater             User?                      @relation("OrganizationUpdater", fields: [updatedBy], references: [id])
+  memberships         Membership[]
+  products            OrganizationProduct[]
+  wallets             Wallet[]
+  parentRelationships OrganizationRelationship[] @relation("ChildOrganization")
+  childRelationships  OrganizationRelationship[] @relation("ParentOrganization")
 
   @@map("organizations")
+}
+
+model OrganizationRelationship {
+  id                   String           @id @default(uuid()) @db.Uuid
+  parentOrganizationId String           @map("parent_organization_id") @db.Uuid
+  childOrganizationId  String           @map("child_organization_id") @db.Uuid
+  relationshipType     RelationshipType @map("relationship_type")
+  active               Boolean          @default(true)
+  validFrom            DateTime         @default(now()) @map("valid_from")
+  validTo              DateTime?        @map("valid_to")
+  approvedBy           String           @map("approved_by") @db.Uuid
+
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  createdBy String?   @map("created_by") @db.Uuid
+  updatedBy String?   @map("updated_by") @db.Uuid
+  deletedAt DateTime? @map("deleted_at")
+
+  parentOrganization Organization @relation("ParentOrganization", fields: [parentOrganizationId], references: [id])
+  childOrganization  Organization @relation("ChildOrganization", fields: [childOrganizationId], references: [id])
+  approver           User         @relation("OrganizationRelationshipApprover", fields: [approvedBy], references: [id])
+  creator            User?        @relation("OrganizationRelationshipCreator", fields: [createdBy], references: [id])
+  updater            User?        @relation("OrganizationRelationshipUpdater", fields: [updatedBy], references: [id])
+
+  @@map("organization_relationships")
 }
 
 model Membership {

@@ -130,3 +130,115 @@ The implementation order has been updated to prioritize Commerce Sync _before_ t
 | `part-specific-files/AES-036.md`              | Transactional Outbox (Updated for BullMQ)                                      |
 
 The architecture phase is complete. Move directly to implementation artifacts (Prisma, OpenAPI, Code).
+
+---
+
+## Session Update: 2026-07-06 — Wallet and Organization Hierarchy Architecture Verification
+
+### 1. Executive Summary
+
+This session began with implementing the Wallet service but pivoted into a deep architectural verification of the Organization Relationship schema (AES-010) and Wallet hierarchy traversal (AES-014). We identified a critical ambiguity regarding hierarchy enforcement, formally amended the architecture with a new invariant (D-166), verified the implementation sequencing, and produced a clear readiness review and roadmap for AES-010 implementation. No new implementation code was merged into the active architecture during this session.
+
+### 2. Wallet Status Before This Session
+
+Before this session, the Wallet domain lacked the logic for `resolveWallet`, which is responsible for traversing the organization hierarchy to find the correct aggregator wallet for merchant billing operations.
+
+### 3. Wallet Improvements Already Completed and Previously Committed
+
+During this session, `WalletService.resolveWallet` was drafted using iterative database lookups (`findFirst(active: true)`). Comprehensive tests covering aggregator resolution, cycle detection, and root-level resolution were written and committed locally. However, this implementation was subsequently paused and isolated due to architectural risks.
+
+### 4. AES-010 Investigation Summary
+
+A comprehensive audit of AES-010 (Organizations) was conducted to understand the `organization_relationships` schema. We discovered that while the schema defined relationship types, it did not explicitly define the capability for executing parent-child transfers or enforcing deterministic traversal at the API level.
+
+### 5. Discovery of the Hierarchy Ambiguity
+
+We identified a critical flaw: the original schema relied on a Prisma constraint `@@unique([parentOrganizationId, childOrganizationId, active])`. This constraint failed to prevent a child from having multiple _different_ active parents simultaneously, which would cause the iterative wallet traversal loop to behave non-deterministically (resolving to unpredictable parent wallets).
+
+### 6. Creation and Approval of D-166
+
+To resolve this ambiguity, we proposed and received approval for **D-166 (Single Active Parent Invariant)**. D-166 mandates that for a given `relationship_type`, an organization may have zero or one active parent relationship, and historical relationships must remain immutable.
+
+### 7. Architecture Amendment Summary
+
+The `schema.prisma` file was updated to remove the flawed unique constraint (as it prevented historical data preservation). `Full-architecture-file-autoshipp.md` was amended to incorporate the D-166 invariant, establishing it as a foundational rule for deterministic traversal across Wallet, Billing, and Marketplace domains.
+
+### 8. Architecture Verification Findings
+
+A formal verification confirmed that:
+
+- Relationship Management is owned exclusively by the Platform API, though specific internal modules were not dictated by the architecture.
+- D-166 enforcement was declared an invariant but initially lacked a specific enforcement layer mechanism in the architecture.
+- The Wallet domain relies fundamentally on Organization Relationships, requiring a sequential rollout.
+
+### 9. ADR Preparation Summary
+
+An Architecture Decision Request (ADR Input) was generated to explicitly separate architectural facts from implementation assumptions. It outlined options for relationship operations, internal module ownership, D-166 enforcement mechanisms (DB-level vs. App-level), and milestone sequencing.
+
+### 10. AES-010 Implementation Roadmap
+
+Following ADR decisions, a strict three-milestone implementation roadmap was produced. It establishes that database-level enforcement of D-166 and Relationship Management capability must be completed before Wallet traversal logic can be safely executed.
+
+### 11. Implementation Readiness Review
+
+A readiness review of the existing `OrganizationsModule` concluded:
+
+- The module currently relies on a clean, linear dependency graph (`Controller` -> `Service` -> `Prisma`).
+- No pre-existing refactoring is necessary.
+- The optimal insertion point is creating a sibling `OrganizationRelationshipsService` within the existing module to preserve the Single Responsibility Principle.
+
+### 12. Current Project State
+
+Implementation of AES-010 and AES-014 remains paused. The architectural foundation is now complete and fully resolved for organization hierarchy dependencies. The team is ready to begin implementing the organization relationships feature.
+
+### 13. Current Wallet State
+
+The `WalletService` features and tests are drafted locally, but the hierarchy traversal is deliberately blocked by a `NotImplementedException('hierarchy-traversal-blocked')`.
+
+### 14. Remaining Implementation Milestones
+
+- **Milestone 1: Persistence enforcement of D-166** (Architecture Requirement: Database-layer enforcement. Engineering Recommendation: Raw SQL migration for partial unique index).
+- **Milestone 2: Relationship Management API Capability** (Create, transfer, deactivate).
+- **Milestone 3: Wallet hierarchy traversal unblocking**.
+
+### 15. Explicit Traversal Blockade
+
+**Wallet hierarchy traversal remains intentionally blocked until D-166 enforcement exists at the persistence layer.**
+
+### 16. Files Created, Updated, and Reviewed
+
+**Updated:**
+
+- `Full-architecture-file-autoshipp.md` (Amended with D-166)
+- `apps/backend/prisma/schema.prisma` (Removed flawed unique constraint)
+- `apps/backend/src/modules/wallet/wallet.service.ts` (Drafted traversal; subsequently blocked)
+- `apps/backend/src/modules/wallet/wallet.service.spec.ts` (Drafted tests)
+
+**Created Artifacts:**
+
+- `aes_010_sequencing_review.md`
+- `d166_schema_evolution_review.md`
+- `architecture_verification_report.md`
+- `adr_input_aes010_sequencing.md`
+- `aes_010_implementation_roadmap.md`
+- `aes_010_implementation_readiness_review.md`
+
+### 17. Decisions Made During This Session
+
+- D-166 Single Active Parent Invariant is locked.
+- The flawed Prisma unique constraint on `organization_relationships` was safely removed to preserve history.
+- Relationship Management is an explicit capability within the Platform API.
+- D-166 must ultimately be enforced at the persistence layer. Application validation may supplement it but is not sufficient by itself.
+- Wallet hierarchy traversal is blocked pending D-166 enforcement.
+
+### 18. Outstanding Architectural Decisions
+
+- Internal application ownership for Relationship Management (e.g., whether to use a dedicated `OrganizationRelationshipsService`) will be decided natively during the implementation phase.
+
+### 19. Recommended Next Prompt
+
+```text
+Begin Phase 1 of the AES-010 Implementation Roadmap: Persistence enforcement of D-166.
+Review the aes_010_implementation_roadmap.md and aes_010_implementation_readiness_review.md artifacts.
+Execute Milestone 1 by generating the necessary raw SQL Prisma migration for the partial unique index. Verify the schema and run tests to confirm the database enforces the D-166 invariant. Provide evidence of successful execution.
+```

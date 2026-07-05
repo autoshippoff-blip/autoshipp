@@ -1,6 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
-  engineType = "library"
+  provider        = "prisma-client-js"
+  engineType      = "library"
   previewFeatures = ["driverAdapters"]
 }
 
@@ -28,6 +28,23 @@ enum OrganizationStatus {
   ACTIVE
   SUSPENDED
   ARCHIVED
+}
+
+enum WalletType {
+  PRIMARY
+  PROMOTIONAL
+  REWARD
+}
+
+enum WalletStatus {
+  ACTIVE
+  SUSPENDED
+  CLOSED
+}
+
+enum TransactionDirection {
+  CREDIT
+  DEBIT
 }
 
 model User {
@@ -98,6 +115,7 @@ model Organization {
   updater     User?                 @relation("OrganizationUpdater", fields: [updatedBy], references: [id])
   memberships Membership[]
   products    OrganizationProduct[]
+  wallets     Wallet[]
 
   @@map("organizations")
 }
@@ -249,4 +267,107 @@ model OrganizationProduct {
   product      Product      @relation(fields: [productId], references: [id])
 
   @@map("organization_products")
+}
+
+model Wallet {
+  id             String       @id @default(uuid()) @db.Uuid
+  organizationId String       @map("organization_id") @db.Uuid
+  type           WalletType
+  currency       String       @db.Char(3)
+  status         WalletStatus @default(ACTIVE)
+  createdAt      DateTime     @default(now()) @map("created_at")
+  updatedAt      DateTime     @updatedAt @map("updated_at")
+
+  organization Organization        @relation(fields: [organizationId], references: [id])
+  transactions WalletTransaction[]
+  balance      WalletBalance?
+  statements   WalletStatement[]
+
+  @@unique([organizationId, type])
+  @@map("wallets")
+}
+
+model WalletTransactionType {
+  id             String  @id @default(uuid()) @db.Uuid
+  code           String  @unique @db.VarChar(50)
+  name           String  @db.VarChar(255)
+  affectsBalance Boolean @default(true) @map("affects_balance")
+  description    String?
+
+  transactions WalletTransaction[]
+
+  @@map("wallet_transaction_types")
+}
+
+model WalletTransaction {
+  id                String               @id @default(uuid()) @db.Uuid
+  idempotencyKey    String               @unique @map("idempotency_key") @db.Text
+  walletId          String               @map("wallet_id") @db.Uuid
+  transactionTypeId String               @map("transaction_type_id") @db.Uuid
+  amount            Decimal              @db.Decimal(18, 2)
+  direction         TransactionDirection
+  referenceType     String               @map("reference_type") @db.Text
+  referenceId       String?              @map("reference_id") @db.Uuid
+  description       String?              @db.Text
+  metadata          Json?                @db.JsonB
+  createdAt         DateTime             @default(now()) @map("created_at")
+  createdBy         String?              @map("created_by")
+
+  wallet          Wallet                @relation(fields: [walletId], references: [id])
+  transactionType WalletTransactionType @relation(fields: [transactionTypeId], references: [id])
+
+  @@map("wallet_transactions")
+}
+
+model WalletBalance {
+  id               String   @id @default(uuid()) @db.Uuid
+  walletId         String   @unique @map("wallet_id") @db.Uuid
+  availableBalance Decimal  @default(0) @map("available_balance") @db.Decimal
+  reservedBalance  Decimal  @default(0) @map("reserved_balance") @db.Decimal
+  updatedAt        DateTime @updatedAt @map("updated_at")
+
+  wallet Wallet @relation(fields: [walletId], references: [id])
+
+  @@map("wallet_balances")
+}
+
+enum StatementStatus {
+  PENDING
+  GENERATED
+  FAILED
+}
+
+enum RunStatus {
+  RUNNING
+  SUCCEEDED
+  FAILED
+}
+
+model WalletStatement {
+  id                 String          @id @default(uuid()) @db.Uuid
+  walletId           String          @map("wallet_id") @db.Uuid
+  periodStart        DateTime        @map("period_start")
+  periodEnd          DateTime        @map("period_end")
+  status             StatementStatus @default(PENDING)
+  generatedAt        DateTime?       @map("generated_at")
+  generatedByVersion String?         @map("generated_by_version")
+
+  wallet Wallet               @relation(fields: [walletId], references: [id])
+  runs   WalletStatementRun[]
+
+  @@unique([walletId, periodStart])
+  @@map("wallet_statements")
+}
+
+model WalletStatementRun {
+  id           String    @id @default(uuid()) @db.Uuid
+  statementId  String    @map("statement_id") @db.Uuid
+  status       RunStatus @default(RUNNING)
+  attemptedAt  DateTime  @default(now()) @map("attempted_at")
+  completedAt  DateTime? @map("completed_at")
+  errorMessage String?   @map("error_message") @db.Text
+
+  statement WalletStatement @relation(fields: [statementId], references: [id])
+
+  @@map("wallet_statement_runs")
 }

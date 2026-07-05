@@ -6,56 +6,245 @@ datasource db {
   provider = "postgresql"
 }
 
-model User {
-  id               String             @id @default(uuid())
-  email            String             @unique
-  passwordHash     String
-  name             String?
-  role             String             @default("client") // e.g. super_admin, admin, brand, aggregator, client
-  status           String             @default("active")
-  createdAt        DateTime           @default(now())
-  updatedAt        DateTime           @updatedAt
+enum UserStatus {
+  INVITED
+  ACTIVE
+  LOCKED
+  SUSPENDED
+  INACTIVE
+  ARCHIVED
+}
 
-  OrganizationUser OrganizationUser[]
+enum MembershipStatus {
+  INVITED
+  ACTIVE
+  SUSPENDED
+  REMOVED
+}
+
+enum OrganizationStatus {
+  ACTIVE
+  SUSPENDED
+  ARCHIVED
+}
+
+model User {
+  id            String     @id @default(uuid()) @db.Uuid
+  email         String     @unique @db.VarChar(255)
+  passwordHash  String     @map("password_hash")
+  firstName     String?    @map("first_name") @db.VarChar(100)
+  lastName      String?    @map("last_name") @db.VarChar(100)
+  phone         String?    @db.VarChar(20)
+  avatarUrl     String?    @map("avatar_url")
+  status        UserStatus @default(ACTIVE)
+  emailVerified Boolean    @default(false) @map("email_verified")
+  tokenVersion  Int        @default(1) @map("token_version")
+  lastLoginAt   DateTime?  @map("last_login_at")
+  createdAt     DateTime   @default(now()) @map("created_at")
+  updatedAt     DateTime   @updatedAt @map("updated_at")
+  deletedAt     DateTime?  @map("deleted_at")
+  createdBy     String?    @map("created_by") @db.Uuid
+  updatedBy     String?    @map("updated_by") @db.Uuid
+
+  memberships             Membership[]
+  sessions                Session[]
+  loginHistory            LoginHistory[]
+  passwordResetTokens     PasswordResetToken[]
+  emailVerificationTokens EmailVerificationToken[]
+  createdOrganizations    Organization[]           @relation("OrganizationCreator")
+  updatedOrganizations    Organization[]           @relation("OrganizationUpdater")
+
+  @@map("users")
+}
+
+model OrganizationType {
+  id          String   @id @default(uuid()) @db.Uuid
+  code        String   @unique @db.VarChar(50)
+  displayName String   @map("display_name") @db.VarChar(255)
+  description String?
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  organizations Organization[]
+
+  @@map("organization_types")
 }
 
 model Organization {
-  id               String                @id @default(uuid())
-  name             String
-  status           String                @default("active")
-  createdAt        DateTime              @default(now())
+  id                 String             @id @default(uuid()) @db.Uuid
+  typeId             String             @map("type_id") @db.Uuid
+  name               String             @db.VarChar(255)
+  slug               String             @unique @db.VarChar(120)
+  displayName        String             @map("display_name") @db.VarChar(255)
+  legalName          String?            @map("legal_name") @db.VarChar(255)
+  registrationNumber String?            @map("registration_number") @db.VarChar(100)
+  taxIdentifier      String?            @map("tax_identifier") @db.VarChar(100)
+  status             OrganizationStatus @default(ACTIVE)
+  timezone           String             @db.VarChar(100)
+  currencyCode       String             @map("currency_code") @db.Char(3)
+  languageCode       String             @map("language_code") @db.VarChar(10)
+  logoUrl            String?            @map("logo_url") @db.Text
+  website            String?            @db.Text
+  createdAt          DateTime           @default(now()) @map("created_at")
+  updatedAt          DateTime           @updatedAt @map("updated_at")
+  deletedAt          DateTime?          @map("deleted_at")
+  createdBy          String?            @map("created_by") @db.Uuid
+  updatedBy          String?            @map("updated_by") @db.Uuid
 
-  users            OrganizationUser[]
-  products         OrganizationProduct[]
+  type        OrganizationType      @relation(fields: [typeId], references: [id])
+  creator     User?                 @relation("OrganizationCreator", fields: [createdBy], references: [id])
+  updater     User?                 @relation("OrganizationUpdater", fields: [updatedBy], references: [id])
+  memberships Membership[]
+  products    OrganizationProduct[]
+
+  @@map("organizations")
 }
 
-model OrganizationUser {
-  id             String       @id @default(uuid())
-  userId         String
-  organizationId String
-  role           String       @default("owner")
+model Membership {
+  id             String           @id @default(uuid()) @db.Uuid
+  userId         String           @map("user_id") @db.Uuid
+  organizationId String           @map("organization_id") @db.Uuid
+  status         MembershipStatus @default(ACTIVE)
+  joinedAt       DateTime         @default(now()) @map("joined_at")
+  invitedBy      String?          @map("invited_by") @db.Uuid
+  leftAt         DateTime?        @map("left_at")
 
-  user           User         @relation(fields: [userId], references: [id])
-  organization   Organization @relation(fields: [organizationId], references: [id])
+  user         User         @relation(fields: [userId], references: [id])
+  organization Organization @relation(fields: [organizationId], references: [id])
+  userRoles    UserRole[]
+
+  @@unique([userId, organizationId])
+  @@map("memberships")
+}
+
+model Role {
+  id          String  @id @default(uuid()) @db.Uuid
+  code        String  @unique
+  displayName String  @map("display_name")
+  description String?
+  systemRole  Boolean @default(false) @map("system_role")
+
+  rolePermissions RolePermission[]
+  userRoles       UserRole[]
+
+  @@map("roles")
+}
+
+model Permission {
+  id          String  @id @default(uuid()) @db.Uuid
+  code        String  @unique
+  displayName String  @map("display_name")
+  description String?
+
+  rolePermissions RolePermission[]
+
+  @@map("permissions")
+}
+
+model RolePermission {
+  id           String @id @default(uuid()) @db.Uuid
+  roleId       String @map("role_id") @db.Uuid
+  permissionId String @map("permission_id") @db.Uuid
+
+  role       Role       @relation(fields: [roleId], references: [id])
+  permission Permission @relation(fields: [permissionId], references: [id])
+
+  @@unique([roleId, permissionId])
+  @@map("role_permissions")
+}
+
+model UserRole {
+  id           String   @id @default(uuid()) @db.Uuid
+  membershipId String   @map("membership_id") @db.Uuid
+  roleId       String   @map("role_id") @db.Uuid
+  assignedAt   DateTime @default(now()) @map("assigned_at")
+  assignedBy   String?  @map("assigned_by") @db.Uuid
+
+  membership Membership @relation(fields: [membershipId], references: [id])
+  role       Role       @relation(fields: [roleId], references: [id])
+
+  @@unique([membershipId, roleId])
+  @@map("user_roles")
+}
+
+model Session {
+  id               String    @id @default(uuid()) @db.Uuid
+  userId           String    @map("user_id") @db.Uuid
+  refreshTokenHash String    @map("refresh_token_hash")
+  ipAddress        String?   @map("ip_address")
+  userAgent        String?   @map("user_agent")
+  deviceName       String?   @map("device_name")
+  createdAt        DateTime  @default(now()) @map("created_at")
+  lastSeenAt       DateTime  @default(now()) @map("last_seen_at")
+  expiresAt        DateTime  @map("expires_at")
+  revokedAt        DateTime? @map("revoked_at")
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("sessions")
+}
+
+model LoginHistory {
+  id            String   @id @default(uuid()) @db.Uuid
+  userId        String   @map("user_id") @db.Uuid
+  loginTime     DateTime @default(now()) @map("login_time")
+  success       Boolean
+  failureReason String?  @map("failure_reason")
+  ipAddress     String?  @map("ip_address")
+  userAgent     String?  @map("user_agent")
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("login_history")
+}
+
+model PasswordResetToken {
+  id        String    @id @default(uuid()) @db.Uuid
+  userId    String    @map("user_id") @db.Uuid
+  tokenHash String    @map("token_hash")
+  expiresAt DateTime  @map("expires_at")
+  usedAt    DateTime? @map("used_at")
+  createdAt DateTime  @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("password_reset_tokens")
+}
+
+model EmailVerificationToken {
+  id        String    @id @default(uuid()) @db.Uuid
+  userId    String    @map("user_id") @db.Uuid
+  tokenHash String    @map("token_hash")
+  expiresAt DateTime  @map("expires_at")
+  usedAt    DateTime? @map("used_at")
+  createdAt DateTime  @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("email_verification_tokens")
 }
 
 model Product {
-  id          String                @id @default(uuid())
+  id          String   @id @default(uuid()) @db.Uuid
   name        String
   description String?
-  status      String                @default("active")
-  createdAt   DateTime              @default(now())
+  status      String   @default("active")
+  createdAt   DateTime @default(now()) @map("created_at")
 
   organizations OrganizationProduct[]
+
+  @@map("products")
 }
 
 model OrganizationProduct {
-  id             String       @id @default(uuid())
-  organizationId String
-  productId      String
-  status         String       @default("active")
-  createdAt      DateTime     @default(now())
+  id             String   @id @default(uuid()) @db.Uuid
+  organizationId String   @map("organization_id") @db.Uuid
+  productId      String   @map("product_id") @db.Uuid
+  status         String   @default("active")
+  createdAt      DateTime @default(now()) @map("created_at")
 
-  organization   Organization @relation(fields: [organizationId], references: [id])
-  product        Product      @relation(fields: [productId], references: [id])
+  organization Organization @relation(fields: [organizationId], references: [id])
+  product      Product      @relation(fields: [productId], references: [id])
+
+  @@map("organization_products")
 }

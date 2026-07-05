@@ -4,7 +4,7 @@
 **Session Date:** 2026-07-02
 **Architecture Phase Status:** ✅ COMPLETE
 **Phase 0 (Foundation) Status:** ✅ COMPLETE
-**Immediate Next Step:** "Temporary Priority First" Dashboard Integration
+**Immediate Next Step:** Resolve Feature 2 Blocker & Complete "Temporary Priority First" Dashboard Integration
 
 ---
 
@@ -35,16 +35,17 @@ autoshipp-architecture/
 ## Current Codebase State (As of 2026-07-02)
 
 - **Monorepo Restructure Complete:** The codebase has been successfully migrated to a Turborepo/pnpm workspace (`apps/frontend`, `apps/backend`).
-- **Branch State:** `main` and `pre-prod` branches are structurally identical and synced. Git's rename tracking cleanly handled the structural migration without conflicts. Local `pre-prod` is ready to push.
-- **Verification:** `pnpm build` and `pnpm test` successfully execute across the monorepo.
+- **Temporary Priority First (Partial):** An isolated `app/(temporary)` route group has been implemented for the live client. It features environment-variable-backed Next.js Server Actions for auth (bypassing the core `AuthContext.js`), and it integrates the extracted `<EtaWidget />` (Feature 1). Feature 2 is currently a placeholder.
+- **Branch State:** `pre-prod` contains the latest Temporary Priority First commits.
+- **Verification:** `pnpm build` executes successfully.
 - **Known Technical Debt:** There are 57 pre-existing backend lint errors located in `apps/backend/src/modules/auth/` and `apps/backend/src/modules/users/`. These were intentionally preserved to maintain functional parity during restructuring and will need to be resolved later.
 
 ---
 
 ## Next Immediate Actions for the New Session
 
-1. **URGENT (Temporary Priority First):** Before continuing with Phase 1 of the roadmap, implement the temporary dashboard integration for the single live client as outlined in `TEAM_ENGINEERING_HANDBOOK.md`. This includes a lightweight login with hardcoded credentials (e.g., `momcreadlz@autoshipp.com`) and embedding/linking two live features, bypassing standard architectural rules for speed.
-2. **Standard Roadmap:** Once the urgent dashboard is deployed, proceed to **Phase 1: Database**.
+1. **URGENT (Feature 2 Blocker):** The temporary dashboard (isolated auth, UI shell, Feature 1 ETA widget) is implemented and committed. However, Feature 2 is currently a placeholder because there is no evidence identifying what it is. You MUST obtain stakeholder clarification on what Feature 2 actually is, then implement it into the `/client-dashboard` placeholder to finish the "Temporary Priority First" requirement.
+2. **Standard Roadmap:** Once Feature 2 is implemented and the urgent dashboard is fully deployed, proceed to **Phase 1: Database**.
 
 ---
 
@@ -73,49 +74,59 @@ The platform now includes a core **Intelligence Platform (AES-043)** that acts a
 
 ## Final Implementation Roadmap
 
-The implementation order has been updated to prioritize Commerce Sync *before* the Intelligence Platform, ensuring the AI reads normalized platform data.
+The implementation order has been updated to prioritize Commerce Sync _before_ the Intelligence Platform, ensuring the AI reads normalized platform data.
 
 **Phase 0: Foundation**
+
 - CI/CD, Monorepo (Turborepo), NestJS setup, Upstash Redis connection.
 
 **Phase 1: Database**
+
 - Neon Postgres setup, Prisma schemas, migrations.
 
 **Phase 2: Authentication**
+
 - JWT, Argon2id, Session management, Multi-org switching.
 
 **Phase 3: Platform Shell**
+
 - Next.js frontend, Dashboard, Account Context.
 
 **Phase 4: Marketplace**
+
 - Subscriptions, editions, app assignments.
 
 **Phase 5: Shopify Integration**
+
 - Webhook ingestion, API auth, initial connection.
 
 **Phase 6: Commerce Sync**
+
 - Normalize orders, customers, inventory into the master schema.
 
 **Phase 7: AutoShipp Intelligence**
+
 - Build the Crawler, Shopify Analyzer, Scorer, and Executive Report Generator (AES-043).
 
 **Phase 8: Billing**
+
 - Razorpay integration, invoicing.
 
 **Phase 9+: Products**
+
 - Fit, ETA, Returns, AI Assistant.
 
 ---
 
 ## Reference Files Quick Index
 
-| File | Purpose |
-|---|---|
-| `artifacts/autoshipp_architecture_summary.md` | Full architecture overview (domains, schemas, services) |
-| `artifacts/architecture_v1.1_changelog.md` | Every new doc and amendment from this session |
-| `artifacts/autoshipp_cost_breakdown.md` | Final $21/month lean stack (Render, BullMQ, Neon, Razorpay) |
-| `part-specific-files/AES-043.md` | **[NEW]** AutoShipp Intelligence Platform — AI Onboarding and Product Matching |
-| `part-specific-files/AES-025.md` | Binary Asset Strategy (No S3/Object Storage) |
-| `part-specific-files/AES-036.md` | Transactional Outbox (Updated for BullMQ) |
+| File                                          | Purpose                                                                        |
+| --------------------------------------------- | ------------------------------------------------------------------------------ |
+| `artifacts/autoshipp_architecture_summary.md` | Full architecture overview (domains, schemas, services)                        |
+| `artifacts/architecture_v1.1_changelog.md`    | Every new doc and amendment from this session                                  |
+| `artifacts/autoshipp_cost_breakdown.md`       | Final $21/month lean stack (Render, BullMQ, Neon, Razorpay)                    |
+| `part-specific-files/AES-043.md`              | **[NEW]** AutoShipp Intelligence Platform — AI Onboarding and Product Matching |
+| `part-specific-files/AES-025.md`              | Binary Asset Strategy (No S3/Object Storage)                                   |
+| `part-specific-files/AES-036.md`              | Transactional Outbox (Updated for BullMQ)                                      |
 
 The architecture phase is complete. Move directly to implementation artifacts (Prisma, OpenAPI, Code).

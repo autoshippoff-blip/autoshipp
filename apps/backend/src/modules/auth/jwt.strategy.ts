@@ -28,12 +28,23 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: any) {
-    const user = await this.usersService.findOne(payload.email);
+    const user = await this.usersService.findById(payload.sub);
     if (!user) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException('User not found');
     }
+
+    // Token Version Validation (AES-005)
+    if (user.tokenVersion !== payload.token_version) {
+      throw new UnauthorizedException('Token invalid or expired');
+    }
+
     // Omit password hash from req.user
     const { passwordHash, ...result } = user;
-    return result;
+
+    // Inject the tenant context validated from the JWT payload
+    return {
+      ...result,
+      tenantId: payload.organization_id,
+    };
   }
 }

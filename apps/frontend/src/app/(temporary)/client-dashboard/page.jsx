@@ -1,56 +1,107 @@
 "use client";
 
 import { motion } from "framer-motion";
-import EtaWidget from "@/components/temporary/EtaWidget";
-import { MapPin, Box, AlertCircle } from "lucide-react";
 import { FadeInUp } from "@/components/AnimatedUI";
-import { FeatureTwoDashboard } from "@/components/temporary/feature-two/FeatureTwoDashboard";
+import { Glasses, Undo2, MapPin, MessageCircle } from "lucide-react";
 
 export default function ClientDashboardPage() {
+  const products = [
+    {
+      id: "virtual-tryon",
+      name: "Virtual Try-On",
+      description:
+        "Allow your customers to visualize products before purchasing.",
+      icon: Glasses,
+      color: "text-blue-500",
+      bg: "bg-blue-500/10",
+      border: "border-blue-500/20",
+      href: "https://virtual-tryon-api-service.onrender.com/v1/tenant/dashboard/thottil-maternity",
+      external: true,
+    },
+    {
+      id: "returns",
+      name: "ReturnFlow",
+      description:
+        "Manage customer returns seamlessly with automated logistics.",
+      icon: Undo2,
+      color: "text-purple-500",
+      bg: "bg-purple-500/10",
+      border: "border-purple-500/20",
+      href: "https://returnflow-frontend.onrender.com/dashboard?clientId=89dd70ce-fc05-4ad7-b7e5-112cfad041aa",
+      external: true,
+    },
+    {
+      id: "eta",
+      name: "Delivery Estimate",
+      description:
+        "Hyper-local pincode delivery estimates integrated directly into checkout.",
+      icon: MapPin,
+      color: "text-brand-orange",
+      bg: "bg-brand-orange/10",
+      border: "border-brand-orange/20",
+      href: "https://delivery-estimate-api.onrender.com/dashboard/index.html?clientId=4229d41b-3055-49d7-9c09-6e0e6e4dae71",
+      external: true,
+    },
+    {
+      id: "whatsapp",
+      name: "WhatsApp & Communications",
+      description:
+        "Monitor messaging analytics, manage campaigns, and reply to customers.",
+      icon: MessageCircle,
+      color: "text-green-500",
+      bg: "bg-green-500/10",
+      border: "border-green-500/20",
+      href: "/client-dashboard/whatsapp",
+      external: false,
+    },
+  ];
+
   return (
     <div className="space-y-8">
       <FadeInUp>
         <div>
           <h1 className="text-3xl font-bold tracking-tight text-foreground">
-            Welcome to your Portal
+            Product Launchpad
           </h1>
           <p className="mt-2 text-muted-foreground text-lg max-w-2xl">
-            This temporary dashboard provides isolated access to our
-            production-ready features.
+            Welcome to your AutoShipp portal. Select a product to view its
+            dashboard.
           </p>
         </div>
       </FadeInUp>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* Feature 1 */}
-        <FadeInUp delay={0.1}>
-          <div className="bg-card rounded-2xl border border-border/50 shadow-sm overflow-hidden h-full flex flex-col">
-            <div className="p-6 border-b border-border/40 bg-muted/20 flex items-start justify-between gap-4">
-              <div>
-                <h2 className="text-xl font-bold text-foreground flex items-center gap-2">
-                  <MapPin className="w-5 h-5 text-brand-orange" />
-                  Hyper-Local Pincode ETA
-                </h2>
-                <p className="mt-1 text-sm text-muted-foreground">
-                  Live delivery estimate widget integrated directly into your
-                  checkout flow.
-                </p>
-              </div>
-              <div className="px-2 py-1 bg-green-500/10 border border-green-500/20 text-green-600 rounded text-xs font-semibold uppercase tracking-wider whitespace-nowrap">
-                Live & Active
-              </div>
-            </div>
-            <div className="p-6 flex-1 flex flex-col justify-center bg-muted/5 relative">
-              {/* The ETA Widget mounts here via its internal ID */}
-              <EtaWidget isActive={true} />
-            </div>
-          </div>
-        </FadeInUp>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {products.map((product, index) => {
+          const Icon = product.icon;
+          return (
+            <FadeInUp key={product.id} delay={index * 0.1}>
+              <a
+                href={product.href}
+                target={product.external ? "_blank" : undefined}
+                rel={product.external ? "noopener noreferrer" : undefined}
+                className="group block h-full bg-card rounded-2xl border border-border/50 shadow-sm overflow-hidden hover:shadow-md transition-all duration-300 hover:border-border"
+              >
+                <div className="p-6 h-full flex flex-col">
+                  <div className="flex items-center gap-4 mb-4">
+                    <div
+                      className={`p-3 rounded-xl ${product.bg} ${product.border} border`}
+                    >
+                      <Icon className={`w-6 h-6 ${product.color}`} />
+                    </div>
+                    <h2 className="text-xl font-bold text-foreground group-hover:text-brand-orange transition-colors">
+                      {product.name}
+                    </h2>
+                  </div>
+                  <p className="text-muted-foreground">{product.description}</p>
 
-        {/* Feature 2 (Communication Analytics & Messaging) */}
-        <FadeInUp delay={0.2}>
-          <FeatureTwoDashboard />
-        </FadeInUp>
+                  <div className="mt-auto pt-6 flex items-center text-sm font-medium text-brand-orange group-hover:underline">
+                    {product.external ? "Open Dashboard ↗" : "View Dashboard →"}
+                  </div>
+                </div>
+              </a>
+            </FadeInUp>
+          );
+        })}
       </div>
     </div>
   );

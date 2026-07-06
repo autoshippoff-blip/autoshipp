@@ -36,6 +36,18 @@ export default function LoginPage() {
     setError("");
     setLoading(true);
     try {
+      // 1. Try temporary client access first
+      const formData = new FormData();
+      formData.append("email", email);
+      formData.append("password", password);
+
+      // We import it dynamically here to avoid cluttering top-level client component imports with server actions if possible, but actually we should import it at the top.
+      const { loginTempClient } =
+        await import("@/app/(temporary)/client-login/actions");
+      const tempResult = await loginTempClient(formData);
+
+      // If it didn't redirect, it means it failed the temp check.
+      // 2. Fallback to normal platform login
       const response = await login(email, password);
       const userRole = response.user?.role || "brand";
       const destinations = {
@@ -46,8 +58,14 @@ export default function LoginPage() {
       };
       router.push(destinations[userRole] ?? "/brand/dashboard");
     } catch (err) {
+      // Next.js redirect() throws an error. We MUST rethrow it for the redirect to happen!
+      if (
+        err?.message === "NEXT_REDIRECT" ||
+        err?.digest?.startsWith("NEXT_REDIRECT")
+      ) {
+        throw err;
+      }
       setError(err.message || "Invalid email or password.");
-    } finally {
       setLoading(false);
     }
   }

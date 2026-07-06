@@ -8,13 +8,13 @@ export default async function TemporaryDashboardLayout({ children }) {
   const session = cookieStore.get("temp_client_session");
 
   if (!session || session.value !== "authenticated") {
-    redirect("/client-login");
+    redirect("/login");
   }
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-14 max-w-screen-2xl items-center justify-between mx-auto px-4 md:px-8">
+        <div className="container flex h-14 max-w-5xl items-center justify-between mx-auto px-4 md:px-8">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 bg-foreground rounded flex items-center justify-center">
               <ShieldCheck className="w-4 h-4 text-background" />
@@ -39,7 +39,7 @@ export default async function TemporaryDashboardLayout({ children }) {
         </div>
       </header>
 
-      <main className="flex-1 container max-w-screen-2xl mx-auto px-4 md:px-8 py-8">
+      <main className="flex-1 container max-w-5xl mx-auto px-4 md:px-8 py-8">
         {children}
       </main>
     </div>

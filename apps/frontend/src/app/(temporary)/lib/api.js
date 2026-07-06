@@ -112,16 +112,25 @@ async function fetchApi(endpoint, options = {}) {
     const res = await fetch(url, {
       ...options,
       headers,
-      credentials: "include",
     });
+
+    let data;
+    const contentType = res.headers.get("content-type");
+    if (contentType && contentType.includes("application/json")) {
+      data = await res.json();
+    }
+
     if (!res.ok) {
-      throw new Error(`API error: ${res.status}`);
+      const errorMessage =
+        data?.error || data?.message || `API error: ${res.status}`;
+      throw new Error(errorMessage);
     }
-    const data = await res.json();
-    if (!data.success) {
-      throw new Error(data.message || "API reported failure");
+
+    if (data && !data.success) {
+      throw new Error(data.error || data.message || "API reported failure");
     }
-    return data.data;
+
+    return data;
   } catch (err) {
     if (TEMP_CONFIG.USE_MOCK_API) {
       console.warn(
@@ -136,27 +145,27 @@ async function fetchApi(endpoint, options = {}) {
 // 1. Dashboard Analytics
 export async function getWhatsAppAnalytics(brandId = TEMP_CONFIG.BRAND_ID) {
   if (TEMP_CONFIG.USE_MOCK_API) return MOCK_DATA.whatsapp;
-  const data = await fetchApi(`/communication/analytics/whatsapp`);
-  return data || MOCK_DATA.whatsapp;
+  const res = await fetchApi(`/dashboard/${brandId}/whatsapp`);
+  return res?.data || MOCK_DATA.whatsapp;
 }
 
 export async function getCallAnalytics(brandId = TEMP_CONFIG.BRAND_ID) {
   if (TEMP_CONFIG.USE_MOCK_API) return MOCK_DATA.calls;
-  const data = await fetchApi(`/communication/analytics/calls`);
-  return data || MOCK_DATA.calls;
+  const res = await fetchApi(`/dashboard/${brandId}/calls`);
+  return res?.data || MOCK_DATA.calls;
 }
 
 export async function getRecentActivity(brandId = TEMP_CONFIG.BRAND_ID) {
   if (TEMP_CONFIG.USE_MOCK_API) return MOCK_DATA.activity;
-  const data = await fetchApi(`/communication/analytics/activity?limit=20`);
-  return data || MOCK_DATA.activity;
+  const res = await fetchApi(`/dashboard/${brandId}/activity?limit=20`);
+  return res?.data || MOCK_DATA.activity;
 }
 
 // 2. Campaign Management
 export async function getCampaigns(brandId = TEMP_CONFIG.BRAND_ID) {
   if (TEMP_CONFIG.USE_MOCK_API) return MOCK_DATA.campaigns;
-  const data = await fetchApi(`/communication/campaigns`);
-  return data || MOCK_DATA.campaigns;
+  const res = await fetchApi(`/campaigns?brandId=${brandId}`);
+  return res?.campaigns || res?.data || MOCK_DATA.campaigns;
 }
 
 // Read-only implemented first for campaigns
@@ -165,7 +174,7 @@ export async function createCampaign(payload) {
     console.log("Mock: createCampaign payload", payload);
     return { success: true };
   }
-  return fetchApi(`/communication/campaigns`, {
+  return fetchApi(`/campaigns`, {
     method: "POST",
     body: JSON.stringify(payload),
   });
@@ -174,21 +183,21 @@ export async function createCampaign(payload) {
 // 3. Template Management
 export async function getTemplates(brandId = TEMP_CONFIG.BRAND_ID) {
   if (TEMP_CONFIG.USE_MOCK_API) return MOCK_DATA.templates;
-  const data = await fetchApi(`/communication/templates`);
-  return data || MOCK_DATA.templates;
+  const res = await fetchApi(`/templates/${brandId}`);
+  return res?.templates || res?.data || MOCK_DATA.templates;
 }
 
 // 4. Inbox
 export async function getInboxCustomers(brandId = TEMP_CONFIG.BRAND_ID) {
   if (TEMP_CONFIG.USE_MOCK_API) return MOCK_DATA.inbox;
-  const data = await fetchApi(`/communication/inbox`);
-  return data || MOCK_DATA.inbox;
+  const res = await fetchApi(`/inbox/${brandId}`);
+  return res?.inbox || res?.data || MOCK_DATA.inbox;
 }
 
 export async function getChatHistory(phone, brandId = TEMP_CONFIG.BRAND_ID) {
   if (TEMP_CONFIG.USE_MOCK_API) return MOCK_DATA.chat;
-  const data = await fetchApi(`/communication/inbox/chat/${phone}`);
-  return data || MOCK_DATA.chat;
+  const res = await fetchApi(`/inbox/${brandId}/chat/${phone}`);
+  return res?.chat || res?.messages || res?.data || MOCK_DATA.chat;
 }
 
 export async function sendMessage(
@@ -200,7 +209,7 @@ export async function sendMessage(
     console.log("Mock: sendMessage", { phone, message });
     return { success: true };
   }
-  return fetchApi(`/communication/inbox/send`, {
+  return fetchApi(`/inbox/${brandId}/send`, {
     method: "POST",
     body: JSON.stringify({ phone, message }),
   });

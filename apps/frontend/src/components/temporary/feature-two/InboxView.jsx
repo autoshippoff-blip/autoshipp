@@ -16,24 +16,28 @@ export function InboxView() {
   const [error, setError] = useState(null);
   const [selectedPhone, setSelectedPhone] = useState(null);
 
-  const fetchCustomers = async () => {
+  const fetchCustomers = async (silent = false) => {
     try {
+      if (!silent) setLoading(true);
       const res = await getInboxCustomers();
       setCustomers(res);
     } catch (err) {
-      setError(err);
+      if (!silent) setError(err);
     } finally {
-      setLoading(false);
+      if (!silent) setLoading(false);
     }
   };
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchCustomers();
+    // Poll every 5 seconds for new inbound customers
+    const interval = setInterval(() => fetchCustomers(true), 5000);
+    return () => clearInterval(interval);
   }, []);
 
-  if (loading) return <LoadingState message="Loading inbox..." />;
-  if (error) return <ErrorState error={error} onRetry={fetchCustomers} />;
+  if (loading && !customers) return <LoadingState message="Loading inbox..." />;
+  if (error && !customers)
+    return <ErrorState error={error} onRetry={() => fetchCustomers(false)} />;
 
   if (!customers || customers.length === 0) {
     return (
@@ -100,20 +104,26 @@ function ChatPanel({ phone }) {
   const [message, setMessage] = useState("");
   const [sending, setSending] = useState(false);
 
-  const fetchHistory = useCallback(async () => {
-    try {
-      const res = await getChatHistory(phone);
-      setHistory(res);
-    } catch (err) {
-      setError(err);
-    } finally {
-      setLoading(false);
-    }
-  }, [phone]);
+  const fetchHistory = useCallback(
+    async (silent = false) => {
+      try {
+        if (!silent) setLoading(true);
+        const res = await getChatHistory(phone);
+        setHistory(res);
+      } catch (err) {
+        if (!silent) setError(err);
+      } finally {
+        if (!silent) setLoading(false);
+      }
+    },
+    [phone],
+  );
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchHistory();
+    // Poll every 5 seconds for new inbound chat messages
+    const interval = setInterval(() => fetchHistory(true), 5000);
+    return () => clearInterval(interval);
   }, [fetchHistory]);
 
   const handleSend = async (e) => {
@@ -140,8 +150,10 @@ function ChatPanel({ phone }) {
     }
   };
 
-  if (loading) return <LoadingState message="Loading conversation..." />;
-  if (error) return <ErrorState error={error} onRetry={fetchHistory} />;
+  if (loading && !history)
+    return <LoadingState message="Loading conversation..." />;
+  if (error && !history)
+    return <ErrorState error={error} onRetry={() => fetchHistory(false)} />;
 
   return (
     <div className="flex-1 flex flex-col h-full">

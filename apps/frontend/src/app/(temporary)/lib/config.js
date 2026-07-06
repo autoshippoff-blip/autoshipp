@@ -4,7 +4,9 @@ export const TEMP_CONFIG = {
   BRAND_ID: process.env.NEXT_PUBLIC_TEMP_BRAND_ID || "momzcradle",
 
   // Base URL for the API
-  API_BASE_URL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001",
+  API_BASE_URL:
+    process.env.NEXT_PUBLIC_API_URL ||
+    "https://shipping-automation.onrender.com/api/v1",
 
   // Mock Mode: Defaulting to true so the dashboard remains demonstrable.
   USE_MOCK_API: false,

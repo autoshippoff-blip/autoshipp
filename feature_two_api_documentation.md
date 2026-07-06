@@ -2,7 +2,7 @@
 
 This document outlines the entire suite of REST APIs available for the Frontend team to build the Autoshipp SaaS platform.
 
-**Base URL**: `https://api.autoshipp.in/api/v1`
+**Base URL**: `https://shipping-automation.onrender.com/api/v1`
 **Authentication**: Standard session or bearer token (if applicable).
 
 ---

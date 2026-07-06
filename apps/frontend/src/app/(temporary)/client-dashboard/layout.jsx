@@ -1,13 +1,14 @@
-import { cookies } from 'next/headers';
-import { redirect } from 'next/navigation';
-import { logoutTempClient } from '../client-login/actions';
-import { LogOut, LayoutDashboard, ShieldCheck } from 'lucide-react';
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+import { logoutTempClient } from "../client-login/actions";
+import { LogOut, LayoutDashboard, ShieldCheck } from "lucide-react";
 
-export default function TemporaryDashboardLayout({ children }) {
-  const session = cookies().get('temp_client_session');
+export default async function TemporaryDashboardLayout({ children }) {
+  const cookieStore = await cookies();
+  const session = cookieStore.get("temp_client_session");
 
-  if (!session || session.value !== 'authenticated') {
-    redirect('/client-login');
+  if (!session || session.value !== "authenticated") {
+    redirect("/client-login");
   }
 
   return (
@@ -18,15 +19,17 @@ export default function TemporaryDashboardLayout({ children }) {
             <div className="w-8 h-8 bg-foreground rounded flex items-center justify-center">
               <ShieldCheck className="w-4 h-4 text-background" />
             </div>
-            <span className="font-bold tracking-tight text-foreground">Client Portal</span>
+            <span className="font-bold tracking-tight text-foreground">
+              Client Portal
+            </span>
             <span className="ml-2 text-[10px] font-bold bg-brand-orange/15 text-brand-orange px-2 py-0.5 rounded-full uppercase tracking-wider hidden sm:inline-block">
               Temporary Access
             </span>
           </div>
-          
+
           <form action={logoutTempClient}>
-            <button 
-              type="submit" 
+            <button
+              type="submit"
               className="flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
             >
               <LogOut className="w-4 h-4" />
@@ -35,7 +38,7 @@ export default function TemporaryDashboardLayout({ children }) {
           </form>
         </div>
       </header>
-      
+
       <main className="flex-1 container max-w-screen-2xl mx-auto px-4 md:px-8 py-8">
         {children}
       </main>

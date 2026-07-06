@@ -22,11 +22,10 @@ export default function RootLayout({ children }) {
     <html
       lang="en"
       className={`${outfit.variable} ${geistMono.variable} font-sans h-full antialiased`}
+      suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col">
-        <AuthProvider>
-          {children}
-        </AuthProvider>
+      <body className="min-h-full flex flex-col" suppressHydrationWarning>
+        <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
   );

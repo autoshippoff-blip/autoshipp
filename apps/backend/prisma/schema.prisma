@@ -128,6 +128,9 @@ model Organization {
   wallets             Wallet[]
   parentRelationships OrganizationRelationship[] @relation("ChildOrganization")
   childRelationships  OrganizationRelationship[] @relation("ParentOrganization")
+  communicationCampaigns     CommunicationCampaign[]
+  communicationTemplates     CommunicationTemplate[]
+  communicationConversations CommunicationConversation[]
 
   @@map("organizations")
 }
@@ -408,3 +411,107 @@ model WalletStatementRun {
 
   @@map("wallet_statement_runs")
 }
+
+enum CampaignStatus {
+  DRAFT
+  QUEUED
+  PROCESSING
+  COMPLETED
+  FAILED
+  CANCELED
+}
+
+enum TemplateStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  DELETED
+}
+
+enum MessageDirection {
+  INBOUND
+  OUTBOUND
+}
+
+enum MessageStatus {
+  QUEUED
+  SENT
+  DELIVERED
+  READ
+  FAILED
+}
+
+model CommunicationCampaign {
+  id             String         @id @default(uuid()) @db.Uuid
+  organizationId String         @map("organization_id") @db.Uuid
+  templateId     String         @map("template_id") @db.Uuid
+  name           String         @db.VarChar(255)
+  type           String         @db.VarChar(50)
+  status         CampaignStatus @default(QUEUED)
+  
+  sentCount      Int            @default(0) @map("sent_count")
+  deliveredCount Int            @default(0) @map("delivered_count")
+  readCount      Int            @default(0) @map("read_count")
+  failedCount    Int            @default(0) @map("failed_count")
+  
+  createdAt      DateTime       @default(now()) @map("created_at")
+  updatedAt      DateTime       @updatedAt @map("updated_at")
+
+  organization Organization           @relation(fields: [organizationId], references: [id])
+  template     CommunicationTemplate  @relation(fields: [templateId], references: [id])
+  messages     CommunicationMessage[]
+
+  @@index([organizationId])
+  @@map("communications_campaigns")
+}
+
+model CommunicationTemplate {
+  id             String         @id @default(uuid()) @db.Uuid
+  organizationId String         @map("organization_id") @db.Uuid
+  name           String         @db.VarChar(255)
+  category       String         @db.VarChar(50)
+  language       String         @db.VarChar(20)
+  status         TemplateStatus @default(PENDING)
+  components     Json           @db.JsonB
+  createdAt      DateTime       @default(now()) @map("created_at")
+
+  organization Organization            @relation(fields: [organizationId], references: [id])
+  campaigns    CommunicationCampaign[]
+
+  @@unique([organizationId, name])
+  @@map("communications_templates")
+}
+
+model CommunicationConversation {
+  id               String   @id @default(uuid()) @db.Uuid
+  organizationId   String   @map("organization_id") @db.Uuid
+  phoneNumber      String   @map("phone_number") @db.VarChar(50)
+  lastMessage      String?  @map("last_message") @db.Text
+  lastMessageTime  DateTime @default(now()) @map("last_message_time")
+  messageCount     Int      @default(0) @map("message_count")
+
+  organization Organization           @relation(fields: [organizationId], references: [id])
+  messages     CommunicationMessage[]
+
+  @@unique([organizationId, phoneNumber])
+  @@index([organizationId, lastMessageTime(sort: Desc)])
+  @@map("communications_conversations")
+}
+
+model CommunicationMessage {
+  id             String           @id @default(uuid()) @db.Uuid
+  conversationId String           @map("conversation_id") @db.Uuid
+  campaignId     String?          @map("campaign_id") @db.Uuid
+  externalId     String?          @map("external_id") @db.VarChar(255)
+  direction      MessageDirection
+  status         MessageStatus    @default(QUEUED)
+  content        String           @db.Text
+  timestamp      DateTime         @default(now())
+
+  conversation CommunicationConversation  @relation(fields: [conversationId], references: [id])
+  campaign     CommunicationCampaign?     @relation(fields: [campaignId], references: [id])
+
+  @@index([externalId])
+  @@map("communications_messages")
+}
+

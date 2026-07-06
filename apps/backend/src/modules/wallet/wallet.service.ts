@@ -5,7 +5,11 @@ import {
   NotImplementedException,
 } from '@nestjs/common';
 import { PrismaService } from '../../prisma.service';
-import { WalletType, TransactionDirection } from '@prisma/client';
+import {
+  WalletType,
+  TransactionDirection,
+  RelationshipType,
+} from '@prisma/client';
 import { Prisma } from '@prisma/client';
 
 @Injectable()
@@ -58,13 +62,38 @@ export class WalletService {
       return directWallet;
     }
 
-    // The architecture (AES-014 / AES-010) explicitly requires traversing the organization hierarchy
-    // to find an aggregator's wallet if a direct wallet is missing.
-    // Because AES-010 (OrganizationRelationship) is not yet implemented, we cannot safely assume
-    // the wallet does not exist (wallet-not-found) as it might belong to a parent aggregator.
-    // Therefore, hierarchy traversal is a blocked prerequisite and must be explicitly rejected
-    // until AES-010 is available.
-    throw new NotImplementedException('hierarchy-traversal-blocked');
+    let currentOrgId = organizationId;
+    const visited = new Set<string>();
+
+    while (true) {
+      if (visited.has(currentOrgId)) {
+        throw new NotFoundException('wallet-not-found');
+      }
+      visited.add(currentOrgId);
+
+      const rel = await this.prisma.organizationRelationship.findFirst({
+        where: {
+          childOrganizationId: currentOrgId,
+          relationshipType: RelationshipType.MANAGES,
+          active: true,
+        },
+      });
+
+      if (!rel) {
+        throw new NotFoundException('wallet-not-found');
+      }
+
+      currentOrgId = rel.parentOrganizationId;
+
+      const parentWallet = await this.prisma.wallet.findFirst({
+        where: { organizationId: currentOrgId, type: WalletType.PRIMARY },
+        include: { balance: true },
+      });
+
+      if (parentWallet) {
+        return parentWallet;
+      }
+    }
   }
 
   async getBalance(walletId: string) {

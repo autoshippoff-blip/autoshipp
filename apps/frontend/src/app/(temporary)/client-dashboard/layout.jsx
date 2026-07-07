@@ -20,7 +20,7 @@ export default async function TemporaryDashboardLayout({ children }) {
               <ShieldCheck className="w-4 h-4 text-background" />
             </div>
             <span className="font-bold tracking-tight text-foreground">
-              Client Portal
+              Momzcradle
             </span>
             <span className="ml-2 text-[10px] font-bold bg-brand-orange/15 text-brand-orange px-2 py-0.5 rounded-full uppercase tracking-wider hidden sm:inline-block">
               Temporary Access

@@ -25,7 +25,7 @@ import {
   Legend,
 } from "recharts";
 
-const COLORS = ["#10b981", "#3b82f6", "#f43f5e", "#f59e0b"]; // Emerald (Delivered), Blue (Read), Rose (Failed), Amber (Transit)
+const COLORS = ["#10b981", "#3b82f6", "#f43f5e", "#f59e0b"]; // Emerald (Delivered), Blue (Read), Rose (Failed), Amber (Sent)
 
 // Helper to generate realistic-looking time series data based on total volume
 const generateTimeSeries = (total) => {
@@ -119,13 +119,6 @@ export function AnalyticsView() {
       };
     }
   }
-
-  const totalMessages =
-    (displayWa?.QUEUED || 0) +
-    (displayWa?.SENT || 0) +
-    (displayWa?.DELIVERED || 0) +
-    (displayWa?.READ || 0) +
-    (displayWa?.FAILED || 0);
 
   return (
     <div className="space-y-6 animate-in fade-in duration-500">
@@ -225,8 +218,8 @@ export function AnalyticsView() {
         <h3 className="text-lg font-medium text-foreground mb-4">
           WhatsApp Performance
         </h3>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
-          <StatCard title="Total Messages" value={totalMessages} />
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+          <StatCard title="Sent" value={displayWa?.SENT || 0} />
           <StatCard
             title="Delivered"
             value={displayWa?.DELIVERED || 0}
@@ -246,14 +239,6 @@ export function AnalyticsView() {
             change="-2%"
             className="border-destructive/20"
           />
-        </div>
-        <div className="text-sm text-muted-foreground bg-muted/30 p-4 rounded-lg border border-border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 mb-8">
-          <span className="font-medium text-foreground">
-            In Transit: {displayWa?.SENT || 0}
-          </span>
-          <span className="text-xs">
-            *Messages sent but awaiting delivery confirmation.
-          </span>
         </div>
 
         {/* Charts Section */}
@@ -339,7 +324,7 @@ export function AnalyticsView() {
                       { name: "Delivered", value: displayWa?.DELIVERED || 0 },
                       { name: "Read", value: displayWa?.READ || 0 },
                       { name: "Failed", value: displayWa?.FAILED || 0 },
-                      { name: "In Transit", value: displayWa?.SENT || 0 },
+                      { name: "Sent", value: displayWa?.SENT || 0 },
                     ].filter((d) => d.value > 0)}
                     cx="50%"
                     cy="50%"
@@ -353,7 +338,7 @@ export function AnalyticsView() {
                       { name: "Delivered", value: displayWa?.DELIVERED || 0 },
                       { name: "Read", value: displayWa?.READ || 0 },
                       { name: "Failed", value: displayWa?.FAILED || 0 },
-                      { name: "In Transit", value: displayWa?.SENT || 0 },
+                      { name: "Sent", value: displayWa?.SENT || 0 },
                     ]
                       .filter((d) => d.value > 0)
                       .map((entry, index) => (

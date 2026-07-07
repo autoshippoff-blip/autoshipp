@@ -5,7 +5,7 @@ export const TEMP_CONFIG = {
 
   // Base URL for the API
   API_BASE_URL:
-    process.env.NEXT_PUBLIC_API_URL ||
+    process.env.NEXT_PUBLIC_FEATURE_TWO_API_URL ||
     "https://shipping-automation.onrender.com/api/v1",
 
   // Mock Mode: Defaulting to true so the dashboard remains demonstrable.

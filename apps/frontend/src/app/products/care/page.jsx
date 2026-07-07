@@ -6,7 +6,7 @@ import Header from '../../../components/Header';
 import Footer from '../../../components/Footer';
 import BookDemoPopup from '../../../components/BookDemoPopup';
 import { FadeInUp, ScaleIn, StaggerContainer, StaggerItem } from '../../../components/AnimatedUI';
-import { ArrowRight, Headset, Phone, Bot, Clock, TrendingUp, Zap, Sparkles, MessageSquare, Globe, Volume2, CheckCircle2, ShieldCheck } from 'lucide-react';
+import { ArrowRight, Headset, Phone, Bot, Clock, TrendingUp, Zap, Sparkles, MessageSquare, Globe, Volume2, CheckCircle2, ShieldCheck, Play, Pause } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export default function CareProductPage() {
@@ -18,20 +18,50 @@ export default function CareProductPage() {
   const audioRef = useRef(null);
 
   const audioFiles = {
-    Hindi: '/audio/hindi.mp3',
-    Tamil: '/audio/tamil.mp3',
-    Telugu: '/audio/telugu.mp3',
-    English: '/audio/english.mp3',
+    Hindi: '/audio/Hindi.mpeg',
+    Tamil: '/audio/Tamil.mpeg',
+    Telugu: '/audio/Telungu.mpeg',
+    English: '/audio/English.mpeg',
   };
 
   const transcripts = {
     Hindi: 'Namaste! Aapka order #ORD-992 aaj shaam 5 baje se pehle delivery ke liye scheduled hai.',
-    Tamil: 'Vanakkam! Ungaladhu order #ORD-992 indru maalai 5 manikkul delivery seiyya scheduled seiyapattulladhu.',
+    Tamil: 'Vanakkam! Ungaludaiya order #ORD-992 indru kaalai paththu manikku delivery seiyya scheduled seiyya pattulladhu.',
     Telugu: 'Namaskaram! Mee order #ORD-992 eeroju saayantram 5 gantalalopu delivery ki schedule cheyabadindhi.',
     English: 'Hello! Your shipment #ORD-992 is scheduled for courier delivery today before 5 PM.',
   };
 
+  const handlePlayPause = () => {
+    if (!audioRef.current) {
+      const audio = new Audio(audioFiles[selectedLang]);
+      audioRef.current = audio;
+      audio.onended = () => setIsPlaying(false);
+    } else if (audioRef.current.src && !audioRef.current.src.endsWith(audioFiles[selectedLang])) {
+      audioRef.current.pause();
+      const audio = new Audio(audioFiles[selectedLang]);
+      audioRef.current = audio;
+      audio.onended = () => setIsPlaying(false);
+    }
+
+    if (isPlaying) {
+      audioRef.current.pause();
+      setIsPlaying(false);
+    } else {
+      audioRef.current.play()
+        .then(() => setIsPlaying(true))
+        .catch((err) => {
+          console.log('Playback failed:', err);
+          setIsPlaying(false);
+        });
+    }
+  };
+
   const handleLangChange = (lang) => {
+    if (lang === selectedLang) {
+      handlePlayPause();
+      return;
+    }
+
     setSelectedLang(lang);
     
     if (audioRef.current) {
@@ -58,6 +88,7 @@ export default function CareProductPage() {
     if (audioRef.current) {
       audioRef.current.pause();
       audioRef.current.currentTime = 0;
+      audioRef.current = null;
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setIsPlaying(false);
     }
@@ -191,9 +222,21 @@ export default function CareProductPage() {
                             </div>
 
                             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 p-4 rounded-xl bg-white/5 border border-white/10">
-                              <div className="w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center border border-emerald-500/30 animate-pulse shrink-0">
-                                <Volume2 className="w-6 h-6" />
-                              </div>
+                              <button
+                                onClick={handlePlayPause}
+                                aria-label={isPlaying ? "Pause audio" : "Play audio"}
+                                className={`w-12 h-12 rounded-full flex items-center justify-center border shrink-0 transition-all duration-300 cursor-pointer ${
+                                  isPlaying 
+                                    ? 'bg-emerald-500 text-slate-900 border-emerald-400 shadow-lg shadow-emerald-500/20' 
+                                    : 'bg-white/10 text-white border-white/20 hover:bg-white/20'
+                                }`}
+                              >
+                                {isPlaying ? (
+                                  <Pause className="w-5 h-5 fill-current" />
+                                ) : (
+                                  <Play className="w-5 h-5 fill-current ml-0.5" />
+                                )}
+                              </button>
                               <div className="flex-1">
                                 <p className="text-xs font-extrabold text-white">Autoshipp AI Voice ({selectedLang})</p>
                                 <p className="text-[11px] text-emerald-300 font-mono">&quot;{transcripts[selectedLang]}&quot;</p>

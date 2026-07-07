@@ -7,7 +7,7 @@ import Footer from '../../../components/Footer';
 import BookDemoPopup from '../../../components/BookDemoPopup';
 import ConnectToMetaButton from '../../../components/ConnectToMetaButton';
 import { FadeInUp, ScaleIn, StaggerContainer, StaggerItem } from '../../../components/AnimatedUI';
-import { ArrowRight, CheckCircle2, MessageSquare, Zap, Activity, Users, Sparkles, Send, BellRing, Target, BarChart3 } from 'lucide-react';
+import { ArrowRight, CheckCircle2, MessageSquare, Zap, Activity, Users, Sparkles, Send, BellRing, Target, BarChart3, ExternalLink, Plus, Loader2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export default function EngageProductPage() {
@@ -23,53 +23,89 @@ export default function EngageProductPage() {
     { title: 'AI RFM Audience Clustering', desc: 'Automatically segment your customer base into VIPs, Churn Risks, and Discount Seekers for maximum campaign ROAS.', icon: <Users className="w-6 h-6 text-brand-navy dark:text-amber-400" /> }
   ];
 
-  const campaignData = {
-    'High AOV Repeaters': {
-      audienceName: 'High AOV Repeaters',
-      estimatedCustomers: '12,450',
-      campaignObjective: 'VIP Exclusive Product Launch Drop',
-      expectedCtr: '18.6%',
-      expectedConversion: '4.8%',
-      expectedRevenue: '₹8,96,400',
-      message: 'Hey Rahul! 🌟 Because you’re in our Top 5% shoppers, we’ve unlocked an exclusive 20% OFF on the new Monochrome Sneaker drop. Tap below to claim before stock runs out!',
-      offerBadge: 'VIP EXCLUSIVE 20% OFF',
-      discountCode: 'MONOVIP20',
-      brandLogo: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=120&auto=format&fit=crop&q=60&ixlib=rb-4.0.3',
-      customerName: 'Rahul Sharma',
+  // Dashboard & Creator states
+  const [dashboardView, setDashboardView] = useState('list'); // list | create
+  const [isLaunching, setIsLaunching] = useState(false);
+  const [launchProgress, setLaunchProgress] = useState(0);
+
+  const [campaignList, setCampaignList] = useState([
+    {
+      id: 'cmp-001',
+      brandName: 'Monochrome Footwear',
+      campaignName: 'VIP Sneaker Launch Drop',
+      bannerImage: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&auto=format&fit=crop&q=80',
+      message: `⭐ VIP Early Access Launch ⭐\n\n👟 *Monochrome Premium Club* brings an exclusive, limited-edition early release to our Top 5% shoppers!\n\n✨ *Experience premium luxury with:*\n🤖 Handcrafted Italian Leather\n👀 Ultra-Responsive Cushioning\n😴 Orthopedic Memory Foam\n🚨 Weatherproof Shield Protection\n\n🎁 Powered by your exclusive 20% discount code: *MONOVIP20*`,
       ctaText: 'Claim 20% Discount',
-      deliveryCta: '⚡ Instant WhatsApp Delivery via Autoshipp'
+      sent: 12450,
+      delivered: 12201,
+      clicked: 2315,
+      ctr: '18.6%',
+      status: 'Completed',
+      date: '2026-06-28'
     },
-    'Cart Abandoners (24h)': {
-      audienceName: 'Cart Abandoners (24h)',
-      estimatedCustomers: '4,820',
-      campaignObjective: 'Abandoned Cart Recovery & Checkout Conversion',
-      expectedCtr: '24.2%',
-      expectedConversion: '9.5%',
-      expectedRevenue: '₹4,12,000',
-      message: 'Hi Sneha! We noticed you left some items in your cart. We’ve reserved them for the next 1 hour and applied a flat 10% discount to help you finish checkout!',
-      offerBadge: 'CART RESERVED 10% OFF',
-      discountCode: 'RESTORE10',
-      brandLogo: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=120&auto=format&fit=crop&q=60&ixlib=rb-4.0.3',
-      customerName: 'Sneha Patel',
-      ctaText: 'Complete My Purchase',
-      deliveryCta: '⚡ Secure Checkout Link via Autoshipp'
-    },
-    'Inactive VIPs': {
-      audienceName: 'Inactive VIPs',
-      estimatedCustomers: '8,900',
-      campaignObjective: 'Customer Winback & Re-engagement Campaign',
-      expectedCtr: '14.8%',
-      expectedConversion: '3.2%',
-      expectedRevenue: '₹5,70,000',
-      message: 'Hello Vikram! It’s been a while since your last purchase. To welcome you back, here is a special ₹500 credit valid on our entire collection this weekend.',
-      offerBadge: '₹500 WELCOME BACK CREDIT',
-      discountCode: 'WELCOME500',
-      brandLogo: 'https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=120&auto=format&fit=crop&q=60&ixlib=rb-4.0.3',
-      customerName: 'Vikram Singh',
-      ctaText: 'Use My ₹500 Credit',
-      deliveryCta: '⚡ 1-Click Store Sync via Autoshipp'
+    {
+      id: 'cmp-002',
+      brandName: 'Urban Outfitters',
+      campaignName: 'Summer Clearance Sale',
+      bannerImage: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&auto=format&fit=crop&q=80',
+      message: `⭐ Summer Clearance Sale ⭐\n\n🛍️ *Urban Outfitters* clearance event is now live! Get up to 50% off on all clothing items.\n\n✨ *Explore summer collections:*\n👕 Cool Linen Shirts\n🩳 Chino Shorts\n🕶️ Premium Sunglasses\n\n🎁 Use coupon code *SUMMER50* for an extra 10% off.`,
+      ctaText: 'Shop Clearance Sale',
+      sent: 8900,
+      delivered: 8620,
+      clicked: 1317,
+      ctr: '14.8%',
+      status: 'Completed',
+      date: '2026-06-15'
     }
+  ]);
+
+  const [formBrandName, setFormBrandName] = useState('(Brand Name)');
+  const [formCampaignName, setFormCampaignName] = useState('New Product Drop');
+  const [formBannerImage, setFormBannerImage] = useState('https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&auto=format&fit=crop&q=80');
+  const [formMessageText, setFormMessageText] = useState(
+    `⭐ VIP Early Access Launch ⭐\n\n👟 *Premium Club* brings an exclusive, limited-edition early release to our Top 5% shoppers!\n\n✨ *Experience premium luxury with:*\n🤖 Handcrafted Italian Leather\n👀 Ultra-Responsive Cushioning\n😴 Orthopedic Memory Foam\n🚨 Weatherproof Shield Protection\n\n🎁 Powered by your exclusive 20% discount code: *MONOVIP20*\n\n⭐ Walk with confidence, style, and unmatched comfort.`
+  );
+  const [formCtaText, setFormCtaText] = useState('Claim 20% Discount');
+  const [formAudienceSize, setFormAudienceSize] = useState('5450');
+
+  const handleLaunchCampaign = (e) => {
+    e.preventDefault();
+    setIsLaunching(true);
+    setLaunchProgress(0);
+
+    const interval = setInterval(() => {
+      setLaunchProgress((prev) => {
+        if (prev >= 100) {
+          clearInterval(interval);
+          setTimeout(() => {
+            const newCampaign = {
+              id: `cmp-${Date.now()}`,
+              brandName: formBrandName,
+              campaignName: formCampaignName,
+              bannerImage: formBannerImage,
+              message: formMessageText,
+              ctaText: formCtaText,
+              sent: parseInt(formAudienceSize) || 5000,
+              delivered: Math.floor((parseInt(formAudienceSize) || 5000) * 0.98),
+              clicked: Math.floor((parseInt(formAudienceSize) || 5000) * 0.15),
+              ctr: '15.0%',
+              status: 'Completed',
+              date: new Date().toISOString().split('T')[0]
+            };
+            setCampaignList([newCampaign, ...campaignList]);
+            setIsLaunching(false);
+            setDashboardView('list');
+          }, 600);
+          return 100;
+        }
+        return prev + 10;
+      });
+    }, 150);
   };
+
+  const totalSent = campaignList.reduce((acc, c) => acc + c.sent, 0);
+  const totalClicked = campaignList.reduce((acc, c) => acc + c.clicked, 0);
+  const avgCtr = totalSent > 0 ? ((totalClicked / totalSent) * 100).toFixed(1) : '0.0';
 
   return (
     <div className={isDark ? 'dark' : ''}>
@@ -137,114 +173,270 @@ export default function EngageProductPage() {
                           transition={{ duration: 0.4 }}
                           className="w-full space-y-6 text-left"
                         >
-                          {/* Audience Target Selector */}
-                          <div className="flex flex-col space-y-2">
-                            <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Audience Target Selector</span>
-                            <div className="flex gap-2 flex-wrap">
-                              {['High AOV Repeaters', 'Cart Abandoners (24h)', 'Inactive VIPs'].map(seg => (
+                          {/* Launch Loader overlay */}
+                          {isLaunching && (
+                            <div className="absolute inset-0 bg-slate-950/85 backdrop-blur-md z-50 flex flex-col items-center justify-center p-6 text-center transition-all duration-300 rounded-[2rem]">
+                              <div className="w-16 h-16 rounded-full bg-brand-orange/15 border border-brand-orange/30 flex items-center justify-center mb-6 animate-pulse">
+                                <Loader2 className="w-8 h-8 text-brand-orange animate-spin" />
+                              </div>
+                              <h3 className="text-xl font-bold text-white mb-2">Launching WhatsApp Campaign</h3>
+                              <p className="text-sm text-slate-400 max-w-sm mb-6">Uploading template details and launching broadcasts to {parseInt(formAudienceSize).toLocaleString()} contacts...</p>
+                              
+                              {/* Progress Bar */}
+                              <div className="w-64 bg-white/10 h-2 rounded-full overflow-hidden mb-2">
+                                <div 
+                                  className="bg-brand-orange h-full transition-all duration-150 ease-out" 
+                                  style={{ width: `${launchProgress}%` }}
+                                />
+                              </div>
+                              <span className="text-xs font-mono text-brand-orange font-bold">{launchProgress}% Sent</span>
+                            </div>
+                          )}
+
+                          {dashboardView === 'list' ? (
+                            <div className="space-y-6">
+                              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                                <div>
+                                  <h3 className="text-xl font-bold text-foreground">Marketing Campaigns</h3>
+                                  <p className="text-xs text-muted-foreground">Monitor delivery, CTR, and launch templates.</p>
+                                </div>
                                 <button
-                                  key={seg}
-                                  onClick={() => setSelectedAudience(seg)}
-                                  className={`px-3 py-1.5 rounded-xl text-xs font-bold cursor-pointer transition-all ${
-                                    selectedAudience === seg
-                                      ? 'bg-brand-orange text-white shadow-md shadow-brand-orange/20'
-                                      : 'bg-white/5 text-slate-400 hover:text-white border border-white/5'
-                                  }`}
+                                  onClick={() => setDashboardView('create')}
+                                  className="px-4 py-2.5 rounded-xl bg-brand-orange hover:bg-brand-orange/90 text-white font-bold text-xs flex items-center justify-center gap-1.5 cursor-pointer shadow-md transition-all shrink-0 self-start"
                                 >
-                                  {seg}
-                                </button>
-                              ))}
-                            </div>
-                          </div>
-
-                          {/* Split View */}
-                          <div className="grid grid-cols-1 md:grid-cols-12 gap-5 items-stretch">
-                            {/* Campaign Preview Info */}
-                            <div className="md:col-span-6 bg-slate-950/60 rounded-2xl p-5 border border-white/10 flex flex-col justify-between">
-                              <div className="space-y-4">
-                                <div className="flex items-center justify-between border-b border-white/10 pb-2.5">
-                                  <span className="text-[10px] font-black uppercase tracking-wider text-slate-400">Campaign Preview</span>
-                                  <span className="text-[9px] font-bold text-success bg-success/15 px-2 py-0.5 rounded">Predictive Model Active</span>
-                                </div>
-                                <div className="grid grid-cols-2 gap-4">
-                                  <div>
-                                    <span className="text-[9px] font-black text-slate-500 uppercase block">Audience Name</span>
-                                    <span className="text-xs font-extrabold text-white">{campaignData[selectedAudience].audienceName}</span>
-                                  </div>
-                                  <div>
-                                    <span className="text-[9px] font-black text-slate-500 uppercase block">Est. Customers</span>
-                                    <span className="text-xs font-extrabold text-white">{campaignData[selectedAudience].estimatedCustomers}</span>
-                                  </div>
-                                </div>
-                                <div>
-                                  <span className="text-[9px] font-black text-slate-500 uppercase block">Campaign Objective</span>
-                                  <span className="text-xs font-semibold text-slate-300 leading-relaxed block">{campaignData[selectedAudience].campaignObjective}</span>
-                                </div>
-                                <div>
-                                  <span className="text-[9px] font-black text-slate-500 uppercase block mb-1">Message Preview</span>
-                                  <div className="p-3 bg-white/5 border border-white/10 rounded-xl text-[11px] text-slate-300 italic leading-relaxed">
-                                    {campaignData[selectedAudience].message}
-                                  </div>
-                                </div>
-                              </div>
-
-                              <div className="grid grid-cols-3 gap-2 border-t border-white/10 pt-4 mt-4">
-                                <div className="bg-white/5 p-2 rounded-xl border border-white/5 text-center">
-                                  <span className="text-[8px] font-black text-slate-500 uppercase block mb-0.5">Expected CTR</span>
-                                  <span className="text-xs font-black text-brand-orange">{campaignData[selectedAudience].expectedCtr}</span>
-                                </div>
-                                <div className="bg-white/5 p-2 rounded-xl border border-white/5 text-center">
-                                  <span className="text-[8px] font-black text-slate-500 uppercase block mb-0.5">Conversion</span>
-                                  <span className="text-xs font-black text-brand-blue">{campaignData[selectedAudience].expectedConversion}</span>
-                                </div>
-                                <div className="bg-white/5 p-2 rounded-xl border border-white/5 text-center">
-                                  <span className="text-[8px] font-black text-slate-500 uppercase block mb-0.5">Est. Revenue</span>
-                                  <span className="text-xs font-black text-emerald-400">{campaignData[selectedAudience].expectedRevenue}</span>
-                                </div>
-                              </div>
-                            </div>
-
-                            {/* WhatsApp conversation preview */}
-                            <div className="md:col-span-6 bg-slate-950 rounded-2xl border border-white/10 p-4 flex flex-col justify-between text-left relative overflow-hidden font-sans">
-                              {/* Header */}
-                              <div className="flex items-center gap-2.5 border-b border-white/10 pb-2.5 mb-3">
-                                <div className="w-8 h-8 rounded-full overflow-hidden border border-white/15 bg-white/10 shrink-0">
-                                  <img
-                                    src={campaignData[selectedAudience].brandLogo}
-                                    alt="Brand Logo"
-                                    className="w-full h-full object-cover"
-                                  />
-                                </div>
-                                <div className="flex-1 min-w-0 text-white">
-                                  <div className="flex items-center gap-1">
-                                    <span className="text-xs font-extrabold truncate">Autoshipp Store</span>
-                                    <span className="w-3 h-3 text-[#25D366] shrink-0 font-bold">✓</span>
-                                  </div>
-                                  <span className="text-[9px] text-white/50 block">Official Account</span>
-                                </div>
-                              </div>
-
-                              {/* Message bubble */}
-                              <div className="bg-[#1f2c34] rounded-2xl rounded-tl-xs p-3.5 text-xs leading-relaxed max-w-[95%] border border-white/5 space-y-2.5 shadow-md text-white">
-                                <div className="rounded-lg overflow-hidden border border-white/5 bg-black/25 flex flex-col items-center p-3 text-center">
-                                  <span className="text-[9px] font-black tracking-widest text-[#25D366] mb-1">{campaignData[selectedAudience].offerBadge}</span>
-                                  <span className="text-xs font-extrabold text-white/95">Code: <code className="bg-white/10 px-2 py-0.5 rounded font-mono text-brand-orange">{campaignData[selectedAudience].discountCode}</code></span>
-                                </div>
-
-                                <p className="text-white/90 leading-relaxed font-normal">
-                                  Hey {campaignData[selectedAudience].customerName}! {campaignData[selectedAudience].message.replace('Hey Rahul!', '').replace('Hi Sneha!', '').replace('Hello Vikram!', '').trim()}
-                                </p>
-
-                                <button className="w-full py-2 bg-[#25D366] hover:bg-[#1fa855] text-white font-extrabold text-[10px] rounded-lg tracking-wide uppercase transition-colors shadow-md">
-                                  👉 {campaignData[selectedAudience].ctaText}
+                                  <Plus className="w-4 h-4" /> Create Campaign
                                 </button>
                               </div>
 
-                              <span className="text-[9px] text-white/40 italic block mt-3 text-center shrink-0">
-                                {campaignData[selectedAudience].deliveryCta}
-                              </span>
+                              {/* Stats Grid */}
+                              <div className="grid grid-cols-3 gap-2 sm:gap-3">
+                                <div className="bg-muted/50 border border-border p-2 sm:p-3 rounded-2xl text-center flex flex-col justify-center min-w-0">
+                                  <span className="text-[8px] sm:text-[9px] font-bold text-muted-foreground uppercase block mb-0.5 truncate">Total Sent</span>
+                                  <span className="text-sm sm:text-lg font-black text-foreground truncate">{totalSent.toLocaleString()}</span>
+                                </div>
+                                <div className="bg-muted/50 border border-border p-2 sm:p-3 rounded-2xl text-center flex flex-col justify-center min-w-0">
+                                  <span className="text-[8px] sm:text-[9px] font-bold text-muted-foreground uppercase block mb-0.5 truncate">Total Clicks</span>
+                                  <span className="text-sm sm:text-lg font-black text-brand-orange truncate">{totalClicked.toLocaleString()}</span>
+                                </div>
+                                <div className="bg-muted/50 border border-border p-2 sm:p-3 rounded-2xl text-center flex flex-col justify-center min-w-0">
+                                  <span className="text-[8px] sm:text-[9px] font-bold text-muted-foreground uppercase block mb-0.5 truncate">Avg. CTR</span>
+                                  <span className="text-sm sm:text-lg font-black text-emerald-600 dark:text-emerald-400 truncate">{avgCtr}%</span>
+                                </div>
+                              </div>
+
+                              {/* Campaigns List */}
+                              <div className="space-y-3 max-h-[340px] overflow-y-auto pr-1">
+                                {campaignList.map((cmp) => (
+                                  <div key={cmp.id} className="bg-background border border-border/80 hover:border-border p-4 rounded-2xl flex flex-col sm:flex-row justify-between sm:items-center gap-4 transition-all">
+                                    <div className="flex gap-3">
+                                      <div className="w-12 h-12 rounded-xl overflow-hidden border border-border shrink-0 bg-slate-900">
+                                        <img src={cmp.bannerImage} className="w-full h-full object-cover" alt="" />
+                                      </div>
+                                      <div>
+                                        <p className="text-xs font-bold text-foreground">{cmp.campaignName}</p>
+                                        <p className="text-[10px] text-muted-foreground font-semibold">Brand: {cmp.brandName}</p>
+                                        <p className="text-[9px] font-mono text-muted-foreground/80 mt-1">{cmp.date}</p>
+                                      </div>
+                                    </div>
+                                    <div className="flex items-center gap-6 justify-between sm:justify-end">
+                                      <div className="text-right">
+                                        <span className="text-[9px] font-bold text-muted-foreground uppercase block">Sent</span>
+                                        <span className="text-xs font-extrabold text-foreground">{cmp.sent.toLocaleString()}</span>
+                                      </div>
+                                      <div className="text-right">
+                                        <span className="text-[9px] font-bold text-muted-foreground uppercase block">CTR</span>
+                                        <span className="text-xs font-extrabold text-brand-orange">{cmp.ctr}</span>
+                                      </div>
+                                      <div className="text-right shrink-0">
+                                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[9px] font-extrabold bg-[#25D366]/10 text-[#25D366] border border-[#25D366]/20">
+                                          ● Sent
+                                        </span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
                             </div>
-                          </div>
+                          ) : (
+                            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch text-left">
+                              {/* Form Column */}
+                              <div className="lg:col-span-6 bg-muted/30 border border-border rounded-2xl p-5 flex flex-col justify-between space-y-4">
+                                <div>
+                                  <h3 className="text-sm font-bold text-foreground mb-1">Create Message Template</h3>
+                                  <p className="text-[11px] text-muted-foreground">Submit details and banner for the message template.</p>
+                                </div>
+
+                                <div className="space-y-3 text-xs">
+                                  <div>
+                                    <label className="block text-[10px] font-bold text-muted-foreground uppercase mb-1">Campaign Name</label>
+                                    <input
+                                      type="text"
+                                      value={formCampaignName}
+                                      onChange={(e) => setFormCampaignName(e.target.value)}
+                                      className="w-full px-3 py-2 bg-background border border-border rounded-xl text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-brand-orange text-xs font-semibold"
+                                      placeholder="e.g. Winter Sale Drop"
+                                    />
+                                  </div>
+
+                                  <div className="grid grid-cols-2 gap-3">
+                                    <div>
+                                      <label className="block text-[10px] font-bold text-muted-foreground uppercase mb-1">Brand Name</label>
+                                      <input
+                                        type="text"
+                                        value={formBrandName}
+                                        onChange={(e) => setFormBrandName(e.target.value)}
+                                        className="w-full px-3 py-2 bg-background border border-border rounded-xl text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-brand-orange text-xs font-semibold"
+                                        placeholder="e.g. Zara"
+                                      />
+                                    </div>
+                                    <div>
+                                      <label className="block text-[10px] font-bold text-muted-foreground uppercase mb-1">Audience Size</label>
+                                      <input
+                                        type="number"
+                                        value={formAudienceSize}
+                                        onChange={(e) => setFormAudienceSize(e.target.value)}
+                                        className="w-full px-3 py-2 bg-background border border-border rounded-xl text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-brand-orange text-xs font-semibold"
+                                        placeholder="e.g. 5000"
+                                      />
+                                    </div>
+                                  </div>
+
+                                  <div>
+                                    <label className="block text-[10px] font-bold text-muted-foreground uppercase mb-1">Banner Image URL</label>
+                                    <input
+                                      type="text"
+                                      value={formBannerImage}
+                                      onChange={(e) => setFormBannerImage(e.target.value)}
+                                      className="w-full px-3 py-2 bg-background border border-border rounded-xl text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-brand-orange font-mono text-[10px]"
+                                      placeholder="Image URL"
+                                    />
+                                    {/* Preset selector */}
+                                    <div className="flex gap-2 mt-1">
+                                      {[
+                                        { label: 'Sneakers', url: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&auto=format&fit=crop&q=80' },
+                                        { label: 'Smartwatch', url: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&auto=format&fit=crop&q=80' },
+                                        { label: 'Travel Bus', url: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=600&auto=format&fit=crop&q=80' }
+                                      ].map(preset => (
+                                        <button
+                                          key={preset.label}
+                                          type="button"
+                                          onClick={() => setFormBannerImage(preset.url)}
+                                          className={`px-2 py-0.5 rounded text-[9px] font-bold cursor-pointer transition-all border ${
+                                            formBannerImage === preset.url
+                                              ? 'bg-brand-orange/10 text-brand-orange border-brand-orange/30'
+                                              : 'bg-background text-muted-foreground border-border hover:text-foreground hover:border-muted-foreground'
+                                          }`}
+                                        >
+                                          {preset.label}
+                                        </button>
+                                      ))}
+                                    </div>
+                                  </div>
+
+                                  <div>
+                                    <label className="block text-[10px] font-bold text-muted-foreground uppercase mb-1">Message Template Body</label>
+                                    <textarea
+                                      value={formMessageText}
+                                      onChange={(e) => setFormMessageText(e.target.value)}
+                                      rows={4}
+                                      className="w-full px-3 py-2 bg-background border border-border rounded-xl text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-brand-orange font-mono text-[10px] whitespace-pre-line"
+                                      placeholder="Type message template body here..."
+                                    />
+                                  </div>
+
+                                  <div>
+                                    <label className="block text-[10px] font-bold text-muted-foreground uppercase mb-1">CTA Button Text</label>
+                                    <input
+                                      type="text"
+                                      value={formCtaText}
+                                      onChange={(e) => setFormCtaText(e.target.value)}
+                                      className="w-full px-3 py-2 bg-background border border-border rounded-xl text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-brand-orange text-xs font-semibold"
+                                      placeholder="e.g. Shop Now"
+                                    />
+                                  </div>
+                                </div>
+
+                                <div className="flex gap-2 pt-2 border-t border-border shrink-0">
+                                  <button
+                                    type="button"
+                                    onClick={() => setDashboardView('list')}
+                                    className="flex-1 py-2.5 rounded-xl border border-border hover:bg-muted text-foreground font-bold text-xs cursor-pointer transition-all text-center"
+                                  >
+                                    Cancel
+                                  </button>
+                                  <button
+                                    type="button"
+                                    onClick={handleLaunchCampaign}
+                                    className="flex-1 py-2.5 rounded-xl bg-brand-orange hover:bg-brand-orange/90 text-white font-bold text-xs cursor-pointer transition-all text-center"
+                                  >
+                                    Launch Campaign 🚀
+                                  </button>
+                                </div>
+                              </div>
+
+                              {/* Live Preview Column */}
+                              <div className="lg:col-span-6 bg-slate-950 rounded-2xl border border-white/10 p-4 flex flex-col justify-between text-left relative overflow-hidden font-sans">
+                                {/* Header */}
+                                <div className="flex items-center gap-2.5 border-b border-white/10 pb-2.5 mb-3">
+                                  <div className="w-8 h-8 rounded-full overflow-hidden border border-white/15 bg-white/10 shrink-0 flex items-center justify-center text-xs font-bold text-white uppercase font-mono">
+                                    {formBrandName.substring(0, 2)}
+                                  </div>
+                                  <div className="flex-1 min-w-0 text-white">
+                                    <div className="flex items-center gap-1">
+                                      <span className="text-xs font-extrabold truncate">{formBrandName}</span>
+                                      <span className="w-3 h-3 text-[#25D366] shrink-0 font-bold">✓</span>
+                                    </div>
+                                    <span className="text-[9px] text-white/50 block">Official Account</span>
+                                  </div>
+                                </div>
+
+                                {/* Message Area */}
+                                <div className="flex-1 flex flex-col justify-start">
+                                  {/* Message bubble */}
+                                  <div className="bg-[#1f2c34] rounded-2xl rounded-tl-none overflow-hidden text-[11px] leading-relaxed max-w-[95%] border border-[#2c3d48] shadow-md text-white">
+                                    {/* Header Image */}
+                                    {formBannerImage && (
+                                      <div className="w-full h-36 relative border-b border-[#2c3d48] bg-slate-900 flex items-center justify-center text-xs text-muted-foreground">
+                                        <img
+                                          src={formBannerImage}
+                                          alt="Product Drop"
+                                          className="w-full h-full object-cover"
+                                        />
+                                      </div>
+                                    )}
+
+                                    <div className="p-3.5 space-y-2">
+                                      <p className="text-[9px] text-white/40 font-semibold">Reply with &apos;STOP&apos; to unsubscribe</p>
+
+                                      <div className="whitespace-pre-line text-white/90 font-normal">
+                                        {formMessageText}
+                                      </div>
+
+                                      <p className="text-[9px] text-white/40 font-semibold pt-1">Reply with &apos;STOP&apos; to unsubscribe</p>
+
+                                      <div className="flex justify-end text-[9px] text-white/40 font-medium">
+                                        3:29 PM
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  {/* Dynamic Action Button */}
+                                  {formCtaText && (
+                                    <div className="mt-1.5 bg-[#1f2c34] rounded-xl overflow-hidden max-w-[95%] border border-[#2c3d48] shadow-md hover:bg-[#253943] transition-colors duration-200">
+                                      <button className="w-full py-2.5 flex items-center justify-center gap-2 text-[#00a884] font-extrabold text-xs cursor-pointer">
+                                        <ExternalLink className="w-4 h-4 text-[#00a884]" />
+                                        <span>{formCtaText}</span>
+                                      </button>
+                                    </div>
+                                  )}
+                                </div>
+
+                                <span className="text-[9px] text-white/40 italic block mt-3 text-center shrink-0">
+                                  ⚡ Instant WhatsApp Delivery via Autoshipp
+                                </span>
+                              </div>
+                            </div>
+                          )}
                         </motion.div>
                       )}
 

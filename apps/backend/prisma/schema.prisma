@@ -1,61 +1,517 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  engineType      = "library"
+  previewFeatures = ["driverAdapters"]
 }
 
 datasource db {
   provider = "postgresql"
 }
 
-model User {
-  id               String             @id @default(uuid())
-  email            String             @unique
-  passwordHash     String
-  name             String?
-  role             String             @default("client") // e.g. super_admin, admin, brand, aggregator, client
-  status           String             @default("active")
-  createdAt        DateTime           @default(now())
-  updatedAt        DateTime           @updatedAt
+enum UserStatus {
+  INVITED
+  ACTIVE
+  LOCKED
+  SUSPENDED
+  INACTIVE
+  ARCHIVED
+}
 
-  OrganizationUser OrganizationUser[]
+enum MembershipStatus {
+  INVITED
+  ACTIVE
+  SUSPENDED
+  REMOVED
+}
+
+enum OrganizationStatus {
+  ACTIVE
+  SUSPENDED
+  ARCHIVED
+}
+
+enum WalletType {
+  PRIMARY
+  PROMOTIONAL
+  REWARD
+}
+
+enum WalletStatus {
+  ACTIVE
+  SUSPENDED
+  CLOSED
+}
+
+enum TransactionDirection {
+  CREDIT
+  DEBIT
+}
+
+enum RelationshipType {
+  MANAGES
+  OWNS
+  RESELLS
+  PARTNERS_WITH
+}
+
+model User {
+  id            String     @id @default(uuid()) @db.Uuid
+  email         String     @unique @db.VarChar(255)
+  passwordHash  String     @map("password_hash")
+  firstName     String?    @map("first_name") @db.VarChar(100)
+  lastName      String?    @map("last_name") @db.VarChar(100)
+  phone         String?    @db.VarChar(20)
+  avatarUrl     String?    @map("avatar_url")
+  status        UserStatus @default(ACTIVE)
+  emailVerified Boolean    @default(false) @map("email_verified")
+  tokenVersion  Int        @default(1) @map("token_version")
+  lastLoginAt   DateTime?  @map("last_login_at")
+  createdAt     DateTime   @default(now()) @map("created_at")
+  updatedAt     DateTime   @updatedAt @map("updated_at")
+  deletedAt     DateTime?  @map("deleted_at")
+  createdBy     String?    @map("created_by") @db.Uuid
+  updatedBy     String?    @map("updated_by") @db.Uuid
+
+  memberships             Membership[]
+  sessions                Session[]
+  loginHistory            LoginHistory[]
+  passwordResetTokens     PasswordResetToken[]
+  emailVerificationTokens EmailVerificationToken[]
+  createdOrganizations    Organization[]             @relation("OrganizationCreator")
+  updatedOrganizations    Organization[]             @relation("OrganizationUpdater")
+  approvedRelationships   OrganizationRelationship[] @relation("OrganizationRelationshipApprover")
+  createdRelationships    OrganizationRelationship[] @relation("OrganizationRelationshipCreator")
+  updatedRelationships    OrganizationRelationship[] @relation("OrganizationRelationshipUpdater")
+
+  @@map("users")
+}
+
+model OrganizationType {
+  id          String   @id @default(uuid()) @db.Uuid
+  code        String   @unique @db.VarChar(50)
+  displayName String   @map("display_name") @db.VarChar(255)
+  description String?
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  organizations Organization[]
+
+  @@map("organization_types")
 }
 
 model Organization {
-  id               String                @id @default(uuid())
-  name             String
-  status           String                @default("active")
-  createdAt        DateTime              @default(now())
+  id                 String             @id @default(uuid()) @db.Uuid
+  typeId             String             @map("type_id") @db.Uuid
+  name               String             @db.VarChar(255)
+  slug               String             @unique @db.VarChar(120)
+  displayName        String             @map("display_name") @db.VarChar(255)
+  legalName          String?            @map("legal_name") @db.VarChar(255)
+  registrationNumber String?            @map("registration_number") @db.VarChar(100)
+  taxIdentifier      String?            @map("tax_identifier") @db.VarChar(100)
+  status             OrganizationStatus @default(ACTIVE)
+  timezone           String             @db.VarChar(100)
+  currencyCode       String             @map("currency_code") @db.Char(3)
+  languageCode       String             @map("language_code") @db.VarChar(10)
+  logoUrl            String?            @map("logo_url") @db.Text
+  website            String?            @db.Text
+  createdAt          DateTime           @default(now()) @map("created_at")
+  updatedAt          DateTime           @updatedAt @map("updated_at")
+  deletedAt          DateTime?          @map("deleted_at")
+  createdBy          String?            @map("created_by") @db.Uuid
+  updatedBy          String?            @map("updated_by") @db.Uuid
 
-  users            OrganizationUser[]
-  products         OrganizationProduct[]
+  type                OrganizationType           @relation(fields: [typeId], references: [id])
+  creator             User?                      @relation("OrganizationCreator", fields: [createdBy], references: [id])
+  updater             User?                      @relation("OrganizationUpdater", fields: [updatedBy], references: [id])
+  memberships         Membership[]
+  products            OrganizationProduct[]
+  wallets             Wallet[]
+  parentRelationships OrganizationRelationship[] @relation("ChildOrganization")
+  childRelationships  OrganizationRelationship[] @relation("ParentOrganization")
+  communicationCampaigns     CommunicationCampaign[]
+  communicationTemplates     CommunicationTemplate[]
+  communicationConversations CommunicationConversation[]
+
+  @@map("organizations")
 }
 
-model OrganizationUser {
-  id             String       @id @default(uuid())
-  userId         String
-  organizationId String
-  role           String       @default("owner")
+model OrganizationRelationship {
+  id                   String           @id @default(uuid()) @db.Uuid
+  parentOrganizationId String           @map("parent_organization_id") @db.Uuid
+  childOrganizationId  String           @map("child_organization_id") @db.Uuid
+  relationshipType     RelationshipType @map("relationship_type")
+  active               Boolean          @default(true)
+  validFrom            DateTime         @default(now()) @map("valid_from")
+  validTo              DateTime?        @map("valid_to")
+  approvedBy           String           @map("approved_by") @db.Uuid
 
-  user           User         @relation(fields: [userId], references: [id])
-  organization   Organization @relation(fields: [organizationId], references: [id])
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  createdBy String?   @map("created_by") @db.Uuid
+  updatedBy String?   @map("updated_by") @db.Uuid
+  deletedAt DateTime? @map("deleted_at")
+
+  parentOrganization Organization @relation("ParentOrganization", fields: [parentOrganizationId], references: [id])
+  childOrganization  Organization @relation("ChildOrganization", fields: [childOrganizationId], references: [id])
+  approver           User         @relation("OrganizationRelationshipApprover", fields: [approvedBy], references: [id])
+  creator            User?        @relation("OrganizationRelationshipCreator", fields: [createdBy], references: [id])
+  updater            User?        @relation("OrganizationRelationshipUpdater", fields: [updatedBy], references: [id])
+
+  @@map("organization_relationships")
+}
+
+model Membership {
+  id             String           @id @default(uuid()) @db.Uuid
+  userId         String           @map("user_id") @db.Uuid
+  organizationId String           @map("organization_id") @db.Uuid
+  status         MembershipStatus @default(ACTIVE)
+  joinedAt       DateTime         @default(now()) @map("joined_at")
+  invitedBy      String?          @map("invited_by") @db.Uuid
+  leftAt         DateTime?        @map("left_at")
+
+  user         User         @relation(fields: [userId], references: [id])
+  organization Organization @relation(fields: [organizationId], references: [id])
+  userRoles    UserRole[]
+
+  @@unique([userId, organizationId])
+  @@map("memberships")
+}
+
+model Role {
+  id          String  @id @default(uuid()) @db.Uuid
+  code        String  @unique
+  displayName String  @map("display_name")
+  description String?
+  systemRole  Boolean @default(false) @map("system_role")
+
+  rolePermissions RolePermission[]
+  userRoles       UserRole[]
+
+  @@map("roles")
+}
+
+model Permission {
+  id          String  @id @default(uuid()) @db.Uuid
+  code        String  @unique
+  displayName String  @map("display_name")
+  description String?
+
+  rolePermissions RolePermission[]
+
+  @@map("permissions")
+}
+
+model RolePermission {
+  id           String @id @default(uuid()) @db.Uuid
+  roleId       String @map("role_id") @db.Uuid
+  permissionId String @map("permission_id") @db.Uuid
+
+  role       Role       @relation(fields: [roleId], references: [id])
+  permission Permission @relation(fields: [permissionId], references: [id])
+
+  @@unique([roleId, permissionId])
+  @@map("role_permissions")
+}
+
+model UserRole {
+  id           String   @id @default(uuid()) @db.Uuid
+  membershipId String   @map("membership_id") @db.Uuid
+  roleId       String   @map("role_id") @db.Uuid
+  assignedAt   DateTime @default(now()) @map("assigned_at")
+  assignedBy   String?  @map("assigned_by") @db.Uuid
+
+  membership Membership @relation(fields: [membershipId], references: [id])
+  role       Role       @relation(fields: [roleId], references: [id])
+
+  @@unique([membershipId, roleId])
+  @@map("user_roles")
+}
+
+model Session {
+  id               String    @id @default(uuid()) @db.Uuid
+  userId           String    @map("user_id") @db.Uuid
+  refreshTokenHash String    @map("refresh_token_hash")
+  ipAddress        String?   @map("ip_address")
+  userAgent        String?   @map("user_agent")
+  deviceName       String?   @map("device_name")
+  createdAt        DateTime  @default(now()) @map("created_at")
+  lastSeenAt       DateTime  @default(now()) @map("last_seen_at")
+  expiresAt        DateTime  @map("expires_at")
+  revokedAt        DateTime? @map("revoked_at")
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("sessions")
+}
+
+model LoginHistory {
+  id            String   @id @default(uuid()) @db.Uuid
+  userId        String   @map("user_id") @db.Uuid
+  loginTime     DateTime @default(now()) @map("login_time")
+  success       Boolean
+  failureReason String?  @map("failure_reason")
+  ipAddress     String?  @map("ip_address")
+  userAgent     String?  @map("user_agent")
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("login_history")
+}
+
+model PasswordResetToken {
+  id        String    @id @default(uuid()) @db.Uuid
+  userId    String    @map("user_id") @db.Uuid
+  tokenHash String    @map("token_hash")
+  expiresAt DateTime  @map("expires_at")
+  usedAt    DateTime? @map("used_at")
+  createdAt DateTime  @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("password_reset_tokens")
+}
+
+model EmailVerificationToken {
+  id        String    @id @default(uuid()) @db.Uuid
+  userId    String    @map("user_id") @db.Uuid
+  tokenHash String    @map("token_hash")
+  expiresAt DateTime  @map("expires_at")
+  usedAt    DateTime? @map("used_at")
+  createdAt DateTime  @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("email_verification_tokens")
 }
 
 model Product {
-  id          String                @id @default(uuid())
+  id          String   @id @default(uuid()) @db.Uuid
   name        String
   description String?
-  status      String                @default("active")
-  createdAt   DateTime              @default(now())
+  status      String   @default("active")
+  createdAt   DateTime @default(now()) @map("created_at")
 
   organizations OrganizationProduct[]
+
+  @@map("products")
 }
 
 model OrganizationProduct {
-  id             String       @id @default(uuid())
-  organizationId String
-  productId      String
-  status         String       @default("active")
-  createdAt      DateTime     @default(now())
+  id             String   @id @default(uuid()) @db.Uuid
+  organizationId String   @map("organization_id") @db.Uuid
+  productId      String   @map("product_id") @db.Uuid
+  status         String   @default("active")
+  createdAt      DateTime @default(now()) @map("created_at")
 
-  organization   Organization @relation(fields: [organizationId], references: [id])
-  product        Product      @relation(fields: [productId], references: [id])
+  organization Organization @relation(fields: [organizationId], references: [id])
+  product      Product      @relation(fields: [productId], references: [id])
+
+  @@map("organization_products")
 }
+
+model Wallet {
+  id             String       @id @default(uuid()) @db.Uuid
+  organizationId String       @map("organization_id") @db.Uuid
+  type           WalletType
+  currency       String       @db.Char(3)
+  status         WalletStatus @default(ACTIVE)
+  createdAt      DateTime     @default(now()) @map("created_at")
+  updatedAt      DateTime     @updatedAt @map("updated_at")
+
+  organization Organization        @relation(fields: [organizationId], references: [id])
+  transactions WalletTransaction[]
+  balance      WalletBalance?
+  statements   WalletStatement[]
+
+  @@unique([organizationId, type])
+  @@map("wallets")
+}
+
+model WalletTransactionType {
+  id             String  @id @default(uuid()) @db.Uuid
+  code           String  @unique @db.VarChar(50)
+  name           String  @db.VarChar(255)
+  affectsBalance Boolean @default(true) @map("affects_balance")
+  description    String?
+
+  transactions WalletTransaction[]
+
+  @@map("wallet_transaction_types")
+}
+
+model WalletTransaction {
+  id                String               @id @default(uuid()) @db.Uuid
+  idempotencyKey    String               @unique @map("idempotency_key") @db.Text
+  walletId          String               @map("wallet_id") @db.Uuid
+  transactionTypeId String               @map("transaction_type_id") @db.Uuid
+  amount            Decimal              @db.Decimal(18, 2)
+  direction         TransactionDirection
+  referenceType     String               @map("reference_type") @db.Text
+  referenceId       String?              @map("reference_id") @db.Uuid
+  description       String?              @db.Text
+  metadata          Json?                @db.JsonB
+  createdAt         DateTime             @default(now()) @map("created_at")
+  createdBy         String?              @map("created_by")
+
+  wallet          Wallet                @relation(fields: [walletId], references: [id])
+  transactionType WalletTransactionType @relation(fields: [transactionTypeId], references: [id])
+
+  @@map("wallet_transactions")
+}
+
+model WalletBalance {
+  id               String   @id @default(uuid()) @db.Uuid
+  walletId         String   @unique @map("wallet_id") @db.Uuid
+  availableBalance Decimal  @default(0) @map("available_balance") @db.Decimal
+  reservedBalance  Decimal  @default(0) @map("reserved_balance") @db.Decimal
+  updatedAt        DateTime @updatedAt @map("updated_at")
+
+  wallet Wallet @relation(fields: [walletId], references: [id])
+
+  @@map("wallet_balances")
+}
+
+enum StatementStatus {
+  PENDING
+  GENERATED
+  FAILED
+}
+
+enum RunStatus {
+  RUNNING
+  SUCCEEDED
+  FAILED
+}
+
+model WalletStatement {
+  id                 String          @id @default(uuid()) @db.Uuid
+  walletId           String          @map("wallet_id") @db.Uuid
+  periodStart        DateTime        @map("period_start")
+  periodEnd          DateTime        @map("period_end")
+  status             StatementStatus @default(PENDING)
+  generatedAt        DateTime?       @map("generated_at")
+  generatedByVersion String?         @map("generated_by_version")
+
+  wallet Wallet               @relation(fields: [walletId], references: [id])
+  runs   WalletStatementRun[]
+
+  @@unique([walletId, periodStart])
+  @@map("wallet_statements")
+}
+
+model WalletStatementRun {
+  id           String    @id @default(uuid()) @db.Uuid
+  statementId  String    @map("statement_id") @db.Uuid
+  status       RunStatus @default(RUNNING)
+  attemptedAt  DateTime  @default(now()) @map("attempted_at")
+  completedAt  DateTime? @map("completed_at")
+  errorMessage String?   @map("error_message") @db.Text
+
+  statement WalletStatement @relation(fields: [statementId], references: [id])
+
+  @@map("wallet_statement_runs")
+}
+
+enum CampaignStatus {
+  DRAFT
+  QUEUED
+  PROCESSING
+  COMPLETED
+  FAILED
+  CANCELED
+}
+
+enum TemplateStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  DELETED
+}
+
+enum MessageDirection {
+  INBOUND
+  OUTBOUND
+}
+
+enum MessageStatus {
+  QUEUED
+  SENT
+  DELIVERED
+  READ
+  FAILED
+}
+
+model CommunicationCampaign {
+  id             String         @id @default(uuid()) @db.Uuid
+  organizationId String         @map("organization_id") @db.Uuid
+  templateId     String         @map("template_id") @db.Uuid
+  name           String         @db.VarChar(255)
+  type           String         @db.VarChar(50)
+  status         CampaignStatus @default(QUEUED)
+  
+  sentCount      Int            @default(0) @map("sent_count")
+  deliveredCount Int            @default(0) @map("delivered_count")
+  readCount      Int            @default(0) @map("read_count")
+  failedCount    Int            @default(0) @map("failed_count")
+  
+  createdAt      DateTime       @default(now()) @map("created_at")
+  updatedAt      DateTime       @updatedAt @map("updated_at")
+
+  organization Organization           @relation(fields: [organizationId], references: [id])
+  template     CommunicationTemplate  @relation(fields: [templateId], references: [id])
+  messages     CommunicationMessage[]
+
+  @@index([organizationId])
+  @@map("communications_campaigns")
+}
+
+model CommunicationTemplate {
+  id             String         @id @default(uuid()) @db.Uuid
+  organizationId String         @map("organization_id") @db.Uuid
+  name           String         @db.VarChar(255)
+  category       String         @db.VarChar(50)
+  language       String         @db.VarChar(20)
+  status         TemplateStatus @default(PENDING)
+  components     Json           @db.JsonB
+  createdAt      DateTime       @default(now()) @map("created_at")
+
+  organization Organization            @relation(fields: [organizationId], references: [id])
+  campaigns    CommunicationCampaign[]
+
+  @@unique([organizationId, name])
+  @@map("communications_templates")
+}
+
+model CommunicationConversation {
+  id               String   @id @default(uuid()) @db.Uuid
+  organizationId   String   @map("organization_id") @db.Uuid
+  phoneNumber      String   @map("phone_number") @db.VarChar(50)
+  lastMessage      String?  @map("last_message") @db.Text
+  lastMessageTime  DateTime @default(now()) @map("last_message_time")
+  messageCount     Int      @default(0) @map("message_count")
+
+  organization Organization           @relation(fields: [organizationId], references: [id])
+  messages     CommunicationMessage[]
+
+  @@unique([organizationId, phoneNumber])
+  @@index([organizationId, lastMessageTime(sort: Desc)])
+  @@map("communications_conversations")
+}
+
+model CommunicationMessage {
+  id             String           @id @default(uuid()) @db.Uuid
+  conversationId String           @map("conversation_id") @db.Uuid
+  campaignId     String?          @map("campaign_id") @db.Uuid
+  externalId     String?          @map("external_id") @db.VarChar(255)
+  direction      MessageDirection
+  status         MessageStatus    @default(QUEUED)
+  content        String           @db.Text
+  timestamp      DateTime         @default(now())
+
+  conversation CommunicationConversation  @relation(fields: [conversationId], references: [id])
+  campaign     CommunicationCampaign?     @relation(fields: [campaignId], references: [id])
+
+  @@index([externalId])
+  @@map("communications_messages")
+}
+

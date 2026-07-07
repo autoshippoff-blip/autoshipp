@@ -44,7 +44,7 @@ export class AuthController {
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
 
-    return { user: tokenResult.user };
+    return { user: tokenResult.user, access_token: tokenResult.access_token };
   }
 
   @UseGuards(JwtAuthGuard)

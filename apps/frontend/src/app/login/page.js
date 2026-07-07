@@ -1,58 +1,96 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
-import { motion } from 'framer-motion';
-import { Eye, EyeOff, Mail, Lock, Sparkles, ArrowRight, Bot, ShieldCheck, Zap, Star } from 'lucide-react';
-import { useAuth } from '@/contexts/AuthContext';
-import BookDemoPopup from '@/components/BookDemoPopup';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import Image from "next/image";
+import { motion } from "framer-motion";
+import {
+  Eye,
+  EyeOff,
+  Mail,
+  Lock,
+  Sparkles,
+  ArrowRight,
+  Bot,
+  ShieldCheck,
+  Zap,
+  Star,
+} from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
+import BookDemoPopup from "@/components/BookDemoPopup";
 
 export default function LoginPage() {
   const { login } = useAuth();
   const router = useRouter();
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [bookDemoOpen, setBookDemoOpen] = useState(false);
 
   async function handleSubmit(e) {
     e.preventDefault();
-    setError('');
+    setError("");
     setLoading(true);
     try {
+      // 1. Try temporary client access first
+      const formData = new FormData();
+      formData.append("email", email);
+      formData.append("password", password);
+
+      // We import it dynamically here to avoid cluttering top-level client component imports with server actions if possible, but actually we should import it at the top.
+      const { loginTempClient } =
+        await import("@/app/(temporary)/client-login/actions");
+      const tempResult = await loginTempClient(formData);
+
+      // If it didn't redirect, it means it failed the temp check.
+      // 2. Fallback to normal platform login
       const response = await login(email, password);
-      const userRole = response.user?.role || 'brand';
-      const destinations = { 
-        admin: '/admin/dashboard', 
-        super_admin: '/admin/dashboard', 
-        brand: '/brand/dashboard', 
-        aggregator: '/aggregator/dashboard' 
+      const userRole = response.user?.role || "brand";
+      const destinations = {
+        admin: "/admin/dashboard",
+        super_admin: "/admin/dashboard",
+        brand: "/brand/dashboard",
+        aggregator: "/aggregator/dashboard",
       };
-      router.push(destinations[userRole] ?? '/brand/dashboard');
+      router.push(destinations[userRole] ?? "/brand/dashboard");
     } catch (err) {
-      setError(err.message || 'Invalid email or password.');
-    } finally {
+      // Next.js redirect() throws an error. We MUST rethrow it for the redirect to happen!
+      if (
+        err?.message === "NEXT_REDIRECT" ||
+        err?.digest?.startsWith("NEXT_REDIRECT")
+      ) {
+        throw err;
+      }
+      setError(err.message || "Invalid email or password.");
       setLoading(false);
     }
   }
 
   return (
     <div className="min-h-screen w-full bg-background flex">
-      
       {/* Left Column - AI Branding Showcase (Hidden on smaller screens) */}
       <div className="hidden lg:flex lg:w-1/2 relative bg-brand-navy text-white flex-col justify-between p-12 overflow-hidden">
         {/* Background Gradients & Glows */}
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-brand-orange/20 rounded-full blur-[120px] pointer-events-none" />
         <div className="absolute bottom-10 right-10 w-96 h-96 bg-blue-600/20 rounded-full blur-[120px] pointer-events-none" />
-        
+
         {/* Top Logo */}
         <div className="relative z-10 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-3 font-bold text-2xl tracking-tight text-white hover:opacity-90 transition-opacity">
-            <img src="/images/Autoshipp_white_logo.png" alt="Autoshipp Logo" className="h-10 w-auto object-contain" />
+          <Link
+            href="/"
+            className="flex items-center gap-3 font-bold text-2xl tracking-tight text-white hover:opacity-90 transition-opacity"
+          >
+            <Image
+              src="/images/Autoshipp_white_logo.png"
+              alt="Autoshipp Logo"
+              width={160}
+              height={40}
+              className="h-10 w-auto object-contain"
+            />
             Autoshipp.
           </Link>
           <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/10 text-xs font-semibold text-brand-orange">
@@ -68,15 +106,19 @@ export default function LoginPage() {
             transition={{ duration: 0.5 }}
           >
             <h1 className="text-4xl xl:text-5xl font-black tracking-tight leading-[1.15] mb-6">
-              Supercharge Your D2C Logistics with <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-orange to-amber-400">Autonomous AI</span>
+              Supercharge Your D2C Logistics with{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-orange to-amber-400">
+                Autonomous AI
+              </span>
             </h1>
             <p className="text-lg text-white/80 leading-relaxed font-normal">
-              Turn one-time buyers into loyal customers and eliminate up to 70% of RTO losses with intelligent Voice AI &amp; WhatsApp automation.
+              Turn one-time buyers into loyal customers and eliminate up to 70%
+              of RTO losses with intelligent Voice AI &amp; WhatsApp automation.
             </p>
           </motion.div>
 
           {/* AI Feature Cards */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
@@ -87,8 +129,12 @@ export default function LoginPage() {
                 <Bot size={24} />
               </div>
               <div>
-                <h4 className="font-bold text-base text-white">Autonomous AI Voice Agents</h4>
-                <p className="text-xs text-white/70">Instant human-like COD confirmation calls in 8+ languages.</p>
+                <h4 className="font-bold text-base text-white">
+                  Autonomous AI Voice Agents
+                </h4>
+                <p className="text-xs text-white/70">
+                  Instant human-like COD confirmation calls in 8+ languages.
+                </p>
               </div>
             </div>
 
@@ -97,8 +143,12 @@ export default function LoginPage() {
                 <ShieldCheck size={24} />
               </div>
               <div>
-                <h4 className="font-bold text-base text-white">Predictive RTO Risk Engine</h4>
-                <p className="text-xs text-white/70">Automatically identify fake orders and flag high-risk buyers.</p>
+                <h4 className="font-bold text-base text-white">
+                  Predictive RTO Risk Engine
+                </h4>
+                <p className="text-xs text-white/70">
+                  Automatically identify fake orders and flag high-risk buyers.
+                </p>
               </div>
             </div>
           </motion.div>
@@ -114,7 +164,9 @@ export default function LoginPage() {
             <Star size={16} fill="currentColor" />
           </div>
           <p className="text-sm text-white/90 italic mb-3">
-            &quot;Autoshipp&apos;s AI voice bots reduced our RTO rate by 42% within just two weeks. It feels like having a 100-person support team running 24/7.&quot;
+            &quot;Autoshipp&apos;s AI voice bots reduced our RTO rate by 42%
+            within just two weeks. It feels like having a 100-person support
+            team running 24/7.&quot;
           </p>
           <div className="flex items-center justify-between text-xs text-white/60 font-semibold">
             <span>Rahul Sharma, Founder @ Apex Lifestyle</span>
@@ -125,16 +177,30 @@ export default function LoginPage() {
 
       {/* Right Column - Login Form */}
       <div className="w-full lg:w-1/2 flex flex-col justify-center items-center p-6 sm:p-12 relative">
-        
         {/* Back to Home & Theme / Logo on mobile */}
         <div className="absolute top-6 left-6 right-6 flex items-center justify-between lg:justify-end">
-          <Link href="/" className="lg:hidden flex items-center gap-2 font-bold text-xl tracking-tight text-foreground">
-            <img src="/images/Autoshipp_black_logo.png" alt="Autoshipp Logo" className="h-8 w-auto object-contain dark:hidden" />
-            <img src="/images/Autoshipp_white_logo.png" alt="Autoshipp Logo" className="h-8 w-auto object-contain hidden dark:block" />
+          <Link
+            href="/"
+            className="lg:hidden flex items-center gap-2 font-bold text-xl tracking-tight text-foreground"
+          >
+            <Image
+              src="/images/Autoshipp_black_logo.png"
+              alt="Autoshipp Logo"
+              width={128}
+              height={32}
+              className="h-8 w-auto object-contain dark:hidden"
+            />
+            <Image
+              src="/images/Autoshipp_white_logo.png"
+              alt="Autoshipp Logo"
+              width={128}
+              height={32}
+              className="h-8 w-auto object-contain hidden dark:block"
+            />
             Autoshipp.
           </Link>
-          
-          <Link 
+
+          <Link
             href="/"
             className="inline-flex items-center gap-1.5 text-xs font-bold text-muted-foreground hover:text-foreground transition-colors py-2 px-4 rounded-full bg-muted/50 hover:bg-muted border border-border"
           >
@@ -142,7 +208,7 @@ export default function LoginPage() {
           </Link>
         </div>
 
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, scale: 0.98 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.4 }}
@@ -153,15 +219,18 @@ export default function LoginPage() {
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-orange/10 text-brand-orange text-xs font-bold uppercase tracking-wider mb-3">
               <Zap size={13} className="fill-brand-orange" /> Portal Access
             </div>
-            <h2 className="text-3xl font-black tracking-tight text-foreground">Welcome Back</h2>
+            <h2 className="text-3xl font-black tracking-tight text-foreground">
+              Welcome Back
+            </h2>
             <p className="text-sm text-muted-foreground mt-1.5 leading-relaxed">
-              Log in to your Autoshipp dashboard to manage AI automations and track customer engagement.
+              Log in to your Autoshipp dashboard to manage AI automations and
+              track customer engagement.
             </p>
           </div>
 
           {/* Error Alert */}
           {error && (
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               className="mb-6 p-4 rounded-xl bg-destructive/10 border border-destructive/20 text-destructive text-sm font-semibold flex items-center gap-3"
@@ -174,7 +243,10 @@ export default function LoginPage() {
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-foreground mb-2" htmlFor="email">
+              <label
+                className="block text-xs font-bold uppercase tracking-wider text-foreground mb-2"
+                htmlFor="email"
+              >
                 Work Email
               </label>
               <div className="relative">
@@ -195,7 +267,10 @@ export default function LoginPage() {
 
             <div>
               <div className="flex items-center justify-between mb-2">
-                <label className="block text-xs font-bold uppercase tracking-wider text-foreground" htmlFor="password">
+                <label
+                  className="block text-xs font-bold uppercase tracking-wider text-foreground"
+                  htmlFor="password"
+                >
                   Password
                 </label>
                 <Link
@@ -211,7 +286,7 @@ export default function LoginPage() {
                 </div>
                 <input
                   id="password"
-                  type={showPassword ? 'text' : 'password'}
+                  type={showPassword ? "text" : "password"}
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -222,7 +297,7 @@ export default function LoginPage() {
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-muted-foreground hover:text-foreground transition-colors"
-                  aria-label={showPassword ? 'Hide password' : 'Show password'}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
                 >
                   {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                 </button>
@@ -254,7 +329,9 @@ export default function LoginPage() {
               <div className="w-full border-t border-border" />
             </div>
             <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-background px-3 text-muted-foreground font-bold tracking-wider">New to Autoshipp?</span>
+              <span className="bg-background px-3 text-muted-foreground font-bold tracking-wider">
+                New to Autoshipp?
+              </span>
             </div>
           </div>
 
@@ -263,7 +340,7 @@ export default function LoginPage() {
             <p className="text-sm font-medium text-foreground mb-3">
               Want to deploy AI Voice &amp; WhatsApp agents for your brand?
             </p>
-            <button 
+            <button
               type="button"
               onClick={() => setBookDemoOpen(true)}
               className="w-full py-2.5 px-4 rounded-xl bg-card border border-border hover:border-brand-orange text-foreground text-xs font-extrabold uppercase tracking-wider transition-all shadow-xs hover:shadow-md cursor-pointer flex items-center justify-center gap-1.5"
@@ -273,12 +350,11 @@ export default function LoginPage() {
             </button>
           </div>
         </motion.div>
-
       </div>
 
-      <BookDemoPopup 
-        isOpen={bookDemoOpen} 
-        onClose={() => setBookDemoOpen(false)} 
+      <BookDemoPopup
+        isOpen={bookDemoOpen}
+        onClose={() => setBookDemoOpen(false)}
       />
     </div>
   );

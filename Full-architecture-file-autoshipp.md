@@ -570,10 +570,10 @@ Introduction
 
 Because this document defines
 
-* what AutoShipp is
-* why it exists
-* how engineering decisions are made
-* what principles can never be violated
+- what AutoShipp is
+- why it exists
+- how engineering decisions are made
+- what principles can never be violated
 
 Think of it as
 
@@ -753,11 +753,11 @@ Products SHALL NOT...
 
 Using RFC terminology:
 
-* MUST
-* MUST NOT
-* SHOULD
-* SHOULD NOT
-* MAY
+- MUST
+- MUST NOT
+- SHOULD
+- SHOULD NOT
+- MAY
 
 This removes ambiguity.
 
@@ -768,29 +768,21 @@ This removes ambiguity.
 Example
 
 ```yaml
-Document:
-  000
+Document: 000
 
-Title:
-  Engineering Constitution
+Title: Engineering Constitution
 
-Version:
-  1.0.0
+Version: 1.0.0
 
-Status:
-  Approved
+Status: Approved
 
-Owner:
-  AutoShipp Architecture
+Owner: AutoShipp Architecture
 
-Applies To:
-  Entire Platform
+Applies To: Entire Platform
 
-Depends On:
-  None
+Depends On: None
 
-Referenced By:
-  All Documents
+Referenced By: All Documents
 ```
 
 ---
@@ -819,20 +811,20 @@ This makes the entire documentation interconnected.
 
 I want every document we create to satisfy this checklist before we move on:
 
-* Executive Summary
-* Background
-* Scope
-* Goals
-* Non-Goals
-* Principles
-* Architecture
-* Decisions
-* Alternatives
-* Risks
-* Future Evolution
-* References
-* ADRs
-* Diagrams (where applicable)
+- Executive Summary
+- Background
+- Scope
+- Goals
+- Non-Goals
+- Principles
+- Architecture
+- Decisions
+- Alternatives
+- Risks
+- Future Evolution
+- References
+- ADRs
+- Diagrams (where applicable)
 
 Nothing less.
 
@@ -883,10 +875,10 @@ We are writing **AutoShipp's Engineering Constitution**.
 
 That means every document must be good enough that:
 
-* a new engineer can build a service from it,
-* a senior architect agrees with the design,
-* an auditor can trace security controls,
-* and six years from now, the engineering team can still understand *why* each architectural decision was made.
+- a new engineer can build a service from it,
+- a senior architect agrees with the design,
+- an auditor can trace security controls,
+- and six years from now, the engineering team can still understand _why_ each architectural decision was made.
 
 ---
 
@@ -897,7 +889,6 @@ I recommend one additional change to our documentation roadmap that I think will
 Instead of starting immediately with narrative text, **Document 000** should first define the **documentation standard itself** (metadata format, RFC terminology, document lifecycle, naming conventions, revision policy, and cross-referencing rules). Every subsequent document will inherit that structure, ensuring the entire AutoShipp architecture library remains consistent and maintainable.
 
 I consider this the foundation upon which every other document will be built.
-
 
 Good. No more recommendations.
 
@@ -949,11 +940,11 @@ The platform provides the common business foundation while products provide spec
 
 The platform is designed to support:
 
-* Direct Brands
-* Shipping Aggregators
-* Future Partners
-* Future Products
-* Enterprise Organizations
+- Direct Brands
+- Shipping Aggregators
+- Future Partners
+- Future Products
+- Enterprise Organizations
 
 without requiring architectural redesign.
 
@@ -1027,20 +1018,20 @@ AutoShipp consists of two major layers.
 
 Responsible for:
 
-* Identity
-* Organizations
-* Commerce Foundation
-* Customers
-* Billing
-* Wallet
-* Marketplace
-* Feature Flags
-* Notifications
-* Audit
-* Service Registry
-* Product Registry
-* Integrations
-* Shared Infrastructure
+- Identity
+- Organizations
+- Commerce Foundation
+- Customers
+- Billing
+- Wallet
+- Marketplace
+- Feature Flags
+- Notifications
+- Audit
+- Service Registry
+- Product Registry
+- Integrations
+- Shared Infrastructure
 
 ---
 
@@ -1050,15 +1041,15 @@ Responsible only for product-specific business intelligence.
 
 Examples include:
 
-* Fit Intelligence
-* Delivery ETA
-* Returns
-* AI Commerce Assistant
-* Virtual Try-On
-* Shipping
-* Analytics
-* Marketing
-* Future Products
+- Fit Intelligence
+- Delivery ETA
+- Returns
+- AI Commerce Assistant
+- Virtual Try-On
+- Shipping
+- Analytics
+- Marketing
+- Future Products
 
 Products consume platform capabilities but do not replace them.
 
@@ -1132,12 +1123,12 @@ Unlimited independent products.
 
 The platform will not:
 
-* Duplicate business entities across products.
-* Allow products to own shared business data.
-* Implement authentication separately in every service.
-* Hardcode pricing logic inside products.
-* Require platform redeployment when products change.
-* Build unnecessary operational complexity (Kafka, Kubernetes, Service Mesh, Event Sourcing) before it is justified.
+- Duplicate business entities across products.
+- Allow products to own shared business data.
+- Implement authentication separately in every service.
+- Hardcode pricing logic inside products.
+- Require platform redeployment when products change.
+- Build unnecessary operational complexity (Kafka, Kubernetes, Service Mesh, Event Sourcing) before it is justified.
 
 ---
 
@@ -1304,14 +1295,14 @@ Platform API is the Control Plane, not an API Gateway.
 
 Every implementation should maximize:
 
-* Simplicity
-* Readability
-* Predictability
-* Consistency
-* Security
-* Observability
-* Testability
-* Evolvability
+- Simplicity
+- Readability
+- Predictability
+- Consistency
+- Security
+- Observability
+- Testability
+- Evolvability
 
 ---
 
@@ -1321,13 +1312,13 @@ Security is treated as a platform capability.
 
 Every feature must be designed with:
 
-* Authentication
-* Authorization
-* Tenant isolation
-* Auditability
-* Least privilege
-* Secure defaults
-* Traceability
+- Authentication
+- Authorization
+- Tenant isolation
+- Auditability
+- Least privilege
+- Secure defaults
+- Traceability
 
 No product may bypass platform security mechanisms.
 
@@ -1339,11 +1330,11 @@ Data is considered a strategic asset.
 
 Rules:
 
-* Store shared information once.
-* Own data explicitly.
-* Avoid redundant synchronization.
-* Prefer immutable audit history.
-* Preserve historical integrity during transfers.
+- Store shared information once.
+- Own data explicitly.
+- Avoid redundant synchronization.
+- Prefer immutable audit history.
+- Preserve historical integrity during transfers.
 
 ---
 
@@ -1353,10 +1344,10 @@ The platform is designed for incremental growth.
 
 Scale is achieved by:
 
-* Independent product deployments.
-* Domain ownership.
-* Shared platform foundation.
-* Horizontal service evolution.
+- Independent product deployments.
+- Domain ownership.
+- Shared platform foundation.
+- Horizontal service evolution.
 
 Complex distributed systems should only be introduced when justified by measurable requirements.
 
@@ -1368,14 +1359,14 @@ Every service must be operable.
 
 Minimum operational requirements:
 
-* Health endpoint
-* Readiness endpoint
-* Liveness endpoint
-* Metrics endpoint
-* Version endpoint
-* Structured logging
-* Correlation IDs
-* Audit integration
+- Health endpoint
+- Readiness endpoint
+- Liveness endpoint
+- Metrics endpoint
+- Version endpoint
+- Structured logging
+- Correlation IDs
+- Audit integration
 
 ---
 
@@ -1385,10 +1376,10 @@ Documentation is treated as production code.
 
 Documentation must be:
 
-* Version controlled
-* Reviewed
-* Updated alongside implementation
-* Traceable to architectural decisions
+- Version controlled
+- Reviewed
+- Updated alongside implementation
+- Traceable to architectural decisions
 
 ---
 
@@ -1412,14 +1403,14 @@ No architectural changes may bypass this process.
 
 A feature is considered complete only when:
 
-* Implementation is complete.
-* Tests pass.
-* Documentation is updated.
-* Security review is complete.
-* Observability is implemented.
-* Audit logging is included where required.
-* APIs are documented.
-* Architecture remains compliant.
+- Implementation is complete.
+- Tests pass.
+- Documentation is updated.
+- Security review is complete.
+- Observability is implemented.
+- Audit logging is included where required.
+- APIs are documented.
+- Architecture remains compliant.
 
 ---
 
@@ -1427,12 +1418,12 @@ A feature is considered complete only when:
 
 The architecture is intended to support:
 
-* Multiple independent engineering teams.
-* Dozens of independently deployable products.
-* Thousands of organizations.
-* Enterprise customers.
-* Strategic partners and aggregators.
-* Continuous product expansion.
+- Multiple independent engineering teams.
+- Dozens of independently deployable products.
+- Thousands of organizations.
+- Enterprise customers.
+- Strategic partners and aggregators.
+- Continuous product expansion.
 
 without requiring fundamental architectural redesign.
 
@@ -1440,8 +1431,8 @@ without requiring fundamental architectural redesign.
 
 # 20. Decision Register
 
-| ID    | Decision                                                     | Status   |
-| ----- | ------------------------------------------------------------ | -------- |
+| ID    | Decision                                                     | Status    |
+| ----- | ------------------------------------------------------------ | --------- |
 | D-001 | AutoShipp is a Platform, not a product                       | ✅ Locked |
 | D-002 | Shared platform foundation with independent products         | ✅ Locked |
 | D-003 | One PostgreSQL database with multiple schemas                | ✅ Locked |
@@ -1458,7 +1449,6 @@ without requiring fundamental architectural redesign.
 **AES-000 is now complete and considered the constitutional document for all subsequent AutoShipp specifications.**
 
 **Next document:** **AES-001 — Vision & Strategic Goals**. This will define the business vision, platform strategy, target market, success metrics, long-term roadmap, and the strategic purpose of every architectural decision that follows.
-
 
 ---
 
@@ -1504,16 +1494,16 @@ AutoShipp exists to eliminate fragmentation in commerce software.
 
 Businesses today operate dozens of disconnected systems:
 
-* Shipping
-* Analytics
-* Returns
-* Customer Intelligence
-* AI
-* Product Recommendations
-* Fit Intelligence
-* Marketing
-* Inventory
-* CRM
+- Shipping
+- Analytics
+- Returns
+- Customer Intelligence
+- AI
+- Product Recommendations
+- Fit Intelligence
+- Marketing
+- Inventory
+- CRM
 
 Every system stores duplicate customers.
 
@@ -1539,12 +1529,12 @@ Modern commerce software suffers from five fundamental problems.
 
 Every SaaS platform maintains its own copy of:
 
-* Users
-* Customers
-* Products
-* Orders
-* Stores
-* Integrations
+- Users
+- Customers
+- Products
+- Orders
+- Stores
+- Integrations
 
 This creates synchronization problems, inconsistent reporting, and unnecessary storage.
 
@@ -1577,10 +1567,10 @@ This is operationally inefficient.
 
 Each product requires:
 
-* Separate login
-* Separate permissions
-* Separate users
-* Separate administration
+- Separate login
+- Separate permissions
+- Separate users
+- Separate administration
 
 This increases operational complexity.
 
@@ -1592,9 +1582,9 @@ Commerce intelligence becomes trapped inside individual products.
 
 Example:
 
-* Fit cannot easily leverage ETA insights.
-* Returns cannot leverage AI insights.
-* Analytics cannot leverage Fit intelligence.
+- Fit cannot easily leverage ETA insights.
+- Returns cannot leverage AI insights.
+- Analytics cannot leverage Fit intelligence.
 
 Because every product owns isolated data, cross-product intelligence becomes expensive.
 
@@ -1604,16 +1594,16 @@ Because every product owns isolated data, cross-product intelligence becomes exp
 
 Engineering teams repeatedly build:
 
-* Authentication
-* RBAC
-* Billing
-* Wallets
-* Feature Flags
-* Notifications
-* Audit
-* Logging
-* Health
-* Monitoring
+- Authentication
+- RBAC
+- Billing
+- Wallets
+- Feature Flags
+- Notifications
+- Audit
+- Logging
+- Health
+- Monitoring
 
 Instead of focusing on business innovation.
 
@@ -1688,19 +1678,19 @@ The platform is designed to become the central operating system for commerce bus
 
 Future platform capabilities may include:
 
-* Inventory Intelligence
-* Warehouse Intelligence
-* AI Agents
-* Pricing Intelligence
-* Fraud Detection
-* Forecasting
-* Marketplace Intelligence
-* Marketing Automation
-* Customer Intelligence
-* Supplier Management
-* Vendor Management
-* ERP Integrations
-* Finance Integrations
+- Inventory Intelligence
+- Warehouse Intelligence
+- AI Agents
+- Pricing Intelligence
+- Fraud Detection
+- Forecasting
+- Marketplace Intelligence
+- Marketing Automation
+- Customer Intelligence
+- Supplier Management
+- Vendor Management
+- ERP Integrations
+- Finance Integrations
 
 These should integrate without changing the platform architecture.
 
@@ -1772,17 +1762,17 @@ Allow unlimited product expansion.
 
 The engineering architecture must support:
 
-* One authentication system.
-* One authorization model.
-* One organization model.
-* One commerce foundation.
-* One integration layer.
-* One billing engine.
-* One wallet engine.
-* Independent product deployment.
-* Shared observability.
-* Shared audit.
-* Shared notifications.
+- One authentication system.
+- One authorization model.
+- One organization model.
+- One commerce foundation.
+- One integration layer.
+- One billing engine.
+- One wallet engine.
+- Independent product deployment.
+- Shared observability.
+- Shared audit.
+- Shared notifications.
 
 ---
 
@@ -1924,31 +1914,31 @@ Examples:
 
 ### Fit Intelligence
 
-* Recommendations
-* Body Profiles
-* Size Intelligence
+- Recommendations
+- Body Profiles
+- Size Intelligence
 
 ---
 
 ### ETA
 
-* Delivery Prediction
-* Carrier Intelligence
+- Delivery Prediction
+- Carrier Intelligence
 
 ---
 
 ### Returns
 
-* Return Processing
-* Return Analytics
+- Return Processing
+- Return Analytics
 
 ---
 
 ### AI Commerce Assistant
 
-* AI Conversations
-* Product Assistance
-* Customer Intelligence
+- AI Conversations
+- Product Assistance
+- Customer Intelligence
 
 ---
 
@@ -1962,12 +1952,12 @@ Products do not replace platform capabilities.
 
 Responsibilities:
 
-* Platform administration
-* Organization management
-* Product management
-* Billing oversight
-* Infrastructure monitoring
-* Security
+- Platform administration
+- Organization management
+- Product management
+- Billing oversight
+- Infrastructure monitoring
+- Security
 
 ---
 
@@ -1975,11 +1965,11 @@ Responsibilities:
 
 Responsibilities:
 
-* Brand onboarding
-* Brand management
-* Product assignments
-* Organization administration
-* Customer success
+- Brand onboarding
+- Brand management
+- Product assignments
+- Organization administration
+- Customer success
 
 ---
 
@@ -1987,10 +1977,10 @@ Responsibilities:
 
 Responsibilities:
 
-* Daily platform usage
-* Product consumption
-* Commerce operations
-* Analytics
+- Daily platform usage
+- Product consumption
+- Commerce operations
+- Analytics
 
 ---
 
@@ -2000,37 +1990,37 @@ The platform is considered successful when:
 
 ### Architecture
 
-* New products require no platform redesign.
+- New products require no platform redesign.
 
 ---
 
 ### Engineering
 
-* New products are created using the standard platform contract.
+- New products are created using the standard platform contract.
 
 ---
 
 ### Operations
 
-* Shared services eliminate duplicated operational effort.
+- Shared services eliminate duplicated operational effort.
 
 ---
 
 ### Business
 
-* Organizations purchase multiple products through one platform.
+- Organizations purchase multiple products through one platform.
 
 ---
 
 ### Data
 
-* Shared business entities remain single-source.
+- Shared business entities remain single-source.
 
 ---
 
 ### Security
 
-* Platform-wide security controls apply consistently.
+- Platform-wide security controls apply consistently.
 
 ---
 
@@ -2054,16 +2044,16 @@ AutoShipp differentiates itself by focusing on **commerce intelligence** while m
 
 Every future engineering decision should improve one or more of the following:
 
-* Extensibility
-* Modularity
-* Maintainability
-* Security
-* Performance
-* Scalability
-* Observability
-* Operational Simplicity
-* Developer Productivity
-* Customer Experience
+- Extensibility
+- Modularity
+- Maintainability
+- Security
+- Performance
+- Scalability
+- Observability
+- Operational Simplicity
+- Developer Productivity
+- Customer Experience
 
 If a decision does not improve one of these drivers, it should be reconsidered.
 
@@ -2073,14 +2063,14 @@ If a decision does not improve one of these drivers, it should be reconsidered.
 
 The architecture will be considered successful if, within the next several years:
 
-* New products can be added without redesigning the platform.
-* Existing products remain independently deployable.
-* Shared business data is never duplicated.
-* Organizations can purchase and manage multiple products.
-* Aggregators can operate their own ecosystems.
-* Platform-wide security remains consistent.
-* Engineering teams can develop products independently.
-* Operational complexity grows slower than product count.
+- New products can be added without redesigning the platform.
+- Existing products remain independently deployable.
+- Shared business data is never duplicated.
+- Organizations can purchase and manage multiple products.
+- Aggregators can operate their own ecosystems.
+- Platform-wide security remains consistent.
+- Engineering teams can develop products independently.
+- Operational complexity grows slower than product count.
 
 ---
 
@@ -2100,22 +2090,22 @@ Products should focus exclusively on delivering business value.
 
 ## Phase 1 — Platform Foundation
 
-* Identity
-* Organizations
-* Billing
-* Wallet
-* Marketplace
-* Commerce Foundation
-* Platform Shell
+- Identity
+- Organizations
+- Billing
+- Wallet
+- Marketplace
+- Commerce Foundation
+- Platform Shell
 
 ---
 
 ## Phase 2 — Product Consolidation
 
-* Fit
-* ETA
-* Returns
-* AI Assistant
+- Fit
+- ETA
+- Returns
+- AI Assistant
 
 Migration into shared architecture.
 
@@ -2123,30 +2113,30 @@ Migration into shared architecture.
 
 ## Phase 3 — Platform Expansion
 
-* Additional commerce products
-* Additional integrations
-* Marketplace growth
-* Advanced billing
-* Product SDK
-* Developer ecosystem
+- Additional commerce products
+- Additional integrations
+- Marketplace growth
+- Advanced billing
+- Product SDK
+- Developer ecosystem
 
 ---
 
 ## Phase 4 — Enterprise Platform
 
-* Large enterprise organizations
-* Public APIs
-* Partner ecosystem
-* Third-party product marketplace
-* Advanced analytics
-* AI orchestration
+- Large enterprise organizations
+- Public APIs
+- Partner ecosystem
+- Third-party product marketplace
+- Advanced analytics
+- AI orchestration
 
 ---
 
 # 18. Decision Register
 
-| ID    | Decision                                                                    | Status   |
-| ----- | --------------------------------------------------------------------------- | -------- |
+| ID    | Decision                                                                    | Status    |
+| ----- | --------------------------------------------------------------------------- | --------- |
 | D-011 | AutoShipp is a Commerce Intelligence Platform                               | ✅ Locked |
 | D-012 | Platform capabilities are separated from product capabilities               | ✅ Locked |
 | D-013 | Shared business capabilities are implemented once                           | ✅ Locked |
@@ -2163,7 +2153,6 @@ Migration into shared architecture.
 **Next Document:** **AES-002 — Architecture Principles**.
 
 This document will define the immutable architectural principles that every database schema, backend service, frontend application, API, deployment, and future product must follow throughout the lifetime of the AutoShipp platform.
-
 
 ---
 
@@ -2191,10 +2180,10 @@ Every schema, service, API, frontend application, deployment pipeline, engineeri
 
 Violating an Architecture Principle requires:
 
-* Architecture Review
-* ADR (Architecture Decision Record)
-* Specification Update
-* Approval
+- Architecture Review
+- ADR (Architecture Decision Record)
+- Specification Update
+- Approval
 
 These principles are intentionally technology-independent so that they remain valid even if implementation technologies change.
 
@@ -2206,11 +2195,11 @@ The purpose of this document is to ensure that AutoShipp evolves without archite
 
 As the platform grows:
 
-* More engineers
-* More products
-* More databases
-* More APIs
-* More integrations
+- More engineers
+- More products
+- More databases
+- More APIs
+- More integrations
 
 the architecture must remain consistent.
 
@@ -2244,21 +2233,21 @@ Products SHALL consume Platform capabilities instead of reimplementing them.
 
 The Platform owns:
 
-* Identity
-* Organizations
-* Commerce Foundation
-* Customers
-* Billing
-* Wallet
-* Marketplace
-* Feature Flags
-* Notifications
-* Audit
-* Logging Standards
-* Observability Standards
-* Product Registry
-* Service Registry
-* Shared Configuration
+- Identity
+- Organizations
+- Commerce Foundation
+- Customers
+- Billing
+- Wallet
+- Marketplace
+- Feature Flags
+- Notifications
+- Audit
+- Logging Standards
+- Observability Standards
+- Product Registry
+- Service Registry
+- Shared Configuration
 
 ---
 
@@ -2266,13 +2255,13 @@ The Platform owns:
 
 Products SHALL NOT implement:
 
-* Authentication
-* User Management
-* Billing
-* Wallets
-* Organization Management
-* Notification Systems
-* Audit Systems
+- Authentication
+- User Management
+- Billing
+- Wallets
+- Organization Management
+- Notification Systems
+- Audit Systems
 
 ---
 
@@ -2294,38 +2283,38 @@ Examples
 
 Fit owns:
 
-* Recommendations
-* Body Profiles
-* Fit Scores
-* Size Intelligence
+- Recommendations
+- Body Profiles
+- Fit Scores
+- Size Intelligence
 
 ETA owns:
 
-* Delivery Predictions
-* Carrier Intelligence
-* Delivery Scoring
+- Delivery Predictions
+- Carrier Intelligence
+- Delivery Scoring
 
 Returns owns:
 
-* Return Processing
-* Return Intelligence
+- Return Processing
+- Return Intelligence
 
 AI owns:
 
-* AI Conversations
-* AI Context
-* AI Suggestions
+- AI Conversations
+- AI Context
+- AI Suggestions
 
 ---
 
 Products SHALL NOT own:
 
-* Users
-* Customers
-* Orders
-* Organizations
-* Billing
-* Wallets
+- Users
+- Customers
+- Orders
+- Organizations
+- Billing
+- Wallets
 
 ---
 
@@ -2358,12 +2347,12 @@ Every business domain SHALL have exactly one owner.
 
 Ownership includes:
 
-* Database schema
-* APIs
-* Business rules
-* Validation
-* Documentation
-* Migrations
+- Database schema
+- APIs
+- Business rules
+- Validation
+- Documentation
+- Migrations
 
 ---
 
@@ -2373,10 +2362,10 @@ Identity Domain
 
 Owns:
 
-* Users
-* Roles
-* Permissions
-* Sessions
+- Users
+- Roles
+- Permissions
+- Sessions
 
 No other service may redefine Identity concepts.
 
@@ -2442,11 +2431,11 @@ Each schema represents one business domain or product.
 
 Benefits:
 
-* Strong consistency
-* Shared reporting
-* Reduced duplication
-* Simpler transactions
-* Lower operational cost
+- Strong consistency
+- Shared reporting
+- Reduced duplication
+- Simpler transactions
+- Lower operational cost
 
 ---
 
@@ -2472,28 +2461,28 @@ Platform API
 
 Owns:
 
-* Organizations
-* Billing
-* Wallet
-* Marketplace
+- Organizations
+- Billing
+- Wallet
+- Marketplace
 
 Fit API
 
 Owns:
 
-* Recommendations
+- Recommendations
 
 ETA API
 
 Owns:
 
-* Predictions
+- Predictions
 
 Returns API
 
 Owns:
 
-* Returns
+- Returns
 
 Ownership prevents ambiguity.
 
@@ -2505,14 +2494,14 @@ Platform API SHALL act as the Control Plane.
 
 It SHALL manage:
 
-* Identity
-* Organizations
-* Billing
-* Wallet
-* Marketplace
-* Product Registry
-* Feature Flags
-* Platform Administration
+- Identity
+- Organizations
+- Billing
+- Wallet
+- Marketplace
+- Product Registry
+- Feature Flags
+- Platform Administration
 
 Platform API SHALL NOT become an API Gateway for products.
 
@@ -2530,10 +2519,10 @@ Products MAY read Platform-owned data directly from shared schemas.
 
 Example:
 
-* Users
-* Organizations
-* Orders
-* Customers
+- Users
+- Organizations
+- Orders
+- Customers
 
 ---
 
@@ -2619,10 +2608,10 @@ Who Receives Access?
 
 This separation enables:
 
-* Aggregator billing
-* Brand assignments
-* Enterprise licensing
-* Flexible pricing
+- Aggregator billing
+- Brand assignments
+- Enterprise licensing
+- Flexible pricing
 
 without redesign.
 
@@ -2660,13 +2649,13 @@ Security SHALL be considered during architecture, not after implementation.
 
 Every component SHALL define:
 
-* Authentication
-* Authorization
-* Data ownership
-* Audit
-* Logging
-* Least privilege
-* Isolation
+- Authentication
+- Authorization
+- Data ownership
+- Audit
+- Logging
+- Least privilege
+- Isolation
 
 before implementation begins.
 
@@ -2676,13 +2665,13 @@ before implementation begins.
 
 Every service SHALL provide:
 
-* Structured logs
-* Metrics
-* Health
-* Readiness
-* Liveness
-* Version endpoint
-* Correlation IDs
+- Structured logs
+- Metrics
+- Health
+- Readiness
+- Liveness
+- Version endpoint
+- Correlation IDs
 
 Observability is mandatory.
 
@@ -2694,15 +2683,15 @@ Every product SHALL implement the standard Product Contract.
 
 Minimum requirements:
 
-* JWT integration
-* Health endpoints
-* Metrics
-* Logging
-* Audit
-* Feature Flags
-* OpenAPI
-* Product Manifest
-* Service Registration
+- JWT integration
+- Health endpoints
+- Metrics
+- Logging
+- Audit
+- Feature Flags
+- OpenAPI
+- Product Manifest
+- Service Registration
 
 This guarantees consistency across all products.
 
@@ -2714,10 +2703,10 @@ The architecture SHALL support unlimited future products without requiring chang
 
 Adding a new product should require:
 
-* New schema
-* New service
-* Product registration
-* Product manifest
+- New schema
+- New service
+- Product registration
+- Product manifest
 
 No platform redesign.
 
@@ -2729,9 +2718,9 @@ Architecture documentation SHALL evolve with the implementation.
 
 Every architectural change requires:
 
-* ADR update
-* Specification update
-* Implementation update
+- ADR update
+- Specification update
+- Implementation update
 
 Documentation is considered part of the platform.
 
@@ -2818,8 +2807,8 @@ If the answer to any question is **No**, the design must be reconsidered.
 
 # 25. Decision Register
 
-| ID    | Decision                                         | Status   |
-| ----- | ------------------------------------------------ | -------- |
+| ID    | Decision                                         | Status    |
+| ----- | ------------------------------------------------ | --------- |
 | D-019 | Platform owns shared capabilities                | ✅ Locked |
 | D-020 | Products own only product intelligence           | ✅ Locked |
 | D-021 | One source of truth for shared business entities | ✅ Locked |
@@ -2839,7 +2828,6 @@ If the answer to any question is **No**, the design must be reconsidered.
 This document establishes the permanent architectural rules for AutoShipp. Every future document—including business domains, database schemas, backend services, frontend architecture, infrastructure, and security—must comply with these principles.
 
 **Next Document:** **AES-003 — Business Model**, where we formally define the AutoShipp business ecosystem, organization hierarchy, marketplace model, aggregator relationships, commercial model, and product lifecycle before moving into domain and database design.
-
 
 ---
 
@@ -2861,13 +2849,13 @@ This document defines the **commercial architecture** of AutoShipp.
 
 It explains:
 
-* What AutoShipp sells.
-* Who buys products.
-* How organizations interact.
-* How products are licensed.
-* How billing works.
-* How aggregators participate.
-* How future products fit into the ecosystem.
+- What AutoShipp sells.
+- Who buys products.
+- How organizations interact.
+- How products are licensed.
+- How billing works.
+- How aggregators participate.
+- How future products fit into the ecosystem.
 
 This document is intentionally business-focused. It defines the commercial rules that drive the database, backend services, billing engine, marketplace, and organization model described in later specifications.
 
@@ -2883,14 +2871,14 @@ Customers purchase one or more **Products** that are delivered through the platf
 
 The platform provides:
 
-* Identity
-* Organization Management
-* Billing
-* Wallet
-* Marketplace
-* Shared Commerce Foundation
-* Integrations
-* Security
+- Identity
+- Organization Management
+- Billing
+- Wallet
+- Marketplace
+- Shared Commerce Foundation
+- Integrations
+- Security
 
 Products provide specialized business capabilities.
 
@@ -2922,17 +2910,17 @@ The Platform is the owner of the ecosystem.
 
 Responsibilities include:
 
-* Platform administration
-* Product development
-* Marketplace management
-* Billing
-* Wallet
-* Product licensing
-* Organization approval
-* Security
-* Infrastructure
-* Customer support
-* Platform monitoring
+- Platform administration
+- Product development
+- Marketplace management
+- Billing
+- Wallet
+- Product licensing
+- Organization approval
+- Security
+- Infrastructure
+- Customer support
+- Platform monitoring
 
 The Platform always has ultimate authority over every organization.
 
@@ -2950,12 +2938,12 @@ Represents AutoShipp itself.
 
 Characteristics:
 
-* Owns infrastructure.
-* Owns products.
-* Owns billing.
-* Owns marketplace.
-* Owns identity.
-* Can access every organization.
+- Owns infrastructure.
+- Owns products.
+- Owns billing.
+- Owns marketplace.
+- Owns identity.
+- Can access every organization.
 
 ---
 
@@ -2965,11 +2953,11 @@ Represents strategic business partners.
 
 Examples:
 
-* Delhivery
-* Shiprocket
-* ShipXSpeed
-* Future logistics providers
-* Future consulting partners
+- Delhivery
+- Shiprocket
+- ShipXSpeed
+- Future logistics providers
+- Future consulting partners
 
 Aggregators manage their own business ecosystem.
 
@@ -2981,8 +2969,8 @@ Represents merchants using AutoShipp products.
 
 Brands may be:
 
-* Direct customers.
-* Managed by an Aggregator.
+- Direct customers.
+- Managed by an Aggregator.
 
 ---
 
@@ -3006,10 +2994,10 @@ Platform
 
 The hierarchy determines:
 
-* Billing
-* Management
-* Product assignments
-* Administrative scope
+- Billing
+- Management
+- Product assignments
+- Administrative scope
 
 It does **not** determine user permissions.
 
@@ -3029,10 +3017,10 @@ Current user categories:
 
 Roles include:
 
-* Owner
-* Manager
-* Developer
-* Support
+- Owner
+- Manager
+- Developer
+- Support
 
 Platform staff administer the ecosystem.
 
@@ -3042,10 +3030,10 @@ Platform staff administer the ecosystem.
 
 Aggregator users manage:
 
-* Their organization.
-* Their managed brands.
-* Product assignments.
-* Brand users.
+- Their organization.
+- Their managed brands.
+- Product assignments.
+- Brand users.
 
 They have no visibility outside their own hierarchy.
 
@@ -3057,8 +3045,8 @@ Brand users consume platform products.
 
 Typical roles:
 
-* Brand Administrator
-* Brand Viewer
+- Brand Administrator
+- Brand Viewer
 
 Additional roles may be introduced without changing the architecture.
 
@@ -3161,12 +3149,12 @@ Subscriptions represent commercial agreements.
 
 A subscription defines:
 
-* Billing frequency
-* Pricing
-* Commercial terms
-* Renewal
-* Cancellation
-* Invoice generation
+- Billing frequency
+- Pricing
+- Commercial terms
+- Renewal
+- Cancellation
+- Invoice generation
 
 Subscriptions do **not** grant access directly.
 
@@ -3283,9 +3271,9 @@ Example:
 
 Aggregator purchases:
 
-* Fit
-* ETA
-* Returns
+- Fit
+- ETA
+- Returns
 
 Assignments:
 
@@ -3307,11 +3295,11 @@ Wallets belong to organizations, never users.
 
 Wallets support:
 
-* Credit purchases
-* Service consumption
-* Future prepaid models
-* Refunds
-* Promotional credits
+- Credit purchases
+- Service consumption
+- Future prepaid models
+- Refunds
+- Promotional credits
 
 Products consume wallet balances through the platform.
 
@@ -3325,21 +3313,21 @@ Aggregators are strategic partners.
 
 Responsibilities:
 
-* Acquire brands.
-* Onboard brands.
-* Purchase products.
-* Assign products.
-* Manage users.
-* Support their customers.
+- Acquire brands.
+- Onboard brands.
+- Purchase products.
+- Assign products.
+- Manage users.
+- Support their customers.
 
 Platform responsibilities:
 
-* Product development.
-* Infrastructure.
-* Billing.
-* Marketplace.
-* Security.
-* Platform governance.
+- Product development.
+- Infrastructure.
+- Billing.
+- Marketplace.
+- Security.
+- Platform governance.
 
 ---
 
@@ -3349,11 +3337,11 @@ Brands may move between aggregators.
 
 Transfer requirements:
 
-* Platform approval.
-* Historical billing preserved.
-* Historical audit preserved.
-* Historical assignments archived.
-* New assignments generated.
+- Platform approval.
+- Historical billing preserved.
+- Historical audit preserved.
+- Historical assignments archived.
+- New assignments generated.
 
 No business history may be lost during a transfer.
 
@@ -3365,15 +3353,15 @@ The platform is designed to support unlimited future products.
 
 Future examples:
 
-* Inventory Intelligence
-* Warehouse Management
-* Fraud Detection
-* Pricing Intelligence
-* Marketing Automation
-* AI Agents
-* Supplier Portal
-* ERP Connector
-* Marketplace Intelligence
+- Inventory Intelligence
+- Warehouse Management
+- Fraud Detection
+- Pricing Intelligence
+- Marketing Automation
+- AI Agents
+- Supplier Portal
+- ERP Connector
+- Marketplace Intelligence
 
 No commercial redesign should be required.
 
@@ -3481,14 +3469,14 @@ The commercial model is designed to support future expansion without structural 
 
 Future capabilities may include:
 
-* Channel partners.
-* Regional distributors.
-* White-label partners.
-* Enterprise account hierarchies.
-* Multi-country billing.
-* Marketplace commissions.
-* Public developer marketplace.
-* Third-party products.
+- Channel partners.
+- Regional distributors.
+- White-label partners.
+- Enterprise account hierarchies.
+- Multi-country billing.
+- Marketplace commissions.
+- Public developer marketplace.
+- Third-party products.
 
 The current architecture intentionally leaves room for these future enhancements while maintaining the same core principles.
 
@@ -3496,8 +3484,8 @@ The current architecture intentionally leaves room for these future enhancements
 
 # 21. Decision Register
 
-| ID    | Decision                                                              | Status   |
-| ----- | --------------------------------------------------------------------- | -------- |
+| ID    | Decision                                                              | Status    |
+| ----- | --------------------------------------------------------------------- | --------- |
 | D-030 | Organizations are the primary commercial entity                       | ✅ Locked |
 | D-031 | Three organization types: Platform, Aggregator, Brand                 | ✅ Locked |
 | D-032 | Aggregators are first-class organizations, not roles                  | ✅ Locked |
@@ -3517,7 +3505,6 @@ The current architecture intentionally leaves room for these future enhancements
 This document defines **how AutoShipp operates as a business**. It intentionally avoids database or implementation details; those will be introduced in later specifications. Every commercial workflow—from onboarding and billing to licensing and product assignments—must conform to the rules established here.
 
 **Next Document:** **AES-004 — Organization Model**, which will define the complete organizational domain, including organization hierarchies, parent–child relationships, memberships, governance rules, lifecycle states, ownership model, transfer model, and the database architecture for organizations before any other domain is designed.
-
 
 ---
 
@@ -3559,18 +3546,18 @@ The Organization Domain provides a unified model for representing every business
 
 It is responsible for:
 
-* Organization lifecycle
-* Organization hierarchy
-* Parent-child relationships
-* Organization ownership
-* Organization settings
-* Organization memberships
-* Product assignments
-* Billing ownership
-* Wallet ownership
-* Governance
-* Organization transfers
-* Audit
+- Organization lifecycle
+- Organization hierarchy
+- Parent-child relationships
+- Organization ownership
+- Organization settings
+- Organization memberships
+- Product assignments
+- Billing ownership
+- Wallet ownership
+- Governance
+- Organization transfers
+- Audit
 
 This domain does **not** manage authentication or user identities. Those belong to the Identity Domain (AES-200).
 
@@ -3603,11 +3590,11 @@ Represents AutoShipp itself.
 
 Characteristics:
 
-* Global administrator
-* Infrastructure owner
-* Product owner
-* Marketplace owner
-* Security owner
+- Global administrator
+- Infrastructure owner
+- Product owner
+- Marketplace owner
+- Security owner
 
 Exactly **one** PLATFORM organization exists.
 
@@ -3631,13 +3618,13 @@ Future Logistics Partner
 
 Capabilities:
 
-* Purchase products
-* Manage brands
-* Invite users
-* Manage subscriptions
-* Receive invoices
-* Own wallet
-* Assign products
+- Purchase products
+- Manage brands
+- Invite users
+- Manage subscriptions
+- Receive invoices
+- Own wallet
+- Assign products
 
 ---
 
@@ -3647,16 +3634,16 @@ Represents merchants using AutoShipp.
 
 Capabilities:
 
-* Use assigned products
-* Manage internal users
-* View analytics
-* Consume APIs
-* Manage settings
+- Use assigned products
+- Manage internal users
+- View analytics
+- Consume APIs
+- Manage settings
 
 Brands may be:
 
-* Direct
-* Aggregator Managed
+- Direct
+- Aggregator Managed
 
 The type remains BRAND regardless of ownership.
 
@@ -3682,10 +3669,10 @@ Platform
 
 Hierarchy determines:
 
-* Administrative scope
-* Billing responsibility
-* Management rights
-* Product assignment visibility
+- Administrative scope
+- Billing responsibility
+- Management rights
+- Product assignment visibility
 
 Hierarchy does **not** determine RBAC.
 
@@ -3923,12 +3910,12 @@ Future architecture allows many-to-many without redesign.
 
 Membership stores:
 
-* User
-* Organization
-* Role
-* Status
-* Joined Date
-* Invited By
+- User
+- Organization
+- Role
+- Status
+- Joined Date
+- Invited By
 
 ---
 
@@ -3966,11 +3953,11 @@ Platform retains ultimate authority.
 
 Platform may:
 
-* Suspend organizations
-* Transfer organizations
-* Revoke assignments
-* Override permissions
-* Archive organizations
+- Suspend organizations
+- Transfer organizations
+- Revoke assignments
+- Override permissions
+- Archive organizations
 
 Aggregators may govern only organizations beneath them.
 
@@ -3994,7 +3981,7 @@ Aggregator
 
 Self
 
-*
+-
 
 Managed Brands
 
@@ -4072,25 +4059,25 @@ This avoids duplication and supports dynamic licensing.
 
 The Organization Domain owns:
 
-* Organization creation
-* Organization updates
-* Organization transfers
-* Parent-child relationships
-* Organization settings
-* Organization hierarchy
-* Membership metadata
-* Governance
-* Organization lifecycle
+- Organization creation
+- Organization updates
+- Organization transfers
+- Parent-child relationships
+- Organization settings
+- Organization hierarchy
+- Membership metadata
+- Governance
+- Organization lifecycle
 
 The Organization Domain does **not** own:
 
-* Authentication
-* Passwords
-* JWTs
-* Roles
-* Permissions
-* Billing calculations
-* Product logic
+- Authentication
+- Passwords
+- JWTs
+- Roles
+- Permissions
+- Billing calculations
+- Product logic
 
 ---
 
@@ -4215,8 +4202,8 @@ Detailed request/response contracts will be specified in the API Standards docum
 
 # 21. Decision Register
 
-| ID    | Decision                                                      | Status   |
-| ----- | ------------------------------------------------------------- | -------- |
+| ID    | Decision                                                      | Status    |
+| ----- | ------------------------------------------------------------- | --------- |
 | D-041 | Every business entity is an Organization                      | ✅ Locked |
 | D-042 | Exactly three organization types: Platform, Aggregator, Brand | ✅ Locked |
 | D-043 | Platform owns the Organization Domain                         | ✅ Locked |
@@ -4237,7 +4224,6 @@ This specification establishes the **Organization Domain**, which is the corners
 From this point onward, we stop describing concepts and begin designing **implementable platform domains**.
 
 **Next Document:** **AES-005 — Identity & Access Management (IAM) Domain**, where we will define users, authentication, JWT, RBAC, permissions, memberships, sessions, API keys, token versioning, guards, and the complete security identity model that every product in AutoShipp will use.
-
 
 ---
 
@@ -4267,17 +4253,17 @@ The Identity & Access Management (IAM) Domain is the **security foundation** of 
 
 It provides:
 
-* Authentication
-* Authorization
-* User lifecycle
-* Role Based Access Control (RBAC)
-* Organization Membership
-* Sessions
-* JWT issuance
-* Token revocation
-* API authentication
-* Service authentication
-* Audit integration
+- Authentication
+- Authorization
+- User lifecycle
+- Role Based Access Control (RBAC)
+- Organization Membership
+- Sessions
+- JWT issuance
+- Token revocation
+- API authentication
+- Service authentication
+- Audit integration
 
 IAM is a **Platform Domain**.
 
@@ -4302,22 +4288,22 @@ Every authenticated request in AutoShipp passes through this domain.
 
 The IAM Domain owns:
 
-* User Accounts
-* Authentication
-* Password Management
-* JWT Issuance
-* Session Management
-* Roles
-* Permissions
-* Organization Membership
-* Login History
-* Token Revocation
-* API Keys (future)
-* MFA (future)
-* SSO (future)
-* Password Policies
-* Account Lockout
-* Security Audit Events
+- User Accounts
+- Authentication
+- Password Management
+- JWT Issuance
+- Session Management
+- Roles
+- Permissions
+- Organization Membership
+- Login History
+- Token Revocation
+- API Keys (future)
+- MFA (future)
+- SSO (future)
+- Password Policies
+- Account Lockout
+- Security Audit Events
 
 It does **not** own organizations, billing, subscriptions, or products.
 
@@ -4385,10 +4371,10 @@ The UUID never changes.
 
 Authentication uses:
 
-* Email
-* Password
-* JWT
-* HttpOnly Cookie
+- Email
+- Password
+- JWT
+- HttpOnly Cookie
 
 Password hashing:
 
@@ -4464,12 +4450,12 @@ Example payload:
 
 JWTs never contain:
 
-* Passwords
-* Product licenses
-* Billing information
-* Wallet balances
-* Permissions list
-* Organization hierarchy
+- Passwords
+- Product licenses
+- Billing information
+- Wallet balances
+- Permissions list
+- Organization hierarchy
 
 These are resolved server-side.
 
@@ -4511,10 +4497,10 @@ Access is denied.
 
 Token version increments when:
 
-* Password changes
-* User logs out everywhere
-* Administrator revokes sessions
-* Security event occurs
+- Password changes
+- User logs out everywhere
+- Administrator revokes sessions
+- Security event occurs
 
 ---
 
@@ -4526,14 +4512,14 @@ Future-ready model.
 
 Each session stores:
 
-* User
-* Device
-* Browser
-* IP
-* Login Time
-* Last Activity
-* Expires At
-* Revoked At
+- User
+- Device
+- Browser
+- IP
+- Login Time
+- Last Activity
+- Expires At
+- Revoked At
 
 Platform can revoke individual sessions.
 
@@ -4815,9 +4801,9 @@ Controller
 
 Validates:
 
-* JWT signature
-* Expiration
-* Token version
+- JWT signature
+- Expiration
+- Token version
 
 ---
 
@@ -4849,11 +4835,11 @@ Examples:
 
 Only Platform Owner may:
 
-* Create Platform Users
-* Transfer Organizations
-* Archive Organizations
-* Create Products
-* Modify Billing Rules
+- Create Platform Users
+- Transfer Organizations
+- Archive Organizations
+- Create Products
+- Modify Billing Rules
 
 These checks belong in the service layer.
 
@@ -4922,15 +4908,15 @@ Detailed contracts are defined later.
 
 Identity enforces:
 
-* Strong password hashing
-* Token version validation
-* Session revocation
-* HttpOnly cookies
-* CSRF protection
-* Rate limiting
-* Brute-force protection
-* Secure password reset
-* Audit logging
+- Strong password hashing
+- Token version validation
+- Session revocation
+- HttpOnly cookies
+- CSRF protection
+- Rate limiting
+- Brute-force protection
+- Secure password reset
+- Audit logging
 
 ---
 
@@ -4938,16 +4924,16 @@ Identity enforces:
 
 The IAM Domain is designed to support:
 
-* Multi-Factor Authentication (MFA)
-* Single Sign-On (SSO)
-* SAML
-* OAuth2
-* OpenID Connect
-* Service Accounts
-* Personal Access Tokens
-* Machine-to-Machine Authentication
-* API Keys
-* SCIM Provisioning
+- Multi-Factor Authentication (MFA)
+- Single Sign-On (SSO)
+- SAML
+- OAuth2
+- OpenID Connect
+- Service Accounts
+- Personal Access Tokens
+- Machine-to-Machine Authentication
+- API Keys
+- SCIM Provisioning
 
 No redesign should be required.
 
@@ -4972,8 +4958,8 @@ No redesign should be required.
 
 # 24. Decision Register
 
-| ID    | Decision                                                              | Status   |
-| ----- | --------------------------------------------------------------------- | -------- |
+| ID    | Decision                                                              | Status    |
+| ----- | --------------------------------------------------------------------- | --------- |
 | D-051 | Authentication is centralized in the Platform                         | ✅ Locked |
 | D-052 | Products never implement independent authentication                   | ✅ Locked |
 | D-053 | JWTs are issued only by the Platform                                  | ✅ Locked |
@@ -5001,21 +4987,20 @@ We begin designing the **actual platform domains and database schemas**.
 
 That means the next documents will contain:
 
-* PostgreSQL schema designs
-* Table definitions
-* Column specifications
-* Foreign keys
-* Constraints
-* Index strategy
-* Prisma models
-* Ownership matrix
-* CRUD ownership
-* API contracts
+- PostgreSQL schema designs
+- Table definitions
+- Column specifications
+- Foreign keys
+- Constraints
+- Index strategy
+- Prisma models
+- Ownership matrix
+- CRUD ownership
+- API contracts
 
 These documents will become directly implementable by your engineering team.
 
 **Next Document:** **AES-006 — Product Marketplace & Licensing Domain**. This is where we design the entire commercial engine that powers product catalog, subscriptions, assignments, licensing, entitlements, and future marketplace expansion. This domain is the bridge between the business model and the physical database design.
-
 
 ---
 
@@ -5063,12 +5048,12 @@ That decision alone will allow AutoShipp to evolve for years without redesign.
 
 **Depends On**
 
-* AES-000
-* AES-001
-* AES-002
-* AES-003
-* AES-004
-* AES-005
+- AES-000
+- AES-001
+- AES-002
+- AES-003
+- AES-004
+- AES-005
 
 ---
 
@@ -5186,15 +5171,15 @@ Products register themselves with the Platform.
 
 The registry owns:
 
-* Product ID
-* Display Name
-* Version
-* Owner
-* API Endpoint
-* Documentation
-* Health Endpoint
-* Product Manifest
-* Marketplace Metadata
+- Product ID
+- Display Name
+- Version
+- Owner
+- API Endpoint
+- Documentation
+- Health Endpoint
+- Product Manifest
+- Marketplace Metadata
 
 ---
 
@@ -5227,15 +5212,15 @@ A Subscription represents a commercial agreement.
 
 A subscription contains:
 
-* Customer
-* Product
-* Plan
-* Billing Frequency
-* Pricing Model
-* Renewal Policy
-* Start Date
-* End Date
-* Status
+- Customer
+- Product
+- Plan
+- Billing Frequency
+- Pricing Model
+- Renewal Policy
+- Start Date
+- End Date
+- Status
 
 A subscription **does not grant access**.
 
@@ -5469,9 +5454,9 @@ Enterprise
 
 Each edition defines:
 
-* Entitlements
-* Limits
-* Capabilities
+- Entitlements
+- Limits
+- Capabilities
 
 Products remain unchanged.
 
@@ -5607,22 +5592,22 @@ Every step has one responsibility.
 
 Marketplace owns.
 
-* Product Catalog
-* Product Discovery
-* Product Metadata
-* Product Registration
-* Assignments
-* Entitlements
-* Product Categories
-* Marketplace Visibility
+- Product Catalog
+- Product Discovery
+- Product Metadata
+- Product Registration
+- Assignments
+- Entitlements
+- Product Categories
+- Marketplace Visibility
 
 Marketplace does not own.
 
-* Billing
-* Invoices
-* Wallet
-* Authentication
-* Product Logic
+- Billing
+- Invoices
+- Wallet
+- Authentication
+- Product Logic
 
 ---
 
@@ -5773,23 +5758,23 @@ This separation prevents commercial coupling.
 
 Without redesign the Marketplace supports:
 
-* Product Bundles
-* Cross-product discounts
-* Trial periods
-* Promotional access
-* Internal products
-* Beta products
-* Enterprise editions
-* White-label products
-* Marketplace partners
-* Third-party developers
+- Product Bundles
+- Cross-product discounts
+- Trial periods
+- Promotional access
+- Internal products
+- Beta products
+- Enterprise editions
+- White-label products
+- Marketplace partners
+- Third-party developers
 
 ---
 
 # 23. Decision Register
 
-| ID    | Decision                                                 | Status   |
-| ----- | -------------------------------------------------------- | -------- |
+| ID    | Decision                                                 | Status    |
+| ----- | -------------------------------------------------------- | --------- |
 | D-061 | Marketplace owns product discovery                       | ✅ Locked |
 | D-062 | Product Registry is the authoritative source of products | ✅ Locked |
 | D-063 | Subscriptions do not grant runtime access                | ✅ Locked |
@@ -5807,13 +5792,13 @@ Without redesign the Marketplace supports:
 
 This is one of the most important documents in the entire specification because it cleanly separates:
 
-* **Marketplace**
-* **Product Registry**
-* **Subscriptions**
-* **Assignments**
-* **Entitlements**
-* **Feature Flags**
-* **Billing**
+- **Marketplace**
+- **Product Registry**
+- **Subscriptions**
+- **Assignments**
+- **Entitlements**
+- **Feature Flags**
+- **Billing**
 
 Without this separation, the platform would eventually become tightly coupled and difficult to evolve.
 
@@ -5829,25 +5814,24 @@ The next document is where the implementation truly begins.
 
 This will be one of the largest documents in the entire specification (likely 50–100 pages when complete). It will establish:
 
-* The complete PostgreSQL schema strategy.
-* Shared vs. product schemas.
-* Domain ownership.
-* Cross-schema access rules.
-* Table ownership.
-* Migration ownership.
-* Prisma client boundaries.
-* Read/write matrix.
-* Indexing standards.
-* Foreign key standards.
-* Naming conventions.
-* Soft delete strategy.
-* Audit strategy.
-* Partitioning strategy.
-* Row-level security considerations.
-* Backup and recovery principles.
+- The complete PostgreSQL schema strategy.
+- Shared vs. product schemas.
+- Domain ownership.
+- Cross-schema access rules.
+- Table ownership.
+- Migration ownership.
+- Prisma client boundaries.
+- Read/write matrix.
+- Indexing standards.
+- Foreign key standards.
+- Naming conventions.
+- Soft delete strategy.
+- Audit strategy.
+- Partitioning strategy.
+- Row-level security considerations.
+- Backup and recovery principles.
 
 From **AES-007 onward**, every subsequent document will directly map to an implementable database and codebase rather than remaining conceptual.
-
 
 ---
 
@@ -5879,13 +5863,13 @@ This document is probably **one of the most important documents in the entire sp
 
 **Depends On**
 
-* AES-000
-* AES-001
-* AES-002
-* AES-003
-* AES-004
-* AES-005
-* AES-006
+- AES-000
+- AES-001
+- AES-002
+- AES-003
+- AES-004
+- AES-005
+- AES-006
 
 ---
 
@@ -5895,20 +5879,20 @@ AutoShipp uses a **Database-per-Platform, Schema-per-Domain** architecture.
 
 Unlike traditional SaaS platforms that either:
 
-* duplicate business data across services, or
-* create separate databases for every service,
+- duplicate business data across services, or
+- create separate databases for every service,
 
 AutoShipp uses a **single PostgreSQL database** with **strict schema ownership**.
 
 This architecture provides:
 
-* One source of truth.
-* Zero duplicated business entities.
-* Strong transactional consistency.
-* Independent service ownership.
-* Low operational complexity.
-* Independent deployments.
-* Future scalability.
+- One source of truth.
+- Zero duplicated business entities.
+- Strong transactional consistency.
+- Independent service ownership.
+- Low operational complexity.
+- Independent deployments.
+- Future scalability.
 
 The database is divided into **business domains**, not technical modules.
 
@@ -6010,12 +5994,12 @@ Example
 
 Ownership includes:
 
-* Schema
-* CRUD
-* Business rules
-* Migrations
-* Indexes
-* Constraints
+- Schema
+- CRUD
+- Business rules
+- Migrations
+- Indexes
+- Constraints
 
 ---
 
@@ -6122,10 +6106,10 @@ This is one of the most important architectural decisions.
 
 Rules:
 
-* Products may **read** shared platform schemas.
-* Products may **never write** shared platform schemas.
-* Products may **never write** another product's schema.
-* Products may **never bypass another product's API** for product-owned data.
+- Products may **read** shared platform schemas.
+- Products may **never write** shared platform schemas.
+- Products may **never write** another product's schema.
+- Products may **never bypass another product's API** for product-owned data.
 
 ---
 
@@ -6137,11 +6121,11 @@ The platform distinguishes between **Shared Data** and **Product Data**.
 
 Examples:
 
-* Users
-* Organizations
-* Orders
-* Customers
-* Stores
+- Users
+- Organizations
+- Orders
+- Customers
+- Stores
 
 Products may query directly.
 
@@ -6151,9 +6135,9 @@ Products may query directly.
 
 Examples:
 
-* Fit recommendations
-* ETA predictions
-* AI conversations
+- Fit recommendations
+- ETA predictions
+- AI conversations
 
 Products must use APIs.
 
@@ -6245,11 +6229,11 @@ Each client exposes only its owned schemas and permitted shared schemas.
 
 Benefits:
 
-* Clear ownership.
-* Smaller generated clients.
-* Faster generation.
-* Strong compile-time separation.
-* Easier migrations.
+- Clear ownership.
+- Smaller generated clients.
+- Faster generation.
+- Strong compile-time separation.
+- Easier migrations.
 
 ---
 
@@ -6265,11 +6249,11 @@ Platform
 
 Migrates
 
-* identity
-* organization
-* commerce
-* billing
-* wallet
+- identity
+- organization
+- commerce
+- billing
+- wallet
 
 Fit
 
@@ -6277,7 +6261,7 @@ Fit
 
 Migrates
 
-* fit
+- fit
 
 ETA
 
@@ -6285,7 +6269,7 @@ ETA
 
 Migrates
 
-* eta
+- eta
 
 No service may migrate another service's schema.
 
@@ -6375,10 +6359,10 @@ Avoid distributed transactions.
 
 Instead use:
 
-* Service APIs.
-* Idempotency.
-* Retry policies.
-* Audit trails.
+- Service APIs.
+- Idempotency.
+- Retry policies.
+- Audit trails.
 
 This keeps the architecture simple and resilient.
 
@@ -6442,10 +6426,10 @@ Every business entity uses UUID v7 (recommended) or UUID v4 if v7 is unavailable
 
 Rules:
 
-* Immutable.
-* Never reused.
-* Never exposed as sequential identifiers.
-* Generated by the application layer.
+- Immutable.
+- Never reused.
+- Never exposed as sequential identifiers.
+- Generated by the application layer.
 
 ---
 
@@ -6489,9 +6473,9 @@ deleted_by
 
 Soft deletes preserve:
 
-* Audit history.
-* Referential integrity.
-* Historical reporting.
+- Audit history.
+- Referential integrity.
+- Historical reporting.
 
 Physical deletion is reserved for operational or legal requirements.
 
@@ -6503,15 +6487,15 @@ Every write operation generates an audit event.
 
 Captured fields include:
 
-* Actor
-* Organization
-* Entity
-* Entity ID
-* Action
-* Previous Value
-* New Value
-* Timestamp
-* Correlation ID
+- Actor
+- Organization
+- Entity
+- Entity ID
+- Action
+- Previous Value
+- New Value
+- Timestamp
+- Correlation ID
 
 Audit records are immutable.
 
@@ -6543,10 +6527,10 @@ Partitioning is introduced only when justified by production metrics.
 
 Likely future candidates:
 
-* Audit Logs
-* Notification Events
-* Usage Records
-* API Logs
+- Audit Logs
+- Notification Events
+- Usage Records
+- API Logs
 
 Business tables remain unpartitioned until necessary.
 
@@ -6558,10 +6542,10 @@ Database backups are managed centrally.
 
 Requirements:
 
-* Automated backups
-* Point-in-Time Recovery (PITR)
-* Daily validation of backup integrity
-* Tested restoration procedures
+- Automated backups
+- Point-in-Time Recovery (PITR)
+- Daily validation of backup integrity
+- Tested restoration procedures
 
 Products do not manage backups independently.
 
@@ -6573,10 +6557,10 @@ AutoShipp uses **shared-schema multi-tenancy**.
 
 Tenant isolation is achieved through:
 
-* `organization_id` ownership
-* Service-layer authorization
-* Database permissions
-* Optional PostgreSQL Row-Level Security (RLS) for high-risk tables in future
+- `organization_id` ownership
+- Service-layer authorization
+- Database permissions
+- Optional PostgreSQL Row-Level Security (RLS) for high-risk tables in future
 
 No separate database or schema is created per customer.
 
@@ -6602,8 +6586,8 @@ Existing schemas remain unchanged.
 
 # 23. Decision Register
 
-| ID    | Decision                                                         | Status   |
-| ----- | ---------------------------------------------------------------- | -------- |
+| ID    | Decision                                                         | Status    |
+| ----- | ---------------------------------------------------------------- | --------- |
 | D-071 | One PostgreSQL database for the platform                         | ✅ Locked |
 | D-072 | Schema-per-domain architecture                                   | ✅ Locked |
 | D-073 | Every schema has exactly one owner                               | ✅ Locked |
@@ -6629,14 +6613,13 @@ Now that we've reached the database layer, I would **change the planned order** 
 
 Originally, we were going to continue with more business domains. However, the more logical engineering sequence is:
 
-* **AES-008 — Physical Database Schema Blueprint** (all schemas and their relationships)
-* **AES-009 — Identity Schema Specification**
-* **AES-010 — Organization Schema Specification**
-* **AES-011 — Commerce Schema Specification**
-* ...
+- **AES-008 — Physical Database Schema Blueprint** (all schemas and their relationships)
+- **AES-009 — Identity Schema Specification**
+- **AES-010 — Organization Schema Specification**
+- **AES-011 — Commerce Schema Specification**
+- ...
 
 This change keeps the documentation aligned with how the system will actually be implemented: first define the overall physical schema layout, then specify each schema in detail, followed by backend services, APIs, frontend, infrastructure, and security. It will also make it much easier to translate the specification directly into Prisma models and database migrations.
-
 
 ---
 
@@ -6664,14 +6647,14 @@ The level of detail will increase significantly.
 
 **Depends On:**
 
-* AES-000 Engineering Constitution
-* AES-001 Vision
-* AES-002 Architecture Principles
-* AES-003 Business Model
-* AES-004 Organization Domain
-* AES-005 IAM Domain
-* AES-006 Marketplace Domain
-* AES-007 Database Architecture
+- AES-000 Engineering Constitution
+- AES-001 Vision
+- AES-002 Architecture Principles
+- AES-003 Business Model
+- AES-004 Organization Domain
+- AES-005 IAM Domain
+- AES-006 Marketplace Domain
+- AES-007 Database Architecture
 
 ---
 
@@ -6683,13 +6666,13 @@ Unlike traditional SaaS architectures that duplicate business entities across se
 
 The primary design objectives are:
 
-* Single source of truth
-* Zero duplicated business entities
-* Independent service ownership
-* Independent deployments
-* Strong transactional consistency
-* Simple operations
-* Enterprise scalability
+- Single source of truth
+- Zero duplicated business entities
+- Independent service ownership
+- Independent deployments
+- Strong transactional consistency
+- Simple operations
+- Enterprise scalability
 
 The database is organized around **business domains**, not applications.
 
@@ -6715,11 +6698,11 @@ No aggregator receives its own database.
 
 Logical isolation is achieved using:
 
-* Schemas
-* Organization ownership
-* RBAC
-* Service ownership
-* Database permissions
+- Schemas
+- Organization ownership
+- RBAC
+- Service ownership
+- Database permissions
 
 ---
 
@@ -6890,13 +6873,13 @@ Every schema has exactly one owner.
 
 Ownership includes:
 
-* Schema
-* Tables
-* Views
-* Functions
-* Migrations
-* Business Rules
-* APIs
+- Schema
+- Tables
+- Views
+- Functions
+- Migrations
+- Business Rules
+- APIs
 
 ---
 
@@ -6924,8 +6907,8 @@ prisma-shipping
 
 Every Prisma package exposes only:
 
-* Owned schemas (Read/Write)
-* Shared schemas (Read Only)
+- Owned schemas (Read/Write)
+- Shared schemas (Read Only)
 
 ---
 
@@ -7221,10 +7204,10 @@ UUID v4
 
 Rules.
 
-* Immutable
-* Never reused
-* Never sequential
-* Generated by application
+- Immutable
+- Never reused
+- Never sequential
+- Generated by application
 
 ---
 
@@ -7338,11 +7321,11 @@ ETA API
 
 JSON is allowed only for:
 
-* Metadata
-* Configuration
-* Dynamic provider payloads
-* External API responses
-* Feature configuration
+- Metadata
+- Configuration
+- Dynamic provider payloads
+- External API responses
+- Feature configuration
 
 JSON is **not** allowed for core business entities.
 
@@ -7414,11 +7397,11 @@ Shipping Providers
 
 Indexes are created for:
 
-* PK
-* FK
-* Unique columns
-* Search columns
-* Frequent filters
+- PK
+- FK
+- Unique columns
+- Search columns
+- Frequent filters
 
 Composite indexes follow actual query patterns.
 
@@ -7494,10 +7477,10 @@ Never schema-level backups.
 
 Requirements.
 
-* PITR
-* Daily snapshots
-* Weekly restore verification
-* Monthly disaster recovery drill
+- PITR
+- Daily snapshots
+- Weekly restore verification
+- Monthly disaster recovery drill
 
 ---
 
@@ -7514,10 +7497,10 @@ Every table receives one classification.
 
 This classification drives:
 
-* Backup policy
-* Encryption
-* Audit requirements
-* Access controls
+- Backup policy
+- Encryption
+- Audit requirements
+- Access controls
 
 ---
 
@@ -7525,11 +7508,11 @@ This classification drives:
 
 The database must prioritize:
 
-* OLTP workloads
-* Short transactions
-* Indexed lookups
-* Predictable query plans
-* Bounded result sets
+- OLTP workloads
+- Short transactions
+- Indexed lookups
+- Predictable query plans
+- Bounded result sets
 
 Rules.
 
@@ -7619,8 +7602,8 @@ This governance prevents uncontrolled schema evolution.
 
 # 26. Decision Register
 
-| ID    | Decision                                                          | Status   |
-| ----- | ----------------------------------------------------------------- | -------- |
+| ID    | Decision                                                          | Status    |
+| ----- | ----------------------------------------------------------------- | --------- |
 | D-081 | Single PostgreSQL database for all platform domains and products  | ✅ Locked |
 | D-082 | Business domains determine schema boundaries                      | ✅ Locked |
 | D-083 | One owning service per schema                                     | ✅ Locked |
@@ -7645,7 +7628,6 @@ From this point forward, every subsequent document becomes **implementation-leve
 We are no longer defining architecture; we are defining the exact schemas, tables, columns, constraints, indexes, Prisma models, services, and APIs that will be built.
 
 The next specification, **AES-009 — Identity Schema Specification**, will define the first concrete database schema in full detail, including every table, relationship, index, constraint, ownership rule, and migration strategy. That document will be the template used for every other schema in the AutoShipp platform.
-
 
 ---
 
@@ -7681,9 +7663,9 @@ That means if someone understands AES-009, they understand every schema in the p
 
 **Depends On:**
 
-* AES-005 IAM Domain
-* AES-007 Database Architecture
-* AES-008 Master Database Blueprint
+- AES-005 IAM Domain
+- AES-007 Database Architecture
+- AES-008 Master Database Blueprint
 
 ---
 
@@ -7693,14 +7675,14 @@ The **Identity Schema** provides the persistent storage for the Identity & Acces
 
 It is the foundation for:
 
-* Authentication
-* User lifecycle
-* Sessions
-* Organization membership
-* Roles
-* Permissions
-* Access control
-* Security auditing
+- Authentication
+- User lifecycle
+- Sessions
+- Organization membership
+- Roles
+- Permissions
+- Access control
+- Security auditing
 
 This schema contains **identity information only**.
 
@@ -7714,28 +7696,28 @@ The schema is owned exclusively by the Platform API.
 
 The `identity` schema owns:
 
-* Users
-* Password credentials
-* User status
-* Sessions
-* Roles
-* Permissions
-* Role permissions
-* User memberships
-* Login history
-* Password reset tokens
-* Email verification tokens
-* API keys (future)
-* MFA (future)
+- Users
+- Password credentials
+- User status
+- Sessions
+- Roles
+- Permissions
+- Role permissions
+- User memberships
+- Login history
+- Password reset tokens
+- Email verification tokens
+- API keys (future)
+- MFA (future)
 
 It does **not** own:
 
-* Organizations
-* Products
-* Billing
-* Wallets
-* Orders
-* Customers
+- Organizations
+- Products
+- Billing
+- Wallets
+- Orders
+- Customers
 
 ---
 
@@ -7883,10 +7865,10 @@ Contains credentials and PII.
 
 Most common:
 
-* Login
-* Find by email
-* Fetch profile
-* Validate token version
+- Login
+- Find by email
+- Fetch profile
+- Validate token version
 
 ---
 
@@ -8065,9 +8047,9 @@ Associates a membership with a role.
 
 This means a user can be:
 
-* `BRAND_ADMIN` in Brand A
-* `BRAND_VIEWER` in Brand B
-* `AGGREGATOR_ADMIN` in Aggregator X
+- `BRAND_ADMIN` in Brand A
+- `BRAND_VIEWER` in Brand B
+- `AGGREGATOR_ADMIN` in Aggregator X
 
 without creating duplicate user accounts.
 
@@ -8112,9 +8094,9 @@ JWTs remain stateless.
 
 Sessions enable:
 
-* Logout everywhere
-* Device management
-* Security monitoring
+- Logout everywhere
+- Device management
+- Security monitoring
 
 ---
 
@@ -8124,12 +8106,12 @@ Append-only.
 
 Contains:
 
-* Login time
-* Success
-* Failure reason
-* IP
-* User Agent
-* MFA status (future)
+- Login time
+- Success
+- Failure reason
+- IP
+- User Agent
+- MFA status (future)
 
 Never updated.
 
@@ -8143,12 +8125,12 @@ Stores hashed reset tokens.
 
 Columns:
 
-* id
-* user_id
-* token_hash
-* expires_at
-* used_at
-* created_at
+- id
+- user_id
+- token_hash
+- expires_at
+- used_at
+- created_at
 
 Never store plaintext tokens.
 
@@ -8236,13 +8218,13 @@ Identity never owns commercial relationships.
 
 # 7. Security Rules
 
-* Passwords stored only as bcrypt hashes.
-* Refresh tokens stored only as hashes.
-* Password reset tokens hashed.
-* Email verification tokens hashed.
-* Token version validated on every authenticated request.
-* All privileged operations audited.
-* No plaintext secrets stored.
+- Passwords stored only as bcrypt hashes.
+- Refresh tokens stored only as hashes.
+- Password reset tokens hashed.
+- Email verification tokens hashed.
+- Token version validated on every authenticated request.
+- All privileged operations audited.
+- No plaintext secrets stored.
 
 ---
 
@@ -8250,12 +8232,12 @@ Identity never owns commercial relationships.
 
 | Service          | Read | Write |
 | ---------------- | ---- | ----- |
-| Platform API     | ✅    | ✅     |
-| Fit Service      | ✅    | ❌     |
-| ETA Service      | ✅    | ❌     |
-| Returns Service  | ✅    | ❌     |
-| AI Service       | ✅    | ❌     |
-| Shipping Service | ✅    | ❌     |
+| Platform API     | ✅   | ✅    |
+| Fit Service      | ✅   | ❌    |
+| ETA Service      | ✅   | ❌    |
+| Returns Service  | ✅   | ❌    |
+| AI Service       | ✅   | ❌    |
+| Shipping Service | ✅   | ❌    |
 
 Products may only read identity data necessary for authorization and business context.
 
@@ -8277,12 +8259,12 @@ Only this package generates migrations for the `identity` schema.
 
 Estimated initial scale:
 
-* Users: <100,000
-* Memberships: <500,000
-* Sessions: Millions over time
-* Login history: Tens of millions
-* Roles: <100
-* Permissions: <500
+- Users: <100,000
+- Memberships: <500,000
+- Sessions: Millions over time
+- Login history: Tens of millions
+- Roles: <100
+- Permissions: <500
 
 The schema is optimized for high read frequency and moderate write frequency.
 
@@ -8292,17 +8274,17 @@ The schema is optimized for high read frequency and moderate write frequency.
 
 Identity migrations are:
 
-* Backward compatible whenever possible.
-* Reviewed for authentication impact.
-* Applied before dependent service deployments.
-* Never modify product schemas.
+- Backward compatible whenever possible.
+- Reviewed for authentication impact.
+- Applied before dependent service deployments.
+- Never modify product schemas.
 
 ---
 
 # 12. Decision Register
 
-| ID    | Decision                                                      | Status   |
-| ----- | ------------------------------------------------------------- | -------- |
+| ID    | Decision                                                      | Status    |
+| ----- | ------------------------------------------------------------- | --------- |
 | D-091 | Users are global identities                                   | ✅ Locked |
 | D-092 | Memberships provide organization context                      | ✅ Locked |
 | D-093 | Roles are assigned through memberships, not directly to users | ✅ Locked |
@@ -8324,13 +8306,12 @@ Now that we've reached the implementation layer, I noticed one architectural imp
 
 Originally, you had tables like:
 
-* `identity_user_accounts`
-* `identity_user_roles`
+- `identity_user_accounts`
+- `identity_user_roles`
 
 I recommend replacing that model with the `memberships` → `user_roles` pattern defined above. It normalizes the relationship between users, organizations, and roles, supports future multi-organization users without redesign, and removes the need for separate linking tables with overlapping responsibilities. It also aligns naturally with the hierarchy we've already established (User → Membership → Role → Permission).
 
 From **AES-010 onward**, every schema document will follow this same implementation-level structure: responsibilities, ER model, table-by-table specification, constraints, indexes, ownership, security, Prisma ownership, migration strategy, and decision register. That consistency will make the entire specification directly translatable into SQL and Prisma.
-
 
 ---
 
@@ -8352,13 +8333,13 @@ Organization answers:
 
 Everything eventually hangs off Organizations.
 
-* Billing
-* Wallet
-* Marketplace
-* Commerce
-* Products
-* Integrations
-* Analytics
+- Billing
+- Wallet
+- Marketplace
+- Commerce
+- Products
+- Integrations
+- Analytics
 
 Everything.
 
@@ -8382,9 +8363,9 @@ Everything.
 
 **Depends On:**
 
-* AES-004 Organization Domain
-* AES-008 Master Database Blueprint
-* AES-009 Identity Schema
+- AES-004 Organization Domain
+- AES-008 Master Database Blueprint
+- AES-009 Identity Schema
 
 ---
 
@@ -8398,13 +8379,13 @@ Users authenticate through the Identity Domain.
 
 Organizations own:
 
-* Subscriptions
-* Wallets
-* Product Assignments
-* Integrations
-* Commerce Data
-* Settings
-* API Keys (future)
+- Subscriptions
+- Wallets
+- Product Assignments
+- Integrations
+- Commerce Data
+- Settings
+- API Keys (future)
 
 Organizations never disappear.
 
@@ -8416,27 +8397,27 @@ Their identity remains immutable even if ownership changes.
 
 The Organization Schema owns:
 
-* Organizations
-* Organization Types
-* Organization Hierarchy
-* Parent-Child Relationships
-* Organization Settings
-* Organization Metadata
-* Organization Lifecycle
-* Organization Transfers
-* Organization Contacts
-* Organization Addresses
+- Organizations
+- Organization Types
+- Organization Hierarchy
+- Parent-Child Relationships
+- Organization Settings
+- Organization Metadata
+- Organization Lifecycle
+- Organization Transfers
+- Organization Contacts
+- Organization Addresses
 
 It does **not** own:
 
-* Users
-* Roles
-* Permissions
-* Billing
-* Wallets
-* Products
-* Orders
-* Customers
+- Users
+- Roles
+- Permissions
+- Billing
+- Wallets
+- Products
+- Orders
+- Customers
 
 ---
 
@@ -8497,11 +8478,11 @@ One row equals one legal or operational organization.
 
 Examples
 
-* AutoShipp
-* Nike
-* Shiprocket
-* Delhivery
-* Puma
+- AutoShipp
+- Nike
+- Shiprocket
+- Delhivery
+- Puma
 
 ---
 
@@ -8582,12 +8563,12 @@ Confidential
 
 ## Query Patterns
 
-* Find organization by slug
-* Lookup by ID
-* Search organizations
-* List brands
-* List aggregators
-* Resolve routing (`autoshipp.in/{brand}`)
+- Find organization by slug
+- Lookup by ID
+- Search organizations
+- List brands
+- List aggregators
+- Resolve routing (`autoshipp.in/{brand}`)
 
 ---
 
@@ -8687,10 +8668,10 @@ Primary contact persons.
 
 Examples:
 
-* Finance
-* Technical
-* Legal
-* Operations
+- Finance
+- Technical
+- Legal
+- Operations
 
 Columns
 
@@ -8714,9 +8695,9 @@ Stores addresses.
 
 Examples:
 
-* Registered office
-* Billing address
-* Operational address
+- Registered office
+- Billing address
+- Operational address
 
 Columns
 
@@ -8780,9 +8761,9 @@ dashboard.nike.com
 
 Future use:
 
-* White-label portals
-* SSO validation
-* Email verification
+- White-label portals
+- SSO validation
+- Email verification
 
 Columns
 
@@ -8947,13 +8928,13 @@ Products reference organizations but organizations never reference product schem
 
 # 8. Security Rules
 
-* Organization IDs are immutable.
-* Organization slugs are unique.
-* Transfers require Platform approval.
-* Organization history is never deleted.
-* Every update is audited.
-* Only Platform API can modify hierarchy.
-* Product services have read-only access.
+- Organization IDs are immutable.
+- Organization slugs are unique.
+- Transfers require Platform approval.
+- Organization history is never deleted.
+- Every update is audited.
+- Only Platform API can modify hierarchy.
+- Product services have read-only access.
 
 ---
 
@@ -8961,12 +8942,12 @@ Products reference organizations but organizations never reference product schem
 
 | Service          | Read | Write |
 | ---------------- | ---- | ----- |
-| Platform API     | ✅    | ✅     |
-| Fit Service      | ✅    | ❌     |
-| ETA Service      | ✅    | ❌     |
-| Returns Service  | ✅    | ❌     |
-| AI Service       | ✅    | ❌     |
-| Shipping Service | ✅    | ❌     |
+| Platform API     | ✅   | ✅    |
+| Fit Service      | ✅   | ❌    |
+| ETA Service      | ✅   | ❌    |
+| Returns Service  | ✅   | ❌    |
+| AI Service       | ✅   | ❌    |
+| Shipping Service | ✅   | ❌    |
 
 ---
 
@@ -8986,11 +8967,11 @@ Migration ownership belongs exclusively to the Platform API.
 
 Estimated scale:
 
-* Organizations: <50,000
-* Relationships: <100,000
-* Contacts: <250,000
-* Addresses: <250,000
-* Domains: <100,000
+- Organizations: <50,000
+- Relationships: <100,000
+- Contacts: <250,000
+- Addresses: <250,000
+- Domains: <100,000
 
 The design supports millions of organizations without structural changes.
 
@@ -8998,17 +8979,17 @@ The design supports millions of organizations without structural changes.
 
 # 12. Migration Strategy
 
-* Organization hierarchy changes are additive.
-* Relationship history is never rewritten.
-* Slug changes preserve redirect history (future enhancement).
-* New organization types can be added without schema changes.
+- Organization hierarchy changes are additive.
+- Relationship history is never rewritten.
+- Slug changes preserve redirect history (future enhancement).
+- New organization types can be added without schema changes.
 
 ---
 
 # 13. Decision Register
 
-| ID    | Decision                                                                            | Status   |
-| ----- | ----------------------------------------------------------------------------------- | -------- |
+| ID    | Decision                                                                            | Status    |
+| ----- | ----------------------------------------------------------------------------------- | --------- |
 | D-101 | Organizations are immutable business identities                                     | ✅ Locked |
 | D-102 | Organization types are lookup-driven                                                | ✅ Locked |
 | D-103 | Hierarchy is modeled through `organization_relationships`, not a `parent_id` column | ✅ Locked |
@@ -9026,21 +9007,20 @@ The design supports millions of organizations without structural changes.
 
 After designing both **AES-009** and **AES-010**, I recommend replacing the original tables:
 
-* `core_accounts`
-* `account_type`
-* `identity_user_accounts`
+- `core_accounts`
+- `account_type`
+- `identity_user_accounts`
 
 with the new domain model:
 
-* `organization.organizations`
-* `organization.organization_types`
-* `organization.organization_relationships`
-* `identity.memberships`
+- `organization.organizations`
+- `organization.organization_types`
+- `organization.organization_relationships`
+- `identity.memberships`
 
 This eliminates duplicated concepts ("account" vs. "organization"), gives you a single business identity model, supports direct brands, aggregator-managed brands, future distributors, enterprise hierarchies, and brand transfers without redesign, and aligns every other domain (billing, wallet, marketplace, commerce) around one canonical entity: the **Organization**.
 
 This is a foundational improvement that will simplify the entire platform for years to come.
-
 
 ---
 
@@ -9050,8 +9030,8 @@ This is where the architecture starts paying off.
 
 Up until now we've built:
 
-* Identity
-* Organizations
+- Identity
+- Organizations
 
 Now we build the **Commerce Domain**.
 
@@ -9083,10 +9063,10 @@ The Commerce Domain becomes the **single source of truth** for all synchronized 
 
 **Depends On:**
 
-* AES-002 Architecture Principles
-* AES-007 Database Architecture
-* AES-008 Master Database Blueprint
-* AES-010 Organization Schema
+- AES-002 Architecture Principles
+- AES-007 Database Architecture
+- AES-008 Master Database Blueprint
+- AES-010 Organization Schema
 
 ---
 
@@ -9098,12 +9078,12 @@ It acts as the **canonical commerce foundation** for the entire AutoShipp ecosys
 
 Products such as:
 
-* Fit Intelligence
-* ETA
-* Returns
-* AI Assistant
-* Marketing
-* Analytics
+- Fit Intelligence
+- ETA
+- Returns
+- AI Assistant
+- Marketing
+- Analytics
 
 never synchronize Shopify, WooCommerce, Magento, or other commerce platforms directly.
 
@@ -9117,23 +9097,23 @@ This eliminates duplicate synchronization, reduces API usage, simplifies mainten
 
 The Commerce Schema owns:
 
-* Stores
-* Sales Channels
-* Products
-* Product Variants
-* Collections
-* Orders
-* Order Items
-* Inventory References
-* Commerce Sync Metadata
+- Stores
+- Sales Channels
+- Products
+- Product Variants
+- Collections
+- Orders
+- Order Items
+- Inventory References
+- Commerce Sync Metadata
 
 It does **not** own:
 
-* Customers (customer schema)
-* Billing
-* Wallets
-* Product Intelligence (Fit, ETA, Returns)
-* Integrations (integration schema)
+- Customers (customer schema)
+- Billing
+- Wallets
+- Product Intelligence (Fit, ETA, Returns)
+- Integrations (integration schema)
 
 ---
 
@@ -9237,10 +9217,10 @@ Represents a connected commerce store.
 
 Examples:
 
-* Shopify Store
-* WooCommerce Store
-* Magento Store
-* Custom Store
+- Shopify Store
+- WooCommerce Store
+- Magento Store
+- Custom Store
 
 ---
 
@@ -9377,12 +9357,12 @@ Stores media references.
 
 Columns
 
-* id
-* product_id
-* variant_id (nullable)
-* url
-* alt_text
-* position
+- id
+- product_id
+- variant_id (nullable)
+- url
+- alt_text
+- position
 
 Images remain external.
 
@@ -9394,18 +9374,18 @@ Only metadata stored.
 
 Examples.
 
-* Summer Collection
-* Shoes
-* Men
-* Sale
+- Summer Collection
+- Shoes
+- Men
+- Sale
 
 Columns
 
-* id
-* store_id
-* external_collection_id
-* title
-* description
+- id
+- store_id
+- external_collection_id
+- title
+- description
 
 ---
 
@@ -9481,13 +9461,13 @@ Many items.
 
 Columns.
 
-* id
-* order_id
-* product_id
-* variant_id
-* quantity
-* unit_price
-* total_price
+- id
+- order_id
+- product_id
+- variant_id
+- quantity
+- unit_price
+- total_price
 
 Products reference these records.
 
@@ -9517,11 +9497,11 @@ Current inventory snapshot.
 
 Columns.
 
-* location_id
-* variant_id
-* available
-* reserved
-* updated_at
+- location_id
+- variant_id
+- available
+- reserved
+- updated_at
 
 Inventory history belongs in a future operational schema if required.
 
@@ -9533,12 +9513,12 @@ Tracks synchronization.
 
 Fields.
 
-* Provider
-* Started
-* Finished
-* Status
-* Records Imported
-* Errors
+- Provider
+- Started
+- Finished
+- Status
+- Records Imported
+- Errors
 
 ---
 
@@ -9548,9 +9528,9 @@ Append-only.
 
 Used for:
 
-* Debugging
-* Auditing
-* Replay
+- Debugging
+- Auditing
+- Replay
 
 ---
 
@@ -9580,10 +9560,10 @@ Only this mapping table does.
 
 Supports:
 
-* Shopify
-* WooCommerce
-* Magento
-* Future providers
+- Shopify
+- WooCommerce
+- Magento
+- Future providers
 
 ---
 
@@ -9681,11 +9661,11 @@ Fit never owns commerce entities.
 
 # 8. Security Rules
 
-* Commerce data is read-only for products.
-* Only the Platform Sync Service writes commerce tables.
-* External IDs are immutable.
-* Historical orders are never deleted.
-* Sync operations are audited.
+- Commerce data is read-only for products.
+- Only the Platform Sync Service writes commerce tables.
+- External IDs are immutable.
+- Historical orders are never deleted.
+- Sync operations are audited.
 
 ---
 
@@ -9693,13 +9673,13 @@ Fit never owns commerce entities.
 
 | Service               | Read | Write |
 | --------------------- | ---- | ----- |
-| Platform API          | ✅    | ✅     |
-| Commerce Sync Service | ✅    | ✅     |
-| Fit Service           | ✅    | ❌     |
-| ETA Service           | ✅    | ❌     |
-| Returns Service       | ✅    | ❌     |
-| AI Service            | ✅    | ❌     |
-| Analytics             | ✅    | ❌     |
+| Platform API          | ✅   | ✅    |
+| Commerce Sync Service | ✅   | ✅    |
+| Fit Service           | ✅   | ❌    |
+| ETA Service           | ✅   | ❌    |
+| Returns Service       | ✅   | ❌    |
+| AI Service            | ✅   | ❌    |
+| Analytics             | ✅   | ❌    |
 
 ---
 
@@ -9750,10 +9730,10 @@ No product independently syncs external platforms.
 
 Designed for:
 
-* 100,000+ Stores
-* 100M+ Products
-* Billions of Orders
-* Tens of Billions of Order Items
+- 100,000+ Stores
+- 100M+ Products
+- Billions of Orders
+- Tens of Billions of Order Items
 
 The schema favors append-heavy workloads with indexed lookups and partition-ready operational tables.
 
@@ -9761,8 +9741,8 @@ The schema favors append-heavy workloads with indexed lookups and partition-read
 
 # 13. Decision Register
 
-| ID    | Decision                                                            | Status   |
-| ----- | ------------------------------------------------------------------- | -------- |
+| ID    | Decision                                                            | Status    |
+| ----- | ------------------------------------------------------------------- | --------- |
 | D-111 | Commerce is the single source of truth for external commerce data   | ✅ Locked |
 | D-112 | Products never synchronize external platforms directly              | ✅ Locked |
 | D-113 | Stores belong to organizations                                      | ✅ Locked |
@@ -9780,13 +9760,12 @@ The schema favors append-heavy workloads with indexed lookups and partition-read
 
 Your original database scattered commerce concepts across multiple product databases. In the final architecture:
 
-* **Commerce becomes a shared platform domain**.
-* Every external platform (Shopify, WooCommerce, Magento, custom APIs) synchronizes **once**.
-* Every AutoShipp product—Fit, ETA, Returns, AI, Analytics, Marketing, and future services—reads from the same canonical commerce data.
-* Product schemas store only **product-specific intelligence** (recommendations, predictions, return workflows, AI conversations, etc.), never duplicated orders, products, customers, or stores.
+- **Commerce becomes a shared platform domain**.
+- Every external platform (Shopify, WooCommerce, Magento, custom APIs) synchronizes **once**.
+- Every AutoShipp product—Fit, ETA, Returns, AI, Analytics, Marketing, and future services—reads from the same canonical commerce data.
+- Product schemas store only **product-specific intelligence** (recommendations, predictions, return workflows, AI conversations, etc.), never duplicated orders, products, customers, or stores.
 
 This directly fulfills your primary architectural requirement: **reuse shared data wherever possible and eliminate multiple copies of the same business information across services**.
-
 
 ---
 
@@ -9800,12 +9779,12 @@ Not just subscriptions.
 
 Everything commercial.
 
-* Products
-* Plans
-* Pricing
-* Licenses
-* Assignments
-* Marketplace
+- Products
+- Plans
+- Pricing
+- Licenses
+- Assignments
+- Marketplace
 
 One thing I want to point out before we start:
 
@@ -9813,8 +9792,8 @@ One thing I want to point out before we start:
 
 That means:
 
-* **Marketplace** → What exists and who can use it.
-* **Billing** → Who pays, how much, invoices, payments.
+- **Marketplace** → What exists and who can use it.
+- **Billing** → Who pays, how much, invoices, payments.
 
 This separation is what allows your Aggregator model to work.
 
@@ -9838,10 +9817,10 @@ This separation is what allows your Aggregator model to work.
 
 **Depends On:**
 
-* AES-003 Business Model
-* AES-006 Marketplace Domain
-* AES-008 Master Database Blueprint
-* AES-010 Organization Schema
+- AES-003 Business Model
+- AES-006 Marketplace Domain
+- AES-008 Master Database Blueprint
+- AES-010 Organization Schema
 
 ---
 
@@ -9868,26 +9847,26 @@ The Marketplace Schema enables unlimited future products without schema redesign
 
 The Marketplace Schema owns:
 
-* Product Registry
-* Product Categories
-* Product Versions
-* Product Editions
-* Product Features
-* Product Assignments
-* Product Entitlements
-* Product Visibility
-* Product Metadata
-* Product Manifest Registry
+- Product Registry
+- Product Categories
+- Product Versions
+- Product Editions
+- Product Features
+- Product Assignments
+- Product Entitlements
+- Product Visibility
+- Product Metadata
+- Product Manifest Registry
 
 It does **not** own:
 
-* Billing
-* Payments
-* Wallets
-* Invoices
-* Users
-* Organizations
-* Product-specific data
+- Billing
+- Payments
+- Wallets
+- Invoices
+- Users
+- Organizations
+- Product-specific data
 
 ---
 
@@ -10026,11 +10005,11 @@ Operations
 
 Columns
 
-* id
-* code
-* name
-* description
-* sort_order
+- id
+- code
+- name
+- description
+- sort_order
 
 ---
 
@@ -10058,12 +10037,12 @@ Fit
 
 Columns
 
-* id
-* product_id
-* version
-* released_at
-* deprecated_at
-* supported
+- id
+- product_id
+- version
+- released_at
+- deprecated_at
+- supported
 
 ---
 
@@ -10119,11 +10098,11 @@ Bulk Upload
 
 Columns
 
-* id
-* product_id
-* code
-* name
-* description
+- id
+- product_id
+- code
+- name
+- description
 
 ---
 
@@ -10223,12 +10202,12 @@ Enabled
 
 Columns
 
-* id
-* assignment_id
-* feature_id
-* enabled
-* limit_value
-* metadata JSONB
+- id
+- assignment_id
+- feature_id
+- enabled
+- limit_value
+- metadata JSONB
 
 This table overrides edition defaults when necessary.
 
@@ -10240,14 +10219,14 @@ Stores metadata published by each service.
 
 Fields.
 
-* product_id
-* version
-* permissions
-* routes
-* widgets
-* settings
-* feature_flags
-* checksum
+- product_id
+- version
+- permissions
+- routes
+- widgets
+- settings
+- feature_flags
+- checksum
 
 Manifest stored as JSONB.
 
@@ -10273,10 +10252,10 @@ DEPRECATED
 
 Supports:
 
-* Marketplace cards
-* Upselling
-* Early access
-* Beta programs
+- Marketplace cards
+- Upselling
+- Early access
+- Beta programs
 
 ---
 
@@ -10288,9 +10267,9 @@ Examples.
 
 ```json
 {
-  "color":"blue",
-  "badge":"New",
-  "featured":true
+  "color": "blue",
+  "badge": "New",
+  "featured": true
 }
 ```
 
@@ -10388,12 +10367,12 @@ Marketplace never stores product intelligence.
 
 # 7. Security Rules
 
-* Products cannot assign themselves.
-* Only Platform API manages assignments.
-* Products cannot modify entitlements.
-* Product catalog is globally readable.
-* Assignment changes are audited.
-* Historical assignments are preserved.
+- Products cannot assign themselves.
+- Only Platform API manages assignments.
+- Products cannot modify entitlements.
+- Product catalog is globally readable.
+- Assignment changes are audited.
+- Historical assignments are preserved.
 
 ---
 
@@ -10401,12 +10380,12 @@ Marketplace never stores product intelligence.
 
 | Service         | Read | Write |
 | --------------- | ---- | ----- |
-| Platform API    | ✅    | ✅     |
-| Fit Service     | ✅    | ❌     |
-| ETA Service     | ✅    | ❌     |
-| Returns Service | ✅    | ❌     |
-| AI Service      | ✅    | ❌     |
-| Marketplace UI  | ✅    | ❌     |
+| Platform API    | ✅   | ✅    |
+| Fit Service     | ✅   | ❌    |
+| ETA Service     | ✅   | ❌    |
+| Returns Service | ✅   | ❌    |
+| AI Service      | ✅   | ❌    |
+| Marketplace UI  | ✅   | ❌    |
 
 ---
 
@@ -10462,11 +10441,11 @@ Assign to Organizations
 
 Designed for:
 
-* Unlimited products
-* Unlimited editions
-* Unlimited features
-* Millions of assignments
-* Hundreds of millions of entitlement checks
+- Unlimited products
+- Unlimited editions
+- Unlimited features
+- Millions of assignments
+- Hundreds of millions of entitlement checks
 
 Runtime authorization should cache entitlements, but the Marketplace schema remains the source of truth.
 
@@ -10474,8 +10453,8 @@ Runtime authorization should cache entitlements, but the Marketplace schema rema
 
 # 12. Decision Register
 
-| ID    | Decision                                                                 | Status   |
-| ----- | ------------------------------------------------------------------------ | -------- |
+| ID    | Decision                                                                 | Status    |
+| ----- | ------------------------------------------------------------------------ | --------- |
 | D-121 | Marketplace is the canonical product catalog                             | ✅ Locked |
 | D-122 | Products are independently versioned                                     | ✅ Locked |
 | D-123 | Product editions define commercial offerings                             | ✅ Locked |
@@ -10493,14 +10472,13 @@ Runtime authorization should cache entitlements, but the Marketplace schema rema
 
 Compared with your initial `core_account_modules` approach, this architecture introduces a much richer and more extensible model:
 
-* `products` replace hardcoded module definitions with a true product registry.
-* `product_editions` support Starter, Professional, Enterprise, and future plans without changing code.
-* `product_features` and `product_entitlements` separate commercial offerings from runtime capabilities.
-* `product_assignments` replace simple enable/disable flags with a complete licensing model tied to organizations.
-* Every future AutoShipp product—whether built internally or introduced later—can be onboarded by registering it in the Marketplace, publishing a manifest, defining editions and features, and assigning it to organizations, all without modifying the underlying schema.
+- `products` replace hardcoded module definitions with a true product registry.
+- `product_editions` support Starter, Professional, Enterprise, and future plans without changing code.
+- `product_features` and `product_entitlements` separate commercial offerings from runtime capabilities.
+- `product_assignments` replace simple enable/disable flags with a complete licensing model tied to organizations.
+- Every future AutoShipp product—whether built internally or introduced later—can be onboarded by registering it in the Marketplace, publishing a manifest, defining editions and features, and assigning it to organizations, all without modifying the underlying schema.
 
 This design fully supports your goals of a modular platform, aggregator-managed licensing, independent product deployments, and long-term expansion while maintaining a single, reusable commercial foundation.
-
 
 ---
 
@@ -10510,9 +10488,9 @@ This is the document that finally answers **how AutoShipp earns revenue**.
 
 After the last few documents, we now have:
 
-* Organizations ✅
-* Commerce ✅
-* Marketplace ✅
+- Organizations ✅
+- Commerce ✅
+- Marketplace ✅
 
 Now we design **Billing**.
 
@@ -10601,11 +10579,11 @@ This is why your Aggregator model works naturally.
 
 **Depends On:**
 
-* AES-003 Business Model
-* AES-006 Marketplace Domain
-* AES-008 Master Database Blueprint
-* AES-010 Organization Schema
-* AES-012 Marketplace Schema
+- AES-003 Business Model
+- AES-006 Marketplace Domain
+- AES-008 Master Database Blueprint
+- AES-010 Organization Schema
+- AES-012 Marketplace Schema
 
 ---
 
@@ -10615,15 +10593,15 @@ The Billing Schema manages the commercial relationship between AutoShipp and Org
 
 It owns:
 
-* Commercial subscriptions
-* Plans
-* Pricing
-* Invoices
-* Invoice items
-* Payments
-* Taxes
-* Credits
-* Billing history
+- Commercial subscriptions
+- Plans
+- Pricing
+- Invoices
+- Invoice items
+- Payments
+- Taxes
+- Credits
+- Billing history
 
 The Billing Schema **never determines runtime access**.
 
@@ -10631,11 +10609,11 @@ That responsibility belongs to Marketplace Assignments.
 
 This separation enables:
 
-* Aggregator billing
-* Enterprise billing
-* Future reseller billing
-* Marketplace bundles
-* Flexible pricing
+- Aggregator billing
+- Enterprise billing
+- Future reseller billing
+- Marketplace bundles
+- Flexible pricing
 
 without changing authorization.
 
@@ -10645,25 +10623,25 @@ without changing authorization.
 
 The Billing Schema owns:
 
-* Plans
-* Pricing
-* Subscriptions
-* Subscription Items
-* Invoices
-* Invoice Line Items
-* Payments
-* Payment Methods
-* Credit Notes
-* Tax Configuration
-* Billing Events
+- Plans
+- Pricing
+- Subscriptions
+- Subscription Items
+- Invoices
+- Invoice Line Items
+- Payments
+- Payment Methods
+- Credit Notes
+- Tax Configuration
+- Billing Events
 
 It does **not** own:
 
-* Product assignments
-* Runtime access
-* Wallet balances
-* Organizations
-* Users
+- Product assignments
+- Runtime access
+- Wallet balances
+- Organizations
+- Users
 
 ---
 
@@ -10877,18 +10855,18 @@ Subscription does NOT grant access.
 
 Supports:
 
-* Bundles
-* Add-ons
-* Multiple products
-* Future marketplace bundles
+- Bundles
+- Add-ons
+- Multiple products
+- Future marketplace bundles
 
 Columns.
 
-* subscription_id
-* product_id
-* quantity
-* unit_price
-* metadata
+- subscription_id
+- product_id
+- quantity
+- unit_price
+- metadata
 
 ---
 
@@ -10989,14 +10967,14 @@ Tracks incoming payments.
 
 Columns.
 
-* id
-* invoice_id
-* payment_method_id
-* amount
-* currency
-* provider_reference
-* paid_at
-* status
+- id
+- invoice_id
+- payment_method_id
+- amount
+- currency
+- provider_reference
+- paid_at
+- status
 
 Supports partial payments.
 
@@ -11022,9 +11000,9 @@ Future Providers
 
 Stores:
 
-* Provider
-* Token
-* Metadata
+- Provider
+- Token
+- Metadata
 
 Sensitive information is tokenized.
 
@@ -11034,9 +11012,9 @@ Sensitive information is tokenized.
 
 Supports.
 
-* Refunds
-* Billing adjustments
-* Promotional credits
+- Refunds
+- Billing adjustments
+- Promotional credits
 
 Linked to invoices.
 
@@ -11088,8 +11066,8 @@ Examples.
 
 ```json
 {
-  "sales_owner":"Enterprise Team",
-  "contract":"2026-001"
+  "sales_owner": "Enterprise Team",
+  "contract": "2026-001"
 }
 ```
 
@@ -11255,12 +11233,12 @@ Billing never references product schemas.
 
 # 9. Security Rules
 
-* Invoice numbers immutable after issuance.
-* Payments append-only.
-* Historical pricing preserved.
-* Tax calculations auditable.
-* No invoice deletion.
-* No payment deletion.
+- Invoice numbers immutable after issuance.
+- Payments append-only.
+- Historical pricing preserved.
+- Tax calculations auditable.
+- No invoice deletion.
+- No payment deletion.
 
 ---
 
@@ -11268,10 +11246,10 @@ Billing never references product schemas.
 
 | Service        | Read | Write |
 | -------------- | ---- | ----- |
-| Platform API   | ✅    | ✅     |
-| Billing Worker | ✅    | ✅     |
-| Wallet Service | ✅    | RO    |
-| Products       | RO   | ❌     |
+| Platform API   | ✅   | ✅    |
+| Billing Worker | ✅   | ✅    |
+| Wallet Service | ✅   | RO    |
+| Products       | RO   | ❌    |
 
 ---
 
@@ -11289,12 +11267,12 @@ packages/prisma-platform
 
 Designed for.
 
-* Millions of subscriptions
-* Hundreds of millions of invoices
-* Billions of invoice items
-* Multiple currencies
-* Multi-country taxation
-* Enterprise contracts
+- Millions of subscriptions
+- Hundreds of millions of invoices
+- Billions of invoice items
+- Multiple currencies
+- Multi-country taxation
+- Enterprise contracts
 
 No redesign required.
 
@@ -11380,8 +11358,8 @@ REFUNDED
 
 # 14. Decision Register
 
-| ID    | Decision                                                                   | Status   |
-| ----- | -------------------------------------------------------------------------- | -------- |
+| ID    | Decision                                                                   | Status    |
+| ----- | -------------------------------------------------------------------------- | --------- |
 | D-131 | Billing is independent of licensing                                        | ✅ Locked |
 | D-132 | Subscriptions represent commercial agreements only                         | ✅ Locked |
 | D-133 | Marketplace controls access, not Billing                                   | ✅ Locked |
@@ -11399,20 +11377,19 @@ REFUNDED
 
 Compared to a traditional SaaS billing system, this design intentionally separates **commercial contracts** from **runtime licensing**:
 
-* **Marketplace** decides *who is entitled to use a product*.
-* **Billing** decides *who pays and how much*.
-* **Wallet** (next document) decides *how credits and balances are consumed*.
+- **Marketplace** decides _who is entitled to use a product_.
+- **Billing** decides _who pays and how much_.
+- **Wallet** (next document) decides _how credits and balances are consumed_.
 
 This directly supports your aggregator model:
 
-* One subscription can cover multiple brands.
-* One invoice is issued to the aggregator.
-* Each invoice still contains a complete per-brand product cost breakdown.
-* Brands can later move to another aggregator without rewriting historical invoices or subscriptions.
-* Future pricing models (usage-based AI calls, prepaid credits, hybrid subscriptions, enterprise contracts) fit into the same architecture without schema redesign.
+- One subscription can cover multiple brands.
+- One invoice is issued to the aggregator.
+- Each invoice still contains a complete per-brand product cost breakdown.
+- Brands can later move to another aggregator without rewriting historical invoices or subscriptions.
+- Future pricing models (usage-based AI calls, prepaid credits, hybrid subscriptions, enterprise contracts) fit into the same architecture without schema redesign.
 
 This separation gives AutoShipp an enterprise-grade commercial foundation that can evolve with new products, pricing strategies, and partner models while keeping authorization and billing cleanly decoupled.
-
 
 ---
 
@@ -11424,12 +11401,12 @@ This is where I want to make another architectural improvement.
 
 From our earlier discussions, we decided that AutoShipp will eventually support:
 
-* Subscription billing
-* Wallet top-ups
-* AI credits
-* Usage-based pricing
-* Hybrid pricing
-* Future marketplace purchases
+- Subscription billing
+- Wallet top-ups
+- AI credits
+- Usage-based pricing
+- Hybrid pricing
+- Future marketplace purchases
 
 If we make the wallet just a "balance" table, we'll regret it within a year.
 
@@ -11451,7 +11428,7 @@ This is how Stripe, Razorpay, modern banking systems, and enterprise accounting 
 
 **Title:** Wallet & Credits Schema Specification
 
-**Version:** 1.0.0
+**Version:** 2.0.0 (Amended by AES-014 Addendum — Wallet as a Platform Financial Service)
 
 **Status:** Approved
 
@@ -11463,30 +11440,39 @@ This is how Stripe, Razorpay, modern banking systems, and enterprise accounting 
 
 **Depends On:**
 
-* AES-010 Organization Schema
-* AES-012 Marketplace Schema
-* AES-013 Billing Schema
+- AES-010 Organization Schema
+- AES-012 Marketplace Schema
+- AES-013 Billing Schema
 
 ---
 
 # Executive Summary
 
-The Wallet Schema provides a unified financial ledger for every organization on the AutoShipp platform.
+The Wallet is a **prepaid platform credit ledger**. It does not store real money.
 
-It supports:
+Platform credits are purchased through the Billing domain (AES-013). Every AutoShipp product — AI, WhatsApp, Analytics, ETA, Returns, and all future products — consumes credits by calling the Wallet through the Platform API (D-150). The credit unit is abstract. Its relationship to real currency is determined at the time of purchase by the Billing domain. The Wallet has no knowledge of product pricing.
 
-* Wallet balances
-* Credit purchases
-* Usage deductions
-* Refunds
-* Promotional credits
-* Manual adjustments
-* AI usage
-* Future consumption-based services
+The Wallet is **not** an accounting system. It is a transactional ledger that records financial movements.
 
-The Wallet is **not** an accounting system.
+## Three-Layer Platform Model
 
-It is a transactional ledger used to authorize and record platform consumption.
+Every product interaction with the Wallet follows this model:
+
+```text
+Product (any: AI, WhatsApp, Analytics, ETA, Returns...)
+       ↓
+  Pricing Engine (owned by the product — not part of the Wallet)
+       ↓
+  Platform Wallet
+       ↓
+  Ledger (wallet_transactions — immutable, append-only)
+```
+
+**Pricing Engine** is a logical architectural boundary owned by the consuming product. It is not part of the Wallet domain. Its physical form is an implementation detail of each product. The Wallet never contains pricing logic. The Wallet's only input from products is:
+
+```
+{ organizationId, amount, idempotencyKey, referenceType, referenceId }
+```
 
 ---
 
@@ -11494,23 +11480,32 @@ It is a transactional ledger used to authorize and record platform consumption.
 
 The Wallet Schema owns:
 
-* Wallet Accounts
-* Wallet Transactions
-* Wallet Balances
-* Credit Packages
-* Credit Purchases
-* Credit Consumption
-* Promotional Credits
-* Wallet Adjustments
-* Wallet Audit Trail
+- Wallet Accounts
+- Wallet Transactions
+- Wallet Balances
+- Credit Packages
+- Credit Purchases
+- Credit Consumption
+- Promotional Credits
+- Wallet Adjustments
+- Wallet Audit Trail
+- Usage Statements
 
 It does **not** own:
 
-* Invoices
-* Payments
-* Subscriptions
-* Product Assignments
-* Product Usage Logic
+- Invoices
+- Payments
+- Subscriptions
+- Product Assignments
+- Product Usage Logic
+- Pricing calculation of any kind
+
+The Wallet does **not**:
+
+- Calculate the cost of any operation. That is the responsibility of the calling product's Pricing Engine.
+- Know which product called it. It records `reference_type` and `reference_id` as opaque identifiers.
+- Manage product access or subscriptions. That belongs to Marketplace (AES-012).
+- Know which domains react to its events. It emits facts. Consumers decide actions.
 
 ---
 
@@ -11527,7 +11522,9 @@ wallet
 ├── credit_purchases
 ├── wallet_adjustments
 ├── wallet_reservations
-└── wallet_metadata
+├── wallet_metadata
+├── wallet_statements
+└── wallet_statement_runs
 ```
 
 ---
@@ -11599,13 +11596,74 @@ No transaction is deleted.
 
 ## Purpose
 
-Represents a wallet owned by an organization.
+Represents a wallet that holds platform credits for an organization.
 
-One organization can own multiple wallets in the future.
+## Wallet Ownership Rules
 
-Initially:
+| Organization Type                | Wallet Ownership                                                   |
+| :------------------------------- | :----------------------------------------------------------------- |
+| `INDEPENDENT_BRAND`              | Owns exactly one PRIMARY wallet directly.                          |
+| `AGGREGATOR`                     | Owns exactly one PRIMARY wallet directly.                          |
+| `BRAND` managed by an Aggregator | Owns no wallet. Credits resolve to the parent Aggregator's wallet. |
 
-One organization → One wallet.
+Wallet ownership follows the organization hierarchy defined by AES-010. Not every organization owns a wallet directly.
+
+## Wallet Resolver
+
+The `resolveWallet(organizationId)` function is the single entry point for all wallet resolution. No product service, controller, or worker performs wallet resolution independently.
+
+Resolution traverses `organization_relationships` (AES-010, `relationship_type = MANAGES`) until a wallet is found or the root is reached. Traversal depth is governed by the organization hierarchy, not a fixed value.
+
+```text
+resolveWallet(organizationId):
+
+  1. Query wallets WHERE organization_id = organizationId.
+     If found → return that wallet (regardless of status).
+
+  2. If not found →
+     Follow organization_relationships WHERE
+       child_organization_id = organizationId
+       AND relationship_type = 'MANAGES'
+       AND active = TRUE.
+     Move up to parent_organization_id and repeat from step 1.
+
+  3. If root reached and no wallet found →
+     Semantic outcome: wallet-not-found.
+```
+
+The resolver answers one question: **which wallet owns these credits?**
+
+Status validation is a separate step performed after resolution. Each condition is semantically distinct:
+
+```text
+resolveWallet(organizationId)
+       ↓
+Semantic outcome: wallet found  OR  wallet-not-found
+       ↓ (if found)
+Check wallet.status
+  → SUSPENDED: semantic outcome: wallet-suspended
+  → CLOSED:    semantic outcome: wallet-closed
+  → ACTIVE:    continue
+       ↓
+Check available_balance >= amount
+  → Insufficient: semantic outcome: insufficient-credits
+       ↓
+Process
+```
+
+Implementation maps each semantic outcome to the appropriate error type. Concrete exception names are not locked by this architecture.
+
+## Wallet Status vs Credit Exhaustion
+
+`wallet.status` is an **administrative state** stored on the wallet record. It reflects a deliberate platform decision independent of balance.
+
+| Status      | Cause                           | Balance Relationship            |
+| :---------- | :------------------------------ | :------------------------------ |
+| `ACTIVE`    | Default state                   | Any balance, including zero     |
+| `SUSPENDED` | Admin action, fraud, compliance | Any balance, including positive |
+| `CLOSED`    | Account terminated              | Any balance                     |
+
+`credits_exhausted` is a **financial state** derived from the ledger. It is not stored on the wallet record. It is computed after every debit and emitted as an event when `available_balance = 0`. These two concepts must never be conflated.
 
 ---
 
@@ -11641,19 +11699,31 @@ Every financial movement is stored here.
 
 Columns
 
-| Column              | Type                  |
-| ------------------- | --------------------- |
-| id                  | UUID                  |
-| wallet_id           | UUID                  |
-| transaction_type_id | UUID                  |
-| amount              | NUMERIC(18,2)         |
-| direction           | transaction_direction |
-| reference_type      | TEXT                  |
-| reference_id        | UUID                  |
-| description         | TEXT                  |
-| metadata            | JSONB                 |
-| created_at          | TIMESTAMP             |
-| created_by          | UUID                  |
+| Column              | Type                  | Notes                                              |
+| ------------------- | --------------------- | -------------------------------------------------- |
+| id                  | UUID                  | PK                                                 |
+| wallet_id           | UUID                  | FK → wallets                                       |
+| transaction_type_id | UUID                  | FK → wallet_transaction_types                      |
+| amount              | NUMERIC(18,2)         |                                                    |
+| direction           | transaction_direction | CREDIT or DEBIT                                    |
+| reference_type      | TEXT                  | Opaque product identifier                          |
+| reference_id        | UUID                  | Opaque product record ID                           |
+| idempotency_key     | TEXT                  | NOT NULL, UNIQUE — mandatory for every transaction |
+| description         | TEXT                  |                                                    |
+| metadata            | JSONB                 |                                                    |
+| created_at          | TIMESTAMP             |                                                    |
+| created_by          | UUID                  |                                                    |
+
+**Idempotency key format by source:**
+
+| Source             | Key Format                                    | Example                               |
+| :----------------- | :-------------------------------------------- | :------------------------------------ |
+| Product debit      | `{product}:{operation}:{eventId}`             | `ai:chat_completion:req_abc123`       |
+| Invoice top-up     | `billing:invoice_paid:{invoiceId}`            | `billing:invoice_paid:inv_999`        |
+| Credit package     | `billing:package_purchased:{purchaseId}`      | `billing:package_purchased:pkg_001`   |
+| Reservation expiry | `cleanup:reservation_expired:{reservationId}` | `cleanup:reservation_expired:res_456` |
+| Manual adjustment  | `admin:adjustment:{adjustmentId}`             | `admin:adjustment:adj_789`            |
+| Promotional credit | `promotion:{campaignId}:{orgId}`              | `promotion:summer2026:org_123`        |
 
 ---
 
@@ -11713,11 +11783,11 @@ REVERSAL
 
 Columns
 
-* id
-* code
-* name
-* affects_balance
-* description
+- id
+- code
+- name
+- affects_balance
+- description
 
 ---
 
@@ -11785,13 +11855,13 @@ Represents purchase history.
 
 Columns
 
-* id
-* wallet_id
-* package_id
-* invoice_id
-* purchased_credits
-* expires_at
-* purchased_at
+- id
+- wallet_id
+- package_id
+- invoice_id
+- purchased_credits
+- expires_at
+- purchased_at
 
 Purchasing creates wallet transactions.
 
@@ -11813,15 +11883,17 @@ Billing Correction
 
 Columns
 
-* id
-* wallet_transaction_id
-* reason
-* approved_by
-* notes
+- id
+- wallet_transaction_id
+- reason
+- approved_by
+- notes
 
 ---
 
 # 5.8 wallet_reservations
+
+**Reservations are opt-in.** They are not the default consumption path. Reservation is used only by products with long-running operations that require hold semantics to prevent overspending. Immediate debit (Section 6, Path A) is the default for all products.
 
 Supports future workflows.
 
@@ -11933,7 +12005,7 @@ WHERE wallet_id = :walletId;
   "payload": {
     "walletId": "...",
     "reservationId": "...",
-    "amount": 15.00,
+    "amount": 15.0,
     "referenceType": "ai_request",
     "referenceId": "..."
   }
@@ -11942,10 +12014,10 @@ WHERE wallet_id = :walletId;
 
 **Monitoring:**
 
-| Metric | Alert |
-|---|---|
-| Expired reservations per minute > 100 | 🟡 Warning (AI service may be crashing) |
-| Reservation amount expired in 1 hour > ₹10,000 | 🔴 Alert operations team |
+| Metric                                         | Alert                                   |
+| ---------------------------------------------- | --------------------------------------- |
+| Expired reservations per minute > 100          | 🟡 Warning (AI service may be crashing) |
+| Reservation amount expired in 1 hour > ₹10,000 | 🔴 Alert operations team                |
 
 High expired reservation rates indicate product service instability.
 
@@ -11959,80 +12031,169 @@ Examples
 
 ```json
 {
-  "daily_limit":10000,
-  "low_balance_alert":500
+  "daily_limit": 10000,
+  "low_balance_alert": 500
 }
 ```
 
 ---
 
+# 5.10 wallet_statements
+
+Generation record for monthly usage statements.
+
+Statements are usage reports. They are not invoices (D-164).
+
+All financial values are computed on-demand from `wallet_transactions`. Nothing is stored here except the generation metadata.
+
+Columns
+
+| Column               | Type             | Notes                                             |
+| -------------------- | ---------------- | ------------------------------------------------- |
+| id                   | UUID             | PK                                                |
+| wallet_id            | UUID             | FK → wallets                                      |
+| period_start         | TIMESTAMP        | First moment of the calendar month (inclusive)    |
+| period_end           | TIMESTAMP        | First moment of the following month (exclusive)   |
+| generated_at         | TIMESTAMP NULL   | When the last successful generation completed     |
+| generated_by_version | TEXT NULL        | Platform API version that generated the statement |
+| status               | statement_status | PENDING, GENERATED, FAILED                        |
+
+Constraint
+
+```sql
+UNIQUE(wallet_id, period_start)
+```
+
+One and only one statement record per wallet per period.
+
+Generation scope: all wallets that had at least one `wallet_transaction` during the period — regardless of `wallet.status`. A customer is entitled to a usage report even if their wallet is suspended or closed.
+
+---
+
+# 5.11 wallet_statement_runs
+
+Generation attempt log for `wallet_statements`.
+
+Multiple attempts may be made against the same statement record. The statement row is never duplicated.
+
+Columns
+
+| Column        | Type           | Notes                      |
+| ------------- | -------------- | -------------------------- |
+| id            | UUID           | PK                         |
+| statement_id  | UUID           | FK → wallet_statements     |
+| attempted_at  | TIMESTAMP      |                            |
+| completed_at  | TIMESTAMP NULL |                            |
+| status        | run_status     | RUNNING, SUCCEEDED, FAILED |
+| error_message | TEXT NULL      | Populated on failure       |
+
+---
+
 # 6. Wallet Flow
 
+Two consumption paths exist. Products declare which path they use at integration time.
+
+## Path A — Immediate Debit (Default)
+
+Used by all products by default. No reservation required.
+
 ```text
-Invoice Paid
+Product completes operation
+       ↓
+Pricing Engine (product-owned) calculates credit cost
+       ↓
+Product → Platform API: debit(organizationId, amount, idempotencyKey, referenceType, referenceId)
+       ↓
+WalletService.resolveWallet(organizationId)
+  Semantic outcome: wallet found  OR  wallet-not-found
+       ↓
+Check wallet.status
+  Semantic outcome: active  OR  wallet-suspended  OR  wallet-closed
+       ↓
+Idempotency check (idempotencyKey)
+  → Already processed: operation is a no-op
+  → New: continue
+       ↓
+Acquire row-level lock (SELECT ... FOR UPDATE on wallet_balances)
+       ↓
+Validate available_balance >= amount
+  Semantic outcome: sufficient  OR  insufficient-credits
+       ↓
+INSERT wallet_transaction (DEBIT, immutable)
+       ↓
+UPDATE wallet_balances (available_balance -= amount)
+       ↓
+Post-debit threshold checks:
+  IF available_balance = 0 → emit wallet.credits_exhausted
+  IF available_balance > 0 AND <= low_balance_threshold → emit wallet.low_balance
+       ↓
+Emit wallet.debited (Transactional Outbox, AES-036)
+```
 
-↓
+## Path B — Reserve-then-Commit (Opt-in)
 
-Wallet Top-Up
+Used only by products with long-running operations that require hold semantics. See Section 5.8.
 
-↓
+```text
+Product initiates long-running operation
+       ↓
+Product → Platform API: reserve(organizationId, amount, referenceType, referenceId, expiresAt)
+       ↓
+WalletService creates wallet_reservation
+available_balance moves to reserved_balance
+       ↓
+Product executes operation
+       ↓
+On success: commit — INSERT wallet_transaction (DEBIT)
+On failure or timeout: Cleanup Worker releases → INSERT compensating CREDIT (REVERSAL)
+                                               → emit wallet.reservation.expired
+```
 
-Transaction Created
+## Credit Flow (all sources)
 
-↓
-
-Balance Updated
-
-↓
-
-AI Service
-
-↓
-
-Reserve Credits
-
-↓
-
-Consume Credits
-
-↓
-
-Ledger Updated
+```text
+Credit Source emits domain event
+       ↓
+Wallet Worker (BullMQ) consumes event
+       ↓
+WalletService.credit(walletId, amount, idempotencyKey, transactionTypeId, referenceType, referenceId)
+       ↓
+Idempotency check → if duplicate, no-op
+       ↓
+INSERT wallet_transaction (CREDIT, immutable)
+       ↓
+UPDATE wallet_balances (available_balance += amount)
+       ↓
+IF previous available_balance = 0 AND new > 0 → emit wallet.credits_restored
+       ↓
+Emit wallet.credited (Transactional Outbox, AES-036)
 ```
 
 ---
 
-# 7. AI Usage Example
+# 7. Platform Consumption Example
+
+Applies identically to every product: AI, WhatsApp, Analytics, ETA, Returns, or any future product.
 
 ```text
-Wallet
+Organization wallet balance: ₹10,000
 
-↓
+Product A (AI) completes a request
+Pricing Engine calculates: ₹12
+Product A sends debit: amount=12, idempotencyKey='ai:chat:req_001'
+Ledger: -₹12 → balance ₹9,988
 
-₹10,000
+Product B (WhatsApp) sends a message
+Pricing Engine calculates: ₹0.50
+Product B sends debit: amount=0.50, idempotencyKey='wa:message:msg_002'
+Ledger: -₹0.50 → balance ₹9,987.50
 
-↓
-
-AI Chat
-
-↓
-
-Reserve ₹15
-
-↓
-
-Model Executes
-
-↓
-
-Consume ₹12
-
-↓
-
-Release ₹3
+Invoice paid → billing.invoice.paid event
+Wallet Worker credits: +₹5,000, idempotencyKey='billing:invoice_paid:inv_123'
+Ledger: +₹5,000 → balance ₹14,987.50
 ```
 
-Supports precise usage billing.
+The Wallet processes all products identically. Product identity is captured in `reference_type` only.
 
 ---
 
@@ -12086,12 +12247,12 @@ Products never manipulate balances.
 
 # 9. Security Rules
 
-* Transactions are immutable.
-* Balances are derived.
-* Wallets cannot go negative unless explicitly allowed by policy.
-* Every transaction is audited.
-* Adjustments require privileged approval.
-* Financial history is never deleted.
+- Transactions are immutable.
+- Balances are derived.
+- Wallets cannot go negative unless explicitly allowed by policy.
+- Every transaction is audited.
+- Adjustments require privileged approval.
+- Financial history is never deleted.
 
 ---
 
@@ -12099,13 +12260,13 @@ Products never manipulate balances.
 
 | Service        | Read | Write |
 | -------------- | ---- | ----- |
-| Platform API   | ✅    | ✅     |
-| Billing Worker | ✅    | ✅     |
-| Wallet Service | ✅    | ✅     |
-| AI Assistant   | ✅    | ❌     |
-| Fit            | ✅    | ❌     |
-| ETA            | ✅    | ❌     |
-| Returns        | ✅    | ❌     |
+| Platform API   | ✅   | ✅    |
+| Billing Worker | ✅   | ✅    |
+| Wallet Service | ✅   | ✅    |
+| AI Assistant   | ✅   | ❌    |
+| Fit            | ✅   | ❌    |
+| ETA            | ✅   | ❌    |
+| Returns        | ✅   | ❌    |
 
 Product services request debits through Platform APIs.
 
@@ -12127,12 +12288,12 @@ Wallet migrations belong exclusively to the Platform API.
 
 Designed for:
 
-* Millions of wallets
-* Billions of transactions
-* Real-time balance checks
-* High-volume AI consumption
-* Multi-currency support
-* Future prepaid and postpaid models
+- Millions of wallets
+- Billions of transactions
+- Real-time balance checks
+- High-volume AI consumption
+- Multi-currency support
+- Future prepaid and postpaid models
 
 The append-only ledger supports financial auditing and horizontal scaling.
 
@@ -12176,18 +12337,34 @@ DEBIT
 
 # 14. Decision Register
 
-| ID    | Decision                                                       | Status   |
-| ----- | -------------------------------------------------------------- | -------- |
-| D-141 | Wallet is an append-only ledger                                | ✅ Locked |
-| D-142 | Balances are derived from transactions                         | ✅ Locked |
-| D-143 | Wallet supports multiple future wallet types                   | ✅ Locked |
-| D-144 | Credit packages are commercial products                        | ✅ Locked |
-| D-145 | Wallet reservations prevent double spending                    | ✅ Locked |
-| D-146 | Products never modify wallet data directly                     | ✅ Locked |
-| D-147 | Wallet adjustments require privileged approval                 | ✅ Locked |
-| D-148 | Financial records are immutable                                | ✅ Locked |
-| D-149 | Wallet supports subscription, usage, and hybrid pricing models | ✅ Locked |
-| D-150 | Wallet schema is owned exclusively by the Platform API         | ✅ Locked |
+| ID    | Decision                                                                                                                                                                                                                                                                                                                                                                                                                                       | Status    |
+| ----- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------- |
+| D-141 | Wallet is an append-only ledger                                                                                                                                                                                                                                                                                                                                                                                                                | ✅ Locked |
+| D-142 | Balances are derived from transactions                                                                                                                                                                                                                                                                                                                                                                                                         | ✅ Locked |
+| D-143 | Wallet supports multiple future wallet types                                                                                                                                                                                                                                                                                                                                                                                                   | ✅ Locked |
+| D-144 | Credit packages are commercial products                                                                                                                                                                                                                                                                                                                                                                                                        | ✅ Locked |
+| D-145 | Wallet reservations prevent double spending                                                                                                                                                                                                                                                                                                                                                                                                    | ✅ Locked |
+| D-146 | Products never modify wallet data directly                                                                                                                                                                                                                                                                                                                                                                                                     | ✅ Locked |
+| D-147 | Wallet adjustments require privileged approval                                                                                                                                                                                                                                                                                                                                                                                                 | ✅ Locked |
+| D-148 | Financial records are immutable                                                                                                                                                                                                                                                                                                                                                                                                                | ✅ Locked |
+| D-149 | Wallet supports subscription, usage, and hybrid pricing models                                                                                                                                                                                                                                                                                                                                                                                 | ✅ Locked |
+| D-150 | Wallet schema is owned exclusively by the Platform API                                                                                                                                                                                                                                                                                                                                                                                         | ✅ Locked |
+| D-151 | The Wallet is a prepaid platform credit ledger. It does not store real money.                                                                                                                                                                                                                                                                                                                                                                  | ✅ Locked |
+| D-152 | Products calculate their own credit costs. The Wallet does not compute pricing. Pricing Engine is a logical boundary owned by the consuming product; it is not part of the Wallet domain.                                                                                                                                                                                                                                                      | ✅ Locked |
+| D-153 | Brands managed by an Aggregator own no wallet. Their credits resolve to the parent's wallet via the organization hierarchy (AES-010).                                                                                                                                                                                                                                                                                                          | ✅ Locked |
+| D-154 | Wallet resolution traverses `organization_relationships` following AES-010. Depth is governed by the hierarchy, not a fixed value. Resolution does not filter on wallet status; status validation is a separate step.                                                                                                                                                                                                                          | ✅ Locked |
+| D-155 | Immediate debit is the default consumption path for all products.                                                                                                                                                                                                                                                                                                                                                                              | ✅ Locked |
+| D-156 | Reservations are opt-in for products with long-running operations requiring hold semantics.                                                                                                                                                                                                                                                                                                                                                    | ✅ Locked |
+| D-157 | Every `wallet_transaction` must have an `idempotency_key`. No exceptions, including system-generated transactions.                                                                                                                                                                                                                                                                                                                             | ✅ Locked |
+| D-158 | `wallet_transactions.idempotency_key` has a UNIQUE database constraint. Wallet operations are idempotent.                                                                                                                                                                                                                                                                                                                                      | ✅ Locked |
+| D-159 | The Wallet emits `wallet.credits_exhausted` as a fact. It does not specify which products or domains must react.                                                                                                                                                                                                                                                                                                                               | ✅ Locked |
+| D-160 | The Wallet emits `wallet.credits_restored` when balance rises above zero after exhaustion. Consuming domains react independently.                                                                                                                                                                                                                                                                                                              | ✅ Locked |
+| D-161 | Wallet Statements are derived usage reports for calendar months. They store no computed financial figures.                                                                                                                                                                                                                                                                                                                                     | ✅ Locked |
+| D-162 | Statement financial detail is always computed on-demand from `wallet_transactions`. It is never stored separately.                                                                                                                                                                                                                                                                                                                             | ✅ Locked |
+| D-163 | `wallet.low_balance` is emitted on every debit that crosses the threshold. Notification throttling belongs to the Notification domain.                                                                                                                                                                                                                                                                                                         | ✅ Locked |
+| D-164 | Wallet Statements summarize historical ledger activity only. Billing invoices represent commercial obligations generated exclusively by the Billing domain (AES-013). A Wallet Statement must never be treated as a Billing invoice.                                                                                                                                                                                                           | ✅ Locked |
+| D-165 | Historical wallet transactions are never modified or deleted. Corrections are performed exclusively through compensating transactions appended to the ledger.                                                                                                                                                                                                                                                                                  | ✅ Locked |
+| D-166 | Single Active Parent Invariant: For a given `relationship_type`, an organization may have zero or one active parent relationship. Historical relationships must never be modified or deleted. Parent changes are represented by deactivating the previous relationship and creating a new active relationship. This invariant exists to guarantee deterministic hierarchy traversal across Wallet, Billing, Marketplace, and tenant ownership. | ✅ Locked |
 
 ---
 
@@ -12197,14 +12374,13 @@ This wallet architecture replaces a simple "balance" model with a **ledger-first
 
 Key improvements include:
 
-* **Append-only transaction history** instead of mutable balances.
-* **Derived balances** that can always be reconstructed, improving auditability and resilience.
-* **Reservation support** for long-running operations (such as AI requests) to prevent overspending.
-* **Separation of responsibilities**: Billing creates commercial events, the Wallet records financial movements, and product services (AI, Fit, ETA, etc.) request consumption through Platform APIs rather than modifying balances directly.
-* **Future-ready support** for prepaid credits, usage-based billing, promotional credits, refunds, and hybrid pricing without requiring schema redesign.
+- **Append-only transaction history** instead of mutable balances.
+- **Derived balances** that can always be reconstructed, improving auditability and resilience.
+- **Reservation support** for long-running operations (such as AI requests) to prevent overspending.
+- **Separation of responsibilities**: Billing creates commercial events, the Wallet records financial movements, and product services (AI, Fit, ETA, etc.) request consumption through Platform APIs rather than modifying balances directly.
+- **Future-ready support** for prepaid credits, usage-based billing, promotional credits, refunds, and hybrid pricing without requiring schema redesign.
 
 This design gives AutoShipp an enterprise-grade wallet capable of supporting future AI services, marketplaces, usage metering, and financial audits while maintaining strict ownership and consistency across the platform.
-
 
 ---
 
@@ -12216,15 +12392,15 @@ This document is extremely important because **everything that connects AutoShip
 
 Without this schema there is:
 
-* No Shopify
-* No WooCommerce
-* No Delhivery
-* No Shiprocket
-* No ShipXSpeed
-* No Razorpay
-* No OpenAI
-* No WhatsApp
-* No Email
+- No Shopify
+- No WooCommerce
+- No Delhivery
+- No Shiprocket
+- No ShipXSpeed
+- No Razorpay
+- No OpenAI
+- No WhatsApp
+- No Email
 
 Everything external is managed here.
 
@@ -12274,10 +12450,10 @@ Not schema.
 
 **Depends On**
 
-* AES-008 Master Database Blueprint
-* AES-010 Organization Schema
-* AES-011 Commerce Schema
-* AES-013 Billing Schema
+- AES-008 Master Database Blueprint
+- AES-010 Organization Schema
+- AES-011 Commerce Schema
+- AES-013 Billing Schema
 
 ---
 
@@ -12287,16 +12463,16 @@ The Integration Schema is responsible for managing all external system connectio
 
 It provides a provider-agnostic integration framework that supports:
 
-* Commerce Platforms
-* Shipping Aggregators
-* Payment Gateways
-* AI Providers
-* Email Providers
-* SMS Providers
-* Analytics Providers
-* ERP Systems
-* CRM Systems
-* Future integrations
+- Commerce Platforms
+- Shipping Aggregators
+- Payment Gateways
+- AI Providers
+- Email Providers
+- SMS Providers
+- Analytics Providers
+- ERP Systems
+- CRM Systems
+- Future integrations
 
 without requiring schema redesign.
 
@@ -12314,26 +12490,26 @@ Every Sync is tracked.
 
 The Integration Schema owns:
 
-* Integration Providers
-* Provider Categories
-* Organization Connections
-* Connection Credentials
-* Connection Settings
-* Webhooks
-* Synchronization Jobs
-* Synchronization Logs
-* API Rate Limits
-* Provider Health
-* OAuth Tokens
+- Integration Providers
+- Provider Categories
+- Organization Connections
+- Connection Credentials
+- Connection Settings
+- Webhooks
+- Synchronization Jobs
+- Synchronization Logs
+- API Rate Limits
+- Provider Health
+- OAuth Tokens
 
 It does **not** own:
 
-* Orders
-* Customers
-* Products
-* Wallets
-* Billing
-* Product Intelligence
+- Orders
+- Customers
+- Products
+- Wallets
+- Billing
+- Product Intelligence
 
 ---
 
@@ -12523,12 +12699,12 @@ Shopify
 
 Columns
 
-* id
-* provider_id
-* version
-* supported
-* released_at
-* deprecated_at
+- id
+- provider_id
+- version
+- supported
+- released_at
+- deprecated_at
 
 ---
 
@@ -12640,12 +12816,12 @@ Stores provider webhook registrations.
 
 Columns
 
-* id
-* connection_id
-* provider_event
-* callback_url
-* secret_hash
-* active
+- id
+- connection_id
+- provider_event
+- callback_url
+- secret_hash
+- active
 
 ---
 
@@ -12657,13 +12833,13 @@ Stores every incoming webhook.
 
 Columns
 
-* id
-* webhook_id
-* external_event_id
-* payload JSONB
-* received_at
-* processed_at
-* status
+- id
+- webhook_id
+- external_event_id
+- payload JSONB
+- received_at
+- processed_at
+- status
 
 Supports replay.
 
@@ -12696,10 +12872,10 @@ Append-only.
 
 Useful for:
 
-* debugging
-* retries
-* support
-* auditing
+- debugging
+- retries
+- support
+- auditing
 
 ---
 
@@ -12709,9 +12885,9 @@ Tracks provider rate limits.
 
 Fields
 
-* provider
-* remaining
-* reset_at
+- provider
+- remaining
+- reset_at
 
 Allows intelligent scheduling.
 
@@ -12749,10 +12925,10 @@ Supports OAuth providers.
 
 Fields
 
-* connection_id
-* access_token (encrypted)
-* refresh_token (encrypted)
-* expires_at
+- connection_id
+- access_token (encrypted)
+- refresh_token (encrypted)
+- expires_at
 
 ---
 
@@ -12890,13 +13066,13 @@ Products never manage integrations.
 
 # 9. Security Rules
 
-* Credentials are encrypted at rest.
-* Secrets are never logged.
-* OAuth tokens are rotated automatically where supported.
-* Webhook payloads are signature-verified.
-* API keys are versioned.
-* Credential access is audited.
-* Provider failures do not expose secrets.
+- Credentials are encrypted at rest.
+- Secrets are never logged.
+- OAuth tokens are rotated automatically where supported.
+- Webhook payloads are signature-verified.
+- API keys are versioned.
+- Credential access is audited.
+- Provider failures do not expose secrets.
 
 ---
 
@@ -12904,13 +13080,13 @@ Products never manage integrations.
 
 | Service          | Read | Write |
 | ---------------- | ---- | ----- |
-| Platform API     | ✅    | ✅     |
-| Sync Workers     | ✅    | ✅     |
-| Commerce Sync    | ✅    | ✅     |
-| Shipping Service | ✅    | ❌     |
-| Fit              | ✅    | ❌     |
-| ETA              | ✅    | ❌     |
-| Returns          | ✅    | ❌     |
+| Platform API     | ✅   | ✅    |
+| Sync Workers     | ✅   | ✅    |
+| Commerce Sync    | ✅   | ✅    |
+| Shipping Service | ✅   | ❌    |
+| Fit              | ✅   | ❌    |
+| ETA              | ✅   | ❌    |
+| Returns          | ✅   | ❌    |
 
 ---
 
@@ -12928,12 +13104,12 @@ packages/prisma-platform
 
 Designed for:
 
-* Millions of connections
-* Billions of webhook events
-* Hundreds of providers
-* Thousands of sync jobs per minute
-* Multi-region deployments
-* Future partner-developed integrations
+- Millions of connections
+- Billions of webhook events
+- Hundreds of providers
+- Thousands of sync jobs per minute
+- Multi-region deployments
+- Future partner-developed integrations
 
 Operational tables (`webhook_events`, `sync_logs`) are partition candidates as volume grows.
 
@@ -13007,8 +13183,8 @@ PARTIAL
 
 # 14. Decision Register
 
-| ID    | Decision                                                    | Status   |
-| ----- | ----------------------------------------------------------- | -------- |
+| ID    | Decision                                                    | Status    |
+| ----- | ----------------------------------------------------------- | --------- |
 | D-151 | Every external system is modeled as a Provider              | ✅ Locked |
 | D-152 | Organizations connect through reusable Connections          | ✅ Locked |
 | D-153 | Credentials are encrypted and versioned                     | ✅ Locked |
@@ -13026,14 +13202,13 @@ PARTIAL
 
 Your original plan considered integrations largely as product-specific implementations. This specification elevates integrations into a **shared platform capability**:
 
-* A **single provider registry** supports every current and future integration.
-* Every organization manages connections through the same lifecycle regardless of provider.
-* Credentials are securely encrypted and rotated without schema changes.
-* Webhooks, synchronization jobs, and health monitoring are standardized across all providers.
-* Product services (Fit, ETA, Returns, AI, Shipping) consume synchronized platform data rather than implementing their own provider integrations.
+- A **single provider registry** supports every current and future integration.
+- Every organization manages connections through the same lifecycle regardless of provider.
+- Credentials are securely encrypted and rotated without schema changes.
+- Webhooks, synchronization jobs, and health monitoring are standardized across all providers.
+- Product services (Fit, ETA, Returns, AI, Shipping) consume synchronized platform data rather than implementing their own provider integrations.
 
 This architecture minimizes duplicated integration logic, simplifies onboarding of new providers, and creates a scalable integration framework that can support hundreds of providers and millions of organization connections without redesign.
-
 
 ---
 
@@ -13047,14 +13222,14 @@ This schema exists because of one architectural decision we made very early:
 
 This means:
 
-* Fit
-* ETA
-* Returns
-* AI Assistant
-* Marketing
-* Loyalty
-* Analytics
-* Future products
+- Fit
+- ETA
+- Returns
+- AI Assistant
+- Marketing
+- Loyalty
+- Analytics
+- Future products
 
 must all use the **same customer**.
 
@@ -13080,9 +13255,9 @@ This document will save you years of technical debt.
 
 **Depends On**
 
-* AES-008 Master Database Blueprint
-* AES-010 Organization Schema
-* AES-011 Commerce Schema
+- AES-008 Master Database Blueprint
+- AES-010 Organization Schema
+- AES-011 Commerce Schema
 
 ---
 
@@ -13102,24 +13277,24 @@ Instead, they reference the canonical customer record.
 
 The Customer Schema owns:
 
-* Customer Profiles
-* Customer Addresses
-* Customer Contact Information
-* Customer Tags
-* Customer Segments
-* Customer Preferences
-* Customer Identity Mapping
-* Customer Merge History
-* Customer Metadata
+- Customer Profiles
+- Customer Addresses
+- Customer Contact Information
+- Customer Tags
+- Customer Segments
+- Customer Preferences
+- Customer Identity Mapping
+- Customer Merge History
+- Customer Metadata
 
 It does **not** own:
 
-* Orders
-* Fit Profiles
-* Return Requests
-* ETA Predictions
-* AI Conversations
-* Marketing Campaigns
+- Orders
+- Fit Profiles
+- Return Requests
+- ETA Predictions
+- AI Conversations
+- Marketing Campaigns
 
 Those belong to their respective product schemas.
 
@@ -13290,23 +13465,23 @@ Supports multiple addresses.
 
 Examples
 
-* Billing
-* Shipping
-* Home
-* Office
+- Billing
+- Shipping
+- Home
+- Office
 
 Columns
 
-* id
-* customer_id
-* address_type
-* line1
-* line2
-* city
-* state
-* postal_code
-* country_code
-* default_address
+- id
+- customer_id
+- address_type
+- line1
+- line2
+- city
+- state
+- postal_code
+- country_code
+- default_address
 
 ---
 
@@ -13316,9 +13491,9 @@ Future proof.
 
 Stores
 
-* Secondary emails
-* Alternate phones
-* Emergency contacts
+- Secondary emails
+- Alternate phones
+- Emergency contacts
 
 ---
 
@@ -13396,10 +13571,10 @@ Example
 
 ```json
 {
-  "preferred_language":"en",
-  "preferred_currency":"INR",
-  "marketing_opt_in":true,
-  "preferred_size":"L"
+  "preferred_language": "en",
+  "preferred_currency": "INR",
+  "marketing_opt_in": true,
+  "preferred_size": "L"
 }
 ```
 
@@ -13469,20 +13644,20 @@ Supports privacy regulations.
 
 Examples
 
-* Email Marketing
-* SMS Marketing
-* WhatsApp
-* Analytics
-* Personalization
+- Email Marketing
+- SMS Marketing
+- WhatsApp
+- Analytics
+- Personalization
 
 Fields
 
-* customer_id
-* consent_type
-* granted
-* granted_at
-* revoked_at
-* source
+- customer_id
+- consent_type
+- granted
+- granted_at
+- revoked_at
+- source
 
 Append-only.
 
@@ -13496,8 +13671,8 @@ Example
 
 ```json
 {
-  "preferred_color":"Black",
-  "favorite_brand":"Nike"
+  "preferred_color": "Black",
+  "favorite_brand": "Nike"
 }
 ```
 
@@ -13639,12 +13814,12 @@ Customer never owns product data.
 
 # 9. Security Rules
 
-* Customer IDs are immutable.
-* Email uniqueness is scoped to the organization.
-* Merge operations are fully audited.
-* Consents are append-only.
-* Customer deletions follow legal retention policies.
-* Products cannot modify canonical customer records.
+- Customer IDs are immutable.
+- Email uniqueness is scoped to the organization.
+- Merge operations are fully audited.
+- Consents are append-only.
+- Customer deletions follow legal retention policies.
+- Products cannot modify canonical customer records.
 
 ---
 
@@ -13652,13 +13827,13 @@ Customer never owns product data.
 
 | Service         | Read | Write |
 | --------------- | ---- | ----- |
-| Platform API    | ✅    | ✅     |
-| Commerce Sync   | ✅    | ✅     |
-| Fit Service     | ✅    | ❌     |
-| ETA Service     | ✅    | ❌     |
-| Returns Service | ✅    | ❌     |
-| AI Assistant    | ✅    | ❌     |
-| Analytics       | ✅    | ❌     |
+| Platform API    | ✅   | ✅    |
+| Commerce Sync   | ✅   | ✅    |
+| Fit Service     | ✅   | ❌    |
+| ETA Service     | ✅   | ❌    |
+| Returns Service | ✅   | ❌    |
+| AI Assistant    | ✅   | ❌    |
+| Analytics       | ✅   | ❌    |
 
 ---
 
@@ -13678,11 +13853,11 @@ Only Platform API generates migrations.
 
 Designed for:
 
-* 100M+ customers
-* Billions of orders referencing customers
-* Millions of customer tags
-* Millions of customer segments
-* Millions of consent records
+- 100M+ customers
+- Billions of orders referencing customers
+- Millions of customer tags
+- Millions of customer segments
+- Millions of consent records
 
 The schema is optimized for high-read workloads and append-heavy synchronization.
 
@@ -13754,8 +13929,8 @@ ANALYTICS
 
 # 14. Decision Register
 
-| ID    | Decision                                                             | Status   |
-| ----- | -------------------------------------------------------------------- | -------- |
+| ID    | Decision                                                             | Status    |
+| ----- | -------------------------------------------------------------------- | --------- |
 | D-161 | Customer is the canonical customer identity for an organization      | ✅ Locked |
 | D-162 | Customer data is synchronized once and reused by all products        | ✅ Locked |
 | D-163 | Products reference customers but never own customer records          | ✅ Locked |
@@ -13777,14 +13952,13 @@ Originally, each product (Fit, Returns, AI, Analytics, etc.) could have evolved 
 
 With this design:
 
-* **The Customer schema becomes the canonical customer identity service** for the platform.
-* Commerce platforms synchronize customer data **once** through the Platform Sync Service.
-* Every product references the same `customer_id`, eliminating duplication.
-* Customer merges, consent management, segmentation, and preferences become shared platform capabilities instead of being reimplemented by each product.
-* The design is ready for future CDP (Customer Data Platform), CRM integrations, loyalty programs, personalization engines, and AI-powered customer insights without changing the core schema.
+- **The Customer schema becomes the canonical customer identity service** for the platform.
+- Commerce platforms synchronize customer data **once** through the Platform Sync Service.
+- Every product references the same `customer_id`, eliminating duplication.
+- Customer merges, consent management, segmentation, and preferences become shared platform capabilities instead of being reimplemented by each product.
+- The design is ready for future CDP (Customer Data Platform), CRM integrations, loyalty programs, personalization engines, and AI-powered customer insights without changing the core schema.
 
 This architecture directly supports your guiding principle of **maximum data reuse with zero unnecessary duplication**, ensuring that customer information remains consistent across every current and future AutoShipp service.
-
 
 ---
 
@@ -13804,13 +13978,13 @@ Why?
 
 Because every other operational domain depends on it.
 
-* Identity writes audits.
-* Billing writes audits.
-* Wallet writes audits.
-* Integrations write audits.
-* Feature Flags write audits.
-* Notifications write audits.
-* Every future service writes audits.
+- Identity writes audits.
+- Billing writes audits.
+- Wallet writes audits.
+- Integrations write audits.
+- Feature Flags write audits.
+- Notifications write audits.
+- Every future service writes audits.
 
 If Audit is not designed first, every other schema will implement logging differently.
 
@@ -13836,9 +14010,9 @@ So we freeze the Audit model now.
 
 **Depends On**
 
-* AES-008 Master Database Blueprint
-* AES-009 Identity Schema
-* AES-010 Organization Schema
+- AES-008 Master Database Blueprint
+- AES-009 Identity Schema
+- AES-010 Organization Schema
 
 ---
 
@@ -13848,13 +14022,13 @@ The Audit Schema provides an immutable, append-only record of all significant bu
 
 It exists to provide:
 
-* Security auditing
-* Compliance
-* Operational tracing
-* User activity history
-* Incident investigation
-* Change history
-* Business event logging
+- Security auditing
+- Compliance
+- Operational tracing
+- User activity history
+- Incident investigation
+- Change history
+- Business event logging
 
 The Audit Schema is **write-once**.
 
@@ -13868,23 +14042,23 @@ Records are never deleted except through defined retention and archival policies
 
 The Audit Schema owns:
 
-* Audit Events
-* Entity Change History
-* Login Events
-* Permission Changes
-* Configuration Changes
-* API Activity
-* Service Activity
-* Correlation IDs
-* Request Tracing
+- Audit Events
+- Entity Change History
+- Login Events
+- Permission Changes
+- Configuration Changes
+- API Activity
+- Service Activity
+- Correlation IDs
+- Request Tracing
 
 It does **not** own:
 
-* Business entities
-* Notifications
-* Metrics
-* Logs
-* Product intelligence
+- Business entities
+- Notifications
+- Metrics
+- Logs
+- Product intelligence
 
 ---
 
@@ -14059,20 +14233,20 @@ Authentication history.
 
 Fields
 
-* user_id
-* email
-* result
-* failure_reason
-* ip_address
-* country
-* device
-* occurred_at
+- user_id
+- email
+- result
+- failure_reason
+- ip_address
+- country
+- device
+- occurred_at
 
 Supports:
 
-* Security monitoring
-* Account recovery
-* Suspicious activity detection
+- Security monitoring
+- Account recovery
+- Suspicious activity detection
 
 ---
 
@@ -14219,8 +14393,8 @@ Examples
 
 ```json
 {
-  "retention_policy":"7_years",
-  "archive_frequency":"monthly"
+  "retention_policy": "7_years",
+  "archive_frequency": "monthly"
 }
 ```
 
@@ -14344,13 +14518,13 @@ Audit never owns business entities.
 
 # 9. Security Rules
 
-* Audit records are append-only.
-* Updates are prohibited.
-* Deletes are prohibited.
-* Sensitive values (passwords, secrets, tokens) are never recorded.
-* Personally identifiable information is masked where appropriate.
-* Every audit event contains a timestamp and correlation ID.
-* Administrative actions always generate audit records.
+- Audit records are append-only.
+- Updates are prohibited.
+- Deletes are prohibited.
+- Sensitive values (passwords, secrets, tokens) are never recorded.
+- Personally identifiable information is masked where appropriate.
+- Every audit event contains a timestamp and correlation ID.
+- Administrative actions always generate audit records.
 
 ---
 
@@ -14358,7 +14532,7 @@ Audit never owns business entities.
 
 | Service      | Read          | Write     |
 | ------------ | ------------- | --------- |
-| Platform API | ✅             | ✅         |
+| Platform API | ✅            | ✅        |
 | Fit          | Timeline (RO) | Event API |
 | ETA          | Timeline (RO) | Event API |
 | Returns      | Timeline (RO) | Event API |
@@ -14387,10 +14561,10 @@ No product owns audit migrations.
 
 Designed for:
 
-* Tens of billions of audit events
-* Billions of API requests
-* Millions of login events
-* Long-term regulatory retention
+- Tens of billions of audit events
+- Billions of API requests
+- Millions of login events
+- Long-term regulatory retention
 
 Partitioning by time (`occurred_at`) is expected once the volume justifies it.
 
@@ -14450,8 +14624,8 @@ MFA_REQUIRED
 
 # 14. Decision Register
 
-| ID    | Decision                                                      | Status   |
-| ----- | ------------------------------------------------------------- | -------- |
+| ID    | Decision                                                      | Status    |
+| ----- | ------------------------------------------------------------- | --------- |
 | D-171 | Audit is append-only and immutable                            | ✅ Locked |
 | D-172 | Every important business action generates an audit event      | ✅ Locked |
 | D-173 | Products emit audit events through the Platform Audit Service | ✅ Locked |
@@ -14469,14 +14643,13 @@ MFA_REQUIRED
 
 Your original platform treated auditing primarily as scattered logging within individual services. This specification elevates auditing into a **first-class platform domain**:
 
-* A **single immutable audit stream** captures every significant business and security event.
-* **Correlation IDs** provide end-to-end tracing across Platform, Fit, ETA, Returns, AI, Shipping, and future services.
-* Products never write directly to audit tables; they publish standardized audit events through the Platform Audit Service, ensuring consistent formatting and retention.
-* Read models such as `activity_timeline` keep user interfaces fast without compromising the canonical audit history.
-* The design supports compliance, forensic investigations, operational debugging, and future observability integrations while remaining independent of individual product schemas.
+- A **single immutable audit stream** captures every significant business and security event.
+- **Correlation IDs** provide end-to-end tracing across Platform, Fit, ETA, Returns, AI, Shipping, and future services.
+- Products never write directly to audit tables; they publish standardized audit events through the Platform Audit Service, ensuring consistent formatting and retention.
+- Read models such as `activity_timeline` keep user interfaces fast without compromising the canonical audit history.
+- The design supports compliance, forensic investigations, operational debugging, and future observability integrations while remaining independent of individual product schemas.
 
 This architecture establishes a consistent audit foundation that every future AutoShipp service will inherit, eliminating fragmented logging and creating a platform-wide source of operational truth.
-
 
 ---
 
@@ -14505,13 +14678,13 @@ Every service publishes **Notification Events**.
 
 The Notification Service decides:
 
-* Whether to send
-* When to send
-* Through which provider
-* Using which template
-* With retries
-* With fallback providers
-* With user preferences
+- Whether to send
+- When to send
+- Through which provider
+- Using which template
+- With retries
+- With fallback providers
+- With user preferences
 
 Products never send notifications directly.
 
@@ -14535,11 +14708,11 @@ Products never send notifications directly.
 
 **Depends On**
 
-* AES-008 Master Database Blueprint
-* AES-009 Identity Schema
-* AES-010 Organization Schema
-* AES-015 Integration Schema
-* AES-017 Audit Schema
+- AES-008 Master Database Blueprint
+- AES-009 Identity Schema
+- AES-010 Organization Schema
+- AES-015 Integration Schema
+- AES-017 Audit Schema
 
 ---
 
@@ -14549,15 +14722,15 @@ The Notification Schema provides the centralized messaging infrastructure for th
 
 It manages:
 
-* Notification Templates
-* Notification Events
-* Notification Queues
-* Delivery Channels
-* User Preferences
-* Provider Routing
-* Delivery Status
-* Retry Management
-* Notification History
+- Notification Templates
+- Notification Events
+- Notification Queues
+- Delivery Channels
+- User Preferences
+- Provider Routing
+- Delivery Status
+- Retry Management
+- Notification History
 
 Every notification generated anywhere in AutoShipp flows through this domain.
 
@@ -14567,23 +14740,23 @@ Every notification generated anywhere in AutoShipp flows through this domain.
 
 The Notification Schema owns:
 
-* Notification Templates
-* Notification Events
-* Notification Deliveries
-* Notification Preferences
-* Notification Channels
-* Notification Providers
-* Retry Queue
-* Delivery Logs
-* Scheduled Notifications
+- Notification Templates
+- Notification Events
+- Notification Deliveries
+- Notification Preferences
+- Notification Channels
+- Notification Providers
+- Retry Queue
+- Delivery Logs
+- Scheduled Notifications
 
 It does **not** own:
 
-* Email providers
-* SMS providers
-* WhatsApp providers
-* Business entities
-* User authentication
+- Email providers
+- SMS providers
+- WhatsApp providers
+- Business entities
+- User authentication
 
 External providers are managed by the Integration Domain.
 
@@ -14765,10 +14938,10 @@ IN_APP
 
 Columns
 
-* id
-* code
-* name
-* active
+- id
+- code
+- name
+- active
 
 ---
 
@@ -14799,19 +14972,19 @@ Supports multiple recipients.
 
 Columns
 
-* id
-* notification_event_id
-* user_id
-* customer_id
-* email
-* phone
-* channel_override
+- id
+- notification_event_id
+- user_id
+- customer_id
+- email
+- phone
+- channel_override
 
 Supports:
 
-* Users
-* Customers
-* External emails
+- Users
+- Customers
+- External emails
 
 ---
 
@@ -14838,11 +15011,11 @@ Example
 
 Email
 
-*
+-
 
 SMS
 
-*
+-
 
 WhatsApp
 
@@ -14887,10 +15060,10 @@ Tomorrow
 
 Columns
 
-* id
-* notification_event_id
-* scheduled_at
-* status
+- id
+- notification_event_id
+- scheduled_at
+- status
 
 ---
 
@@ -14900,9 +15073,9 @@ Failed deliveries.
 
 Tracks
 
-* retry_count
-* next_retry_at
-* last_error
+- retry_count
+- next_retry_at
+- last_error
 
 Supports exponential backoff.
 
@@ -14914,10 +15087,10 @@ Append-only.
 
 Stores:
 
-* Provider response
-* Provider message ID
-* Latency
-* Error details
+- Provider response
+- Provider message ID
+- Latency
+- Error details
 
 Useful for support.
 
@@ -14957,8 +15130,8 @@ Example
 
 ```json
 {
-  "default_language":"en",
-  "retention_days":365
+  "default_language": "en",
+  "retention_days": 365
 }
 ```
 
@@ -15084,12 +15257,12 @@ Notification never owns business entities.
 
 # 9. Security Rules
 
-* Notification payloads are immutable after creation.
-* Templates are versioned.
-* Delivery history is append-only.
-* Provider credentials are never stored in this schema.
-* Sensitive data is masked in logs.
-* Security notifications ignore marketing opt-out preferences.
+- Notification payloads are immutable after creation.
+- Templates are versioned.
+- Delivery history is append-only.
+- Provider credentials are never stored in this schema.
+- Sensitive data is masked in logs.
+- Security notifications ignore marketing opt-out preferences.
 
 ---
 
@@ -15097,8 +15270,8 @@ Notification never owns business entities.
 
 | Service             | Read           | Write     |
 | ------------------- | -------------- | --------- |
-| Platform API        | ✅              | ✅         |
-| Notification Worker | ✅              | ✅         |
+| Platform API        | ✅             | ✅        |
+| Notification Worker | ✅             | ✅        |
 | Fit                 | Templates (RO) | Event API |
 | ETA                 | Templates (RO) | Event API |
 | Returns             | Templates (RO) | Event API |
@@ -15125,12 +15298,12 @@ Notification workers share the same Prisma package but operate through dedicated
 
 Designed for:
 
-* Billions of notification events
-* Billions of deliveries
-* Millions of templates
-* Hundreds of providers
-* Multi-language support
-* High-volume asynchronous processing
+- Billions of notification events
+- Billions of deliveries
+- Millions of templates
+- Hundreds of providers
+- Multi-language support
+- High-volume asynchronous processing
 
 `notification_deliveries` and `delivery_logs` are expected partition candidates.
 
@@ -15190,8 +15363,8 @@ IN_APP
 
 # 14. Decision Register
 
-| ID    | Decision                                                                  | Status   |
-| ----- | ------------------------------------------------------------------------- | -------- |
+| ID    | Decision                                                                  | Status    |
+| ----- | ------------------------------------------------------------------------- | --------- |
 | D-181 | Products publish notification events instead of sending messages directly | ✅ Locked |
 | D-182 | Templates are centralized and versioned                                   | ✅ Locked |
 | D-183 | Notification providers are replaceable through routing rules              | ✅ Locked |
@@ -15211,15 +15384,14 @@ The original design implied that each product (Fit, ETA, Returns, AI, etc.) woul
 
 Key improvements include:
 
-* **Products publish events**, not messages.
-* **Templates are reusable** across all products and support versioning and localization.
-* **Provider routing** allows seamless switching between services like Resend, AWS SES, Twilio, WhatsApp Business API, or future providers without changing product code.
-* **Automatic retries and provider failover** improve delivery reliability.
-* **User and organization notification preferences** are enforced consistently across the platform.
-* **Notification history and delivery logs** provide complete observability for support, auditing, and compliance.
+- **Products publish events**, not messages.
+- **Templates are reusable** across all products and support versioning and localization.
+- **Provider routing** allows seamless switching between services like Resend, AWS SES, Twilio, WhatsApp Business API, or future providers without changing product code.
+- **Automatic retries and provider failover** improve delivery reliability.
+- **User and organization notification preferences** are enforced consistently across the platform.
+- **Notification history and delivery logs** provide complete observability for support, auditing, and compliance.
 
 This design ensures that every future AutoShipp service can generate notifications through the same scalable infrastructure, eliminating duplicated messaging logic while supporting billions of notifications across multiple channels.
-
 
 ---
 
@@ -15231,9 +15403,9 @@ This is actually one of the smartest architectural decisions we've made in this 
 
 > Three levels of feature flags
 
-* Global
-* Product
-* Account
+- Global
+- Product
+- Account
 
 But after designing the previous schemas, I think we can make it **much more powerful**.
 
@@ -15241,15 +15413,15 @@ Instead of only feature flags, let's build a complete **Runtime Configuration Pl
 
 It will manage:
 
-* Feature Flags
-* Gradual Rollouts
-* Beta Programs
-* Kill Switches
-* A/B Testing (future)
-* Runtime Configuration
-* Per-Organization Overrides
-* Per-Edition Overrides (Marketplace integration)
-* Environment-specific configuration
+- Feature Flags
+- Gradual Rollouts
+- Beta Programs
+- Kill Switches
+- A/B Testing (future)
+- Runtime Configuration
+- Per-Organization Overrides
+- Per-Edition Overrides (Marketplace integration)
+- Environment-specific configuration
 
 This becomes one of the core platform services.
 
@@ -15273,10 +15445,10 @@ This becomes one of the core platform services.
 
 **Depends On**
 
-* AES-008 Master Database Blueprint
-* AES-010 Organization Schema
-* AES-012 Marketplace Schema
-* AES-017 Audit Schema
+- AES-008 Master Database Blueprint
+- AES-010 Organization Schema
+- AES-012 Marketplace Schema
+- AES-017 Audit Schema
 
 ---
 
@@ -15288,14 +15460,14 @@ It enables safe deployments by allowing features to be enabled, disabled, or con
 
 The platform supports:
 
-* Global flags
-* Product flags
-* Organization overrides
-* Environment overrides
-* Percentage rollouts
-* Kill switches
-* Runtime configuration values
-* Future experimentation (A/B testing)
+- Global flags
+- Product flags
+- Organization overrides
+- Environment overrides
+- Percentage rollouts
+- Kill switches
+- Runtime configuration values
+- Future experimentation (A/B testing)
 
 Every service consumes feature flags through the Platform Configuration API.
 
@@ -15305,22 +15477,22 @@ Every service consumes feature flags through the Platform Configuration API.
 
 The Feature Flag Schema owns:
 
-* Feature Flags
-* Runtime Configurations
-* Organization Overrides
-* Product Overrides
-* Environment Overrides
-* Rollout Rules
-* Evaluation Logs
-* Flag History
-* Configuration Metadata
+- Feature Flags
+- Runtime Configurations
+- Organization Overrides
+- Product Overrides
+- Environment Overrides
+- Rollout Rules
+- Evaluation Logs
+- Flag History
+- Configuration Metadata
 
 It does **not** own:
 
-* Product logic
-* User permissions
-* Marketplace assignments
-* Business entities
+- Product logic
+- User permissions
+- Marketplace assignments
+- Business entities
 
 ---
 
@@ -15475,10 +15647,10 @@ Production
 
 Columns
 
-* id
-* feature_flag_id
-* environment
-* enabled
+- id
+- feature_flag_id
+- environment
+- enabled
 
 ---
 
@@ -15502,10 +15674,10 @@ Enabled
 
 Columns
 
-* id
-* feature_flag_id
-* product_id
-* enabled
+- id
+- feature_flag_id
+- product_id
+- enabled
 
 ---
 
@@ -15617,18 +15789,18 @@ Override runtime configuration.
 
 Supports:
 
-* Environment
-* Product
-* Organization
+- Environment
+- Product
+- Organization
 
 Columns
 
-* id
-* runtime_config_id
-* environment
-* product_id
-* organization_id
-* override_value
+- id
+- runtime_config_id
+- environment
+- product_id
+- organization_id
+- override_value
 
 Evaluation follows the same specificity rules as feature flags.
 
@@ -15640,11 +15812,11 @@ Optional diagnostic logging.
 
 Stores:
 
-* feature_flag_id
-* organization_id
-* evaluated_value
-* evaluation_source
-* evaluated_at
+- feature_flag_id
+- organization_id
+- evaluated_value
+- evaluation_source
+- evaluated_at
 
 Typically disabled in production except during troubleshooting.
 
@@ -15656,11 +15828,11 @@ Append-only.
 
 Tracks:
 
-* Previous value
-* New value
-* Changed by
-* Changed at
-* Reason
+- Previous value
+- New value
+- Changed by
+- Changed at
+- Reason
 
 Supports audit and rollback.
 
@@ -15674,8 +15846,8 @@ Example
 
 ```json
 {
-  "owner":"Platform Team",
-  "jira":"AES-201"
+  "owner": "Platform Team",
+  "jira": "AES-201"
 }
 ```
 
@@ -15813,12 +15985,12 @@ Configuration never depends on product schemas.
 
 # 10. Security Rules
 
-* Only Platform Administrators may modify flags.
-* Products have read-only access.
-* All changes require audit records.
-* Rollout percentages are validated (0–100).
-* Configuration values are schema-validated before activation.
-* Emergency kill switches bypass approval workflows but are fully audited.
+- Only Platform Administrators may modify flags.
+- Products have read-only access.
+- All changes require audit records.
+- Rollout percentages are validated (0–100).
+- Configuration values are schema-validated before activation.
+- Emergency kill switches bypass approval workflows but are fully audited.
 
 ---
 
@@ -15826,13 +15998,13 @@ Configuration never depends on product schemas.
 
 | Service               | Read | Write |
 | --------------------- | ---- | ----- |
-| Platform API          | ✅    | ✅     |
-| Configuration Service | ✅    | ✅     |
-| Fit                   | ✅    | ❌     |
-| ETA                   | ✅    | ❌     |
-| Returns               | ✅    | ❌     |
-| AI                    | ✅    | ❌     |
-| Shipping              | ✅    | ❌     |
+| Platform API          | ✅   | ✅    |
+| Configuration Service | ✅   | ✅    |
+| Fit                   | ✅   | ❌    |
+| ETA                   | ✅   | ❌    |
+| Returns               | ✅   | ❌    |
+| AI                    | ✅   | ❌    |
+| Shipping              | ✅   | ❌    |
 
 Products access configuration through a shared SDK or Platform Configuration API.
 
@@ -15854,12 +16026,12 @@ No product owns feature flag migrations.
 
 Designed for:
 
-* Thousands of feature flags
-* Millions of evaluations per minute
-* Thousands of organization overrides
-* Hundreds of runtime configurations
-* Multi-environment deployments
-* Global edge caching
+- Thousands of feature flags
+- Millions of evaluations per minute
+- Thousands of organization overrides
+- Hundreds of runtime configurations
+- Multi-environment deployments
+- Global edge caching
 
 Evaluation should primarily occur from Redis or in-memory caches, with the database serving as the authoritative source.
 
@@ -15923,8 +16095,8 @@ PRODUCTION
 
 # 15. Decision Register
 
-| ID    | Decision                                                          | Status   |
-| ----- | ----------------------------------------------------------------- | -------- |
+| ID    | Decision                                                          | Status    |
+| ----- | ----------------------------------------------------------------- | --------- |
 | D-191 | Feature flags are centrally managed                               | ✅ Locked |
 | D-192 | Runtime configuration shares the same domain as feature flags     | ✅ Locked |
 | D-193 | Evaluation order is Organization → Product → Environment → Global | ✅ Locked |
@@ -15944,15 +16116,14 @@ Your original design proposed a single `platform_feature_flags` table with three
 
 Key improvements include:
 
-* **Separation of feature flags and runtime configuration**, allowing both boolean feature toggles and typed configuration values (timeouts, limits, thresholds, URLs, JSON settings).
-* **Deterministic override hierarchy**: Organization → Product → Environment → Global.
-* **Percentage rollouts and kill switches** for safe production deployments.
-* **Environment-aware configuration**, enabling different behaviors in Development, Staging, and Production without code changes.
-* **Cache-first evaluation**, allowing millions of feature checks per minute with Redis or in-memory caches while keeping PostgreSQL as the source of truth.
-* **Future compatibility with experimentation frameworks** (A/B testing, canary releases, targeted rollouts) without redesigning the schema.
+- **Separation of feature flags and runtime configuration**, allowing both boolean feature toggles and typed configuration values (timeouts, limits, thresholds, URLs, JSON settings).
+- **Deterministic override hierarchy**: Organization → Product → Environment → Global.
+- **Percentage rollouts and kill switches** for safe production deployments.
+- **Environment-aware configuration**, enabling different behaviors in Development, Staging, and Production without code changes.
+- **Cache-first evaluation**, allowing millions of feature checks per minute with Redis or in-memory caches while keeping PostgreSQL as the source of truth.
+- **Future compatibility with experimentation frameworks** (A/B testing, canary releases, targeted rollouts) without redesigning the schema.
 
 This turns feature management into a dedicated platform capability that every current and future AutoShipp service can rely on, enabling safer deployments, faster experimentation, and centralized operational control.
-
 
 ---
 
@@ -15972,18 +16143,18 @@ This turns feature management into a dedicated platform capability that every cu
 
 **Depends On**
 
-* AES-008 — Master Database Blueprint
-* AES-009 — Identity
-* AES-010 — Organization
-* AES-011 — Commerce
-* AES-012 — Marketplace
-* AES-013 — Billing
-* AES-014 — Wallet
-* AES-015 — Integration
-* AES-016 — Customer
-* AES-017 — Audit
-* AES-018 — Notification
-* AES-019 — Feature Flags
+- AES-008 — Master Database Blueprint
+- AES-009 — Identity
+- AES-010 — Organization
+- AES-011 — Commerce
+- AES-012 — Marketplace
+- AES-013 — Billing
+- AES-014 — Wallet
+- AES-015 — Integration
+- AES-016 — Customer
+- AES-017 — Audit
+- AES-018 — Notification
+- AES-019 — Feature Flags
 
 ---
 
@@ -15993,18 +16164,18 @@ The Platform API is the central orchestration layer of AutoShipp.
 
 It owns:
 
-* Authentication
-* Authorization
-* Organizations
-* Marketplace
-* Billing
-* Wallet
-* Customers
-* Commerce
-* Integrations
-* Notifications
-* Feature Flags
-* Platform Administration
+- Authentication
+- Authorization
+- Organizations
+- Marketplace
+- Billing
+- Wallet
+- Customers
+- Commerce
+- Integrations
+- Notifications
+- Feature Flags
+- Platform Administration
 
 It **does not own** product-specific business logic.
 
@@ -16035,29 +16206,29 @@ Platform API is the **only service** that writes to platform schemas.
 
 The Platform API owns:
 
-* Login
-* Logout
-* Refresh
-* User Management
-* Organization Management
-* Billing
-* Wallet
-* Marketplace
-* Commerce
-* Customers
-* Integrations
-* Feature Flags
-* Notifications
-* Audit
-* Platform Dashboard
+- Login
+- Logout
+- Refresh
+- User Management
+- Organization Management
+- Billing
+- Wallet
+- Marketplace
+- Commerce
+- Customers
+- Integrations
+- Feature Flags
+- Notifications
+- Audit
+- Platform Dashboard
 
 The Platform API never owns:
 
-* Fit calculations
-* ETA predictions
-* Return workflows
-* AI inference
-* Shipping algorithms
+- Fit calculations
+- ETA predictions
+- Return workflows
+- AI inference
+- Shipping algorithms
 
 ---
 
@@ -16329,10 +16500,10 @@ GET /customers
 
 Supports
 
-* equality
-* search
-* date ranges
-* enums
+- equality
+- search
+- date ranges
+- enums
 
 No arbitrary SQL filtering.
 
@@ -16370,11 +16541,11 @@ Useful for dashboards and large datasets.
 
 Required for operations like
 
-* Payment
-* Wallet Top-up
-* Subscription Creation
-* Organization Creation
-* Product Assignment
+- Payment
+- Wallet Top-up
+- Subscription Creation
+- Organization Creation
+- Product Assignment
 
 Header
 
@@ -16458,11 +16629,11 @@ X-Correlation-ID
 
 Propagated to:
 
-* Audit
-* Logs
-* Workers
-* Product APIs
-* Notifications
+- Audit
+- Logs
+- Workers
+- Product APIs
+- Notifications
 
 Allows end-to-end tracing.
 
@@ -16737,12 +16908,12 @@ Platform never writes product schemas.
 
 Every request validates:
 
-* DTO
-* Types
-* Length
-* Enums
-* UUIDs
-* Permissions
+- DTO
+- Types
+- Length
+- Enums
+- UUIDs
+- Permissions
 
 Before reaching business logic.
 
@@ -16768,18 +16939,18 @@ Generated from NestJS Swagger decorators.
 
 The Platform API implements:
 
-* JWT Authentication
-* HttpOnly Cookies
-* RBAC
-* Permission Guards
-* CSRF Protection
-* Secure Headers
-* Input Validation
-* Output Sanitization
-* Rate Limiting
-* Audit Logging
-* Request Correlation
-* Secret Management
+- JWT Authentication
+- HttpOnly Cookies
+- RBAC
+- Permission Guards
+- CSRF Protection
+- Secure Headers
+- Input Validation
+- Output Sanitization
+- Rate Limiting
+- Audit Logging
+- Request Correlation
+- Secret Management
 
 Detailed implementation is specified in AES-028.
 
@@ -16787,18 +16958,18 @@ Detailed implementation is specified in AES-028.
 
 # 26. Read / Write Ownership
 
-| Domain          | Read             | Write                    |
-| --------------- | ---------------- | ------------------------ |
-| Identity        | ✅                | ✅                        |
-| Organization    | ✅                | ✅                        |
-| Commerce        | ✅                | ✅ *(Platform Sync only)* |
-| Customer        | ✅                | ✅ *(Platform Sync only)* |
-| Marketplace     | ✅                | ✅                        |
-| Billing         | ✅                | ✅                        |
-| Wallet          | ✅                | ✅                        |
-| Integration     | ✅                | ✅                        |
-| Notification    | ✅                | ✅                        |
-| Feature Flags   | ✅                | ✅                        |
+| Domain          | Read             | Write                     |
+| --------------- | ---------------- | ------------------------- |
+| Identity        | ✅               | ✅                        |
+| Organization    | ✅               | ✅                        |
+| Commerce        | ✅               | ✅ _(Platform Sync only)_ |
+| Customer        | ✅               | ✅ _(Platform Sync only)_ |
+| Marketplace     | ✅               | ✅                        |
+| Billing         | ✅               | ✅                        |
+| Wallet          | ✅               | ✅                        |
+| Integration     | ✅               | ✅                        |
+| Notification    | ✅               | ✅                        |
+| Feature Flags   | ✅               | ✅                        |
 | Product Schemas | Via Product APIs | ❌                        |
 
 ---
@@ -16851,19 +17022,19 @@ Every request follows the same pipeline.
 
 # 28. Performance Strategy
 
-* Cursor pagination for very large datasets.
-* Gzip/Brotli compression.
-* ETag support for cacheable GET endpoints.
-* Redis caching for frequently read configuration.
-* Connection pooling via Prisma.
-* Async processing for non-critical work (notifications, audits, exports).
+- Cursor pagination for very large datasets.
+- Gzip/Brotli compression.
+- ETag support for cacheable GET endpoints.
+- Redis caching for frequently read configuration.
+- Connection pooling via Prisma.
+- Async processing for non-critical work (notifications, audits, exports).
 
 ---
 
 # 29. Decision Register
 
-| ID    | Decision                                                                                   | Status   |
-| ----- | ------------------------------------------------------------------------------------------ | -------- |
+| ID    | Decision                                                                                   | Status    |
+| ----- | ------------------------------------------------------------------------------------------ | --------- |
 | D-221 | Platform API is the sole writer of platform schemas                                        | ✅ Locked |
 | D-222 | Product logic remains in independent product services                                      | ✅ Locked |
 | D-223 | REST is the primary API style                                                              | ✅ Locked |
@@ -16883,14 +17054,13 @@ This specification transforms the Platform API from a collection of endpoints in
 
 Key improvements include:
 
-* A **uniform API contract** for every platform domain with standardized request, response, pagination, filtering, and error handling.
-* Clear ownership boundaries: the Platform API exclusively manages platform schemas, while product services retain ownership of their own business logic and data.
-* A mandatory security pipeline (authentication, user type validation, permission checks, validation, auditing) applied consistently to every protected endpoint.
-* Built-in support for idempotency, correlation IDs, OpenAPI generation, caching, and rate limiting, making the API suitable for enterprise-scale integrations.
-* Strict adherence to the architectural principle that **shared platform data is centralized, while product capabilities remain independently deployable and accessible only through their public APIs**.
+- A **uniform API contract** for every platform domain with standardized request, response, pagination, filtering, and error handling.
+- Clear ownership boundaries: the Platform API exclusively manages platform schemas, while product services retain ownership of their own business logic and data.
+- A mandatory security pipeline (authentication, user type validation, permission checks, validation, auditing) applied consistently to every protected endpoint.
+- Built-in support for idempotency, correlation IDs, OpenAPI generation, caching, and rate limiting, making the API suitable for enterprise-scale integrations.
+- Strict adherence to the architectural principle that **shared platform data is centralized, while product capabilities remain independently deployable and accessible only through their public APIs**.
 
 This document establishes the Platform API as the stable contract between the AutoShipp frontend, platform services, workers, integrations, and future product services.
-
 
 ---
 
@@ -16908,8 +17078,8 @@ This document establishes the Platform API as the stable contract between the Au
 
 **Depends On**
 
-* AES-008 — Master Database Blueprint
-* AES-020 — Platform API Architecture
+- AES-008 — Master Database Blueprint
+- AES-020 — Platform API Architecture
 
 ---
 
@@ -16919,12 +17089,12 @@ AutoShipp follows an **Event-Driven Architecture (EDA)** to decouple services, i
 
 The Event Bus enables communication between:
 
-* Platform API
-* Workers
-* Future Product Services
-* Notification Service
-* Audit Service
-* External Integrations
+- Platform API
+- Workers
+- Future Product Services
+- Notification Service
+- Audit Service
+- External Integrations
 
 without introducing tight coupling.
 
@@ -17145,7 +17315,31 @@ wallet.credited
 wallet.debited
 
 wallet.low_balance
+
+wallet.credits_exhausted
+
+wallet.credits_restored
+
+wallet.statement.generated
+
+wallet.suspended
+
+wallet.reservation.expired
 ```
+
+**Wallet event semantics:**
+
+| Event                        | Trigger                                          | Nature                    |
+| :--------------------------- | :----------------------------------------------- | :------------------------ |
+| `wallet.created`             | Wallet record created                            | Lifecycle fact            |
+| `wallet.credited`            | Every CREDIT transaction                         | Financial fact            |
+| `wallet.debited`             | Every DEBIT transaction                          | Financial fact            |
+| `wallet.low_balance`         | Debit crosses low-balance threshold              | Financial state fact      |
+| `wallet.credits_exhausted`   | available_balance reaches 0 after a debit        | Financial state fact      |
+| `wallet.credits_restored`    | available_balance rises above 0 after exhaustion | Financial state fact      |
+| `wallet.statement.generated` | Monthly statement generation run completed       | Operational fact          |
+| `wallet.suspended`           | Platform Admin sets wallet.status = SUSPENDED    | Administrative state fact |
+| `wallet.reservation.expired` | Cleanup Worker releases an expired reservation   | Financial fact            |
 
 ---
 
@@ -17275,13 +17469,13 @@ Every event follows the same envelope.
 
 | Field         | Required |
 | ------------- | -------- |
-| eventId       | ✅        |
-| eventName     | ✅        |
-| version       | ✅        |
-| occurredAt    | ✅        |
-| correlationId | ✅        |
-| source        | ✅        |
-| payload       | ✅        |
+| eventId       | ✅       |
+| eventName     | ✅       |
+| version       | ✅       |
+| occurredAt    | ✅       |
+| correlationId | ✅       |
+| source        | ✅       |
+| payload       | ✅       |
 
 Optional
 
@@ -17682,12 +17876,12 @@ Breaking changes require a new version.
 
 Events never contain:
 
-* Passwords
-* JWT Tokens
-* API Keys
-* OAuth Tokens
-* Credit Card Data
-* Sensitive secrets
+- Passwords
+- JWT Tokens
+- API Keys
+- OAuth Tokens
+- Credit Card Data
+- Sensitive secrets
 
 Sensitive references use IDs.
 
@@ -17699,13 +17893,13 @@ Consumers fetch additional data if necessary.
 
 Track
 
-* Published events
-* Failed events
-* Retry count
-* DLQ size
-* Consumer lag
-* Queue depth
-* Processing latency
+- Published events
+- Failed events
+- Retry count
+- DLQ size
+- Consumer lag
+- Queue depth
+- Processing latency
 
 Integrated into `/platform/health`.
 
@@ -17715,7 +17909,7 @@ Integrated into `/platform/health`.
 
 | Component      | Technology                       |
 | -------------- | -------------------------------- |
-| Message Broker | BullMQ                         |
+| Message Broker | BullMQ                           |
 | Exchange Type  | Topic                            |
 | Pattern        | Transactional Outbox             |
 | Serialization  | JSON                             |
@@ -17731,13 +17925,13 @@ Integrated into `/platform/health`.
 
 This architecture supports:
 
-* Independent product services
-* Multiple worker instances
-* Horizontal scaling
-* Scheduled events
-* Event replay
-* Event sourcing (if introduced later)
-* Streaming analytics
+- Independent product services
+- Multiple worker instances
+- Horizontal scaling
+- Scheduled events
+- Event replay
+- Event sourcing (if introduced later)
+- Streaming analytics
 
 without redesigning the event contracts.
 
@@ -17745,9 +17939,9 @@ without redesigning the event contracts.
 
 # 28. Decision Register
 
-| ID    | Decision                                               | Status   |
-| ----- | ------------------------------------------------------ | -------- |
-| D-231 | BullMQ is the platform event broker                  | ✅ Locked |
+| ID    | Decision                                               | Status    |
+| ----- | ------------------------------------------------------ | --------- |
+| D-231 | BullMQ is the platform event broker                    | ✅ Locked |
 | D-232 | Topic exchanges are used for routing                   | ✅ Locked |
 | D-233 | Events describe completed facts, not commands          | ✅ Locked |
 | D-234 | All events use a standard event envelope               | ✅ Locked |
@@ -17766,15 +17960,14 @@ Your original architecture mainly described synchronous communication between se
 
 Key improvements include:
 
-* **Reliable event publishing** through the Transactional Outbox Pattern, eliminating the risk of database commits succeeding while event publication fails.
-* **Decoupled services**, where producers are unaware of consumers, allowing new workers and capabilities to be added without modifying existing code.
-* **Standardized event contracts** with versioning, correlation IDs, and consistent envelopes.
-* **Independent consumer queues**, ensuring failures in one subsystem (such as Notifications) never block others (such as Audit or Analytics).
-* **At-least-once delivery with idempotent consumers**, providing reliable processing while keeping the implementation practical and scalable.
-* **Built-in retry, dead-letter queues, monitoring, and tracing**, giving the platform operational resilience and observability from day one.
+- **Reliable event publishing** through the Transactional Outbox Pattern, eliminating the risk of database commits succeeding while event publication fails.
+- **Decoupled services**, where producers are unaware of consumers, allowing new workers and capabilities to be added without modifying existing code.
+- **Standardized event contracts** with versioning, correlation IDs, and consistent envelopes.
+- **Independent consumer queues**, ensuring failures in one subsystem (such as Notifications) never block others (such as Audit or Analytics).
+- **At-least-once delivery with idempotent consumers**, providing reliable processing while keeping the implementation practical and scalable.
+- **Built-in retry, dead-letter queues, monitoring, and tracing**, giving the platform operational resilience and observability from day one.
 
 This architecture forms the backbone of asynchronous processing across AutoShipp and provides a stable integration mechanism for future platform capabilities and independently deployed product services.
-
 
 ---
 
@@ -17792,8 +17985,8 @@ This architecture forms the backbone of asynchronous processing across AutoShipp
 
 **Depends On**
 
-* AES-020 — Platform API Architecture
-* AES-021 — Event-Driven Architecture
+- AES-020 — Platform API Architecture
+- AES-021 — Event-Driven Architecture
 
 ---
 
@@ -17807,12 +18000,12 @@ Anything that is not required to complete the current HTTP request must execute 
 
 This architecture provides:
 
-* Horizontal scalability
-* Retry mechanisms
-* Scheduled jobs
-* Long-running task execution
-* High throughput
-* Fault isolation
+- Horizontal scalability
+- Retry mechanisms
+- Scheduled jobs
+- Long-running task execution
+- High throughput
+- Fault isolation
 
 Workers consume jobs from BullMQ queues and execute them independently.
 
@@ -17894,11 +18087,11 @@ Every job is traceable.
 
 Responsibilities
 
-* Email
-* SMS
-* WhatsApp
-* Push
-* In-App notifications
+- Email
+- SMS
+- WhatsApp
+- Push
+- In-App notifications
 
 Consumes
 
@@ -17920,9 +18113,9 @@ notification.failed
 
 Responsibilities
 
-* Persist audit records
-* Activity timeline
-* Archive audit data
+- Persist audit records
+- Activity timeline
+- Archive audit data
 
 Consumes
 
@@ -17942,10 +18135,10 @@ audit.completed
 
 Responsibilities
 
-* Invoice generation
-* Subscription renewals
-* Payment reminders
-* Credit note generation
+- Invoice generation
+- Subscription renewals
+- Payment reminders
+- Credit note generation
 
 Consumes
 
@@ -17961,10 +18154,10 @@ subscription.renew
 
 Responsibilities
 
-* Wallet settlements
-* Credit expiration
-* Promotional credits
-* Reservation cleanup
+- Wallet settlements
+- Credit expiration
+- Promotional credits
+- Reservation cleanup
 
 Consumes
 
@@ -17980,11 +18173,11 @@ wallet.debit
 
 Responsibilities
 
-* Shopify sync
-* WooCommerce sync
-* Delhivery sync
-* Shiprocket sync
-* API polling
+- Shopify sync
+- WooCommerce sync
+- Delhivery sync
+- Shiprocket sync
+- API polling
 
 Consumes
 
@@ -17998,9 +18191,9 @@ sync.start
 
 Responsibilities
 
-* Validate webhooks
-* Normalize payloads
-* Publish platform events
+- Validate webhooks
+- Normalize payloads
+- Publish platform events
 
 Consumes
 
@@ -18014,10 +18207,10 @@ webhook.received
 
 Responsibilities
 
-* CSV Export
-* Excel Export
-* PDF Reports
-* Analytics exports
+- CSV Export
+- Excel Export
+- PDF Reports
+- Analytics exports
 
 Consumes
 
@@ -18031,10 +18224,10 @@ report.export
 
 Responsibilities
 
-* CSV Imports
-* Customer imports
-* Product imports
-* Historical migrations
+- CSV Imports
+- Customer imports
+- Product imports
+- Historical migrations
 
 Consumes
 
@@ -18048,10 +18241,10 @@ import.start
 
 Responsibilities
 
-* Expired sessions
-* Temporary files
-* Cache cleanup
-* Old exports
+- Expired sessions
+- Temporary files
+- Cache cleanup
+- Old exports
 
 Runs on schedule.
 
@@ -18315,9 +18508,9 @@ Duplicate messages are harmless.
 
 Every worker defines
 
-* Maximum execution time
-* Retry timeout
-* Visibility timeout
+- Maximum execution time
+- Retry timeout
+- Visibility timeout
 
 Example
 
@@ -18389,16 +18582,16 @@ Examples
 
 Critical
 
-* Password Reset
-* Login Security Alert
+- Password Reset
+- Login Security Alert
 
 Normal
 
-* Marketing Email
+- Marketing Email
 
 Low
 
-* Analytics Refresh
+- Analytics Refresh
 
 ---
 
@@ -18406,13 +18599,13 @@ Low
 
 Track
 
-* Queue depth
-* Processing rate
-* Failed jobs
-* Retry count
-* Processing time
-* Success rate
-* Worker uptime
+- Queue depth
+- Processing rate
+- Failed jobs
+- Retry count
+- Processing time
+- Success rate
+- Worker uptime
 
 Displayed in
 
@@ -18426,8 +18619,8 @@ Displayed in
 
 Workers communicate only by
 
-* Events
-* Platform APIs (when necessary)
+- Events
+- Platform APIs (when necessary)
 
 Never
 
@@ -18487,27 +18680,27 @@ No message loss.
 
 Workers
 
-* Use service accounts
-* Use least privilege
-* Never expose HTTP endpoints publicly
-* Validate every payload
-* Log every failure
-* Propagate correlation IDs
-* Emit audit events where applicable
+- Use service accounts
+- Use least privilege
+- Never expose HTTP endpoints publicly
+- Validate every payload
+- Log every failure
+- Propagate correlation IDs
+- Emit audit events where applicable
 
 ---
 
 # 21. Technology Stack
 
-| Component      | Technology              |
-| -------------- | ----------------------- |
+| Component      | Technology            |
+| -------------- | --------------------- |
 | Queue Broker   | BullMQ                |
-| Worker Runtime | NestJS                  |
-| Serialization  | JSON                    |
-| Scheduling     | BullMQ Job Scheduler        |
+| Worker Runtime | NestJS                |
+| Serialization  | JSON                  |
+| Scheduling     | BullMQ Job Scheduler  |
 | Retry          | BullMQ + Worker Logic |
-| Monitoring     | Prometheus              |
-| Logging        | Structured JSON Logs    |
+| Monitoring     | Prometheus            |
+| Logging        | Structured JSON Logs  |
 
 ---
 
@@ -18564,12 +18757,12 @@ Workers can be deployed, restarted, and scaled without affecting the Platform AP
 
 Supports
 
-* Distributed workers
-* Multi-region workers
-* GPU workers (AI)
-* Batch processing
-* Stream processing
-* Kubernetes auto-scaling
+- Distributed workers
+- Multi-region workers
+- GPU workers (AI)
+- Batch processing
+- Stream processing
+- Kubernetes auto-scaling
 
 No redesign required.
 
@@ -18577,11 +18770,11 @@ No redesign required.
 
 # 25. Decision Register
 
-| ID    | Decision                                                                               | Status   |
-| ----- | -------------------------------------------------------------------------------------- | -------- |
+| ID    | Decision                                                                               | Status    |
+| ----- | -------------------------------------------------------------------------------------- | --------- |
 | D-241 | All asynchronous work is executed by background workers                                | ✅ Locked |
 | D-242 | Workers are stateless and horizontally scalable                                        | ✅ Locked |
-| D-243 | Every worker owns dedicated BullMQ queues                                            | ✅ Locked |
+| D-243 | Every worker owns dedicated BullMQ queues                                              | ✅ Locked |
 | D-244 | Jobs follow a standard payload format                                                  | ✅ Locked |
 | D-245 | Retry uses exponential backoff with configurable policies                              | ✅ Locked |
 | D-246 | Every queue has a dedicated Dead Letter Queue                                          | ✅ Locked |
@@ -18598,14 +18791,13 @@ The original architecture implicitly handled many background operations within t
 
 Key improvements include:
 
-* **Strict separation between synchronous APIs and asynchronous processing**, keeping HTTP requests fast and responsive.
-* **Dedicated workers for each operational domain** (Notifications, Billing, Wallet, Integrations, Imports, Exports, Cleanup, Scheduler), allowing independent deployment and horizontal scaling.
-* **Queue-per-worker architecture** with retry policies, Dead Letter Queues, and graceful shutdown, ensuring reliability under failures and deployments.
-* **Stateless workers** that process standardized job payloads and rely on BullMQ for coordination, enabling elastic scaling.
-* **Platform-wide observability**, where queue depth, processing rates, failures, retries, and worker health integrate directly into the Platform Health dashboard.
+- **Strict separation between synchronous APIs and asynchronous processing**, keeping HTTP requests fast and responsive.
+- **Dedicated workers for each operational domain** (Notifications, Billing, Wallet, Integrations, Imports, Exports, Cleanup, Scheduler), allowing independent deployment and horizontal scaling.
+- **Queue-per-worker architecture** with retry policies, Dead Letter Queues, and graceful shutdown, ensuring reliability under failures and deployments.
+- **Stateless workers** that process standardized job payloads and rely on BullMQ for coordination, enabling elastic scaling.
+- **Platform-wide observability**, where queue depth, processing rates, failures, retries, and worker health integrate directly into the Platform Health dashboard.
 
 This worker architecture provides the operational backbone for AutoShipp's asynchronous processing, allowing the platform to scale from a handful of jobs to millions of background tasks while maintaining resilience, fault isolation, and clean service boundaries.
-
 
 ---
 
@@ -18623,9 +18815,9 @@ This worker architecture provides the operational backbone for AutoShipp's async
 
 **Depends On**
 
-* AES-020 — Platform API Architecture
-* AES-021 — Event-Driven Architecture
-* AES-022 — Background Workers Architecture
+- AES-020 — Platform API Architecture
+- AES-021 — Event-Driven Architecture
+- AES-022 — Background Workers Architecture
 
 ---
 
@@ -18635,18 +18827,18 @@ The Platform Health & Monitoring Architecture provides centralized operational v
 
 It allows Platform Administrators to monitor:
 
-* Platform API
-* Background Workers
-* Future Product Services
-* Database
-* Redis
-* BullMQ
-* Object Storage
-* External Integrations
-* Scheduled Jobs
-* Deployments
-* Infrastructure
-* Security
+- Platform API
+- Background Workers
+- Future Product Services
+- Database
+- Redis
+- BullMQ
+- Object Storage
+- External Integrations
+- Scheduled Jobs
+- Deployments
+- Infrastructure
+- Security
 
 The health dashboard is **Platform-only** and is never accessible to Brand or Aggregator users.
 
@@ -18656,15 +18848,15 @@ The health dashboard is **Platform-only** and is never accessible to Brand or Ag
 
 The monitoring platform must answer these questions instantly:
 
-* Is the platform healthy?
-* Which service is failing?
-* Which queue is backed up?
-* Is PostgreSQL overloaded?
-* Is Redis healthy?
-* Are workers processing jobs?
-* Are integrations syncing?
-* Which deployment introduced the issue?
-* What is the platform uptime?
+- Is the platform healthy?
+- Which service is failing?
+- Which queue is backed up?
+- Is PostgreSQL overloaded?
+- Is Redis healthy?
+- Are workers processing jobs?
+- Are integrations syncing?
+- Which deployment introduced the issue?
+- What is the platform uptime?
 
 ---
 
@@ -18697,16 +18889,16 @@ A dedicated **Health Aggregator** collects, normalizes, caches, and exposes heal
 
 Monitor:
 
-* PostgreSQL
-* Redis
-* BullMQ
-* Object Storage
-* DNS
-* SSL
-* Disk
-* CPU
-* Memory
-* Network
+- PostgreSQL
+- Redis
+- BullMQ
+- Object Storage
+- DNS
+- SSL
+- Disk
+- CPU
+- Memory
+- Network
 
 ---
 
@@ -18714,16 +18906,16 @@ Monitor:
 
 Monitor:
 
-* Platform API
-* Scheduler
-* Notification Worker
-* Billing Worker
-* Wallet Worker
-* Integration Worker
-* Audit Worker
-* Import Worker
-* Export Worker
-* Cleanup Worker
+- Platform API
+- Scheduler
+- Notification Worker
+- Billing Worker
+- Wallet Worker
+- Integration Worker
+- Audit Worker
+- Import Worker
+- Export Worker
+- Cleanup Worker
 
 ---
 
@@ -18731,12 +18923,12 @@ Monitor:
 
 Future services:
 
-* Fit
-* ETA
-* Returns
-* AI Assistant
-* Shipping
-* Marketing
+- Fit
+- ETA
+- Returns
+- AI Assistant
+- Shipping
+- Marketing
 
 Every product exposes:
 
@@ -18750,15 +18942,15 @@ GET /health
 
 Monitor
 
-* Shopify API
-* WooCommerce API
-* Delhivery
-* Shiprocket
-* ShipXSpeed
-* Razorpay
-* Email Provider
-* SMS Provider
-* WhatsApp Provider
+- Shopify API
+- WooCommerce API
+- Delhivery
+- Shiprocket
+- ShipXSpeed
+- Razorpay
+- Email Provider
+- SMS Provider
+- WhatsApp Provider
 
 Failures are shown separately from internal failures.
 
@@ -18885,12 +19077,12 @@ Exactly as discussed during architecture planning.
 
 Monitor
 
-* Queue depth
-* Waiting jobs
-* Active jobs
-* Failed jobs
-* Retry count
-* Dead Letter Queue size
+- Queue depth
+- Waiting jobs
+- Active jobs
+- Failed jobs
+- Retry count
+- Dead Letter Queue size
 
 Example
 
@@ -18912,15 +19104,15 @@ DLQ: 0
 
 Track
 
-* Active connections
-* Idle connections
-* Query latency
-* Slow queries
-* Locks
-* Deadlocks
-* Transactions/sec
-* Storage usage
-* Replication status (future)
+- Active connections
+- Idle connections
+- Query latency
+- Slow queries
+- Locks
+- Deadlocks
+- Transactions/sec
+- Storage usage
+- Replication status (future)
 
 ---
 
@@ -18928,13 +19120,13 @@ Track
 
 Track
 
-* Memory usage
-* Connected clients
-* Hit ratio
-* Miss ratio
-* Evictions
-* Commands/sec
-* Replication status (future)
+- Memory usage
+- Connected clients
+- Hit ratio
+- Miss ratio
+- Evictions
+- Commands/sec
+- Replication status (future)
 
 ---
 
@@ -18942,13 +19134,13 @@ Track
 
 Track
 
-* Exchanges
-* Queues
-* Consumers
-* Publish rate
-* ACK rate
-* Unacked messages
-* Queue latency
+- Exchanges
+- Queues
+- Consumers
+- Publish rate
+- ACK rate
+- Unacked messages
+- Queue latency
 
 ---
 
@@ -18956,13 +19148,13 @@ Track
 
 Each worker reports
 
-* Running
-* Version
-* Queue
-* Active Jobs
-* Failed Jobs
-* Last Processed Job
-* Average Processing Time
+- Running
+- Version
+- Queue
+- Active Jobs
+- Failed Jobs
+- Last Processed Job
+- Average Processing Time
 
 ---
 
@@ -19016,12 +19208,12 @@ Failures never stop the Platform Dashboard.
 
 Track
 
-* Version
-* Deployment Time
-* Git Commit
-* Build Number
-* Environment
-* Release Channel
+- Version
+- Deployment Time
+- Git Commit
+- Build Number
+- Environment
+- Release Channel
 
 Example
 
@@ -19045,12 +19237,12 @@ Deployed
 
 Collect
 
-* API Response Time
-* Database Query Time
-* Queue Processing Time
-* Worker Throughput
-* Cache Hit Rate
-* Event Processing Time
+- API Response Time
+- Database Query Time
+- Queue Processing Time
+- Worker Throughput
+- Cache Hit Rate
+- Event Processing Time
 
 Displayed historically.
 
@@ -19074,20 +19266,20 @@ Examples
 
 Critical
 
-* Database unavailable
-* BullMQ unavailable
-* Platform API unavailable
+- Database unavailable
+- BullMQ unavailable
+- Platform API unavailable
 
 Warning
 
-* Queue growing rapidly
-* Redis memory > 80%
-* High API latency
+- Queue growing rapidly
+- Redis memory > 80%
+- High API latency
 
 Info
 
-* New deployment
-* Worker restarted
+- New deployment
+- Worker restarted
 
 ---
 
@@ -19095,12 +19287,12 @@ Info
 
 Every incident records
 
-* Started
-* Detected
-* Acknowledged
-* Resolved
-* Root Cause
-* Duration
+- Started
+- Detected
+- Acknowledged
+- Resolved
+- Root Cause
+- Duration
 
 Supports future postmortems.
 
@@ -19132,10 +19324,10 @@ Metrics are collected continuously.
 
 Every metric links to
 
-* Logs
-* Audit Events
-* Correlation IDs
-* Request IDs
+- Logs
+- Audit Events
+- Correlation IDs
+- Request IDs
 
 Engineers can move directly from a failed health check to the relevant logs.
 
@@ -19145,12 +19337,12 @@ Engineers can move directly from a failed health check to the relevant logs.
 
 Track
 
-* Failed logins
-* Locked accounts
-* Permission denials
-* Token revocations
-* Rate limit violations
-* Suspicious API activity
+- Failed logins
+- Locked accounts
+- Permission denials
+- Token revocations
+- Rate limit violations
+- Suspicious API activity
 
 Displayed only to Platform Owners.
 
@@ -19162,11 +19354,11 @@ The Health Aggregator is a dedicated platform component.
 
 Responsibilities
 
-* Poll services
-* Cache results
-* Normalize responses
-* Calculate overall health
-* Expose `/platform/health`
+- Poll services
+- Cache results
+- Normalize responses
+- Calculate overall health
+- Expose `/platform/health`
 
 It prevents the dashboard from making dozens of direct service calls.
 
@@ -19201,14 +19393,14 @@ It prevents the dashboard from making dozens of direct service calls.
 
 Supports
 
-* Kubernetes
-* Multi-region deployment
-* Multiple PostgreSQL clusters
-* Multiple BullMQ clusters
-* Multiple Redis clusters
-* Auto-scaling
-* Blue/Green deployments
-* Canary releases
+- Kubernetes
+- Multi-region deployment
+- Multiple PostgreSQL clusters
+- Multiple BullMQ clusters
+- Multiple Redis clusters
+- Auto-scaling
+- Blue/Green deployments
+- Canary releases
 
 No architectural changes required.
 
@@ -19216,8 +19408,8 @@ No architectural changes required.
 
 # 27. Decision Register
 
-| ID    | Decision                                                                                  | Status   |
-| ----- | ----------------------------------------------------------------------------------------- | -------- |
+| ID    | Decision                                                                                  | Status    |
+| ----- | ----------------------------------------------------------------------------------------- | --------- |
 | D-251 | Every service must expose `GET /health`                                                   | ✅ Locked |
 | D-252 | Health data is aggregated through a dedicated Health Aggregator                           | ✅ Locked |
 | D-253 | Platform Dashboard never polls services directly                                          | ✅ Locked |
@@ -19237,15 +19429,14 @@ Your original design included a `/platform/health` page that polled individual s
 
 Major improvements include:
 
-* **A dedicated Health Aggregator Service** that collects, caches, and normalizes health information, preventing the frontend from polling every service directly.
-* **Layered monitoring** covering infrastructure, platform services, workers, future product services, external integrations, and scheduled jobs.
-* **Standardized health contracts** (`GET /health`) implemented by every service, enabling consistent monitoring regardless of the service technology.
-* **Deep operational metrics**, including queue depth, worker throughput, deployment information, database performance, cache efficiency, and integration status.
-* **Integrated observability**, where health checks connect directly to logs, audit records, and correlation IDs for rapid troubleshooting.
-* **Future-ready architecture** that supports Kubernetes, multi-region deployments, auto-scaling, and additional services without redesign.
+- **A dedicated Health Aggregator Service** that collects, caches, and normalizes health information, preventing the frontend from polling every service directly.
+- **Layered monitoring** covering infrastructure, platform services, workers, future product services, external integrations, and scheduled jobs.
+- **Standardized health contracts** (`GET /health`) implemented by every service, enabling consistent monitoring regardless of the service technology.
+- **Deep operational metrics**, including queue depth, worker throughput, deployment information, database performance, cache efficiency, and integration status.
+- **Integrated observability**, where health checks connect directly to logs, audit records, and correlation IDs for rapid troubleshooting.
+- **Future-ready architecture** that supports Kubernetes, multi-region deployments, auto-scaling, and additional services without redesign.
 
 This document establishes the operational control center for AutoShipp, ensuring that platform administrators have a single, real-time view of the health and performance of the entire ecosystem—from infrastructure to business services.
-
 
 ---
 
@@ -19263,10 +19454,10 @@ This document establishes the operational control center for AutoShipp, ensuring
 
 **Depends On**
 
-* AES-020 — Platform API Architecture
-* AES-021 — Event-Driven Architecture
-* AES-022 — Background Workers
-* AES-023 — Platform Health & Monitoring
+- AES-020 — Platform API Architecture
+- AES-021 — Event-Driven Architecture
+- AES-022 — Background Workers
+- AES-023 — Platform Health & Monitoring
 
 ---
 
@@ -19276,11 +19467,11 @@ Observability is the ability to understand **what happened, why it happened, and
 
 The AutoShipp observability platform consists of five pillars:
 
-* Structured Logging
-* Metrics
-* Distributed Tracing
-* Exception Tracking
-* Audit Events
+- Structured Logging
+- Metrics
+- Distributed Tracing
+- Exception Tracking
+- Audit Events
 
 These work together to provide complete visibility across the platform.
 
@@ -19290,14 +19481,14 @@ These work together to provide complete visibility across the platform.
 
 The platform must answer questions such as:
 
-* Why did this request fail?
-* Which service is slow?
-* Which SQL query caused the latency?
-* Which worker failed?
-* Which deployment introduced the issue?
-* Which API call generated this event?
-* Which user triggered this action?
-* How did a request flow across services?
+- Why did this request fail?
+- Which service is slow?
+- Which SQL query caused the latency?
+- Which worker failed?
+- Which deployment introduced the issue?
+- Which API call generated this event?
+- Which user triggered this action?
+- How did a request flow across services?
 
 ---
 
@@ -19367,12 +19558,12 @@ Example
 
 ```json
 {
-  "timestamp":"2026-06-29T12:00:00Z",
-  "level":"INFO",
-  "service":"platform-api",
-  "correlationId":"uuid",
-  "requestId":"uuid",
-  "message":"Organization created"
+  "timestamp": "2026-06-29T12:00:00Z",
+  "level": "INFO",
+  "service": "platform-api",
+  "correlationId": "uuid",
+  "requestId": "uuid",
+  "message": "Organization created"
 }
 ```
 
@@ -19384,23 +19575,23 @@ Every log contains
 
 | Field         | Required |
 | ------------- | -------- |
-| timestamp     | ✅        |
-| level         | ✅        |
-| service       | ✅        |
-| environment   | ✅        |
-| correlationId | ✅        |
-| requestId     | ✅        |
-| message       | ✅        |
+| timestamp     | ✅       |
+| level         | ✅       |
+| service       | ✅       |
+| environment   | ✅       |
+| correlationId | ✅       |
+| requestId     | ✅       |
+| message       | ✅       |
 
 Optional
 
-* organizationId
-* userId
-* workerId
-* queue
-* endpoint
-* duration
-* metadata
+- organizationId
+- userId
+- workerId
+- queue
+- endpoint
+- duration
+- metadata
 
 ---
 
@@ -19439,26 +19630,26 @@ Definitions
 
 Always log
 
-* Startup
-* Shutdown
-* Login
-* Logout
-* Permission failures
-* Queue failures
-* Worker failures
-* Database failures
-* Integration failures
-* Deployment events
+- Startup
+- Shutdown
+- Login
+- Logout
+- Permission failures
+- Queue failures
+- Worker failures
+- Database failures
+- Integration failures
+- Deployment events
 
 Never log
 
-* Passwords
-* JWTs
-* API Keys
-* OAuth Tokens
-* Credit Cards
-* CVV
-* Secrets
+- Passwords
+- JWTs
+- API Keys
+- OAuth Tokens
+- Credit Cards
+- CVV
+- Secrets
 
 ---
 
@@ -19559,10 +19750,10 @@ Completed
 
 Every span includes
 
-* Duration
-* Parent
-* Service
-* Status
+- Duration
+- Parent
+- Service
+- Status
 
 ---
 
@@ -19580,10 +19771,10 @@ Span ID
 
 Across
 
-* HTTP
-* BullMQ
-* Scheduled Jobs
-* Product APIs
+- HTTP
+- BullMQ
+- Scheduled Jobs
+- Product APIs
 
 ---
 
@@ -19593,47 +19784,47 @@ Platform exports
 
 ### HTTP
 
-* Requests/sec
-* Errors/sec
-* Latency
-* Throughput
+- Requests/sec
+- Errors/sec
+- Latency
+- Throughput
 
 ---
 
 ### Database
 
-* Query Time
-* Slow Queries
-* Connections
-* Locks
+- Query Time
+- Slow Queries
+- Connections
+- Locks
 
 ---
 
 ### Redis
 
-* Hit Rate
-* Miss Rate
-* Memory
-* Clients
+- Hit Rate
+- Miss Rate
+- Memory
+- Clients
 
 ---
 
 ### BullMQ
 
-* Queue Depth
-* Consumers
-* Publish Rate
-* Retry Count
-* DLQ Size
+- Queue Depth
+- Consumers
+- Publish Rate
+- Retry Count
+- DLQ Size
 
 ---
 
 ### Workers
 
-* Running Jobs
-* Failed Jobs
-* Processing Time
-* Throughput
+- Running Jobs
+- Failed Jobs
+- Processing Time
+- Throughput
 
 ---
 
@@ -19641,13 +19832,13 @@ Platform exports
 
 Examples
 
-* Organizations Created
-* New Users
-* Orders Imported
-* Wallet Credits
-* Invoice Revenue
-* Active Integrations
-* Marketplace Subscriptions
+- Organizations Created
+- New Users
+- Orders Imported
+- Wallet Credits
+- Invoice Revenue
+- Active Integrations
+- Marketplace Subscriptions
 
 Business metrics are separate from infrastructure metrics.
 
@@ -19657,12 +19848,12 @@ Business metrics are separate from infrastructure metrics.
 
 Every unhandled exception captures
 
-* Stack Trace
-* Correlation ID
-* Request
-* User
-* Environment
-* Release Version
+- Stack Trace
+- Correlation ID
+- Request
+- User
+- Environment
+- Release Version
 
 Never expose stack traces to API consumers.
 
@@ -19702,11 +19893,11 @@ Queries
 
 Fields
 
-* SQL Hash
-* Duration
-* Rows
-* Database
-* Service
+- SQL Hash
+- Duration
+- Rows
+- Database
+- Service
 
 Parameterized SQL only.
 
@@ -19718,9 +19909,9 @@ Never raw values.
 
 Track
 
-* P50
-* P95
-* P99
+- P50
+- P95
+- P99
 
 Latency
 
@@ -19732,10 +19923,10 @@ For every endpoint.
 
 Track
 
-* Queue Wait Time
-* Processing Time
-* Retry Count
-* Success Rate
+- Queue Wait Time
+- Processing Time
+- Retry Count
+- Success Rate
 
 Every worker reports metrics.
 
@@ -19745,13 +19936,13 @@ Every worker reports metrics.
 
 Every deployment records
 
-* Version
-* Git Commit
-* Branch
-* Environment
-* Build Number
-* Deployed By
-* Timestamp
+- Version
+- Git Commit
+- Branch
+- Environment
+- Build Number
+- Deployed By
+- Timestamp
 
 Used during incident analysis.
 
@@ -19761,23 +19952,23 @@ Used during incident analysis.
 
 Critical
 
-* Platform Down
-* Database Down
-* BullMQ Down
-* Redis Down
+- Platform Down
+- Database Down
+- BullMQ Down
+- Redis Down
 
 Warning
 
-* High Error Rate
-* Queue Growth
-* Memory Usage
-* CPU Usage
+- High Error Rate
+- Queue Growth
+- Memory Usage
+- CPU Usage
 
 Info
 
-* Deployment
-* Worker Restart
-* Configuration Change
+- Deployment
+- Worker Restart
+- Configuration Change
 
 ---
 
@@ -19856,9 +20047,9 @@ Everything visible in one place.
 
 Every service implements
 
-* Trace Exporter
-* Metrics Exporter
-* Context Propagation
+- Trace Exporter
+- Metrics Exporter
+- Context Propagation
 
 Every service participates in distributed tracing.
 
@@ -19868,14 +20059,14 @@ Every service participates in distributed tracing.
 
 Logs must never contain
 
-* Passwords
-* Secrets
-* Payment Tokens
-* JWT
-* Refresh Tokens
-* CVV
-* Full Card Number
-* OAuth Secrets
+- Passwords
+- Secrets
+- Payment Tokens
+- JWT
+- Refresh Tokens
+- CVV
+- Full Card Number
+- OAuth Secrets
 
 Sensitive values are masked before logging.
 
@@ -19897,12 +20088,12 @@ Sensitive values are masked before logging.
 
 Supports
 
-* Multi-region deployments
-* Kubernetes
-* Distributed tracing across products
-* AI services
-* Streaming analytics
-* Centralized log aggregation
+- Multi-region deployments
+- Kubernetes
+- Distributed tracing across products
+- AI services
+- Streaming analytics
+- Centralized log aggregation
 
 without redesign.
 
@@ -19910,8 +20101,8 @@ without redesign.
 
 # 29. Decision Register
 
-| ID    | Decision                                                       | Status   |
-| ----- | -------------------------------------------------------------- | -------- |
+| ID    | Decision                                                       | Status    |
+| ----- | -------------------------------------------------------------- | --------- |
 | D-261 | All application logs use structured JSON format                | ✅ Locked |
 | D-262 | Correlation IDs are propagated across every service and worker | ✅ Locked |
 | D-263 | Request IDs uniquely identify individual HTTP requests         | ✅ Locked |
@@ -19964,15 +20155,14 @@ The original architecture mentioned logging and health checks but did not define
 
 Major improvements include:
 
-* **Clear separation** between application logs, business audit records, metrics, and distributed traces, preventing overlap and inconsistent implementations.
-* **End-to-end distributed tracing** using OpenTelemetry, with correlation IDs propagated across HTTP requests, BullMQ events, background workers, and future product services.
-* **Structured JSON logging** with mandatory metadata, enabling centralized indexing, searching, and alerting.
-* **Production-grade monitoring stack** using Pino, Prometheus, Grafana, OpenTelemetry, and Sentry, aligned with modern cloud-native practices.
-* **Strict privacy rules** that prohibit logging secrets, authentication tokens, and sensitive payment information.
-* **Deployment-aware observability**, allowing incidents to be correlated with application versions, Git commits, and release history.
+- **Clear separation** between application logs, business audit records, metrics, and distributed traces, preventing overlap and inconsistent implementations.
+- **End-to-end distributed tracing** using OpenTelemetry, with correlation IDs propagated across HTTP requests, BullMQ events, background workers, and future product services.
+- **Structured JSON logging** with mandatory metadata, enabling centralized indexing, searching, and alerting.
+- **Production-grade monitoring stack** using Pino, Prometheus, Grafana, OpenTelemetry, and Sentry, aligned with modern cloud-native practices.
+- **Strict privacy rules** that prohibit logging secrets, authentication tokens, and sensitive payment information.
+- **Deployment-aware observability**, allowing incidents to be correlated with application versions, Git commits, and release history.
 
 This architecture gives AutoShipp enterprise-grade operational visibility and provides the foundation for reliable troubleshooting, performance optimization, security investigations, and long-term platform operations.
-
 
 ---
 
@@ -20006,11 +20196,10 @@ Future products (e.g., Returns, which may need to store user-uploaded images of 
 
 # 3. Decision Register
 
-| ID | Decision | Status |
-|---|---|---|
+| ID    | Decision                                         | Status    |
+| ----- | ------------------------------------------------ | --------- |
 | D-251 | No platform-level Object Storage (S3/R2) is used | ✅ Locked |
-| D-252 | Exports and reports are generated dynamically | ✅ Locked |
-
+| D-252 | Exports and reports are generated dynamically    | ✅ Locked |
 
 ---
 
@@ -20028,12 +20217,12 @@ Future products (e.g., Returns, which may need to store user-uploaded images of 
 
 **Depends On**
 
-* AES-020 — Platform API
-* AES-021 — Event-Driven Architecture
-* AES-022 — Workers
-* AES-023 — Health Monitoring
-* AES-024 — Observability
-* AES-025 — Storage
+- AES-020 — Platform API
+- AES-021 — Event-Driven Architecture
+- AES-022 — Workers
+- AES-023 — Health Monitoring
+- AES-024 — Observability
+- AES-025 — Storage
 
 ---
 
@@ -20043,14 +20232,14 @@ The AutoShipp platform is designed as a **modular distributed monolith** that ca
 
 Core principles:
 
-* One Git Monorepo
-* One PostgreSQL Database
-* Multiple PostgreSQL Schemas
-* One Prisma Client per Service
-* Independent Deployments
-* Shared Infrastructure
-* Container-first
-* Cloud-native
+- One Git Monorepo
+- One PostgreSQL Database
+- Multiple PostgreSQL Schemas
+- One Prisma Client per Service
+- Independent Deployments
+- Shared Infrastructure
+- Container-first
+- Cloud-native
 
 This architecture minimizes operational complexity while allowing each service to scale independently.
 
@@ -20221,12 +20410,12 @@ PRODUCTION
 
 Each environment has
 
-* Environment Variables
-* Database
-* Redis
-* BullMQ
-* Storage Bucket
-* Secrets
+- Environment Variables
+- Database
+- Redis
+- BullMQ
+- Storage Bucket
+- Secrets
 
 No shared production resources with lower environments.
 
@@ -20264,19 +20453,19 @@ Loaded at startup only.
 
 Secrets include
 
-* JWT Secrets
-* API Keys
-* OAuth Credentials
-* Database Passwords
-* SMTP Credentials
-* Encryption Keys
+- JWT Secrets
+- API Keys
+- OAuth Credentials
+- Database Passwords
+- SMTP Credentials
+- Encryption Keys
 
 Rules
 
-* Never committed to Git
-* Never logged
-* Rotatable
-* Environment-specific
+- Never committed to Git
+- Never logged
+- Rotatable
+- Environment-specific
 
 Future production deployments should use a dedicated secret manager.
 
@@ -20294,11 +20483,11 @@ All services are built consistently.
 
 Principles
 
-* Small images
-* Multi-stage builds
-* Non-root users
-* Health checks
-* Immutable containers
+- Small images
+- Multi-stage builds
+- Non-root users
+- Health checks
+- Immutable containers
 
 ---
 
@@ -20428,9 +20617,9 @@ feature/*
 
 Rules
 
-* Production deploys from `main`
-* Development deploys from `development`
-* Pull Requests required for merge
+- Production deploys from `main`
+- Development deploys from `development`
+- Pull Requests required for merge
 
 ---
 
@@ -20445,10 +20634,10 @@ Migration ownership
 
 Rules
 
-* Version controlled
-* Reviewed
-* Tested
-* Rollback supported
+- Version controlled
+- Reviewed
+- Tested
+- Rollback supported
 
 ---
 
@@ -20504,9 +20693,9 @@ These endpoints integrate with the Platform Health Aggregator.
 
 Rollback triggers
 
-* Failed health checks
-* High error rate
-* Critical incidents
+- Failed health checks
+- High error rate
+- Critical incidents
 
 Rollback process
 
@@ -20564,7 +20753,7 @@ Only the bottleneck service is scaled.
 | Nginx        | Reverse Proxy             |
 | Next.js      | Frontend                  |
 | Platform API | Core Platform             |
-| BullMQ     | Event Bus                 |
+| BullMQ       | Event Bus                 |
 | Redis        | Cache                     |
 | PostgreSQL   | Database                  |
 | MinIO / S3   | Object Storage            |
@@ -20581,10 +20770,10 @@ infrastructure/
 
 Examples
 
-* Docker Compose
-* Nginx Configuration
-* Deployment Scripts
-* Environment Templates
+- Docker Compose
+- Nginx Configuration
+- Deployment Scripts
+- Environment Templates
 
 Future additions may include Kubernetes manifests or Terraform without changing the application architecture.
 
@@ -20608,10 +20797,10 @@ Production
 
 Every deployment includes
 
-* Version
-* Build Number
-* Git Commit
-* Release Notes
+- Version
+- Build Number
+- Git Commit
+- Release Notes
 
 ---
 
@@ -20619,11 +20808,11 @@ Every deployment includes
 
 Deployment infrastructure supports
 
-* Automated rebuild
-* Container recreation
-* Environment recreation
-* Database restoration (AES-032)
-* Object storage restoration
+- Automated rebuild
+- Container recreation
+- Environment recreation
+- Database restoration (AES-032)
+- Object storage restoration
 
 Infrastructure remains stateless.
 
@@ -20652,7 +20841,7 @@ Infrastructure remains stateless.
 | CI/CD           | GitHub Actions  |
 | Database        | Neon PostgreSQL |
 | Cache           | Redis           |
-| Queue           | BullMQ        |
+| Queue           | BullMQ          |
 | Storage         | S3-Compatible   |
 | Runtime         | Node.js LTS     |
 
@@ -20664,14 +20853,14 @@ This architecture is intentionally designed to evolve without major restructurin
 
 Supports
 
-* Kubernetes
-* Multiple Product APIs
-* Multi-region deployment
-* Blue/Green deployment
-* Canary releases
-* Auto-scaling
-* Additional workers
-* Additional infrastructure services
+- Kubernetes
+- Multiple Product APIs
+- Multi-region deployment
+- Blue/Green deployment
+- Canary releases
+- Auto-scaling
+- Additional workers
+- Additional infrastructure services
 
 without changing the platform architecture.
 
@@ -20725,8 +20914,8 @@ Every deployment is observable and reversible.
 
 # 27. Decision Register
 
-| ID    | Decision                                                                         | Status   |
-| ----- | -------------------------------------------------------------------------------- | -------- |
+| ID    | Decision                                                                         | Status    |
+| ----- | -------------------------------------------------------------------------------- | --------- |
 | D-281 | AutoShipp uses a single Git monorepo                                             | ✅ Locked |
 | D-282 | Every application is independently deployable                                    | ✅ Locked |
 | D-283 | One PostgreSQL database with multiple schemas remains the database strategy      | ✅ Locked |
@@ -20746,13 +20935,12 @@ This document defines **how AutoShipp is built, deployed, and operated**, not ho
 
 It establishes:
 
-* A single deployment philosophy for every current and future platform component.
-* Independent deployment of the Platform API and all background workers.
-* A clear path to future product services (Fit, ETA, Returns, AI, etc.) without changing the core infrastructure.
-* A production-ready DevOps model based on immutable containers, CI/CD, centralized observability, and shared infrastructure services.
+- A single deployment philosophy for every current and future platform component.
+- Independent deployment of the Platform API and all background workers.
+- A clear path to future product services (Fit, ETA, Returns, AI, etc.) without changing the core infrastructure.
+- A production-ready DevOps model based on immutable containers, CI/CD, centralized observability, and shared infrastructure services.
 
 Together with AES-020 through AES-025, this completes the operational architecture needed to run AutoShipp as a scalable SaaS platform.
-
 
 ---
 
@@ -20770,11 +20958,11 @@ Together with AES-020 through AES-025, this completes the operational architectu
 
 **Depends On**
 
-* AES-020 — Platform API Architecture
-* AES-021 — Event-Driven Architecture
-* AES-022 — Background Workers
-* AES-023 — Platform Health
-* AES-026 — Deployment Architecture
+- AES-020 — Platform API Architecture
+- AES-021 — Event-Driven Architecture
+- AES-022 — Background Workers
+- AES-023 — Platform Health
+- AES-026 — Deployment Architecture
 
 ---
 
@@ -20786,9 +20974,9 @@ Redis is **never a source of truth**.
 
 The source of truth is always:
 
-* PostgreSQL
-* BullMQ
-* Object Storage
+- PostgreSQL
+- BullMQ
+- Object Storage
 
 Redis exists only to improve performance and coordinate distributed processes.
 
@@ -20798,23 +20986,23 @@ Redis exists only to improve performance and coordinate distributed processes.
 
 Redis is responsible for:
 
-* Caching
-* Rate Limiting
-* Distributed Locks
-* Session Storage (future)
-* Temporary Data
-* Idempotency Keys
-* Feature Flag Cache
-* Configuration Cache
+- Caching
+- Rate Limiting
+- Distributed Locks
+- Session Storage (future)
+- Temporary Data
+- Idempotency Keys
+- Feature Flag Cache
+- Configuration Cache
 
 Redis is **not** responsible for:
 
-* Business Data
-* Orders
-* Customers
-* Billing
-* Audit
-* Permanent Storage
+- Business Data
+- Orders
+- Customers
+- Billing
+- Audit
+- Permanent Storage
 
 ---
 
@@ -20875,10 +21063,10 @@ Cache invalidation happens immediately after successful database updates.
 
 Stores
 
-* Feature Flags
-* Runtime Configuration
-* Product Catalog
-* Platform Settings
+- Feature Flags
+- Runtime Configuration
+- Product Catalog
+- Platform Settings
 
 TTL
 
@@ -20892,9 +21080,9 @@ TTL
 
 Stores
 
-* Organization
-* Module Assignments
-* Subscription Summary
+- Organization
+- Module Assignments
+- Subscription Summary
 
 TTL
 
@@ -20908,10 +21096,10 @@ TTL
 
 Stores
 
-* User Profile
-* Permissions
-* Roles
-* Account Context
+- User Profile
+- Permissions
+- Roles
+- Account Context
 
 TTL
 
@@ -20927,10 +21115,10 @@ Immediately invalidated after role or permission changes.
 
 Stores
 
-* Products
-* Editions
-* Pricing
-* Public Marketplace
+- Products
+- Editions
+- Pricing
+- Public Marketplace
 
 TTL
 
@@ -20944,9 +21132,9 @@ TTL
 
 Stores
 
-* OAuth Tokens (encrypted if persisted)
-* Connection Status
-* Provider Metadata
+- OAuth Tokens (encrypted if persisted)
+- Connection Status
+- Provider Metadata
 
 TTL depends on provider token expiry.
 
@@ -21091,11 +21279,11 @@ Used when only one worker may process a task.
 
 Examples
 
-* Invoice Generation
-* Wallet Settlement
-* Subscription Renewal
-* Data Import
-* Scheduled Jobs
+- Invoice Generation
+- Wallet Settlement
+- Subscription Renewal
+- Data Import
+- Scheduled Jobs
 
 Flow
 
@@ -21183,10 +21371,10 @@ Return Previous Response
 
 Used for
 
-* Payments
-* Wallet Credits
-* Subscription Purchases
-* Imports
+- Payments
+- Wallet Credits
+- Subscription Purchases
+- Imports
 
 ---
 
@@ -21250,8 +21438,8 @@ Cached because values rarely change.
 
 Current authentication uses
 
-* JWT
-* HttpOnly Cookies
+- JWT
+- HttpOnly Cookies
 
 If server-side sessions are introduced later
 
@@ -21267,9 +21455,9 @@ No architectural changes required.
 
 Workers use Redis for
 
-* Locks
-* Progress
-* Temporary State
+- Locks
+- Progress
+- Temporary State
 
 Workers never store business data in Redis.
 
@@ -21303,14 +21491,14 @@ Redis failures never corrupt business data.
 
 Track
 
-* Memory Usage
-* Hit Rate
-* Miss Rate
-* Evictions
-* Expired Keys
-* Connected Clients
-* Operations/sec
-* Latency
+- Memory Usage
+- Hit Rate
+- Miss Rate
+- Evictions
+- Expired Keys
+- Connected Clients
+- Operations/sec
+- Latency
 
 Displayed in Platform Health.
 
@@ -21320,12 +21508,12 @@ Displayed in Platform Health.
 
 Redis
 
-* Internal network only
-* Authentication enabled
-* TLS enabled in production
-* No public access
-* No sensitive secrets stored
-* Periodic credential rotation
+- Internal network only
+- Authentication enabled
+- TLS enabled in production
+- No public access
+- No sensitive secrets stored
+- Periodic credential rotation
 
 ---
 
@@ -21374,12 +21562,12 @@ Caches warm automatically.
 
 Supports
 
-* Redis Cluster
-* Redis Sentinel
-* Multi-region cache
-* Distributed sessions
-* Shared product cache
-* High Availability
+- Redis Cluster
+- Redis Sentinel
+- Multi-region cache
+- Distributed sessions
+- Shared product cache
+- High Availability
 
 without changing application code.
 
@@ -21387,8 +21575,8 @@ without changing application code.
 
 # 25. Decision Register
 
-| ID    | Decision                                                              | Status   |
-| ----- | --------------------------------------------------------------------- | -------- |
+| ID    | Decision                                                              | Status    |
+| ----- | --------------------------------------------------------------------- | --------- |
 | D-291 | Redis is never a source of truth                                      | ✅ Locked |
 | D-292 | Cache uses the Cache-Aside pattern                                    | ✅ Locked |
 | D-293 | Cache invalidation occurs only after successful database commits      | ✅ Locked |
@@ -21426,15 +21614,14 @@ The original architecture identified Redis as a supporting component but did not
 
 Major improvements include:
 
-* **Strict separation between cache and persistence**, ensuring PostgreSQL remains the single source of truth.
-* **Standardized cache strategy** using the Cache-Aside pattern with well-defined TTLs and invalidation rules.
-* **Platform-wide distributed locking**, enabling safe execution of scheduled jobs, imports, billing operations, and other singleton tasks.
-* **Centralized support for rate limiting and idempotency**, improving API reliability and protecting against duplicate requests.
-* **Resilient failure behavior**, where Redis outages reduce performance but never compromise business data or platform integrity.
-* **Future-ready scalability**, allowing migration to Redis Cluster or Sentinel without changing application architecture.
+- **Strict separation between cache and persistence**, ensuring PostgreSQL remains the single source of truth.
+- **Standardized cache strategy** using the Cache-Aside pattern with well-defined TTLs and invalidation rules.
+- **Platform-wide distributed locking**, enabling safe execution of scheduled jobs, imports, billing operations, and other singleton tasks.
+- **Centralized support for rate limiting and idempotency**, improving API reliability and protecting against duplicate requests.
+- **Resilient failure behavior**, where Redis outages reduce performance but never compromise business data or platform integrity.
+- **Future-ready scalability**, allowing migration to Redis Cluster or Sentinel without changing application architecture.
 
 This document completes the core shared infrastructure layer of AutoShipp by defining how fast, temporary, and coordination-focused data is managed consistently across the platform.
-
 
 ---
 
@@ -21452,13 +21639,13 @@ This document completes the core shared infrastructure layer of AutoShipp by def
 
 **Depends On**
 
-* AES-009 — Identity & Authentication
-* AES-020 — Platform API
-* AES-021 — Event-Driven Architecture
-* AES-022 — Background Workers
-* AES-024 — Observability
-* AES-026 — Deployment
-* AES-027 — Redis & Caching
+- AES-009 — Identity & Authentication
+- AES-020 — Platform API
+- AES-021 — Event-Driven Architecture
+- AES-022 — Background Workers
+- AES-024 — Observability
+- AES-026 — Deployment
+- AES-027 — Redis & Caching
 
 ---
 
@@ -21468,18 +21655,18 @@ Security is not a single feature within AutoShipp—it is a platform-wide archit
 
 This document defines the security model for:
 
-* Authentication
-* Authorization
-* API Security
-* Infrastructure
-* Database
-* Secrets
-* Encryption
-* File Storage
-* Workers
-* Monitoring
-* Compliance
-* Secure Development
+- Authentication
+- Authorization
+- API Security
+- Infrastructure
+- Database
+- Secrets
+- Encryption
+- File Storage
+- Workers
+- Monitoring
+- Compliance
+- Secure Development
 
 The objective is to satisfy **OWASP ASVS**, **OWASP Top 10**, and SaaS security best practices while supporting a multi-tenant B2B platform.
 
@@ -21517,11 +21704,11 @@ Zero Trust.
 
 Never trust
 
-* User
-* Browser
-* API
-* Worker
-* Internal Network
+- User
+- Browser
+- API
+- Worker
+- Internal Network
 
 Everything is verified.
 
@@ -21595,10 +21782,10 @@ Every request passes through multiple security layers.
 
 Authentication method
 
-* JWT
-* HttpOnly Cookie
-* Secure Cookie
-* SameSite=Lax (or Strict where possible)
+- JWT
+- HttpOnly Cookie
+- Secure Cookie
+- SameSite=Lax (or Strict where possible)
 
 Password hashing
 
@@ -21612,21 +21799,21 @@ Argon2id replaces bcryptjs as the password hashing algorithm.
 
 Reasons:
 
-* Argon2id is the OWASP-recommended algorithm since 2019
-* Argon2id won the Password Hashing Competition
-* bcrypt has a 72-byte password truncation vulnerability (silently ignores characters beyond byte 72)
-* Argon2id is memory-hard by design, making GPU brute-force attacks significantly more expensive
-* AutoShipp is a greenfield platform — no migration cost exists
+- Argon2id is the OWASP-recommended algorithm since 2019
+- Argon2id won the Password Hashing Competition
+- bcrypt has a 72-byte password truncation vulnerability (silently ignores characters beyond byte 72)
+- Argon2id is memory-hard by design, making GPU brute-force attacks significantly more expensive
+- AutoShipp is a greenfield platform — no migration cost exists
 
 Implementation:
 
 ```typescript
-import * as argon2 from 'argon2';
+import * as argon2 from "argon2";
 
 // Hash on registration/password change
 const hash = await argon2.hash(password, {
   type: argon2.argon2id,
-  memoryCost: 65536,   // 64MB
+  memoryCost: 65536, // 64MB
   timeCost: 3,
   parallelism: 4,
 });
@@ -21659,9 +21846,9 @@ Exactly as defined in AES-009.
 
 Authorization exists at
 
-* Route
-* Service
-* Database Query
+- Route
+- Service
+- Database Query
 
 levels.
 
@@ -21671,9 +21858,9 @@ levels.
 
 Every request validates
 
-* organization_id
-* user_type
-* permissions
+- organization_id
+- user_type
+- permissions
 
 Brand users
 
@@ -21709,16 +21896,16 @@ Minimum
 
 Must contain
 
-* Uppercase
-* Lowercase
-* Number
-* Symbol
+- Uppercase
+- Lowercase
+- Number
+- Symbol
 
 Passwords
 
-* Never logged
-* Never decrypted
-* Never stored in plaintext
+- Never logged
+- Never decrypted
+- Never stored in plaintext
 
 Password reset generates a new hash.
 
@@ -21794,10 +21981,10 @@ Applicable
 
 Implementation
 
-* SameSite Cookies
-* CSRF Token for state-changing requests
-* Origin validation
-* Referer validation (where appropriate)
+- SameSite Cookies
+- CSRF Token for state-changing requests
+- Origin validation
+- Referer validation (where appropriate)
 
 ---
 
@@ -21809,11 +21996,11 @@ Applicable
 
 Implementation
 
-* React automatic escaping
-* CSP
-* Output encoding
-* HTML sanitization
-* No unsafe HTML rendering
+- React automatic escaping
+- CSP
+- Output encoding
+- HTML sanitization
+- No unsafe HTML rendering
 
 ---
 
@@ -21825,10 +22012,10 @@ Applicable
 
 Implementation
 
-* Prisma ORM
-* Parameterized Queries
-* Input Validation
-* DTO Validation
+- Prisma ORM
+- Parameterized Queries
+- Input Validation
+- DTO Validation
 
 Raw SQL
 
@@ -21848,9 +22035,9 @@ Applicable
 
 Implementation
 
-* Never execute shell commands from user input.
-* Strict allowlists for system utilities.
-* Escape and validate all arguments passed to subprocesses.
+- Never execute shell commands from user input.
+- Strict allowlists for system utilities.
+- Escape and validate all arguments passed to subprocesses.
 
 ---
 
@@ -21862,10 +22049,10 @@ Applicable
 
 Implementation
 
-* Allowlist outbound destinations for integrations.
-* Block access to internal/private IP ranges.
-* Validate callback URLs.
-* Timeouts and request size limits.
+- Allowlist outbound destinations for integrations.
+- Block access to internal/private IP ranges.
+- Validate callback URLs.
+- Timeouts and request size limits.
 
 ---
 
@@ -21877,9 +22064,9 @@ Applicable
 
 Implementation
 
-* Object Storage abstraction.
-* System-generated object keys.
-* No direct filesystem paths from users.
+- Object Storage abstraction.
+- System-generated object keys.
+- No direct filesystem paths from users.
 
 ---
 
@@ -21891,12 +22078,12 @@ Applicable
 
 Implementation
 
-* MIME validation
-* Extension validation
-* Virus Scan
-* Size limits
-* Signed URLs
-* Metadata validation
+- MIME validation
+- Extension validation
+- Virus Scan
+- Size limits
+- Signed URLs
+- Metadata validation
 
 Defined in AES-025.
 
@@ -21938,12 +22125,12 @@ Public APIs have stricter rate limits.
 
 Every request validates
 
-* UUID
-* Length
-* Enum
-* Format
-* Required fields
-* Nested objects
+- UUID
+- Length
+- Enum
+- Format
+- Required fields
+- Nested objects
 
 Validation occurs before business logic.
 
@@ -21953,11 +22140,11 @@ Validation occurs before business logic.
 
 Responses never expose
 
-* Stack traces
-* Secrets
-* Password hashes
-* Internal IDs not intended for clients
-* Database errors
+- Stack traces
+- Secrets
+- Password hashes
+- Internal IDs not intended for clients
+- Database errors
 
 Errors are standardized.
 
@@ -21997,10 +22184,10 @@ default-src 'self'
 
 Only approved domains
 
-* Cloudflare
-* Analytics (if enabled)
-* CDN
-* Trusted APIs
+- Cloudflare
+- Analytics (if enabled)
+- CDN
+- Trusted APIs
 
 Inline scripts are avoided wherever possible.
 
@@ -22046,11 +22233,11 @@ Applicable
 
 Implementation
 
-* Login attempt counter
-* Temporary account lock
-* IP rate limiting
-* Audit event
-* Alert on repeated failures
+- Login attempt counter
+- Temporary account lock
+- IP rate limiting
+- Audit event
+- Alert on repeated failures
 
 ---
 
@@ -22058,18 +22245,18 @@ Implementation
 
 Secrets include
 
-* JWT Secret
-* API Keys
-* OAuth Credentials
-* SMTP Passwords
-* Encryption Keys
+- JWT Secret
+- API Keys
+- OAuth Credentials
+- SMTP Passwords
+- Encryption Keys
 
 Rules
 
-* Never committed
-* Never logged
-* Environment-specific
-* Rotatable
+- Never committed
+- Never logged
+- Environment-specific
+- Rotatable
 
 Future production
 
@@ -22105,12 +22292,12 @@ Sensitive application fields requiring additional protection may use application
 
 Every sensitive action logs
 
-* User
-* Organization
-* IP
-* Correlation ID
-* Timestamp
-* Action
+- User
+- Organization
+- IP
+- Correlation ID
+- Timestamp
+- Action
 
 Audit logs are immutable.
 
@@ -22120,12 +22307,12 @@ Audit logs are immutable.
 
 Never log
 
-* Passwords
-* Tokens
-* OAuth secrets
-* API Keys
-* Payment secrets
-* CVV
+- Passwords
+- Tokens
+- OAuth secrets
+- API Keys
+- Payment secrets
+- CVV
 
 Sensitive values masked automatically.
 
@@ -22135,11 +22322,11 @@ Sensitive values masked automatically.
 
 Workers
 
-* Authenticate using service credentials.
-* Use least privilege.
-* Validate every consumed message.
-* Never expose public endpoints.
-* Emit audit events where applicable.
+- Authenticate using service credentials.
+- Use least privilege.
+- Validate every consumed message.
+- Never expose public endpoints.
+- Emit audit events where applicable.
 
 ---
 
@@ -22147,16 +22334,16 @@ Workers
 
 Platform Rules
 
-* One PostgreSQL database
-* Multiple schemas
-* One Prisma Client per service
-* Schema ownership enforced
+- One PostgreSQL database
+- Multiple schemas
+- One Prisma Client per service
+- Schema ownership enforced
 
 Database users
 
-* Platform API user
-* Worker user (limited)
-* Future product users
+- Platform API user
+- Worker user (limited)
+- Future product users
 
 No shared superuser credentials for applications.
 
@@ -22166,13 +22353,13 @@ No shared superuser credentials for applications.
 
 Protected by
 
-* Cloudflare
-* Firewall
-* TLS
-* Private Redis
-* Private BullMQ
-* Private PostgreSQL
-* Private Object Storage
+- Cloudflare
+- Firewall
+- TLS
+- Private Redis
+- Private BullMQ
+- Private PostgreSQL
+- Private Object Storage
 
 Internal services are not publicly accessible.
 
@@ -22182,9 +22369,9 @@ Internal services are not publicly accessible.
 
 Every build executes
 
-* Dependency Audit
-* Vulnerability Scan
-* License Check
+- Dependency Audit
+- Vulnerability Scan
+- License Check
 
 Critical vulnerabilities block deployment.
 
@@ -22194,10 +22381,10 @@ Critical vulnerabilities block deployment.
 
 Backups
 
-* Encrypted
-* Access controlled
-* Versioned
-* Tested
+- Encrypted
+- Access controlled
+- Versioned
+- Tested
 
 Only authorized personnel may restore backups.
 
@@ -22207,12 +22394,12 @@ Only authorized personnel may restore backups.
 
 Every incident records
 
-* Detection
-* Severity
-* Timeline
-* Root Cause
-* Resolution
-* Postmortem
+- Detection
+- Severity
+- Timeline
+- Root Cause
+- Resolution
+- Postmortem
 
 Integrated with Audit and Observability.
 
@@ -22222,12 +22409,12 @@ Integrated with Audit and Observability.
 
 Monitor
 
-* Failed Logins
-* Permission Denials
-* Rate Limit Violations
-* Token Revocations
-* Suspicious API Usage
-* Worker Authentication Failures
+- Failed Logins
+- Permission Denials
+- Rate Limit Violations
+- Token Revocations
+- Suspicious API Usage
+- Worker Authentication Failures
 
 Displayed in Platform Dashboard.
 
@@ -22239,29 +22426,29 @@ The following controls are **fully applicable** to AutoShipp and will be impleme
 
 | Control                      | Status | Implementation                     |
 | ---------------------------- | ------ | ---------------------------------- |
-| Authentication               | ✅      | JWT + HttpOnly Cookies             |
-| Authorization                | ✅      | RBAC + Permission Guards           |
-| Multi-Tenant Isolation       | ✅      | Organization scoping               |
-| Password Hashing             | ✅      | bcryptjs                           |
-| HTTPS                        | ✅      | TLS everywhere                     |
-| CSRF Protection              | ✅      | CSRF token + SameSite              |
-| XSS Protection               | ✅      | React escaping + CSP               |
-| SQL Injection Prevention     | ✅      | Prisma + validation                |
-| SSRF Protection              | ✅      | Allowlist outbound requests        |
-| Command Injection Prevention | ✅      | No user-controlled shell execution |
-| Path Traversal Prevention    | ✅      | Object Storage abstraction         |
-| File Upload Security         | ✅      | Validation + AV scan               |
-| Rate Limiting                | ✅      | Redis                              |
-| Brute Force Protection       | ✅      | Login throttling                   |
-| Secure Headers               | ✅      | Helmet + CSP                       |
-| Audit Logging                | ✅      | AES-017                            |
-| Secret Management            | ✅      | Environment secrets                |
-| Encryption at Rest           | ✅      | Database + Object Storage          |
-| Encryption in Transit        | ✅      | TLS                                |
-| Distributed Tracing          | ✅      | OpenTelemetry                      |
-| Security Monitoring          | ✅      | Platform Health + Observability    |
-| Dependency Scanning          | ✅      | CI/CD                              |
-| Backup Security              | ✅      | Encrypted backups                  |
+| Authentication               | ✅     | JWT + HttpOnly Cookies             |
+| Authorization                | ✅     | RBAC + Permission Guards           |
+| Multi-Tenant Isolation       | ✅     | Organization scoping               |
+| Password Hashing             | ✅     | bcryptjs                           |
+| HTTPS                        | ✅     | TLS everywhere                     |
+| CSRF Protection              | ✅     | CSRF token + SameSite              |
+| XSS Protection               | ✅     | React escaping + CSP               |
+| SQL Injection Prevention     | ✅     | Prisma + validation                |
+| SSRF Protection              | ✅     | Allowlist outbound requests        |
+| Command Injection Prevention | ✅     | No user-controlled shell execution |
+| Path Traversal Prevention    | ✅     | Object Storage abstraction         |
+| File Upload Security         | ✅     | Validation + AV scan               |
+| Rate Limiting                | ✅     | Redis                              |
+| Brute Force Protection       | ✅     | Login throttling                   |
+| Secure Headers               | ✅     | Helmet + CSP                       |
+| Audit Logging                | ✅     | AES-017                            |
+| Secret Management            | ✅     | Environment secrets                |
+| Encryption at Rest           | ✅     | Database + Object Storage          |
+| Encryption in Transit        | ✅     | TLS                                |
+| Distributed Tracing          | ✅     | OpenTelemetry                      |
+| Security Monitoring          | ✅     | Platform Health + Observability    |
+| Dependency Scanning          | ✅     | CI/CD                              |
+| Backup Security              | ✅     | Encrypted backups                  |
 
 ---
 
@@ -22269,13 +22456,13 @@ The following controls are **fully applicable** to AutoShipp and will be impleme
 
 | Control                                               | Status | Reason                                                               |
 | ----------------------------------------------------- | ------ | -------------------------------------------------------------------- |
-| Hardware Security Module (HSM)                        | ❌      | No dedicated cryptographic hardware requirement at current scale     |
-| Smart Card Authentication                             | ❌      | Platform uses web authentication only                                |
-| Client-side Certificates (mTLS for browsers)          | ❌      | Not practical for SaaS users                                         |
-| Air-Gapped Deployment                                 | ❌      | Cloud-hosted SaaS platform                                           |
-| On-Prem Active Directory Integration                  | ❌      | Not part of current product scope                                    |
-| Classified Government Compliance (e.g., FedRAMP High) | ❌      | Not a target market currently                                        |
-| Biometric Authentication                              | ❌      | Delegated to customer devices/identity providers if introduced later |
+| Hardware Security Module (HSM)                        | ❌     | No dedicated cryptographic hardware requirement at current scale     |
+| Smart Card Authentication                             | ❌     | Platform uses web authentication only                                |
+| Client-side Certificates (mTLS for browsers)          | ❌     | Not practical for SaaS users                                         |
+| Air-Gapped Deployment                                 | ❌     | Cloud-hosted SaaS platform                                           |
+| On-Prem Active Directory Integration                  | ❌     | Not part of current product scope                                    |
+| Classified Government Compliance (e.g., FedRAMP High) | ❌     | Not a target market currently                                        |
+| Biometric Authentication                              | ❌     | Delegated to customer devices/identity providers if introduced later |
 
 These can be introduced later without redesigning the core security architecture.
 
@@ -22300,8 +22487,8 @@ These can be introduced later without redesigning the core security architecture
 
 # 39. Decision Register
 
-| ID    | Decision                                                          | Status   |
-| ----- | ----------------------------------------------------------------- | -------- |
+| ID    | Decision                                                          | Status    |
+| ----- | ----------------------------------------------------------------- | --------- |
 | D-301 | Security is enforced at every platform layer                      | ✅ Locked |
 | D-302 | JWT with HttpOnly cookies remains the authentication standard     | ✅ Locked |
 | D-303 | Authorization uses JwtAuthGuard → UserTypeGuard → PermissionGuard | ✅ Locked |
@@ -22321,15 +22508,14 @@ Your original architecture focused primarily on authentication and RBAC. This sp
 
 Major improvements include:
 
-* **Defense-in-depth** with layered controls from Cloudflare through application, database, and audit.
-* **Complete mapping to OWASP Top 10**, ensuring common web application risks are explicitly addressed.
-* **Explicit distinction between applicable and non-applicable security controls**, documenting implementation decisions and rationale.
-* **Comprehensive operational security**, including secrets management, dependency scanning, incident response, secure CI/CD, worker security, and monitoring.
-* **Multi-tenant security guarantees**, ensuring Platform users, Aggregators, and Brands remain isolated according to the tenancy model.
-* **Future-ready architecture**, allowing stronger cryptography, secret managers, and enterprise identity integrations to be introduced without redesigning the platform.
+- **Defense-in-depth** with layered controls from Cloudflare through application, database, and audit.
+- **Complete mapping to OWASP Top 10**, ensuring common web application risks are explicitly addressed.
+- **Explicit distinction between applicable and non-applicable security controls**, documenting implementation decisions and rationale.
+- **Comprehensive operational security**, including secrets management, dependency scanning, incident response, secure CI/CD, worker security, and monitoring.
+- **Multi-tenant security guarantees**, ensuring Platform users, Aggregators, and Brands remain isolated according to the tenancy model.
+- **Future-ready architecture**, allowing stronger cryptography, secret managers, and enterprise identity integrations to be introduced without redesigning the platform.
 
 This document serves as the authoritative security baseline for the entire AutoShipp platform and should be used as the primary reference during implementation, security reviews, penetration testing, and compliance assessments.
-
 
 ---
 
@@ -22347,13 +22533,13 @@ This document serves as the authoritative security baseline for the entire AutoS
 
 **Depends On**
 
-* AES-009 — Identity & Authentication
-* AES-010 — Organization Domain
-* AES-011 — Commerce
-* AES-012 — Marketplace
-* AES-013 — Billing
-* AES-020 — Platform API
-* AES-028 — Security
+- AES-009 — Identity & Authentication
+- AES-010 — Organization Domain
+- AES-011 — Commerce
+- AES-012 — Marketplace
+- AES-013 — Billing
+- AES-020 — Platform API
+- AES-028 — Security
 
 ---
 
@@ -22363,9 +22549,9 @@ The AutoShipp Platform is a **hierarchical multi-tenant SaaS platform**.
 
 Unlike traditional SaaS products that have only one tenant level (Company → Users), AutoShipp supports **three business layers**:
 
-* AutoShipp Platform
-* Shipping Aggregators
-* Brands
+- AutoShipp Platform
+- Shipping Aggregators
+- Brands
 
 Every request, API, permission, invoice, subscription, and product assignment is resolved within this hierarchy.
 
@@ -22490,11 +22676,11 @@ Users cannot belong to multiple organizations simultaneously.
 
 # 7. Visibility Matrix
 
-| Can View   | Platform | Aggregator | Brand          |
-| ---------- | -------- | ---------- | -------------- |
-| Platform   | ✅        | ✅          | ✅              |
-| Aggregator | ❌        | ✅ (Own)    | ✅ (Own Brands) |
-| Brand      | ❌        | ❌          | ✅ (Own Only)   |
+| Can View   | Platform | Aggregator | Brand           |
+| ---------- | -------- | ---------- | --------------- |
+| Platform   | ✅       | ✅         | ✅              |
+| Aggregator | ❌       | ✅ (Own)   | ✅ (Own Brands) |
+| Brand      | ❌       | ❌         | ✅ (Own Only)   |
 
 Platform always has full visibility.
 
@@ -22504,18 +22690,18 @@ Platform always has full visibility.
 
 Platform owns
 
-* Aggregators
-* Direct Brands
+- Aggregators
+- Direct Brands
 
 Aggregators own
 
-* Their Brands
+- Their Brands
 
 Brands own
 
-* Their Users
-* Their Data
-* Their Configuration
+- Their Users
+- Their Data
+- Their Configuration
 
 Ownership determines administration rights.
 
@@ -22764,25 +22950,25 @@ CREATE POLICY tenant_isolation ON wallet.wallets
 
 ## RLS Scope
 
-| Schema | RLS Applied | Rationale |
-|---|---|---|
-| `customer.customers` | ✅ Yes | Brand PII, highest breach impact |
-| `commerce.orders` | ✅ Yes | Financial, cross-brand exposure is a serious breach |
-| `billing.invoices` | ✅ Yes | Commercial records, financial data |
-| `wallet.wallets` | ✅ Yes | Financial balances |
-| `identity.users` | ❌ No | Global identities, not tenant-scoped |
-| `organization.organizations` | ❌ No | Hierarchy visibility is complex for RLS |
-| `marketplace.product_assignments` | ❌ No | Platform admin frequently needs full access |
-| Product schemas (fit, eta, etc.) | ❌ No | Already isolated by product service permissions |
+| Schema                            | RLS Applied | Rationale                                           |
+| --------------------------------- | ----------- | --------------------------------------------------- |
+| `customer.customers`              | ✅ Yes      | Brand PII, highest breach impact                    |
+| `commerce.orders`                 | ✅ Yes      | Financial, cross-brand exposure is a serious breach |
+| `billing.invoices`                | ✅ Yes      | Commercial records, financial data                  |
+| `wallet.wallets`                  | ✅ Yes      | Financial balances                                  |
+| `identity.users`                  | ❌ No       | Global identities, not tenant-scoped                |
+| `organization.organizations`      | ❌ No       | Hierarchy visibility is complex for RLS             |
+| `marketplace.product_assignments` | ❌ No       | Platform admin frequently needs full access         |
+| Product schemas (fit, eta, etc.)  | ❌ No       | Already isolated by product service permissions     |
 
 ---
 
 ## RLS Operational Notes
 
-* **Prisma compatibility:** Prisma supports RLS via the `set_config` approach. The `PrismaClient` middleware sets the organization context before each transaction.
-* **Debugging:** EXPLAIN ANALYZE output will show the RLS filter applied. This is expected behavior.
-* **Platform admin bypass:** Setting `user_type = 'PLATFORM'` bypasses RLS without disabling it. This is audited.
-* **Migrations:** RLS policies must be re-verified after schema changes to the protected tables.
+- **Prisma compatibility:** Prisma supports RLS via the `set_config` approach. The `PrismaClient` middleware sets the organization context before each transaction.
+- **Debugging:** EXPLAIN ANALYZE output will show the RLS filter applied. This is expected behavior.
+- **Platform admin bypass:** Setting `user_type = 'PLATFORM'` bypasses RLS without disabling it. This is audited.
+- **Migrations:** RLS policies must be re-verified after schema changes to the protected tables.
 
 ---
 
@@ -22820,10 +23006,10 @@ Everything
 
 Cross-tenant isolation is enforced in:
 
-* Guards
-* Services
-* Repository layer
-* PostgreSQL RLS (for high-risk tables, see Section 13a)
+- Guards
+- Services
+- Repository layer
+- PostgreSQL RLS (for high-risk tables, see Section 13a)
 
 ---
 
@@ -22877,9 +23063,9 @@ Brands remain intact.
 
 Platform can
 
-* Reassign brands
-* Convert to direct brands
-* Assign another aggregator
+- Reassign brands
+- Convert to direct brands
+- Assign another aggregator
 
 No customer data is lost.
 
@@ -23009,8 +23195,8 @@ Every platform event includes
 
 ```json
 {
-  "organizationId":"...",
-  "parentOrganizationId":"..."
+  "organizationId": "...",
+  "parentOrganizationId": "..."
 }
 ```
 
@@ -23046,9 +23232,9 @@ No shared folders.
 
 Logs include
 
-* organizationId
-* userId
-* correlationId
+- organizationId
+- userId
+- correlationId
 
 Tenant information is propagated across services.
 
@@ -23058,9 +23244,9 @@ Tenant information is propagated across services.
 
 Workers always execute with
 
-* organizationId
-* permissions (when required)
-* correlationId
+- organizationId
+- permissions (when required)
+- correlationId
 
 Workers never process jobs without tenant context.
 
@@ -23114,13 +23300,13 @@ These indexes are mandatory.
 
 Supports
 
-* Multiple aggregators
-* Thousands of brands
-* Brand migration
-* Product marketplace
-* Independent product services
-* White-label offerings
-* Additional organization levels
+- Multiple aggregators
+- Thousands of brands
+- Brand migration
+- Product marketplace
+- Independent product services
+- White-label offerings
+- Additional organization levels
 
 without redesigning the tenant model.
 
@@ -23128,8 +23314,8 @@ without redesigning the tenant model.
 
 # 29. Decision Register
 
-| ID    | Decision                                                                   | Status   |
-| ----- | -------------------------------------------------------------------------- | -------- |
+| ID    | Decision                                                                   | Status    |
+| ----- | -------------------------------------------------------------------------- | --------- |
 | D-311 | AutoShipp uses hierarchical multi-tenancy                                  | ✅ Locked |
 | D-312 | Three organization types: Platform, Aggregator, Brand                      | ✅ Locked |
 | D-313 | Parent-child organization relationships define ownership                   | ✅ Locked |
@@ -23173,14 +23359,13 @@ Your original design introduced Platform users, Brand users, and Shipping Aggreg
 
 Major improvements include:
 
-* **Hierarchical multi-tenancy** with Platform → Aggregator → Brand ownership, allowing flexible growth without redesign.
-* **Organization-centric architecture**, where products, subscriptions, billing, storage, events, and permissions are all assigned to organizations rather than individual users.
-* **Strict tenant isolation**, enforced consistently across authentication, authorization, repositories, caches, workers, events, logs, and object storage.
-* **Built-in support for brand transfers and aggregator lifecycle management**, preserving audit history while allowing business relationships to change over time.
-* **Future extensibility**, enabling additional hierarchy levels (such as distributors or regional partners) with the same parent-child organization model.
+- **Hierarchical multi-tenancy** with Platform → Aggregator → Brand ownership, allowing flexible growth without redesign.
+- **Organization-centric architecture**, where products, subscriptions, billing, storage, events, and permissions are all assigned to organizations rather than individual users.
+- **Strict tenant isolation**, enforced consistently across authentication, authorization, repositories, caches, workers, events, logs, and object storage.
+- **Built-in support for brand transfers and aggregator lifecycle management**, preserving audit history while allowing business relationships to change over time.
+- **Future extensibility**, enabling additional hierarchy levels (such as distributors or regional partners) with the same parent-child organization model.
 
 This document establishes the tenant model that every present and future AutoShipp capability must follow, ensuring secure isolation, operational flexibility, and a scalable business structure for the platform.
-
 
 ---
 
@@ -23198,24 +23383,24 @@ This document establishes the tenant model that every present and future AutoShi
 
 **Technology Stack**
 
-* Next.js 16 (App Router)
-* React 19
-* Tailwind CSS 4
-* TypeScript 5
-* TanStack Query
-* React Hook Form
-* Zod
-* shadcn/ui
-* Lucide Icons
+- Next.js 16 (App Router)
+- React 19
+- Tailwind CSS 4
+- TypeScript 5
+- TanStack Query
+- React Hook Form
+- Zod
+- shadcn/ui
+- Lucide Icons
 
 **Depends On**
 
-* AES-009 — Identity & Authentication
-* AES-010 — Organization
-* AES-012 — Marketplace
-* AES-019 — Feature Flags
-* AES-020 — Platform API
-* AES-029 — Multi-Tenant Architecture
+- AES-009 — Identity & Authentication
+- AES-010 — Organization
+- AES-012 — Marketplace
+- AES-019 — Feature Flags
+- AES-020 — Platform API
+- AES-029 — Multi-Tenant Architecture
 
 ---
 
@@ -23223,9 +23408,9 @@ This document establishes the tenant model that every present and future AutoShi
 
 The AutoShipp frontend is a **single Next.js application** serving three user groups:
 
-* Platform
-* Aggregator
-* Brand
+- Platform
+- Aggregator
+- Brand
 
 The frontend is **tenant-aware**, **module-aware**, and **permission-aware**.
 
@@ -23393,23 +23578,23 @@ Contains
 
 ```ts
 {
-  organization
+  organization;
 
-  parentOrganization
+  parentOrganization;
 
-  organizationType
+  organizationType;
 
-  user
+  user;
 
-  role
+  role;
 
-  permissions
+  permissions;
 
-  modules
+  modules;
 
-  subscriptions
+  subscriptions;
 
-  featureFlags
+  featureFlags;
 }
 ```
 
@@ -23715,10 +23900,10 @@ notifications
 
 Each feature owns
 
-* Components
-* Hooks
-* Types
-* API
+- Components
+- Hooks
+- Types
+- API
 
 ---
 
@@ -23752,10 +23937,10 @@ TanStack Query
 
 Responsibilities
 
-* Cache
-* Retry
-* Background Refresh
-* Optimistic Updates
+- Cache
+- Retry
+- Background Refresh
+- Optimistic Updates
 
 Server Components use direct server-side fetching where appropriate.
 
@@ -23765,8 +23950,8 @@ Server Components use direct server-side fetching where appropriate.
 
 Uses
 
-* React Hook Form
-* Zod
+- React Hook Form
+- Zod
 
 Validation
 
@@ -23786,10 +23971,10 @@ Minimal.
 
 React Context stores
 
-* User
-* Account Context
-* Theme
-* Notifications
+- User
+- Account Context
+- Theme
+- Notifications
 
 Business data remains in TanStack Query.
 
@@ -23799,11 +23984,11 @@ Business data remains in TanStack Query.
 
 Levels
 
-* Field Error
-* Form Error
-* API Error
-* Route Error
-* Global Error
+- Field Error
+- Form Error
+- API Error
+- Route Error
+- Global Error
 
 Every level has a dedicated UI.
 
@@ -23813,9 +23998,9 @@ Every level has a dedicated UI.
 
 Use
 
-* Skeletons
-* Streaming
-* Suspense
+- Skeletons
+- Streaming
+- Suspense
 
 Avoid blocking full page rendering.
 
@@ -23841,9 +24026,9 @@ Stored per user preference.
 
 Supported
 
-* Desktop
-* Tablet
-* Mobile
+- Desktop
+- Tablet
+- Mobile
 
 Platform dashboard is optimized primarily for desktop.
 
@@ -23873,22 +24058,22 @@ WCAG 2.1 AA
 
 Requirements
 
-* Keyboard navigation
-* Proper labels
-* Focus indicators
-* Color contrast
-* Screen reader compatibility
+- Keyboard navigation
+- Proper labels
+- Focus indicators
+- Color contrast
+- Screen reader compatibility
 
 ---
 
 # 26. Performance Strategy
 
-* Server Components by default.
-* Lazy-load heavy modules.
-* Dynamic imports for charts and editors.
-* Image optimization.
-* Route prefetching.
-* Code splitting.
+- Server Components by default.
+- Lazy-load heavy modules.
+- Dynamic imports for charts and editors.
+- Image optimization.
+- Route prefetching.
+- Code splitting.
 
 ---
 
@@ -23896,10 +24081,10 @@ Requirements
 
 Separate boundaries for
 
-* Route
-* Widget
-* Dashboard
-* Product Module
+- Route
+- Widget
+- Dashboard
+- Product Module
 
 One failing widget must not crash the entire page.
 
@@ -23911,10 +24096,10 @@ Global notification system.
 
 Supports
 
-* Success
-* Error
-* Warning
-* Information
+- Success
+- Error
+- Warning
+- Information
 
 Integrated with Platform Notifications.
 
@@ -23948,13 +24133,13 @@ Large uploads never block the UI.
 
 Implements
 
-* HttpOnly Authentication
-* CSP
-* CSRF Tokens
-* Output Escaping
-* No Token Storage in LocalStorage
-* Route Guards
-* Permission-aware Components
+- HttpOnly Authentication
+- CSP
+- CSRF Tokens
+- Output Escaping
+- No Token Storage in LocalStorage
+- Route Guards
+- Permission-aware Components
 
 As defined in AES-028.
 
@@ -23964,11 +24149,11 @@ As defined in AES-028.
 
 Collect
 
-* Web Vitals
-* Page Load Time
-* API Latency
-* JS Errors
-* Route Errors
+- Web Vitals
+- Page Load Time
+- API Latency
+- JS Errors
+- Route Errors
 
 Linked to Platform Observability.
 
@@ -24060,8 +24245,8 @@ Shared UI stays inside `components`.
 
 # 35. Decision Register
 
-| ID    | Decision                                                                      | Status   |
-| ----- | ----------------------------------------------------------------------------- | -------- |
+| ID    | Decision                                                                      | Status    |
+| ----- | ----------------------------------------------------------------------------- | --------- |
 | D-321 | One Next.js application serves all organization types                         | ✅ Locked |
 | D-322 | Next.js App Router is the routing architecture                                | ✅ Locked |
 | D-323 | Server Components are the default rendering model                             | ✅ Locked |
@@ -24081,18 +24266,18 @@ The frontend is **not a collection of independent dashboards**.
 
 It is a **Platform Shell** that dynamically assembles the user experience based on:
 
-* Identity (AES-009)
-* Organization hierarchy (AES-029)
-* Marketplace assignments (AES-012)
-* Feature flags (AES-019)
-* Platform APIs (AES-020)
+- Identity (AES-009)
+- Organization hierarchy (AES-029)
+- Marketplace assignments (AES-012)
+- Feature flags (AES-019)
+- Platform APIs (AES-020)
 
 This means:
 
-* A Platform user sees Platform tools.
-* An Aggregator sees Aggregator tools plus their managed brands.
-* A Brand sees only the products they have purchased.
-* As new products are added to the marketplace, the shell adapts automatically without structural changes.
+- A Platform user sees Platform tools.
+- An Aggregator sees Aggregator tools plus their managed brands.
+- A Brand sees only the products they have purchased.
+- As new products are added to the marketplace, the shell adapts automatically without structural changes.
 
 ---
 
@@ -24102,15 +24287,14 @@ Your original frontend design defined separate `(platform)` and `(brand)` route 
 
 Major improvements include:
 
-* **Support for all three organization types** (Platform, Aggregator, and Brand) within a single Next.js application.
-* **Account Context as the central UI contract**, driving layouts, navigation, permissions, subscriptions, feature flags, and tenant behavior.
-* **Marketplace-driven navigation**, where products become available dynamically through assignments rather than hardcoded routes.
-* **Feature-oriented frontend structure**, separating reusable UI components from business features and API services.
-* **Server-first rendering**, leveraging Next.js 16 App Router, React Server Components, and streaming for performance and security.
-* **Plugin-ready foundation**, allowing future AutoShipp products to integrate into the platform shell without restructuring the application.
+- **Support for all three organization types** (Platform, Aggregator, and Brand) within a single Next.js application.
+- **Account Context as the central UI contract**, driving layouts, navigation, permissions, subscriptions, feature flags, and tenant behavior.
+- **Marketplace-driven navigation**, where products become available dynamically through assignments rather than hardcoded routes.
+- **Feature-oriented frontend structure**, separating reusable UI components from business features and API services.
+- **Server-first rendering**, leveraging Next.js 16 App Router, React Server Components, and streaming for performance and security.
+- **Plugin-ready foundation**, allowing future AutoShipp products to integrate into the platform shell without restructuring the application.
 
 This architecture establishes the frontend as a scalable, modular, and tenant-aware platform that can grow alongside AutoShipp while maintaining a consistent user experience and clear separation of concerns.
-
 
 ---
 
@@ -24128,12 +24312,12 @@ This architecture establishes the frontend as a scalable, modular, and tenant-aw
 
 **Depends On**
 
-* AES-008 — Master Database Blueprint
-* AES-020 — Platform API
-* AES-022 — Worker Architecture
-* AES-023 — Platform Health
-* AES-025 — Storage Architecture
-* AES-026 — Deployment Architecture
+- AES-008 — Master Database Blueprint
+- AES-020 — Platform API
+- AES-022 — Worker Architecture
+- AES-023 — Platform Health
+- AES-025 — Storage Architecture
+- AES-026 — Deployment Architecture
 
 ---
 
@@ -24143,13 +24327,13 @@ Disaster Recovery (DR) ensures AutoShipp can recover from infrastructure failure
 
 This document defines:
 
-* Backup strategy
-* Restore procedures
-* Recovery objectives
-* Business continuity
-* Infrastructure redundancy
-* Data protection
-* Disaster response
+- Backup strategy
+- Restore procedures
+- Recovery objectives
+- Business continuity
+- Infrastructure redundancy
+- Data protection
+- Disaster response
 
 The platform is designed to recover from failures without requiring architectural changes.
 
@@ -24166,8 +24350,8 @@ Two primary recovery metrics define the platform.
 
 Meaning:
 
-* At most 15 minutes of data may be lost.
-* Platform should be operational again within one hour.
+- At most 15 minutes of data may be lost.
+- Platform should be operational again within one hour.
 
 ---
 
@@ -24259,10 +24443,10 @@ Supports Point-in-Time Recovery (PITR).
 
 Supported restores
 
-* Full Database
-* Single Schema
-* Single Table
-* Point-in-Time
+- Full Database
+- Single Schema
+- Single Table
+- Point-in-Time
 
 Example
 
@@ -24286,9 +24470,9 @@ Binary files are already durable.
 
 Protection includes
 
-* Object Versioning
-* Cross-region replication (future)
-* Lifecycle policies
+- Object Versioning
+- Cross-region replication (future)
+- Lifecycle policies
 
 Metadata remains in PostgreSQL.
 
@@ -24302,10 +24486,10 @@ Reason
 
 Redis stores only
 
-* Cache
-* Locks
-* Temporary Data
-* Rate Limits
+- Cache
+- Locks
+- Temporary Data
+- Rate Limits
 
 Everything rebuilds automatically.
 
@@ -24315,9 +24499,9 @@ Everything rebuilds automatically.
 
 BullMQ uses
 
-* Durable Exchanges
-* Durable Queues
-* Persistent Messages
+- Durable Exchanges
+- Durable Queues
+- Persistent Messages
 
 Broker restart does not lose acknowledged business events.
 
@@ -24335,8 +24519,8 @@ Backup keys are stored separately from backup files.
 
 Backups are encrypted:
 
-* At Rest
-* In Transit
+- At Rest
+- In Transit
 
 ---
 
@@ -24411,10 +24595,10 @@ Untested backups are considered unreliable.
 
 Infrastructure rebuilt using
 
-* Docker
-* Git Repository
-* Infrastructure Configuration
-* Environment Templates
+- Docker
+- Git Repository
+- Infrastructure Configuration
+- Environment Templates
 
 Infrastructure remains reproducible.
 
@@ -24478,10 +24662,10 @@ Secrets are backed up separately.
 
 Includes
 
-* JWT Secrets
-* OAuth Credentials
-* SMTP
-* Payment Keys
+- JWT Secrets
+- OAuth Credentials
+- SMTP
+- Payment Keys
 
 Production secrets are never stored with database backups.
 
@@ -24491,10 +24675,10 @@ Production secrets are never stored with database backups.
 
 Recoverable
 
-* Environment Variables
-* Runtime Configuration
-* Feature Flags
-* Marketplace Configuration
+- Environment Variables
+- Runtime Configuration
+- Feature Flags
+- Marketplace Configuration
 
 Configuration is version controlled wherever possible.
 
@@ -24504,11 +24688,11 @@ Configuration is version controlled wherever possible.
 
 Platform Health monitors
 
-* Restore Progress
-* Database Status
-* Queue Status
-* Worker Status
-* API Availability
+- Restore Progress
+- Database Status
+- Queue Status
+- Worker Status
+- API Availability
 
 Recovery progress is observable.
 
@@ -24524,7 +24708,7 @@ Supported scenarios
 | Server failure        | Redeploy Containers                          |
 | Redis failure         | Automatic Cache Rebuild                      |
 | Worker failure        | Restart Workers                              |
-| BullMQ restart      | Durable Queue Recovery                       |
+| BullMQ restart        | Durable Queue Recovery                       |
 | Object Storage outage | Restore from Replication / Provider Recovery |
 | Bad deployment        | Rollback                                     |
 | Accidental deletion   | Restore from Backup                          |
@@ -24551,13 +24735,13 @@ Core platform functions recover first.
 
 Every disaster records
 
-* Detection Time
-* Impact
-* Root Cause
-* Recovery Time
-* Data Loss
-* Timeline
-* Lessons Learned
+- Detection Time
+- Impact
+- Root Cause
+- Recovery Time
+- Data Loss
+- Timeline
+- Lessons Learned
 
 Integrated with Audit and Observability.
 
@@ -24567,14 +24751,14 @@ Integrated with Audit and Observability.
 
 Documented playbooks exist for
 
-* Database Restore
-* Full Platform Recovery
-* Object Storage Recovery
-* BullMQ Recovery
-* Redis Failure
-* Secret Rotation
-* Certificate Expiration
-* Deployment Rollback
+- Database Restore
+- Full Platform Recovery
+- Object Storage Recovery
+- BullMQ Recovery
+- Redis Failure
+- Secret Rotation
+- Certificate Expiration
+- Deployment Rollback
 
 No recovery process depends solely on tribal knowledge.
 
@@ -24597,11 +24781,11 @@ Response priority follows severity.
 
 Backups satisfy
 
-* Encryption
-* Access Control
-* Audit Logging
-* Retention
-* Restore Verification
+- Encryption
+- Access Control
+- Audit Logging
+- Retention
+- Restore Verification
 
 All backup access is audited.
 
@@ -24611,11 +24795,11 @@ All backup access is audited.
 
 Supports
 
-* Multi-region deployment
-* Cross-region PostgreSQL
-* Cross-region Object Storage
-* Active-Passive failover
-* Active-Active architecture (future)
+- Multi-region deployment
+- Cross-region PostgreSQL
+- Cross-region Object Storage
+- Active-Passive failover
+- Active-Active architecture (future)
 
 No redesign required.
 
@@ -24623,14 +24807,14 @@ No redesign required.
 
 # 27. Technology Stack
 
-| Component  | Technology              |
-| ---------- | ----------------------- |
-| Database   | Neon PostgreSQL PITR    |
-| Storage    | S3-Compatible           |
+| Component  | Technology            |
+| ---------- | --------------------- |
+| Database   | Neon PostgreSQL PITR  |
+| Storage    | S3-Compatible         |
 | Queue      | BullMQ Durable Queues |
-| Cache      | Redis                   |
-| Containers | Docker                  |
-| CI/CD      | GitHub Actions          |
+| Cache      | Redis                 |
+| Containers | Docker                |
+| CI/CD      | GitHub Actions        |
 
 ---
 
@@ -24672,11 +24856,11 @@ Target completion
 
 # 29. Decision Register
 
-| ID    | Decision                                                         | Status   |
-| ----- | ---------------------------------------------------------------- | -------- |
+| ID    | Decision                                                         | Status    |
+| ----- | ---------------------------------------------------------------- | --------- |
 | D-331 | PostgreSQL uses continuous PITR and scheduled backups            | ✅ Locked |
 | D-332 | Redis is not backed up because it contains only rebuildable data | ✅ Locked |
-| D-333 | BullMQ uses durable queues and persistent messages             | ✅ Locked |
+| D-333 | BullMQ uses durable queues and persistent messages               | ✅ Locked |
 | D-334 | Object Storage uses versioning and provider durability           | ✅ Locked |
 | D-335 | Backups are encrypted and stored separately from production      | ✅ Locked |
 | D-336 | Backup restoration is tested quarterly                           | ✅ Locked |
@@ -24695,7 +24879,7 @@ Disaster Recovery is a cross-cutting capability that protects every platform com
 | ----------------------- | ------------------------------------------------------------ |
 | Platform API            | Container redeployment                                       |
 | PostgreSQL              | PITR + Full Backups                                          |
-| BullMQ                | Durable queues + replay                                      |
+| BullMQ                  | Durable queues + replay                                      |
 | Redis                   | Automatic cache rebuild                                      |
 | Workers                 | Stateless restart                                            |
 | Object Storage          | Versioning + replication                                     |
@@ -24714,15 +24898,14 @@ The original architecture mentioned backups and deployments but did not define a
 
 Major improvements include:
 
-* **Clearly defined recovery objectives** (RPO and RTO) that establish measurable operational targets.
-* **Layered backup strategy** covering PostgreSQL, object storage, BullMQ, infrastructure, configuration, and secrets while intentionally excluding Redis due to its non-persistent role.
-* **Point-in-Time Recovery (PITR)** for PostgreSQL, enabling restoration to precise moments in time after accidental deletion or corruption.
-* **Documented recovery playbooks** for common disaster scenarios, reducing operational risk and ensuring repeatable incident response.
-* **Infrastructure reproducibility**, allowing complete platform reconstruction from version-controlled infrastructure definitions and container images.
-* **Regular restore verification**, ensuring backups remain usable rather than assuming successful backup creation is sufficient.
+- **Clearly defined recovery objectives** (RPO and RTO) that establish measurable operational targets.
+- **Layered backup strategy** covering PostgreSQL, object storage, BullMQ, infrastructure, configuration, and secrets while intentionally excluding Redis due to its non-persistent role.
+- **Point-in-Time Recovery (PITR)** for PostgreSQL, enabling restoration to precise moments in time after accidental deletion or corruption.
+- **Documented recovery playbooks** for common disaster scenarios, reducing operational risk and ensuring repeatable incident response.
+- **Infrastructure reproducibility**, allowing complete platform reconstruction from version-controlled infrastructure definitions and container images.
+- **Regular restore verification**, ensuring backups remain usable rather than assuming successful backup creation is sufficient.
 
 This document establishes the operational resilience required for AutoShipp to operate as a production-grade SaaS platform, ensuring that failures can be managed predictably with minimal downtime and controlled data loss.
-
 
 ---
 
@@ -24740,11 +24923,11 @@ This document establishes the operational resilience required for AutoShipp to o
 
 **Depends On**
 
-* AES-008 — Master Database Blueprint
-* AES-020 — Platform API
-* AES-026 — Deployment Architecture
-* AES-029 — Multi-Tenant Architecture
-* AES-031 — Disaster Recovery
+- AES-008 — Master Database Blueprint
+- AES-020 — Platform API
+- AES-026 — Deployment Architecture
+- AES-029 — Multi-Tenant Architecture
+- AES-031 — Disaster Recovery
 
 ---
 
@@ -24754,14 +24937,14 @@ This document defines how the AutoShipp PostgreSQL database is managed throughou
 
 It establishes rules for:
 
-* Schema ownership
-* Database migrations
-* Schema evolution
-* Versioning
-* Rollback strategy
-* Operational maintenance
-* Performance optimization
-* Future product onboarding
+- Schema ownership
+- Database migrations
+- Schema evolution
+- Versioning
+- Rollback strategy
+- Operational maintenance
+- Performance optimization
+- Future product onboarding
 
 The objective is to ensure **one shared PostgreSQL database** remains maintainable as new AutoShipp products are introduced.
 
@@ -25012,17 +25195,17 @@ No manual SQL executed directly in production except emergency procedures.
 
 Allowed
 
-* Add tables
-* Add indexes
-* Add nullable columns
-* Add new enums (carefully)
-* Add views
+- Add tables
+- Add indexes
+- Add nullable columns
+- Add new enums (carefully)
+- Add views
 
 Not allowed
 
-* Drop columns without deprecation
-* Rename columns without compatibility
-* Breaking schema changes
+- Drop columns without deprecation
+- Rename columns without compatibility
+- Breaking schema changes
 
 ---
 
@@ -25036,12 +25219,12 @@ Platform schemas and product schemas have different migration governance rules b
 
 Rules:
 
-* Migrations must be reviewed by the Platform Architecture Team before merging
-* Breaking changes must follow the Expand-Contract pattern (Section 11)
-* No `LOCK TABLE` migrations outside a defined maintenance window
-* Maintenance window must be communicated to all product service teams in advance
-* All platform schema migrations must pass CI dry-run: `prisma migrate deploy --dry-run`
-* Additive-only rule strictly enforced: add columns, never rename or drop without deprecation period minimum 30 days
+- Migrations must be reviewed by the Platform Architecture Team before merging
+- Breaking changes must follow the Expand-Contract pattern (Section 11)
+- No `LOCK TABLE` migrations outside a defined maintenance window
+- Maintenance window must be communicated to all product service teams in advance
+- All platform schema migrations must pass CI dry-run: `prisma migrate deploy --dry-run`
+- Additive-only rule strictly enforced: add columns, never rename or drop without deprecation period minimum 30 days
 
 **CI Gate:**
 
@@ -25073,10 +25256,10 @@ Production
 
 Rules:
 
-* Migrations reviewed by the product service team (1 approval)
-* Can deploy at any time without coordination with other teams
-* Should not contain cross-schema references to platform schemas
-* Must follow standard naming conventions (AES-008 Section 10)
+- Migrations reviewed by the product service team (1 approval)
+- Can deploy at any time without coordination with other teams
+- Should not contain cross-schema references to platform schemas
+- Must follow standard naming conventions (AES-008 Section 10)
 
 **CI Gate:**
 
@@ -25106,10 +25289,10 @@ Prisma uses a `_prisma_migrations` table with a lock.
 
 Policy:
 
-* Migration lock timeout: 30 seconds
-* If a migration cannot acquire the lock within 30 seconds, it fails and alerts
-* Never allow two platform schema migrations to run simultaneously
-* Product schema migrations may run concurrently with each other
+- Migration lock timeout: 30 seconds
+- If a migration cannot acquire the lock within 30 seconds, it fails and alerts
+- Never allow two platform schema migrations to run simultaneously
+- Product schema migrations may run concurrently with each other
 
 ---
 
@@ -25229,9 +25412,9 @@ Never block production traffic.
 
 Every new index must justify
 
-* Query improvement
-* Storage impact
-* Write overhead
+- Query improvement
+- Storage impact
+- Write overhead
 
 Indexes are reviewed before deployment.
 
@@ -25241,10 +25424,10 @@ Indexes are reviewed before deployment.
 
 Use
 
-* Primary Keys
-* Foreign Keys
-* Unique Constraints
-* Check Constraints
+- Primary Keys
+- Foreign Keys
+- Unique Constraints
+- Check Constraints
 
 Business invariants belong in both database constraints and application validation where appropriate.
 
@@ -25268,11 +25451,11 @@ Historical information remains available for audit.
 
 Every schema includes
 
-* Purpose
-* Owner
-* Tables
-* Relationships
-* Migration history
+- Purpose
+- Owner
+- Tables
+- Relationships
+- Migration history
 
 Documentation is updated alongside migrations.
 
@@ -25282,10 +25465,10 @@ Documentation is updated alongside migrations.
 
 Scheduled maintenance includes
 
-* VACUUM
-* ANALYZE
-* Index health review
-* Slow query analysis
+- VACUUM
+- ANALYZE
+- Index health review
+- Slow query analysis
 
 Provider-managed tasks are leveraged where available.
 
@@ -25295,13 +25478,13 @@ Provider-managed tasks are leveraged where available.
 
 Track
 
-* Connections
-* Query latency
-* Lock waits
-* Deadlocks
-* Replication status (future)
-* Table growth
-* Index usage
+- Connections
+- Query latency
+- Lock waits
+- Deadlocks
+- Replication status (future)
+- Table growth
+- Index usage
 
 Integrated into Platform Health.
 
@@ -25319,9 +25502,9 @@ Queries
 
 Investigate
 
-* Missing indexes
-* Bad execution plans
-* N+1 queries
+- Missing indexes
+- Bad execution plans
+- N+1 queries
 
 ---
 
@@ -25329,10 +25512,10 @@ Investigate
 
 Integrity is enforced through
 
-* Foreign Keys
-* Transactions
-* Optimistic concurrency where required
-* Idempotent operations
+- Foreign Keys
+- Transactions
+- Optimistic concurrency where required
+- Idempotent operations
 
 No orphaned platform records.
 
@@ -25342,9 +25525,9 @@ No orphaned platform records.
 
 Every migration must remain compatible with
 
-* PITR
-* Full Restore
-* Schema Restore
+- PITR
+- Full Restore
+- Schema Restore
 
 Migration history is retained permanently.
 
@@ -25394,10 +25577,10 @@ No direct cutover without verification.
 
 As decided for AutoShipp:
 
-* Reuse existing platform data whenever possible.
-* Never duplicate Organizations, Users, Customers, or Commerce data.
-* Product databases should retain only product-specific data after migration.
-* Shared entities become references to Platform data.
+- Reuse existing platform data whenever possible.
+- Never duplicate Organizations, Users, Customers, or Commerce data.
+- Product databases should retain only product-specific data after migration.
+- Shared entities become references to Platform data.
 
 This eliminates duplicate copies across products.
 
@@ -25407,10 +25590,10 @@ This eliminates duplicate copies across products.
 
 Every production database change requires
 
-* Technical review
-* Architecture review (for structural changes)
-* Successful CI
-* Successful staging validation
+- Technical review
+- Architecture review (for structural changes)
+- Successful CI
+- Successful staging validation
 
 Emergency changes are documented retrospectively.
 
@@ -25420,11 +25603,11 @@ Emergency changes are documented retrospectively.
 
 This governance model supports
 
-* Additional schemas
-* Additional product services
-* Read replicas
-* Logical replication
-* Database partitioning (if required)
+- Additional schemas
+- Additional product services
+- Read replicas
+- Logical replication
+- Database partitioning (if required)
 
 without changing ownership rules.
 
@@ -25444,8 +25627,8 @@ without changing ownership rules.
 
 # 29. Decision Register
 
-| ID    | Decision                                                           | Status   |
-| ----- | ------------------------------------------------------------------ | -------- |
+| ID    | Decision                                                           | Status    |
+| ----- | ------------------------------------------------------------------ | --------- |
 | D-341 | AutoShipp uses one PostgreSQL database                             | ✅ Locked |
 | D-342 | Every schema has exactly one owning service                        | ✅ Locked |
 | D-343 | One Prisma Client is created per service                           | ✅ Locked |
@@ -25485,14 +25668,13 @@ Your original design established the core database principles—**one PostgreSQL
 
 Major improvements include:
 
-* **Formal schema governance**, where every schema has a single owning service and database permissions enforce write isolation.
-* **A standardized migration lifecycle** using version-controlled migrations, CI validation, staging promotion, and zero-downtime Expand-Contract deployment patterns.
-* **A defined product migration process**, ensuring existing products can move into the shared database while reusing Organizations, Users, Customers, and Commerce data instead of creating duplicate records.
-* **Clear operational rules** for indexing, constraints, maintenance, monitoring, backups, rollback, and schema documentation.
-* **Future-proof scalability**, allowing new product schemas to be introduced only when needed, without affecting existing platform architecture.
+- **Formal schema governance**, where every schema has a single owning service and database permissions enforce write isolation.
+- **A standardized migration lifecycle** using version-controlled migrations, CI validation, staging promotion, and zero-downtime Expand-Contract deployment patterns.
+- **A defined product migration process**, ensuring existing products can move into the shared database while reusing Organizations, Users, Customers, and Commerce data instead of creating duplicate records.
+- **Clear operational rules** for indexing, constraints, maintenance, monitoring, backups, rollback, and schema documentation.
+- **Future-proof scalability**, allowing new product schemas to be introduced only when needed, without affecting existing platform architecture.
 
 This document serves as the authoritative governance guide for every database change made to AutoShipp throughout the lifetime of the platform.
-
 
 ---
 
@@ -25510,14 +25692,14 @@ This document serves as the authoritative governance guide for every database ch
 
 **Depends On**
 
-* AES-020 — Platform API
-* AES-021 — Event-Driven Architecture
-* AES-022 — Worker Architecture
-* AES-023 — Platform Health
-* AES-024 — Observability
-* AES-026 — Deployment
-* AES-027 — Redis
-* AES-029 — Multi-Tenant
+- AES-020 — Platform API
+- AES-021 — Event-Driven Architecture
+- AES-022 — Worker Architecture
+- AES-023 — Platform Health
+- AES-024 — Observability
+- AES-026 — Deployment
+- AES-027 — Redis
+- AES-029 — Multi-Tenant
 
 ---
 
@@ -25527,14 +25709,14 @@ The AutoShipp platform is designed to scale from **a few brands today** to **tho
 
 Scalability is achieved through:
 
-* Stateless services
-* Independent deployments
-* Event-driven processing
-* Horizontal scaling
-* Shared PostgreSQL
-* Redis caching
-* BullMQ workers
-* Efficient database design
+- Stateless services
+- Independent deployments
+- Event-driven processing
+- Horizontal scaling
+- Shared PostgreSQL
+- Redis caching
+- BullMQ workers
+- Efficient database design
 
 Performance is treated as a platform feature, not an optimization added later.
 
@@ -25607,15 +25789,15 @@ All stateless services scale independently.
 
 Current expectation
 
-* < 1,000 Organizations
-* Thousands of users
-* Multiple future products
+- < 1,000 Organizations
+- Thousands of users
+- Multiple future products
 
 Architecture target
 
-* 100,000+ Organizations
-* Millions of users
-* Hundreds of millions of records
+- 100,000+ Organizations
+- Millions of users
+- Hundreds of millions of records
 
 without redesign.
 
@@ -25627,10 +25809,10 @@ Scalable components
 
 | Component                | Horizontal Scaling |
 | ------------------------ | ------------------ |
-| Next.js                  | ✅                  |
-| Platform API             | ✅                  |
-| Workers                  | ✅                  |
-| BullMQ Consumers       | ✅                  |
+| Next.js                  | ✅                 |
+| Platform API             | ✅                 |
+| Workers                  | ✅                 |
+| BullMQ Consumers         | ✅                 |
 | Redis Cluster            | Future             |
 | PostgreSQL Read Replicas | Future             |
 
@@ -25642,9 +25824,9 @@ Only PostgreSQL primary remains a single write node.
 
 Allowed only for
 
-* PostgreSQL
-* Redis
-* BullMQ
+- PostgreSQL
+- Redis
+- BullMQ
 
 Until horizontal alternatives become necessary.
 
@@ -25654,12 +25836,12 @@ Until horizontal alternatives become necessary.
 
 Primary optimizations
 
-* Proper indexes
-* Query optimization
-* Connection pooling
-* Batch operations
-* Pagination
-* Avoid N+1 queries
+- Proper indexes
+- Query optimization
+- Connection pooling
+- Batch operations
+- Pagination
+- Avoid N+1 queries
 
 No premature sharding.
 
@@ -25705,9 +25887,9 @@ PostgreSQL
 
 Benefits
 
-* Reduced connection count
-* Better concurrency
-* Stable database performance
+- Reduced connection count
+- Better concurrency
+- Stable database performance
 
 ---
 
@@ -25715,11 +25897,11 @@ Benefits
 
 Rules
 
-* Never use `SELECT *`
-* Always paginate
-* Load only required columns
-* Batch related queries
-* Profile slow queries
+- Never use `SELECT *`
+- Always paginate
+- Load only required columns
+- Batch related queries
+- Profile slow queries
 
 Maximum acceptable query time
 
@@ -25771,12 +25953,12 @@ Heavy work belongs to workers.
 
 Redis caches
 
-* Feature Flags
-* Runtime Config
-* User Context
-* Organization Data
-* Marketplace
-* Health Status
+- Feature Flags
+- Runtime Config
+- User Context
+- Organization Data
+- Marketplace
+- Health Status
 
 No business data stored permanently.
 
@@ -25810,10 +25992,10 @@ Scaling depends on queue depth.
 
 Scaling strategy
 
-* Multiple consumers
-* Topic exchanges
-* Queue isolation
-* Dead Letter Queues
+- Multiple consumers
+- Topic exchanges
+- Queue isolation
+- Dead Letter Queues
 
 Large workloads are distributed automatically.
 
@@ -25843,12 +26025,12 @@ Platform API never streams large files through application memory.
 
 Uses
 
-* React Server Components
-* Streaming
-* Suspense
-* Code Splitting
-* Lazy Loading
-* Image Optimization
+- React Server Components
+- Streaming
+- Suspense
+- Code Splitting
+- Lazy Loading
+- Image Optimization
 
 Initial page loads remain fast.
 
@@ -25896,10 +26078,10 @@ Notification delivery may exceed this depending on third-party providers.
 
 Long-running operations
 
-* Imports
-* Exports
-* AI Processing
-* Synchronization
+- Imports
+- Exports
+- AI Processing
+- Synchronization
 
 Never execute synchronously.
 
@@ -25909,13 +26091,13 @@ Never execute synchronously.
 
 Monitor
 
-* CPU
-* Memory
-* Queue Depth
-* Database Connections
-* Cache Hit Rate
-* API Latency
-* Worker Throughput
+- CPU
+- Memory
+- Queue Depth
+- Database Connections
+- Cache Hit Rate
+- API Latency
+- Worker Throughput
 
 Scaling decisions are metric-driven.
 
@@ -25925,15 +26107,15 @@ Scaling decisions are metric-driven.
 
 Future Kubernetes deployment may scale
 
-* Platform API
-* Workers
+- Platform API
+- Workers
 
 Based on
 
-* CPU
-* Memory
-* Queue Length
-* Requests per Second
+- CPU
+- Memory
+- Queue Length
+- Requests per Second
 
 Architecture already supports this.
 
@@ -25945,10 +26127,10 @@ Not required initially.
 
 Future candidates
 
-* Audit Logs
-* Notifications
-* Event History
-* Analytics
+- Audit Logs
+- Notifications
+- Event History
+- Analytics
 
 Business tables remain unpartitioned until justified.
 
@@ -25982,13 +26164,13 @@ Reporting workloads move to replicas.
 
 Track
 
-* API Latency
-* Query Time
-* Queue Wait Time
-* Cache Hit Rate
-* Worker Throughput
-* Memory Usage
-* CPU Usage
+- API Latency
+- Query Time
+- Queue Wait Time
+- Cache Hit Rate
+- Worker Throughput
+- Memory Usage
+- CPU Usage
 
 Integrated into Platform Health.
 
@@ -26055,11 +26237,11 @@ Before every major release
 
 Run
 
-* API Load Test
-* Database Stress Test
-* Queue Stress Test
-* Worker Stress Test
-* File Upload Test
+- API Load Test
+- Database Stress Test
+- Queue Stress Test
+- Worker Stress Test
+- File Upload Test
 
 Performance regressions block release.
 
@@ -26072,7 +26254,7 @@ Performance regressions block release.
 | Database        | PostgreSQL           |
 | Connection Pool | PgBouncer            |
 | Cache           | Redis                |
-| Queue           | BullMQ             |
+| Queue           | BullMQ               |
 | Load Balancer   | Nginx                |
 | CDN             | Cloudflare           |
 | Monitoring      | Prometheus + Grafana |
@@ -26081,8 +26263,8 @@ Performance regressions block release.
 
 # 30. Decision Register
 
-| ID    | Decision                                                               | Status   |
-| ----- | ---------------------------------------------------------------------- | -------- |
+| ID    | Decision                                                               | Status    |
+| ----- | ---------------------------------------------------------------------- | --------- |
 | D-351 | Horizontal scaling is preferred over vertical scaling                  | ✅ Locked |
 | D-352 | Platform services remain stateless                                     | ✅ Locked |
 | D-353 | PgBouncer is used for database connection pooling                      | ✅ Locked |
@@ -26106,7 +26288,7 @@ Performance and scalability are shared responsibilities across the platform.
 | Platform API            | Multiple replicas behind Nginx          |
 | PostgreSQL              | Indexing, pooling, future read replicas |
 | Redis                   | High-speed cache                        |
-| BullMQ                | Queue-based workload distribution       |
+| BullMQ                  | Queue-based workload distribution       |
 | Workers                 | Independent horizontal scaling          |
 | Storage                 | Direct object storage uploads           |
 | Future Product Services | Independent deployment and scaling      |
@@ -26121,15 +26303,14 @@ The original architecture defined the core infrastructure components but did not
 
 Major improvements include:
 
-* **Explicit horizontal scaling model** for APIs, workers, and future product services, with PostgreSQL optimized through indexing and connection pooling rather than premature sharding.
-* **Performance budgets** for APIs, dashboards, and key business workflows, making scalability measurable rather than subjective.
-* **Database optimization standards**, including mandatory indexing, connection pooling with PgBouncer, query profiling, and cursor pagination for large datasets.
-* **Metric-driven capacity planning**, where scaling decisions are based on queue depth, latency, throughput, CPU, memory, and cache efficiency.
-* **Future growth roadmap**, defining a clear progression from a single PostgreSQL instance to read replicas, Redis clusters, BullMQ clusters, and multi-region deployments without architectural changes.
-* **Release-time performance validation**, ensuring every major release undergoes API, database, queue, and worker load testing before deployment.
+- **Explicit horizontal scaling model** for APIs, workers, and future product services, with PostgreSQL optimized through indexing and connection pooling rather than premature sharding.
+- **Performance budgets** for APIs, dashboards, and key business workflows, making scalability measurable rather than subjective.
+- **Database optimization standards**, including mandatory indexing, connection pooling with PgBouncer, query profiling, and cursor pagination for large datasets.
+- **Metric-driven capacity planning**, where scaling decisions are based on queue depth, latency, throughput, CPU, memory, and cache efficiency.
+- **Future growth roadmap**, defining a clear progression from a single PostgreSQL instance to read replicas, Redis clusters, BullMQ clusters, and multi-region deployments without architectural changes.
+- **Release-time performance validation**, ensuring every major release undergoes API, database, queue, and worker load testing before deployment.
 
 This document defines how AutoShipp will continue delivering low-latency, reliable performance as the platform evolves from its initial customer base to enterprise-scale workloads while preserving the architectural principles established throughout the platform specification.
-
 
 ---
 
@@ -26147,13 +26328,13 @@ This document defines how AutoShipp will continue delivering low-latency, reliab
 
 **Depends On**
 
-* AES-020 — Platform API
-* AES-021 — Event-Driven Architecture
-* AES-022 — Workers
-* AES-024 — Observability
-* AES-026 — Deployment
-* AES-028 — Security
-* AES-033 — Performance & Scalability
+- AES-020 — Platform API
+- AES-021 — Event-Driven Architecture
+- AES-022 — Workers
+- AES-024 — Observability
+- AES-026 — Deployment
+- AES-028 — Security
+- AES-033 — Performance & Scalability
 
 ---
 
@@ -26165,12 +26346,12 @@ Every change must pass multiple validation stages before reaching production.
 
 The testing strategy ensures
 
-* Functional correctness
-* Security
-* Performance
-* Reliability
-* Regression prevention
-* Deployment safety
+- Functional correctness
+- Security
+- Performance
+- Reliability
+- Regression prevention
+- Deployment safety
 
 No production deployment bypasses the testing pipeline.
 
@@ -26236,15 +26417,15 @@ Performance is tested before release.
 
 | Test Type         | Required |
 | ----------------- | -------- |
-| Unit Tests        | ✅        |
-| Integration Tests | ✅        |
-| API Tests         | ✅        |
-| End-to-End Tests  | ✅        |
-| Load Tests        | ✅        |
-| Security Tests    | ✅        |
-| Smoke Tests       | ✅        |
-| Regression Tests  | ✅        |
-| Migration Tests   | ✅        |
+| Unit Tests        | ✅       |
+| Integration Tests | ✅       |
+| API Tests         | ✅       |
+| End-to-End Tests  | ✅       |
+| Load Tests        | ✅       |
+| Security Tests    | ✅       |
+| Smoke Tests       | ✅       |
+| Regression Tests  | ✅       |
+| Migration Tests   | ✅       |
 
 ---
 
@@ -26252,14 +26433,14 @@ Performance is tested before release.
 
 Scope
 
-* Services
-* Utilities
-* Guards
-* Validators
-* DTOs
-* Business Logic
-* Feature Flag Evaluation
-* Permission Engine
+- Services
+- Utilities
+- Guards
+- Validators
+- DTOs
+- Business Logic
+- Feature Flag Evaluation
+- Permission Engine
 
 Target Coverage
 
@@ -26273,12 +26454,12 @@ Target Coverage
 
 Validate interactions between
 
-* Platform API ↔ PostgreSQL
-* Platform API ↔ Redis
-* Platform API ↔ BullMQ
-* Workers ↔ Database
-* Workers ↔ BullMQ
-* API ↔ Object Storage
+- Platform API ↔ PostgreSQL
+- Platform API ↔ Redis
+- Platform API ↔ BullMQ
+- Workers ↔ Database
+- Workers ↔ BullMQ
+- API ↔ Object Storage
 
 Uses isolated test databases.
 
@@ -26288,14 +26469,14 @@ Uses isolated test databases.
 
 Every endpoint validates
 
-* Authentication
-* Authorization
-* Validation
-* Response Contract
-* Error Contract
-* Pagination
-* Filtering
-* Rate Limiting
+- Authentication
+- Authorization
+- Validation
+- Response Contract
+- Error Contract
+- Pagination
+- Filtering
+- Rate Limiting
 
 OpenAPI documentation and implementation must remain synchronized.
 
@@ -26397,11 +26578,11 @@ Ownership Updated
 
 Every worker validates
 
-* Event Consumption
-* Retry Logic
-* Dead Letter Queue
-* Idempotency
-* Failure Recovery
+- Event Consumption
+- Retry Logic
+- Dead Letter Queue
+- Idempotency
+- Failure Recovery
 
 Workers are tested independently.
 
@@ -26411,12 +26592,12 @@ Workers are tested independently.
 
 Validate
 
-* Event Publishing
-* Event Contracts
-* Event Versioning
-* Retry
-* Duplicate Events
-* DLQ Routing
+- Event Publishing
+- Event Contracts
+- Event Versioning
+- Retry
+- Duplicate Events
+- DLQ Routing
 
 Events remain backward compatible.
 
@@ -26426,12 +26607,12 @@ Events remain backward compatible.
 
 Validate
 
-* Migrations
-* Rollbacks
-* Constraints
-* Indexes
-* Soft Deletes
-* Transactions
+- Migrations
+- Rollbacks
+- Constraints
+- Indexes
+- Soft Deletes
+- Transactions
 
 Every migration is executed in CI.
 
@@ -26441,15 +26622,15 @@ Every migration is executed in CI.
 
 Automated checks include
 
-* Authentication
-* Authorization
-* SQL Injection
-* XSS
-* CSRF
-* SSRF
-* Rate Limiting
-* Permission Escalation
-* Multi-Tenant Isolation
+- Authentication
+- Authorization
+- SQL Injection
+- XSS
+- CSRF
+- SSRF
+- Rate Limiting
+- Permission Escalation
+- Multi-Tenant Isolation
 
 Penetration testing occurs before major releases.
 
@@ -26459,12 +26640,12 @@ Penetration testing occurs before major releases.
 
 Measure
 
-* API Latency
-* Database Throughput
-* Worker Throughput
-* Queue Processing
-* Upload Performance
-* Concurrent Users
+- API Latency
+- Database Throughput
+- Worker Throughput
+- Queue Processing
+- Upload Performance
+- Concurrent Users
 
 Targets follow AES-033.
 
@@ -26474,11 +26655,11 @@ Targets follow AES-033.
 
 Simulate
 
-* Thousands of concurrent users
-* Large imports
-* High notification volume
-* Multiple worker queues
-* Marketplace purchases
+- Thousands of concurrent users
+- Large imports
+- High notification volume
+- Multiple worker queues
+- Marketplace purchases
 
 Platform must remain stable.
 
@@ -26490,13 +26671,13 @@ Immediately after deployment
 
 Validate
 
-* Platform API
-* Authentication
-* Database Connectivity
-* Redis
-* BullMQ
-* Workers
-* Health Endpoints
+- Platform API
+- Authentication
+- Database Connectivity
+- Redis
+- BullMQ
+- Workers
+- Health Endpoints
 
 Deployment is rolled back if smoke tests fail.
 
@@ -26570,13 +26751,13 @@ Tenant isolation is validated continuously.
 
 Test
 
-* Components
-* Hooks
-* Forms
-* Route Guards
-* Layouts
-* Dynamic Sidebar
-* Feature Flags
+- Components
+- Hooks
+- Forms
+- Route Guards
+- Layouts
+- Dynamic Sidebar
+- Feature Flags
 
 Visual regression testing may be introduced later.
 
@@ -26586,10 +26767,10 @@ Visual regression testing may be introduced later.
 
 Validate
 
-* Chrome
-* Edge
-* Firefox
-* Safari
+- Chrome
+- Edge
+- Firefox
+- Safari
 
 Latest stable versions.
 
@@ -26649,10 +26830,10 @@ Any failed stage blocks deployment.
 
 Test data
 
-* Isolated
-* Repeatable
-* Disposable
-* Seeded automatically
+- Isolated
+- Repeatable
+- Disposable
+- Seeded automatically
 
 No production data in testing environments.
 
@@ -26662,11 +26843,11 @@ No production data in testing environments.
 
 Mock
 
-* Payment Gateway
-* Email
-* SMS
-* WhatsApp
-* External Shipping APIs
+- Payment Gateway
+- Email
+- SMS
+- WhatsApp
+- External Shipping APIs
 
 Internal services are tested against real implementations whenever practical.
 
@@ -26676,11 +26857,11 @@ Internal services are tested against real implementations whenever practical.
 
 CI blocks merge if
 
-* Tests fail
-* Coverage decreases below threshold
-* Security vulnerabilities are critical
-* Linting fails
-* Type checking fails
+- Tests fail
+- Coverage decreases below threshold
+- Security vulnerabilities are critical
+- Linting fails
+- Type checking fails
 
 Quality gates are mandatory.
 
@@ -26719,12 +26900,12 @@ Coverage is measured continuously.
 
 Supports
 
-* Contract Testing
-* Chaos Engineering
-* Mutation Testing
-* Visual Regression Testing
-* Canary Validation
-* Multi-region Testing
+- Contract Testing
+- Chaos Engineering
+- Mutation Testing
+- Visual Regression Testing
+- Canary Validation
+- Multi-region Testing
 
 without changing the testing architecture.
 
@@ -26732,8 +26913,8 @@ without changing the testing architecture.
 
 # 28. Decision Register
 
-| ID    | Decision                                                      | Status   |
-| ----- | ------------------------------------------------------------- | -------- |
+| ID    | Decision                                                      | Status    |
+| ----- | ------------------------------------------------------------- | --------- |
 | D-361 | Every feature requires automated tests                        | ✅ Locked |
 | D-362 | Unit tests are the primary testing layer                      | ✅ Locked |
 | D-363 | Critical business workflows require E2E coverage              | ✅ Locked |
@@ -26753,60 +26934,60 @@ A release is considered production-ready only if all of the following pass succe
 
 ## Code Quality
 
-* ✅ ESLint passes
-* ✅ TypeScript compilation succeeds
-* ✅ No critical code smells
-* ✅ Code review approved
+- ✅ ESLint passes
+- ✅ TypeScript compilation succeeds
+- ✅ No critical code smells
+- ✅ Code review approved
 
 ---
 
 ## Automated Testing
 
-* ✅ Unit Tests
-* ✅ Integration Tests
-* ✅ API Tests
-* ✅ Worker Tests
-* ✅ End-to-End Tests
-* ✅ Regression Tests
+- ✅ Unit Tests
+- ✅ Integration Tests
+- ✅ API Tests
+- ✅ Worker Tests
+- ✅ End-to-End Tests
+- ✅ Regression Tests
 
 ---
 
 ## Security
 
-* ✅ Dependency Scan
-* ✅ Secret Scan
-* ✅ OWASP Validation
-* ✅ Multi-Tenant Isolation Tests
-* ✅ Authentication Tests
-* ✅ Authorization Tests
+- ✅ Dependency Scan
+- ✅ Secret Scan
+- ✅ OWASP Validation
+- ✅ Multi-Tenant Isolation Tests
+- ✅ Authentication Tests
+- ✅ Authorization Tests
 
 ---
 
 ## Database
 
-* ✅ Migration Tested
-* ✅ Rollback Verified
-* ✅ Index Validation
-* ✅ No Breaking Schema Changes
+- ✅ Migration Tested
+- ✅ Rollback Verified
+- ✅ Index Validation
+- ✅ No Breaking Schema Changes
 
 ---
 
 ## Performance
 
-* ✅ Load Tests
-* ✅ Response Time Within SLA
-* ✅ Worker Throughput Validated
-* ✅ Queue Performance Validated
+- ✅ Load Tests
+- ✅ Response Time Within SLA
+- ✅ Worker Throughput Validated
+- ✅ Queue Performance Validated
 
 ---
 
 ## Deployment
 
-* ✅ Docker Image Built
-* ✅ Health Endpoints Pass
-* ✅ Smoke Tests Pass
-* ✅ Observability Enabled
-* ✅ Version Tagged
+- ✅ Docker Image Built
+- ✅ Health Endpoints Pass
+- ✅ Smoke Tests Pass
+- ✅ Observability Enabled
+- ✅ Version Tagged
 
 Only after every item is complete may the deployment proceed to production.
 
@@ -26820,7 +27001,7 @@ Testing is integrated into every platform layer.
 | ----------------------- | ---------------------------------------- |
 | Platform API            | Unit, Integration, API Tests             |
 | PostgreSQL              | Migration & Constraint Tests             |
-| BullMQ                | Event & Worker Tests                     |
+| BullMQ                  | Event & Worker Tests                     |
 | Redis                   | Cache & Lock Validation                  |
 | Workers                 | Retry, DLQ & Idempotency Tests           |
 | Next.js                 | Component & E2E Tests                    |
@@ -26837,18 +27018,16 @@ The original architecture emphasized development practices but did not define a 
 
 Major improvements include:
 
-* **A complete testing pyramid**, balancing unit, integration, API, and end-to-end testing to maximize reliability while keeping feedback fast.
-* **A mandatory release validation pipeline**, where automated tests, security scans, migration checks, performance benchmarks, and smoke tests act as production gates.
-* **Comprehensive multi-tenant validation**, ensuring Platform, Aggregator, and Brand isolation is continuously verified as part of automated testing.
-* **Worker, event, and database migration testing**, recognizing asynchronous processing and schema evolution as first-class architectural concerns.
-* **Explicit release readiness criteria**, providing a single checklist that engineering teams must satisfy before deployment.
-* **Future-proof extensibility**, allowing contract testing, chaos engineering, mutation testing, and visual regression testing to be introduced without changing the overall testing strategy.
+- **A complete testing pyramid**, balancing unit, integration, API, and end-to-end testing to maximize reliability while keeping feedback fast.
+- **A mandatory release validation pipeline**, where automated tests, security scans, migration checks, performance benchmarks, and smoke tests act as production gates.
+- **Comprehensive multi-tenant validation**, ensuring Platform, Aggregator, and Brand isolation is continuously verified as part of automated testing.
+- **Worker, event, and database migration testing**, recognizing asynchronous processing and schema evolution as first-class architectural concerns.
+- **Explicit release readiness criteria**, providing a single checklist that engineering teams must satisfy before deployment.
+- **Future-proof extensibility**, allowing contract testing, chaos engineering, mutation testing, and visual regression testing to be introduced without changing the overall testing strategy.
 
 This document completes the quality assurance architecture for AutoShipp, ensuring that every release meets consistent standards for correctness, security, performance, and operational reliability before reaching production.
 
-
 ---
-
 
 # AES-035 — Master Architecture Summary & Final Architecture Decision Record
 
@@ -26872,10 +27051,10 @@ It consolidates every architectural decision made throughout the design process 
 
 After approval of this document:
 
-* Architecture is considered stable.
-* New features must follow these standards.
-* Future products must integrate using this architecture.
-* Deviations require a new Architecture Decision Record (ADR).
+- Architecture is considered stable.
+- New features must follow these standards.
+- Future products must integrate using this architecture.
+- Deviations require a new Architecture Decision Record (ADR).
 
 ---
 
@@ -26887,11 +27066,11 @@ The platform itself is **product-independent**.
 
 Products such as:
 
-* Fit Intelligence
-* Delivery ETA
-* Returns
-* AI Assistant
-* Future Products
+- Fit Intelligence
+- Delivery ETA
+- Returns
+- AI Assistant
+- Future Products
 
 are consumers of the platform rather than owners of it.
 
@@ -27024,7 +27203,7 @@ Everything is containerized.
 | ORM                | Prisma                 |
 | Database           | PostgreSQL (Neon)      |
 | Cache              | Redis                  |
-| Queue              | BullMQ               |
+| Queue              | BullMQ                 |
 | Storage            | S3 Compatible Storage  |
 | Authentication     | JWT + HttpOnly Cookies |
 | Validation         | Zod + class-validator  |
@@ -27211,24 +27390,24 @@ Before Production
 
 Every future product must follow:
 
-* Own deployment
-* Own schema (when migrated)
-* Own Prisma client
-* Own workers (if required)
-* Own health endpoint
-* Own observability
-* Own versioning
+- Own deployment
+- Own schema (when migrated)
+- Own Prisma client
+- Own workers (if required)
+- Own health endpoint
+- Own observability
+- Own versioning
 
 Products reuse
 
-* Authentication
-* Organizations
-* Billing
-* Marketplace
-* Wallet
-* Notifications
-* Storage
-* Feature Flags
+- Authentication
+- Organizations
+- Billing
+- Marketplace
+- Wallet
+- Notifications
+- Storage
+- Feature Flags
 
 ---
 
@@ -27236,21 +27415,21 @@ Products reuse
 
 Current Platform includes
 
-* Identity
-* Organizations
-* Marketplace
-* Commerce
-* Customers
-* Billing
-* Wallet
-* Integrations
-* Notifications
-* Audit
-* Runtime Configuration
-* Feature Flags
-* Health
-* Monitoring
-* Storage
+- Identity
+- Organizations
+- Marketplace
+- Commerce
+- Customers
+- Billing
+- Wallet
+- Integrations
+- Notifications
+- Audit
+- Runtime Configuration
+- Feature Flags
+- Health
+- Monitoring
+- Storage
 
 ---
 
@@ -27290,17 +27469,17 @@ Migration occurs only when required.
 
 Platform follows
 
-* OWASP Top 10
-* OWASP ASVS
-* JWT Authentication
-* RBAC
-* Multi-Tenant Isolation
-* Audit Logging
-* CSP
-* TLS
-* Rate Limiting
-* Secure Headers
-* Secret Management
+- OWASP Top 10
+- OWASP ASVS
+- JWT Authentication
+- RBAC
+- Multi-Tenant Isolation
+- Audit Logging
+- CSP
+- TLS
+- Rate Limiting
+- Secure Headers
+- Secret Management
 
 ---
 
@@ -27358,11 +27537,11 @@ Architecture remains unchanged.
 
 Supported
 
-* PITR
-* Full Restore
-* Backup Encryption
-* Restore Verification
-* Infrastructure Rebuild
+- PITR
+- Full Restore
+- Backup Encryption
+- Restore Verification
+- Infrastructure Rebuild
 
 Target
 
@@ -27380,13 +27559,13 @@ RTO
 
 Every PR requires
 
-* Tests
-* Code Review
-* Type Check
-* Lint
-* Security Scan
-* Migration Validation
-* Documentation Update
+- Tests
+- Code Review
+- Type Check
+- Lint
+- Security Scan
+- Migration Validation
+- Documentation Update
 
 ---
 
@@ -27394,51 +27573,51 @@ Every PR requires
 
 ## Foundation
 
-* AES-001 — Architecture Vision
-* AES-002 — Business Context
-* AES-003 — Product Strategy
-* AES-004 — Domain Model
-* AES-005 — Identity & Users
-* AES-006 — Authorization
-* AES-007 — Platform Services
-* AES-008 — Database Blueprint
+- AES-001 — Architecture Vision
+- AES-002 — Business Context
+- AES-003 — Product Strategy
+- AES-004 — Domain Model
+- AES-005 — Identity & Users
+- AES-006 — Authorization
+- AES-007 — Platform Services
+- AES-008 — Database Blueprint
 
 ---
 
 ## Platform Core
 
-* AES-009 — Identity
-* AES-010 — Organizations
-* AES-011 — Commerce
-* AES-012 — Marketplace
-* AES-013 — Billing
-* AES-014 — Wallet
-* AES-015 — Integrations
-* AES-016 — Notifications
-* AES-017 — Audit
-* AES-018 — Runtime Configuration
-* AES-019 — Feature Flags
+- AES-009 — Identity
+- AES-010 — Organizations
+- AES-011 — Commerce
+- AES-012 — Marketplace
+- AES-013 — Billing
+- AES-014 — Wallet
+- AES-015 — Integrations
+- AES-016 — Notifications
+- AES-017 — Audit
+- AES-018 — Runtime Configuration
+- AES-019 — Feature Flags
 
 ---
 
 ## Platform Infrastructure
 
-* AES-020 — Platform API
-* AES-021 — Event Architecture
-* AES-022 — Worker Architecture
-* AES-023 — Health & Monitoring
-* AES-024 — Observability
-* AES-025 — Storage
-* AES-026 — Deployment
-* AES-027 — Redis
-* AES-028 — Security
-* AES-029 — Multi-Tenant
-* AES-030 — Frontend
-* AES-031 — Disaster Recovery
-* AES-032 — Database Governance
-* AES-033 — Performance & Scalability
-* AES-034 — Testing & Quality Assurance
-* **AES-035 — Master Architecture Summary (this document)**
+- AES-020 — Platform API
+- AES-021 — Event Architecture
+- AES-022 — Worker Architecture
+- AES-023 — Health & Monitoring
+- AES-024 — Observability
+- AES-025 — Storage
+- AES-026 — Deployment
+- AES-027 — Redis
+- AES-028 — Security
+- AES-029 — Multi-Tenant
+- AES-030 — Frontend
+- AES-031 — Disaster Recovery
+- AES-032 — Database Governance
+- AES-033 — Performance & Scalability
+- AES-034 — Testing & Quality Assurance
+- **AES-035 — Master Architecture Summary (this document)**
 
 ---
 
@@ -27453,7 +27632,7 @@ The following architectural decisions are now **permanently locked**.
 | Database          | One PostgreSQL                          |
 | Database Strategy | Multi-schema                            |
 | ORM               | Prisma                                  |
-| Event Bus         | BullMQ                                |
+| Event Bus         | BullMQ                                  |
 | Cache             | Redis                                   |
 | Storage           | S3 Compatible                           |
 | Authentication    | JWT + HttpOnly Cookies                  |
@@ -27476,31 +27655,31 @@ With AES-035 complete, the AutoShipp platform architecture is now fully specifie
 
 The documentation covers:
 
-* ✅ Business Architecture
-* ✅ Domain Architecture
-* ✅ Identity & RBAC
-* ✅ Multi-Tenancy
-* ✅ Marketplace & Billing
-* ✅ Wallet & Payments
-* ✅ Integrations
-* ✅ Notifications
-* ✅ Audit & Compliance
-* ✅ Runtime Configuration
-* ✅ Feature Flags
-* ✅ Platform API
-* ✅ Event-Driven Processing
-* ✅ Background Workers
-* ✅ Health Monitoring
-* ✅ Logging & Observability
-* ✅ Storage
-* ✅ Deployment & DevOps
-* ✅ Redis & Caching
-* ✅ Security
-* ✅ Frontend Architecture
-* ✅ Disaster Recovery
-* ✅ Database Governance
-* ✅ Performance & Scalability
-* ✅ Testing & QA
+- ✅ Business Architecture
+- ✅ Domain Architecture
+- ✅ Identity & RBAC
+- ✅ Multi-Tenancy
+- ✅ Marketplace & Billing
+- ✅ Wallet & Payments
+- ✅ Integrations
+- ✅ Notifications
+- ✅ Audit & Compliance
+- ✅ Runtime Configuration
+- ✅ Feature Flags
+- ✅ Platform API
+- ✅ Event-Driven Processing
+- ✅ Background Workers
+- ✅ Health Monitoring
+- ✅ Logging & Observability
+- ✅ Storage
+- ✅ Deployment & DevOps
+- ✅ Redis & Caching
+- ✅ Security
+- ✅ Frontend Architecture
+- ✅ Disaster Recovery
+- ✅ Database Governance
+- ✅ Performance & Scalability
+- ✅ Testing & QA
 
 ---
 
@@ -27510,25 +27689,24 @@ The documentation covers:
 
 The architecture is now complete and is sufficient for a development team to begin implementation of the platform. Future documentation will primarily consist of implementation-focused artifacts rather than architectural specifications, such as:
 
-* API Specifications (OpenAPI)
-* Database Schema Reference
-* Prisma Models
-* Event Catalog
-* UI/UX Design System
-* Frontend Component Library
-* Infrastructure (Terraform/Docker/Kubernetes)
-* CI/CD Pipelines
-* Coding Standards
-* Developer Handbook
-* Operations Runbooks
-* Product-specific design documents (Fit, ETA, Returns, AI, etc.)
+- API Specifications (OpenAPI)
+- Database Schema Reference
+- Prisma Models
+- Event Catalog
+- UI/UX Design System
+- Frontend Component Library
+- Infrastructure (Terraform/Docker/Kubernetes)
+- CI/CD Pipelines
+- Coding Standards
+- Developer Handbook
+- Operations Runbooks
+- Product-specific design documents (Fit, ETA, Returns, AI, etc.)
 
 These are implementation documents built **on top of** the architecture—not extensions of it.
 
 ## Final assessment
 
 After reviewing the complete set of specifications, **AES-035 is the correct stopping point for the AutoShipp architecture phase**. From this point onward, the work transitions from **architecture design** to **engineering design and implementation**. The platform architecture is internally consistent, aligns with the major decisions you locked throughout our discussions (single PostgreSQL with multiple schemas, strict schema ownership, platform-first shared services, aggregator billing model, future product migration strategy, and independent product deployments), and provides a solid foundation for implementation.
-
 
 ---
 
@@ -27550,10 +27728,10 @@ After reviewing the complete set of specifications, **AES-035 is the correct sto
 
 **Depends On:**
 
-* AES-008 — Master Database Blueprint
-* AES-020 — Platform API Architecture
-* AES-021 — Event-Driven Architecture
-* AES-022 — Background Workers
+- AES-008 — Master Database Blueprint
+- AES-020 — Platform API Architecture
+- AES-021 — Event-Driven Architecture
+- AES-022 — Background Workers
 
 **Supersedes / Amends:** AES-021 (Section 16 — Transactional Outbox Pattern)
 
@@ -27628,12 +27806,12 @@ There is no distributed transaction between PostgreSQL and BullMQ.
 
 Without the outbox:
 
-| Scenario | Outcome |
-|---|---|
-| DB commits, BullMQ succeeds | ✅ Correct |
-| DB commits, BullMQ fails | ❌ Event Lost |
-| DB fails, BullMQ succeeds | ❌ Ghost Event (no business data) |
-| DB fails, BullMQ fails | ✅ Correct (both failed) |
+| Scenario                    | Outcome                           |
+| --------------------------- | --------------------------------- |
+| DB commits, BullMQ succeeds | ✅ Correct                        |
+| DB commits, BullMQ fails    | ❌ Event Lost                     |
+| DB fails, BullMQ succeeds   | ❌ Ghost Event (no business data) |
+| DB fails, BullMQ fails      | ✅ Correct (both failed)          |
 
 The outbox eliminates all failure cases except the last (which is already correct).
 
@@ -27705,18 +27883,18 @@ The publish is a separate, independently retried operation.
 
 ## Columns
 
-| Column         | Type                    | Notes                                        |
-| -------------- | ----------------------- | -------------------------------------------- |
-| id             | UUID                    | PK, default gen_random_uuid()                |
-| event_id       | UUID                    | Unique, matches eventId in event envelope    |
-| event_name     | TEXT                    | e.g. `billing.invoice.paid`                  |
-| payload        | JSONB                   | Full event envelope (see AES-021 Section 7)  |
-| published      | BOOLEAN                 | Default FALSE                                |
-| attempts       | INTEGER                 | Default 0                                    |
-| last_error     | TEXT                    | Nullable, last failure reason                |
-| created_at     | TIMESTAMPTZ             | Default now()                                |
-| published_at   | TIMESTAMPTZ             | Nullable, set when published                 |
-| scheduled_at   | TIMESTAMPTZ             | Default now(), allows future-dated publishing |
+| Column       | Type        | Notes                                         |
+| ------------ | ----------- | --------------------------------------------- |
+| id           | UUID        | PK, default gen_random_uuid()                 |
+| event_id     | UUID        | Unique, matches eventId in event envelope     |
+| event_name   | TEXT        | e.g. `billing.invoice.paid`                   |
+| payload      | JSONB       | Full event envelope (see AES-021 Section 7)   |
+| published    | BOOLEAN     | Default FALSE                                 |
+| attempts     | INTEGER     | Default 0                                     |
+| last_error   | TEXT        | Nullable, last failure reason                 |
+| created_at   | TIMESTAMPTZ | Default now()                                 |
+| published_at | TIMESTAMPTZ | Nullable, set when published                  |
+| scheduled_at | TIMESTAMPTZ | Default now(), allows future-dated publishing |
 
 ---
 
@@ -27857,24 +28035,24 @@ If multiple publisher instances run simultaneously, each picks a different set o
 
 ## Publisher Configuration
 
-| Setting | Default | Notes |
-|---|---|---|
-| Poll interval | 500ms | Configurable via AES-019 |
-| Batch size | 50 records | Prevents memory pressure |
-| Max attempts | 5 | After 5, treated as poison message |
-| Publish timeout | 5 seconds per message | Redis add timeout |
+| Setting         | Default               | Notes                              |
+| --------------- | --------------------- | ---------------------------------- |
+| Poll interval   | 500ms                 | Configurable via AES-019           |
+| Batch size      | 50 records            | Prevents memory pressure           |
+| Max attempts    | 5                     | After 5, treated as poison message |
+| Publish timeout | 5 seconds per message | Redis add timeout                  |
 
 ---
 
 # 7. Retry Strategy
 
-| Attempt | Action |
-|---|---|
-| 1 | Immediate retry on next poll cycle |
-| 2 | Retry on next poll cycle |
-| 3 | Retry on next poll cycle |
-| 4 | Retry on next poll cycle |
-| 5 | Mark as poison, alert, stop retrying |
+| Attempt | Action                               |
+| ------- | ------------------------------------ |
+| 1       | Immediate retry on next poll cycle   |
+| 2       | Retry on next poll cycle             |
+| 3       | Retry on next poll cycle             |
+| 4       | Retry on next poll cycle             |
+| 5       | Mark as poison, alert, stop retrying |
 
 Unlike AES-022 (which uses time-based exponential backoff for BullMQ consumers), the outbox uses **attempt-based polling** because the publisher already has a natural delay between poll cycles.
 
@@ -27929,11 +28107,11 @@ Three independent idempotency layers ensure at-most-once business effects even u
 
 Published outbox records are retained for 7 days, then deleted by the Cleanup Worker.
 
-| State | Retention | Action |
-|---|---|---|
-| `published = TRUE` | 7 days | Deleted by Cleanup Worker |
-| `published = FALSE, attempts < 5` | Forever until published | Retried continuously |
-| `published = FALSE, attempts >= 5` | Until manually reviewed | Alert + manual action |
+| State                              | Retention               | Action                    |
+| ---------------------------------- | ----------------------- | ------------------------- |
+| `published = TRUE`                 | 7 days                  | Deleted by Cleanup Worker |
+| `published = FALSE, attempts < 5`  | Forever until published | Retried continuously      |
+| `published = FALSE, attempts >= 5` | Until manually reviewed | Alert + manual action     |
 
 **Cleanup Worker query:**
 
@@ -27951,13 +28129,13 @@ Run daily at 03:00.
 
 Track via Platform Health (AES-023):
 
-| Metric | Alert Threshold |
-|---|---|
-| Unpublished records older than 60s | 🟡 Warning |
-| Unpublished records older than 5min | 🔴 Critical |
-| Poison messages count > 0 | 🟡 Warning |
-| Publisher poll errors > 3 consecutive | 🔴 Critical |
-| Average publish latency > 2s | 🟡 Warning |
+| Metric                                | Alert Threshold |
+| ------------------------------------- | --------------- |
+| Unpublished records older than 60s    | 🟡 Warning      |
+| Unpublished records older than 5min   | 🔴 Critical     |
+| Poison messages count > 0             | 🟡 Warning      |
+| Publisher poll errors > 3 consecutive | 🔴 Critical     |
+| Average publish latency > 2s          | 🟡 Warning      |
 
 ---
 
@@ -27985,13 +28163,13 @@ No event format outside this envelope is stored in the outbox.
 
 # 13. Read / Write Matrix
 
-| Component | Read | Write |
-|---|---|---|
-| Platform API | ✅ | ✅ (via transaction) |
-| Outbox Publisher | ✅ | ✅ (update published flag) |
-| Cleanup Worker | ✅ | ✅ (delete archived) |
-| Product Services | ❌ | ❌ |
-| Workers (non-publisher) | ❌ | ❌ |
+| Component               | Read | Write                      |
+| ----------------------- | ---- | -------------------------- |
+| Platform API            | ✅   | ✅ (via transaction)       |
+| Outbox Publisher        | ✅   | ✅ (update published flag) |
+| Cleanup Worker          | ✅   | ✅ (delete archived)       |
+| Product Services        | ❌   | ❌                         |
+| Workers (non-publisher) | ❌   | ❌                         |
 
 The outbox is exclusively owned by the Platform API and its publisher.
 
@@ -28008,10 +28186,10 @@ No coordination protocol is needed.
 Recommended publisher instances by environment:
 
 | Environment | Instances |
-|---|---|
-| Development | 1 |
-| Staging | 1 |
-| Production | 2–3 |
+| ----------- | --------- |
+| Development | 1         |
+| Staging     | 1         |
+| Production  | 2–3       |
 
 ---
 
@@ -28019,10 +28197,10 @@ Recommended publisher instances by environment:
 
 This design supports:
 
-* Multiple Platform API replicas
-* Horizontal publisher scaling
-* Future product services publishing to their own outbox tables
-* Schema-level partitioning of outbox by `created_at` if volume warrants
+- Multiple Platform API replicas
+- Horizontal publisher scaling
+- Future product services publishing to their own outbox tables
+- Schema-level partitioning of outbox by `created_at` if volume warrants
 
 ---
 
@@ -28041,19 +28219,18 @@ This design supports:
 
 # 17. Decision Register
 
-| ID    | Decision                                                             | Status    |
-| ----- | -------------------------------------------------------------------- | --------- |
-| D-361 | All platform events are published via the Transactional Outbox       | ✅ Locked  |
-| D-362 | Outbox insert and business write are always in the same transaction   | ✅ Locked  |
-| D-363 | FOR UPDATE SKIP LOCKED enables horizontal publisher scaling          | ✅ Locked  |
-| D-364 | After 5 attempts, messages are classified as poison and alerted      | ✅ Locked  |
-| D-365 | Published records are retained 7 days then deleted                  | ✅ Locked  |
-| D-366 | Outbox is owned exclusively by the Platform API                     | ✅ Locked  |
-| D-367 | Events are never published directly from business transactions        | ✅ Locked  |
-| D-368 | UNIQUE(event_id) is the first idempotency layer                     | ✅ Locked  |
-| D-369 | Publisher poll interval is 500ms by default                         | ✅ Locked  |
-| D-370 | Outbox monitoring alerts are part of Platform Health                | ✅ Locked  |
-
+| ID    | Decision                                                            | Status    |
+| ----- | ------------------------------------------------------------------- | --------- |
+| D-361 | All platform events are published via the Transactional Outbox      | ✅ Locked |
+| D-362 | Outbox insert and business write are always in the same transaction | ✅ Locked |
+| D-363 | FOR UPDATE SKIP LOCKED enables horizontal publisher scaling         | ✅ Locked |
+| D-364 | After 5 attempts, messages are classified as poison and alerted     | ✅ Locked |
+| D-365 | Published records are retained 7 days then deleted                  | ✅ Locked |
+| D-366 | Outbox is owned exclusively by the Platform API                     | ✅ Locked |
+| D-367 | Events are never published directly from business transactions      | ✅ Locked |
+| D-368 | UNIQUE(event_id) is the first idempotency layer                     | ✅ Locked |
+| D-369 | Publisher poll interval is 500ms by default                         | ✅ Locked |
+| D-370 | Outbox monitoring alerts are part of Platform Health                | ✅ Locked |
 
 ---
 
@@ -28071,12 +28248,12 @@ This design supports:
 
 **Depends On:**
 
-* AES-012 — Marketplace Schema
-* AES-013 — Billing Schema
-* AES-014 — Wallet Schema
-* AES-021 — Event-Driven Architecture
-* AES-022 — Background Workers
-* AES-036 — Transactional Outbox
+- AES-012 — Marketplace Schema
+- AES-013 — Billing Schema
+- AES-014 — Wallet Schema
+- AES-021 — Event-Driven Architecture
+- AES-022 — Background Workers
+- AES-036 — Transactional Outbox
 
 ---
 
@@ -28163,14 +28340,14 @@ ARCHIVED
 
 ## State Definitions
 
-| State | Access | Invoices | Notifications |
-|---|---|---|---|
-| ACTIVE | ✅ Full | Issued normally | None |
-| PAST_DUE | ✅ Full | Overdue reminder | Day 0, Day 3 |
-| GRACE_PERIOD | ✅ Full | Final warning | Day 1, Day 3, Day 6 |
-| SUSPENDED | ❌ Locked | Overdue | Daily until resolved |
-| CANCELLED | ❌ Locked | Final invoice | Cancellation confirmation |
-| ARCHIVED | ❌ Locked | None | None |
+| State        | Access    | Invoices         | Notifications             |
+| ------------ | --------- | ---------------- | ------------------------- |
+| ACTIVE       | ✅ Full   | Issued normally  | None                      |
+| PAST_DUE     | ✅ Full   | Overdue reminder | Day 0, Day 3              |
+| GRACE_PERIOD | ✅ Full   | Final warning    | Day 1, Day 3, Day 6       |
+| SUSPENDED    | ❌ Locked | Overdue          | Daily until resolved      |
+| CANCELLED    | ❌ Locked | Final invoice    | Cancellation confirmation |
+| ARCHIVED     | ❌ Locked | None             | None                      |
 
 ---
 
@@ -28288,12 +28465,12 @@ After the initial payment failure, the organization retains full platform access
 
 ## Grace Period Behaviour
 
-| Day | Event | Access | Notification |
-|---|---|---|---|
-| 0 (failure) | Payment fails | ✅ Full | Email: "Payment failed" |
-| 3 | Reminder | ✅ Full | Email: "Payment overdue" |
-| 6 | Final warning | ✅ Full | Email: "Access suspends tomorrow" |
-| 7 | Grace expires | ❌ Suspended | Email: "Access suspended" |
+| Day         | Event         | Access       | Notification                      |
+| ----------- | ------------- | ------------ | --------------------------------- |
+| 0 (failure) | Payment fails | ✅ Full      | Email: "Payment failed"           |
+| 3           | Reminder      | ✅ Full      | Email: "Payment overdue"          |
+| 6           | Final warning | ✅ Full      | Email: "Access suspends tomorrow" |
+| 7           | Grace expires | ❌ Suspended | Email: "Access suspended"         |
 
 ## Grace Period Overrides
 
@@ -28320,14 +28497,14 @@ worker-lifecycle
 
 ## Consumed Events
 
-| Event | Action |
-|---|---|
-| `billing.subscription.past_due` | Start grace period timer |
-| `billing.subscription.grace_period_expired` | Suspend product assignments |
-| `billing.subscription.restored` | Restore product assignments |
-| `billing.subscription.cancelled` | Cancel product assignments |
-| `organization.suspended` | Suspend all product assignments |
-| `organization.restored` | Restore all product assignments |
+| Event                                       | Action                          |
+| ------------------------------------------- | ------------------------------- |
+| `billing.subscription.past_due`             | Start grace period timer        |
+| `billing.subscription.grace_period_expired` | Suspend product assignments     |
+| `billing.subscription.restored`             | Restore product assignments     |
+| `billing.subscription.cancelled`            | Cancel product assignments      |
+| `organization.suspended`                    | Suspend all product assignments |
+| `organization.restored`                     | Restore all product assignments |
 
 ---
 
@@ -28436,9 +28613,9 @@ AI Request → Credits Reserved → Suspension Event Arrives
 
 **Policy:**
 
-* Reservations made before suspension are honoured and committed.
-* No new reservations are created after suspension is applied.
-* The suspension check occurs at reservation time, not at execution time.
+- Reservations made before suspension are honoured and committed.
+- No new reservations are created after suspension is applied.
+- The suspension check occurs at reservation time, not at execution time.
 
 Implementation in the Wallet Service:
 
@@ -28459,14 +28636,14 @@ async reserveCredits(walletId, amount, referenceId) {
 
 # 10. Notification Templates
 
-| Trigger | Template | Channel |
-|---|---|---|
-| Payment failed (Day 0) | `billing.payment_failed` | Email |
-| Overdue reminder (Day 3) | `billing.payment_overdue_reminder` | Email |
-| Final warning (Day 6) | `billing.suspension_warning` | Email + In-App |
-| Access suspended | `billing.access_suspended` | Email + In-App |
-| Payment restored | `billing.access_restored` | Email + In-App |
-| Subscription cancelled | `billing.subscription_cancelled` | Email |
+| Trigger                  | Template                           | Channel        |
+| ------------------------ | ---------------------------------- | -------------- |
+| Payment failed (Day 0)   | `billing.payment_failed`           | Email          |
+| Overdue reminder (Day 3) | `billing.payment_overdue_reminder` | Email          |
+| Final warning (Day 6)    | `billing.suspension_warning`       | Email + In-App |
+| Access suspended         | `billing.access_suspended`         | Email + In-App |
+| Payment restored         | `billing.access_restored`          | Email + In-App |
+| Subscription cancelled   | `billing.subscription_cancelled`   | Email          |
 
 All notification templates follow AES-016 (Notification Schema).
 
@@ -28497,13 +28674,13 @@ WHERE  organization_id = :organizationId
 
 Every lifecycle state change is recorded in `audit.logs`:
 
-| Action | Severity |
-|---|---|
-| `subscription.past_due` | INFO |
-| `subscription.grace_period_started` | INFO |
-| `subscription.access_suspended` | HIGH |
-| `subscription.access_restored` | HIGH |
-| `subscription.cancelled` | HIGH |
+| Action                              | Severity |
+| ----------------------------------- | -------- |
+| `subscription.past_due`             | INFO     |
+| `subscription.grace_period_started` | INFO     |
+| `subscription.access_suspended`     | HIGH     |
+| `subscription.access_restored`      | HIGH     |
+| `subscription.cancelled`            | HIGH     |
 
 ---
 
@@ -28511,10 +28688,10 @@ Every lifecycle state change is recorded in `audit.logs`:
 
 Platform OWNER and MANAGER roles can:
 
-* Manually extend grace periods
-* Manually suspend any organization's access
-* Manually restore any organization's access
-* View full subscription lifecycle history
+- Manually extend grace periods
+- Manually suspend any organization's access
+- Manually restore any organization's access
+- View full subscription lifecycle history
 
 All manual actions are audit-logged.
 
@@ -28522,19 +28699,18 @@ All manual actions are audit-logged.
 
 # 14. Decision Register
 
-| ID    | Decision                                                                           | Status   |
-| ----- | ---------------------------------------------------------------------------------- | -------- |
-| D-371 | Lifecycle Worker is the exclusive bridge between Billing and Marketplace           | ✅ Locked |
-| D-372 | Default grace period is 7 calendar days after first payment failure                | ✅ Locked |
-| D-373 | Billing never directly modifies Marketplace data                                   | ✅ Locked |
-| D-374 | Marketplace never reads billing status to determine access                         | ✅ Locked |
-| D-375 | Suspension is recorded with a reason to distinguish billing vs admin actions       | ✅ Locked |
-| D-376 | Only SUBSCRIPTION_EXPIRED suspensions are auto-restored on payment                 | ✅ Locked |
-| D-377 | AI reservations made before suspension are honoured; new ones are blocked          | ✅ Locked |
-| D-378 | Grace period overrides are stored in billing_metadata                              | ✅ Locked |
-| D-379 | All lifecycle events are published via the Transactional Outbox (AES-036)          | ✅ Locked |
-| D-380 | Lifecycle Worker operations are idempotent                                         | ✅ Locked |
-
+| ID    | Decision                                                                     | Status    |
+| ----- | ---------------------------------------------------------------------------- | --------- |
+| D-371 | Lifecycle Worker is the exclusive bridge between Billing and Marketplace     | ✅ Locked |
+| D-372 | Default grace period is 7 calendar days after first payment failure          | ✅ Locked |
+| D-373 | Billing never directly modifies Marketplace data                             | ✅ Locked |
+| D-374 | Marketplace never reads billing status to determine access                   | ✅ Locked |
+| D-375 | Suspension is recorded with a reason to distinguish billing vs admin actions | ✅ Locked |
+| D-376 | Only SUBSCRIPTION_EXPIRED suspensions are auto-restored on payment           | ✅ Locked |
+| D-377 | AI reservations made before suspension are honoured; new ones are blocked    | ✅ Locked |
+| D-378 | Grace period overrides are stored in billing_metadata                        | ✅ Locked |
+| D-379 | All lifecycle events are published via the Transactional Outbox (AES-036)    | ✅ Locked |
+| D-380 | Lifecycle Worker operations are idempotent                                   | ✅ Locked |
 
 ---
 
@@ -28552,11 +28728,11 @@ All manual actions are audit-logged.
 
 **Depends On:**
 
-* AES-011 — Commerce Schema
-* AES-015 — Integration Schema
-* AES-021 — Event-Driven Architecture
-* AES-022 — Background Workers
-* AES-036 — Transactional Outbox
+- AES-011 — Commerce Schema
+- AES-015 — Integration Schema
+- AES-021 — Event-Driven Architecture
+- AES-022 — Background Workers
+- AES-036 — Transactional Outbox
 
 ---
 
@@ -28572,10 +28748,10 @@ This document closes that gap.
 
 Without conflict resolution, a platform processing 100K+ stores faces:
 
-* Stale Shopify webhooks overwriting newer manual corrections
-* Concurrent sync jobs producing inconsistent product state
-* Two platform processes writing the same order simultaneously
-* A resent webhook from days ago corrupting current order status
+- Stale Shopify webhooks overwriting newer manual corrections
+- Concurrent sync jobs producing inconsistent product state
+- Two platform processes writing the same order simultaneously
+- A resent webhook from days ago corrupting current order status
 
 These are not edge cases.
 
@@ -28638,20 +28814,20 @@ This is **Timestamp-Based Optimistic Concurrency Control**.
 
 It is simple, auditable, and correct for commerce synchronization because:
 
-* Every Shopify/WooCommerce/Magento entity has an `updated_at` field
-* External platforms are the source of truth for their own entities
-* The AutoShipp platform should reflect the most recent state of the external entity
+- Every Shopify/WooCommerce/Magento entity has an `updated_at` field
+- External platforms are the source of truth for their own entities
+- The AutoShipp platform should reflect the most recent state of the external entity
 
 ---
 
 ## Resolution Matrix
 
-| Incoming timestamp | Stored timestamp | Action |
-|---|---|---|
-| Newer than stored | (any) | Accept, overwrite stored |
-| Same as stored | (any) | Ignore (idempotent) |
-| Older than stored | (any) | Reject, do not overwrite |
-| NULL (no timestamp) | (any) | Accept with warning, log to sync_logs |
+| Incoming timestamp  | Stored timestamp | Action                                |
+| ------------------- | ---------------- | ------------------------------------- |
+| Newer than stored   | (any)            | Accept, overwrite stored              |
+| Same as stored      | (any)            | Ignore (idempotent)                   |
+| Older than stored   | (any)            | Reject, do not overwrite              |
+| NULL (no timestamp) | (any)            | Accept with warning, log to sync_logs |
 
 ---
 
@@ -28747,6 +28923,7 @@ WHERE
 ```
 
 This single `UPSERT` statement atomically handles:
+
 - First-time import (INSERT path)
 - Update if newer (DO UPDATE with WHERE clause)
 - Conflict rejection if stale (WHERE clause fails, no update)
@@ -28758,18 +28935,18 @@ This single `UPSERT` statement atomically handles:
 
 `sync_source` records how the record last entered the platform.
 
-| Value | Meaning |
-|---|---|
-| `WEBHOOK` | Received via provider webhook |
-| `FULL_SYNC` | Received during scheduled full sync |
-| `MANUAL_SYNC` | Triggered manually by user |
-| `MANUAL_OVERRIDE` | Set manually by Platform admin |
+| Value             | Meaning                             |
+| ----------------- | ----------------------------------- |
+| `WEBHOOK`         | Received via provider webhook       |
+| `FULL_SYNC`       | Received during scheduled full sync |
+| `MANUAL_SYNC`     | Triggered manually by user          |
+| `MANUAL_OVERRIDE` | Set manually by Platform admin      |
 
 This allows the platform to identify patterns such as:
 
-* Records that are frequently overwritten (high conflict rate)
-* Records where webhook and full sync disagree
-* Records that have been manually corrected the most
+- Records that are frequently overwritten (high conflict rate)
+- Records where webhook and full sync disagree
+- Records that have been manually corrected the most
 
 ---
 
@@ -28805,9 +28982,9 @@ hash = SHA256(JSON.stringify(sortedPayload))
 
 **Use cases:**
 
-* If the incoming hash matches `last_sync_hash` → payload unchanged, skip database write
-* Reduces write amplification for high-frequency sync jobs
-* Identifies providers that resend unchanged data unnecessarily
+- If the incoming hash matches `last_sync_hash` → payload unchanged, skip database write
+- Reduces write amplification for high-frequency sync jobs
+- Identifies providers that resend unchanged data unnecessarily
 
 ---
 
@@ -28936,46 +29113,46 @@ Conflict rejection rates are monitored in Platform Health.
 
 # 13. Monitoring Metrics
 
-| Metric | Alert Threshold |
-|---|---|
-| Sync conflict rejection rate > 5% | 🟡 Warning |
-| Sync conflict rejection rate > 20% | 🔴 Critical |
-| Manual override records > 1000 | 🟡 Warning |
-| Failed upserts (not conflicts) | 🔴 Immediate |
+| Metric                             | Alert Threshold |
+| ---------------------------------- | --------------- |
+| Sync conflict rejection rate > 5%  | 🟡 Warning      |
+| Sync conflict rejection rate > 20% | 🔴 Critical     |
+| Manual override records > 1000     | 🟡 Warning      |
+| Failed upserts (not conflicts)     | 🔴 Immediate    |
 
 High conflict rates indicate:
-* Provider sending stale webhooks (common)
-* Clock skew between provider and platform
-* Bug in sync logic
+
+- Provider sending stale webhooks (common)
+- Clock skew between provider and platform
+- Bug in sync logic
 
 ---
 
 # 14. Provider-Specific Notes
 
-| Provider | timestamp field | ETag support | Notes |
-|---|---|---|---|
-| Shopify | `updated_at` | Yes (via API) | Reliable timestamps |
-| WooCommerce | `date_modified` | No | Timestamps reliable |
-| Magento | `updated_at` | No | Timestamps reliable |
-| Custom API | Configurable | Optional | Define in provider config |
+| Provider    | timestamp field | ETag support  | Notes                     |
+| ----------- | --------------- | ------------- | ------------------------- |
+| Shopify     | `updated_at`    | Yes (via API) | Reliable timestamps       |
+| WooCommerce | `date_modified` | No            | Timestamps reliable       |
+| Magento     | `updated_at`    | No            | Timestamps reliable       |
+| Custom API  | Configurable    | Optional      | Define in provider config |
 
 ---
 
 # 15. Decision Register
 
-| ID    | Decision                                                                          | Status   |
-| ----- | --------------------------------------------------------------------------------- | -------- |
+| ID    | Decision                                                                          | Status    |
+| ----- | --------------------------------------------------------------------------------- | --------- |
 | D-381 | Timestamp-based optimistic concurrency is the conflict resolution strategy        | ✅ Locked |
 | D-382 | Stale incoming records are silently rejected and logged                           | ✅ Locked |
 | D-383 | Manual overrides freeze a record from sync updates                                | ✅ Locked |
 | D-384 | External entity mappings are scoped by store_id to prevent cross-store collisions | ✅ Locked |
 | D-385 | ETag support reduces unnecessary API calls and write amplification                | ✅ Locked |
 | D-386 | sync_hash enables change detection without database comparison                    | ✅ Locked |
-| D-387 | Conflict rejections are logged to commerce_sync_logs                             | ✅ Locked |
+| D-387 | Conflict rejections are logged to commerce_sync_logs                              | ✅ Locked |
 | D-388 | manual_override flag requires Platform OWNER/MANAGER role to set                  | ✅ Locked |
 | D-389 | FOR UPDATE is used for high-contention entity updates                             | ✅ Locked |
 | D-390 | Conflict metrics are tracked in Platform Health                                   | ✅ Locked |
-
 
 ---
 
@@ -28995,11 +29172,11 @@ High conflict rates indicate:
 
 **Depends On:**
 
-* AES-009 — Identity Schema
-* AES-020 — Platform API Architecture
-* AES-028 — Security Architecture
-* AES-029 — Multi-Tenant Architecture
-* AES-030 — Frontend Architecture
+- AES-009 — Identity Schema
+- AES-020 — Platform API Architecture
+- AES-028 — Security Architecture
+- AES-029 — Multi-Tenant Architecture
+- AES-030 — Frontend Architecture
 
 ---
 
@@ -29009,7 +29186,7 @@ AES-009 and AES-029 contained a contradiction.
 
 AES-009 defined a `memberships` table where one user can hold memberships in multiple organizations.
 
-AES-029 stated: *"Users cannot belong to multiple organizations simultaneously."*
+AES-029 stated: _"Users cannot belong to multiple organizations simultaneously."_
 
 These statements cannot both be true at the same time.
 
@@ -29088,10 +29265,10 @@ All subsequent API calls scoped to the new organization
 
 This model is:
 
-* **Simple** — every API call has exactly one organization context
-* **Secure** — no ambiguity in permission checks
-* **Auditable** — every session records which organization was active
-* **Consistent** — the existing guard pipeline requires no changes
+- **Simple** — every API call has exactly one organization context
+- **Secure** — no ambiguity in permission checks
+- **Auditable** — every session records which organization was active
+- **Consistent** — the existing guard pipeline requires no changes
 
 ---
 
@@ -29125,11 +29302,11 @@ This model is:
 
 Changes:
 
-| Field | Change | Reason |
-|---|---|---|
-| `organization_id` → `active_organization_id` | Rename | Explicit that this is the active context |
-| `organization_type` | New field | Distinguishes PLATFORM/AGGREGATOR/BRAND |
-| `membership_count` | New field | Frontend knows if switch button is relevant |
+| Field                                        | Change    | Reason                                      |
+| -------------------------------------------- | --------- | ------------------------------------------- |
+| `organization_id` → `active_organization_id` | Rename    | Explicit that this is the active context    |
+| `organization_type`                          | New field | Distinguishes PLATFORM/AGGREGATOR/BRAND     |
+| `membership_count`                           | New field | Frontend knows if switch button is relevant |
 
 `membership_count` enables the frontend to conditionally show the organization switcher UI without an extra API call.
 
@@ -29277,12 +29454,12 @@ Navigation rebuilds for new organization
 
 ## Switch Authorization Rules
 
-| Rule | Enforcement |
-|---|---|
-| User must have ACTIVE membership in target org | DB check on membership.status |
-| Target organization must be ACTIVE | DB check on organization.status |
-| PLATFORM users can switch to any org they have membership in | Standard membership check |
-| BRAND users cannot switch to AGGREGATOR orgs unless they have membership | Standard membership check |
+| Rule                                                                     | Enforcement                     |
+| ------------------------------------------------------------------------ | ------------------------------- |
+| User must have ACTIVE membership in target org                           | DB check on membership.status   |
+| Target organization must be ACTIVE                                       | DB check on organization.status |
+| PLATFORM users can switch to any org they have membership in             | Standard membership check       |
+| BRAND users cannot switch to AGGREGATOR orgs unless they have membership | Standard membership check       |
 
 Organization switching does **not** require the old token to be revoked.
 
@@ -29303,9 +29480,9 @@ ALTER TABLE identity.sessions
 
 This enables:
 
-* Default organization selection at next login
-* Audit trail of which organization the session was last using
-* Future "Return to last workspace" UX feature
+- Default organization selection at next login
+- Audit trail of which organization the session was last using
+- Future "Return to last workspace" UX feature
 
 ---
 
@@ -29383,12 +29560,12 @@ Rendered after login when `action === 'ORGANIZATION_SELECTION_REQUIRED'`.
 
 Multi-membership users can only switch to organizations where their membership is `ACTIVE`.
 
-| Membership Status | Can Switch To? |
-|---|---|
-| ACTIVE | ✅ Yes |
-| INVITED | ❌ No (must accept invitation first) |
-| SUSPENDED | ❌ No |
-| REMOVED | ❌ No |
+| Membership Status | Can Switch To?                       |
+| ----------------- | ------------------------------------ |
+| ACTIVE            | ✅ Yes                               |
+| INVITED           | ❌ No (must accept invitation first) |
+| SUSPENDED         | ❌ No                                |
+| REMOVED           | ❌ No                                |
 
 ---
 
@@ -29422,38 +29599,37 @@ The following statement in AES-029 Section 6 is **replaced**:
 
 # 13. Security Considerations
 
-* Users cannot switch to an organization they are not actively a member of.
-* Suspended users cannot switch to any organization.
-* Token switching does not increment `token_version` — this is intentional. Switching organizations is not a security event. Logout, password change, and permission changes increment `token_version`.
-* All organization switches are logged to `identity.login_history` with event type `ORGANIZATION_SWITCHED`.
+- Users cannot switch to an organization they are not actively a member of.
+- Suspended users cannot switch to any organization.
+- Token switching does not increment `token_version` — this is intentional. Switching organizations is not a security event. Logout, password change, and permission changes increment `token_version`.
+- All organization switches are logged to `identity.login_history` with event type `ORGANIZATION_SWITCHED`.
 
 ---
 
 # 14. Audit Events
 
-| Event | Triggered By |
-|---|---|
-| `identity.session.organization_switched` | POST /auth/switch-organization |
-| `identity.session.organization_selected` | Post-login organization selection |
-| `identity.session.login_default_org` | Login to single-membership account |
+| Event                                    | Triggered By                       |
+| ---------------------------------------- | ---------------------------------- |
+| `identity.session.organization_switched` | POST /auth/switch-organization     |
+| `identity.session.organization_selected` | Post-login organization selection  |
+| `identity.session.login_default_org`     | Login to single-membership account |
 
 ---
 
 # 15. Decision Register
 
-| ID    | Decision                                                                                | Status   |
-| ----- | --------------------------------------------------------------------------------------- | -------- |
-| D-391 | Users may hold memberships in multiple organizations simultaneously                     | ✅ Locked |
-| D-392 | Every session has exactly one Active Organization encoded in the JWT                    | ✅ Locked |
-| D-393 | Organization switching reissues the JWT without revoking the previous token             | ✅ Locked |
-| D-394 | Multi-membership users see an organization picker at login if no default exists         | ✅ Locked |
-| D-395 | last_active_organization_id is stored in the sessions table                             | ✅ Locked |
-| D-396 | availableOrganizations is always returned in the Account Context                        | ✅ Locked |
-| D-397 | Only ACTIVE memberships in ACTIVE organizations are available for switching             | ✅ Locked |
-| D-398 | AES-009 D-091 and AES-029 Section 6 are amended by this document                       | ✅ Locked |
-| D-399 | Organization switches are logged to identity.login_history                              | ✅ Locked |
-| D-400 | Frontend shows organization switcher only when availableOrganizations.length > 1       | ✅ Locked |
-
+| ID    | Decision                                                                         | Status    |
+| ----- | -------------------------------------------------------------------------------- | --------- |
+| D-391 | Users may hold memberships in multiple organizations simultaneously              | ✅ Locked |
+| D-392 | Every session has exactly one Active Organization encoded in the JWT             | ✅ Locked |
+| D-393 | Organization switching reissues the JWT without revoking the previous token      | ✅ Locked |
+| D-394 | Multi-membership users see an organization picker at login if no default exists  | ✅ Locked |
+| D-395 | last_active_organization_id is stored in the sessions table                      | ✅ Locked |
+| D-396 | availableOrganizations is always returned in the Account Context                 | ✅ Locked |
+| D-397 | Only ACTIVE memberships in ACTIVE organizations are available for switching      | ✅ Locked |
+| D-398 | AES-009 D-091 and AES-029 Section 6 are amended by this document                 | ✅ Locked |
+| D-399 | Organization switches are logged to identity.login_history                       | ✅ Locked |
+| D-400 | Frontend shows organization switcher only when availableOrganizations.length > 1 | ✅ Locked |
 
 ---
 
@@ -29473,11 +29649,11 @@ The following statement in AES-029 Section 6 is **replaced**:
 
 **Depends On:**
 
-* AES-008 — Master Database Blueprint
-* AES-020 — Platform API Architecture
-* AES-021 — Event-Driven Architecture
-* AES-031 — Disaster Recovery
-* AES-032 — Database Governance
+- AES-008 — Master Database Blueprint
+- AES-020 — Platform API Architecture
+- AES-021 — Event-Driven Architecture
+- AES-031 — Disaster Recovery
+- AES-032 — Database Governance
 
 ---
 
@@ -29543,11 +29719,11 @@ One Prisma Client per Service
 
 This architecture is sufficient for:
 
-* 10,000+ organizations
-* 100,000+ stores
-* Hundreds of millions of orders
-* Multiple product services
-* Full-stack concurrent load
+- 10,000+ organizations
+- 100,000+ stores
+- Hundreds of millions of orders
+- Multiple product services
+- Full-stack concurrent load
 
 A well-tuned, properly indexed, Neon-provisioned PostgreSQL database is not a bottleneck at these scales.
 
@@ -29639,14 +29815,14 @@ Not all schemas are equal.
 
 If graduation becomes necessary, the following priority order applies:
 
-| Priority | Schema | Rationale |
-|---|---|---|
-| 1 | `commerce` | Highest write volume (sync traffic) |
-| 2 | `audit` | Highest row count (append-only) |
-| 3 | Product schemas (fit, eta, etc.) | Independent AI/compute workloads |
-| 4 | `wallet` | Financial isolation benefits |
-| 5 | `billing` | Commercial separation |
-| 6 | All others | Low expected volume |
+| Priority | Schema                           | Rationale                           |
+| -------- | -------------------------------- | ----------------------------------- |
+| 1        | `commerce`                       | Highest write volume (sync traffic) |
+| 2        | `audit`                          | Highest row count (append-only)     |
+| 3        | Product schemas (fit, eta, etc.) | Independent AI/compute workloads    |
+| 4        | `wallet`                         | Financial isolation benefits        |
+| 5        | `billing`                        | Commercial separation               |
+| 6        | All others                       | Low expected volume                 |
 
 The identity, organization, and marketplace schemas are expected to **never** require graduation. They are small, read-heavy, and central to every service.
 
@@ -29790,10 +29966,10 @@ If the Platform API itself requires service extraction (which the review identif
 
 Any module of the Platform API should be extracted to an independent service when:
 
-* The module has independently scalable load requirements
-* The module needs to be deployed independently without affecting other modules
-* The module is owned by a different team with different release cycles
-* The module's failure must not cascade to the rest of the Platform API
+- The module has independently scalable load requirements
+- The module needs to be deployed independently without affecting other modules
+- The module is owned by a different team with different release cycles
+- The module's failure must not cascade to the rest of the Platform API
 
 **Extraction Priority Order (if required):**
 
@@ -29815,7 +29991,7 @@ The following rules are **mandatory** starting immediately:
 ```typescript
 // FORBIDDEN
 @Module({
-  imports: [BillingModule],  // importing another domain module
+  imports: [BillingModule], // importing another domain module
 })
 export class MarketplaceModule {}
 
@@ -29831,21 +30007,21 @@ export class MarketplaceModule {}
 
 These rules ensure that extracting any module to an independent service requires only:
 
-* Moving the module directory to a new NestJS app
-* Replacing the interface with an HTTP client
-* No other code changes
+- Moving the module directory to a new NestJS app
+- Replacing the interface with an HTTP client
+- No other code changes
 
 ---
 
 # 10. Graduation Risk Management
 
-| Risk | Mitigation |
-|---|---|
-| Data inconsistency between old and new DB | Shadow write + 48h read-only validation period |
-| Application downtime during cutover | Feature flag disables writes during final cutover window |
-| Cross-schema join failures | Phase 1 eliminates all cross-schema joins before extraction begins |
-| Rollback complexity | Old schema is kept read-only for 14 days post-cutover |
-| Team unfamiliarity with process | Runbook written and dry-run in staging first |
+| Risk                                      | Mitigation                                                         |
+| ----------------------------------------- | ------------------------------------------------------------------ |
+| Data inconsistency between old and new DB | Shadow write + 48h read-only validation period                     |
+| Application downtime during cutover       | Feature flag disables writes during final cutover window           |
+| Cross-schema join failures                | Phase 1 eliminates all cross-schema joins before extraction begins |
+| Rollback complexity                       | Old schema is kept read-only for 14 days post-cutover              |
+| Team unfamiliarity with process           | Runbook written and dry-run in staging first                       |
 
 ---
 
@@ -29853,10 +30029,10 @@ These rules ensure that extracting any module to an independent service requires
 
 During any graduation process, the following metrics are tracked at 1-minute resolution:
 
-* Error rate on the graduating service
-* P99 latency on the graduating service
-* Consistency score between old and new databases (during shadow write)
-* Row count difference between old and new databases
+- Error rate on the graduating service
+- P99 latency on the graduating service
+- Consistency score between old and new databases (during shadow write)
+- Row count difference between old and new databases
 
 A consistency score below 99.99% halts the process automatically.
 
@@ -29880,8 +30056,8 @@ Decision D-341 in AES-032 is amended:
 
 # 13. Decision Register
 
-| ID    | Decision                                                                            | Status   |
-| ----- | ----------------------------------------------------------------------------------- | -------- |
+| ID    | Decision                                                                            | Status    |
+| ----- | ----------------------------------------------------------------------------------- | --------- |
 | D-401 | The single-database architecture is the correct starting position                   | ✅ Locked |
 | D-402 | Graduation requires any two criteria from AES-040 Section 3 for 14 consecutive days | ✅ Locked |
 | D-403 | commerce schema is the highest graduation priority by expected volume               | ✅ Locked |
@@ -29890,9 +30066,8 @@ Decision D-341 in AES-032 is amended:
 | D-406 | Cross-schema FK constraints must be replaced before extraction begins               | ✅ Locked |
 | D-407 | Platform API modules must never import each other's Service classes directly        | ✅ Locked |
 | D-408 | Module boundaries are enforced by ESLint rules in CI                                | ✅ Locked |
-| D-409 | Old schema is retained read-only for 14 days post-cutover                          | ✅ Locked |
+| D-409 | Old schema is retained read-only for 14 days post-cutover                           | ✅ Locked |
 | D-410 | Service extraction follows the same criteria as database graduation                 | ✅ Locked |
-
 
 ---
 
@@ -29910,9 +30085,9 @@ Decision D-341 in AES-032 is amended:
 
 **Depends On:**
 
-* AES-020 — Platform API Architecture
-* AES-021 — Event-Driven Architecture
-* AES-030 — Frontend Architecture
+- AES-020 — Platform API Architecture
+- AES-021 — Event-Driven Architecture
+- AES-030 — Frontend Architecture
 
 ---
 
@@ -29924,11 +30099,11 @@ When AutoShipp publishes an API endpoint, product services, frontend clients, an
 
 Without a versioning and contract evolution strategy:
 
-* Breaking a field name breaks every client simultaneously
-* Product services have no safe migration window
-* External integrations break silently
-* Event consumers process incompatible payloads
-* There is no defined path from old behavior to new behavior
+- Breaking a field name breaks every client simultaneously
+- Product services have no safe migration window
+- External integrations break silently
+- Event consumers process incompatible payloads
+- There is no defined path from old behavior to new behavior
 
 This document defines how AutoShipp versions, evolves, deprecates, and retires APIs and events across the entire platform.
 
@@ -29965,13 +30140,13 @@ AutoShipp uses URI-based versioning.
 
 **Reason for URI versioning over header versioning:**
 
-| Criteria | URI | Header |
-|---|---|---|
-| Visible in browser, logs, monitoring | ✅ Yes | ❌ No |
-| Can be tested directly in browser | ✅ Yes | ❌ No |
-| Works without custom HTTP client | ✅ Yes | ❌ No |
-| Cacheable at CDN/proxy layer | ✅ Yes | ❌ Hard |
-| Industry convention (Stripe, GitHub, Twilio) | ✅ Yes | Mixed |
+| Criteria                                     | URI    | Header  |
+| -------------------------------------------- | ------ | ------- |
+| Visible in browser, logs, monitoring         | ✅ Yes | ❌ No   |
+| Can be tested directly in browser            | ✅ Yes | ❌ No   |
+| Works without custom HTTP client             | ✅ Yes | ❌ No   |
+| Cacheable at CDN/proxy layer                 | ✅ Yes | ❌ Hard |
+| Industry convention (Stripe, GitHub, Twilio) | ✅ Yes | Mixed   |
 
 Header versioning is allowed as a secondary mechanism for internal service-to-service calls only. It is never required for public-facing APIs.
 
@@ -30019,24 +30194,24 @@ All endpoints share the same version. There are no per-endpoint versions.
 
 A change is **backward compatible** (no new version required) if it:
 
-* Adds a new optional field to a response
-* Adds a new optional field to a request body
-* Adds a new endpoint
-* Adds a new enum value that clients can safely ignore
-* Changes the order of fields in a JSON response
-* Adds a new HTTP header to a response
+- Adds a new optional field to a response
+- Adds a new optional field to a request body
+- Adds a new endpoint
+- Adds a new enum value that clients can safely ignore
+- Changes the order of fields in a JSON response
+- Adds a new HTTP header to a response
 
 A change is **breaking** (new version required) if it:
 
-* Removes any field from a request or response
-* Renames any field
-* Changes the type of any field (e.g., string → number)
-* Changes the semantic meaning of any field
-* Removes an endpoint
-* Changes an endpoint's HTTP method
-* Makes a previously optional field required
-* Changes a success response code (e.g., 200 → 201)
-* Changes an error response code that clients might handle
+- Removes any field from a request or response
+- Renames any field
+- Changes the type of any field (e.g., string → number)
+- Changes the semantic meaning of any field
+- Removes an endpoint
+- Changes an endpoint's HTTP method
+- Makes a previously optional field required
+- Changes a success response code (e.g., 200 → 201)
+- Changes an error response code that clients might handle
 
 ---
 
@@ -30061,10 +30236,10 @@ Add `deprecated: true` to the OpenAPI specification for the endpoint.
 
 ## Step 2 — Notify Consumers
 
-* Publish deprecation notice in developer changelog
-* Email all API key holders using the deprecated endpoint
-* Add in-app banner for affected customers (if applicable)
-* Log `X-Deprecated-Endpoint: true` on every request to the deprecated endpoint for monitoring
+- Publish deprecation notice in developer changelog
+- Email all API key holders using the deprecated endpoint
+- Add in-app banner for affected customers (if applicable)
+- Log `X-Deprecated-Endpoint: true` on every request to the deprecated endpoint for monitoring
 
 ---
 
@@ -30080,20 +30255,20 @@ No client is forced to migrate immediately.
 
 After the sunset date:
 
-* Deprecated endpoints return `410 Gone` with a migration URL
-* Log remaining callers
-* Alert if high-traffic callers still active after sunset
+- Deprecated endpoints return `410 Gone` with a migration URL
+- Log remaining callers
+- Alert if high-traffic callers still active after sunset
 
 ---
 
 ## Deprecation Timeline
 
-| API Type | Minimum Deprecation Notice | Sunset Period |
-|---|---|---|
-| Public external API | 12 months | 12 months |
-| Product Service API | 6 months | 6 months |
-| Internal Platform API | 3 months | 3 months |
-| Frontend → Platform API | 1 month | 1 month |
+| API Type                | Minimum Deprecation Notice | Sunset Period |
+| ----------------------- | -------------------------- | ------------- |
+| Public external API     | 12 months                  | 12 months     |
+| Product Service API     | 6 months                   | 6 months      |
+| Internal Platform API   | 3 months                   | 3 months      |
+| Frontend → Platform API | 1 month                    | 1 month       |
 
 **Rule:** The sunset date is always set at the time of deprecation announcement. It is never moved earlier. It may be extended if significant consumers remain.
 
@@ -30128,11 +30303,11 @@ openapi/
 
 Rules:
 
-* OpenAPI spec is the source of truth for the API contract — not the code
-* Every endpoint change requires an OpenAPI spec update before the code change
-* Spec changes are reviewed in the same PR as the code change
-* `openapi.yaml` is committed to the repository and versioned in Git
-* Breaking change detection runs in CI: compare current spec against previous version using `openapi-diff`
+- OpenAPI spec is the source of truth for the API contract — not the code
+- Every endpoint change requires an OpenAPI spec update before the code change
+- Spec changes are reviewed in the same PR as the code change
+- `openapi.yaml` is committed to the repository and versioned in Git
+- Breaking change detection runs in CI: compare current spec against previous version using `openapi-diff`
 
 CI gate:
 
@@ -30213,24 +30388,24 @@ Both versions are published in parallel during the transition period.
 
 **Non-breaking (no version increment):**
 
-* Add an optional field to the payload
+- Add an optional field to the payload
 
 **Breaking (version increment required):**
 
-* Remove a field
-* Rename a field
-* Change a field type
-* Change the semantic meaning of a field
+- Remove a field
+- Rename a field
+- Change a field type
+- Change the semantic meaning of a field
 
 ---
 
 ## Event Deprecation Timeline
 
-| Consumer Type | Minimum Notice |
-|---|---|
-| Internal workers | 2 months |
-| Product services | 4 months |
-| External webhooks | 6 months |
+| Consumer Type     | Minimum Notice |
+| ----------------- | -------------- |
+| Internal workers  | 2 months       |
+| Product services  | 4 months       |
+| External webhooks | 6 months       |
 
 ---
 
@@ -30247,10 +30422,10 @@ These APIs are versioned independently from the Platform API.
 
 Rules:
 
-* Product APIs follow the same URI versioning convention
-* Product APIs follow the same backward compatibility rules
-* Product APIs are not exposed directly to external customers in v1 (see AES-020)
-* Platform API may proxy or aggregate product API responses
+- Product APIs follow the same URI versioning convention
+- Product APIs follow the same backward compatibility rules
+- Product APIs are not exposed directly to external customers in v1 (see AES-020)
+- Platform API may proxy or aggregate product API responses
 
 ---
 
@@ -30258,12 +30433,12 @@ Rules:
 
 When AutoShipp publishes a client SDK (future):
 
-* SDK major version matches API major version
-* SDK v1.x.x → Platform API v1
-* SDK v2.x.x → Platform API v2
-* SDK follows semantic versioning (semver)
-* SDK changelog documents every breaking change
-* Old SDK versions receive security patches for minimum 12 months after deprecation
+- SDK major version matches API major version
+- SDK v1.x.x → Platform API v1
+- SDK v2.x.x → Platform API v2
+- SDK follows semantic versioning (semver)
+- SDK changelog documents every breaking change
+- Old SDK versions receive security patches for minimum 12 months after deprecation
 
 ---
 
@@ -30271,18 +30446,18 @@ When AutoShipp publishes a client SDK (future):
 
 Track per-version:
 
-* Request volume by version
-* Error rate by version
-* Deprecated endpoint call rate
-* Time-to-migration for deprecated endpoints
+- Request volume by version
+- Error rate by version
+- Deprecated endpoint call rate
+- Time-to-migration for deprecated endpoints
 
 Alerts:
 
-| Condition | Alert |
-|---|---|
-| Deprecated endpoint still receiving >1000 req/day 30 days before sunset | 🟡 Warning |
-| Deprecated endpoint receiving requests after sunset date | 🔴 Critical |
-| v1 traffic > v2 traffic 90 days after v2 launch | 🟡 Warning |
+| Condition                                                               | Alert       |
+| ----------------------------------------------------------------------- | ----------- |
+| Deprecated endpoint still receiving >1000 req/day 30 days before sunset | 🟡 Warning  |
+| Deprecated endpoint receiving requests after sunset date                | 🔴 Critical |
+| v1 traffic > v2 traffic 90 days after v2 launch                         | 🟡 Warning  |
 
 ---
 
@@ -30303,14 +30478,14 @@ This keeps operational and maintenance complexity bounded.
 
 # 13. Current Version Status
 
-| API | Current Version | Status |
-|---|---|---|
-| Platform API | v1 | ✅ Active |
-| Fit API | v1 | ✅ Active |
-| ETA API | v1 | ✅ Active |
-| Returns API | v1 | ✅ Active |
-| AI Assistant API | v1 | ✅ Active |
-| Shipping API | v1 | ✅ Active |
+| API              | Current Version | Status    |
+| ---------------- | --------------- | --------- |
+| Platform API     | v1              | ✅ Active |
+| Fit API          | v1              | ✅ Active |
+| ETA API          | v1              | ✅ Active |
+| Returns API      | v1              | ✅ Active |
+| AI Assistant API | v1              | ✅ Active |
+| Shipping API     | v1              | ✅ Active |
 
 All APIs launch at v1.
 
@@ -30326,10 +30501,12 @@ Every API version or event version change is accompanied by a changelog entry:
 ## v2.0.0 — 2027-01-01
 
 ### Breaking Changes
+
 - `GET /api/v1/orders` removed (sunset). Use `GET /api/v2/orders`.
 - `order.created` event field `totalAmount` renamed to `total_price` in v2.
 
 ### Migration Guide
+
 See: https://docs.autoshipp.in/api/migration/v1-to-v2
 ```
 
@@ -30337,19 +30514,18 @@ See: https://docs.autoshipp.in/api/migration/v1-to-v2
 
 # 15. Decision Register
 
-| ID    | Decision                                                                            | Status   |
-| ----- | ----------------------------------------------------------------------------------- | -------- |
+| ID    | Decision                                                                           | Status    |
+| ----- | ---------------------------------------------------------------------------------- | --------- |
 | D-411 | URI-based versioning (`/api/v1`) is the standard for all HTTP APIs                 | ✅ Locked |
 | D-412 | All endpoints share the same version prefix — no per-endpoint versioning           | ✅ Locked |
 | D-413 | openapi-diff runs in CI to detect breaking changes automatically                   | ✅ Locked |
 | D-414 | Deprecation header + Sunset header are required on all deprecated endpoints        | ✅ Locked |
-| D-415 | External API deprecation notice minimum is 12 months                                | ✅ Locked |
+| D-415 | External API deprecation notice minimum is 12 months                               | ✅ Locked |
 | D-416 | Maximum 2 major API versions operate simultaneously                                | ✅ Locked |
 | D-417 | Events are versioned via the `version` field in the event envelope                 | ✅ Locked |
-| D-418 | Consumers declare which event versions they support                                 | ✅ Locked |
-| D-419 | Breaking changes require architecture team review and written migration guide       | ✅ Locked |
+| D-418 | Consumers declare which event versions they support                                | ✅ Locked |
+| D-419 | Breaking changes require architecture team review and written migration guide      | ✅ Locked |
 | D-420 | OpenAPI specification is the contract source of truth, not the implementation code | ✅ Locked |
-
 
 ---
 
@@ -30367,10 +30543,10 @@ See: https://docs.autoshipp.in/api/migration/v1-to-v2
 
 **Depends On:**
 
-* AES-017 — Audit Schema
-* AES-025 — Storage Architecture
-* AES-028 — Security Architecture
-* AES-031 — Disaster Recovery
+- AES-017 — Audit Schema
+- AES-025 — Storage Architecture
+- AES-028 — Security Architecture
+- AES-031 — Disaster Recovery
 
 ---
 
@@ -30392,14 +30568,14 @@ Implement this progressively alongside the product. Do not block implementation 
 
 AutoShipp targets the following compliance frameworks:
 
-| Framework | Priority | When Required |
-|---|---|---|
-| SOC 2 Type I | High | First enterprise customer |
-| SOC 2 Type II | High | Enterprise sales at scale |
-| ISO 27001 | Medium | International customers, regulated industries |
-| GDPR | High | Any EU customer or EU data processing |
-| DPDP (India) | High | India-based customers (Digital Personal Data Protection Act) |
-| PCI DSS | Conditional | Only if AutoShipp stores card data (currently not planned) |
+| Framework     | Priority    | When Required                                                |
+| ------------- | ----------- | ------------------------------------------------------------ |
+| SOC 2 Type I  | High        | First enterprise customer                                    |
+| SOC 2 Type II | High        | Enterprise sales at scale                                    |
+| ISO 27001     | Medium      | International customers, regulated industries                |
+| GDPR          | High        | Any EU customer or EU data processing                        |
+| DPDP (India)  | High        | India-based customers (Digital Personal Data Protection Act) |
+| PCI DSS       | Conditional | Only if AutoShipp stores card data (currently not planned)   |
 
 **Note on PCI DSS:** AutoShipp processes payments via Razorpay and does not store card numbers, CVVs, or raw payment credentials. PCI DSS scope is therefore limited to SAQ-A (the simplest tier) and primarily covered by Razorpay's own compliance.
 
@@ -30411,49 +30587,49 @@ SOC 2 is organized around five **Trust Service Criteria (TSC)**:
 
 ## CC1 — Control Environment
 
-| Control | Implementation in AutoShipp |
-|---|---|
-| Security policies documented | AES-028 (Security Architecture) |
-| Risk assessment | This document (Section 12) |
-| Security awareness | Onboarding checklist for engineering team |
-| Defined org roles | AES-009, AES-029 (RBAC model) |
+| Control                      | Implementation in AutoShipp               |
+| ---------------------------- | ----------------------------------------- |
+| Security policies documented | AES-028 (Security Architecture)           |
+| Risk assessment              | This document (Section 12)                |
+| Security awareness           | Onboarding checklist for engineering team |
+| Defined org roles            | AES-009, AES-029 (RBAC model)             |
 
 ---
 
 ## CC6 — Logical Access
 
-| Control | Implementation |
-|---|---|
-| Unique user accounts | identity.users (AES-009) |
-| MFA for admin access | Planned (AES-009 future — mfa_methods table) |
-| Least privilege | RBAC + PostgreSQL roles per service |
-| Access review process | Quarterly membership audit (Section 9 below) |
-| Privileged access monitoring | Audit logs (AES-017) |
-| Session management | identity.sessions with per-device revocation |
-| Password requirements | Argon2id, min 12 chars, complexity rules (AES-028) |
+| Control                      | Implementation                                     |
+| ---------------------------- | -------------------------------------------------- |
+| Unique user accounts         | identity.users (AES-009)                           |
+| MFA for admin access         | Planned (AES-009 future — mfa_methods table)       |
+| Least privilege              | RBAC + PostgreSQL roles per service                |
+| Access review process        | Quarterly membership audit (Section 9 below)       |
+| Privileged access monitoring | Audit logs (AES-017)                               |
+| Session management           | identity.sessions with per-device revocation       |
+| Password requirements        | Argon2id, min 12 chars, complexity rules (AES-028) |
 
 ---
 
 ## CC7 — System Operations
 
-| Control | Implementation |
-|---|---|
-| Monitoring and alerting | Prometheus + Grafana + Sentry (AES-024) |
-| Incident detection | Security monitoring (AES-028 Section 35) |
-| Incident response | AES-028 Section 34 |
-| Patch management | Dependency scanning in CI (AES-028 Section 32) |
-| Change management | PR review + CI gates (AES-032) |
-| Backup | Neon PITR + AES-031 |
+| Control                 | Implementation                                 |
+| ----------------------- | ---------------------------------------------- |
+| Monitoring and alerting | Prometheus + Grafana + Sentry (AES-024)        |
+| Incident detection      | Security monitoring (AES-028 Section 35)       |
+| Incident response       | AES-028 Section 34                             |
+| Patch management        | Dependency scanning in CI (AES-028 Section 32) |
+| Change management       | PR review + CI gates (AES-032)                 |
+| Backup                  | Neon PITR + AES-031                            |
 
 ---
 
 ## CC9 — Risk Mitigation
 
-| Control | Implementation |
-|---|---|
-| Vendor risk | Managed providers (Neon, Upstash Redis, Cloudflare) |
-| Business continuity | AES-031 (Disaster Recovery) |
-| Data backup | Daily snapshots + 30-day PITR |
+| Control             | Implementation                                      |
+| ------------------- | --------------------------------------------------- |
+| Vendor risk         | Managed providers (Neon, Upstash Redis, Cloudflare) |
+| Business continuity | AES-031 (Disaster Recovery)                         |
+| Data backup         | Daily snapshots + 30-day PITR                       |
 
 ---
 
@@ -30461,18 +30637,18 @@ SOC 2 is organized around five **Trust Service Criteria (TSC)**:
 
 ISO 27001 Annex A — Key controls relevant to AutoShipp:
 
-| Control | ISO Ref | Implementation |
-|---|---|---|
-| Information classification | A.8.2 | Section 5 below |
-| Access control policy | A.9.1 | AES-005, AES-009, AES-028 |
-| Cryptography | A.10.1 | AES-028 (Argon2id, AES-256, TLS) |
-| Physical security | A.11 | Managed by Neon, Cloudflare (provider SLAs) |
-| Operations security | A.12 | AES-024, AES-028 |
-| Secure development | A.14 | AES-028 (OWASP, input validation, CSP) |
-| Supplier relationships | A.15 | Section 11 below |
-| Incident management | A.16 | AES-028 Section 34 |
-| Business continuity | A.17 | AES-031 |
-| Compliance | A.18 | This document |
+| Control                    | ISO Ref | Implementation                              |
+| -------------------------- | ------- | ------------------------------------------- |
+| Information classification | A.8.2   | Section 5 below                             |
+| Access control policy      | A.9.1   | AES-005, AES-009, AES-028                   |
+| Cryptography               | A.10.1  | AES-028 (Argon2id, AES-256, TLS)            |
+| Physical security          | A.11    | Managed by Neon, Cloudflare (provider SLAs) |
+| Operations security        | A.12    | AES-024, AES-028                            |
+| Secure development         | A.14    | AES-028 (OWASP, input validation, CSP)      |
+| Supplier relationships     | A.15    | Section 11 below                            |
+| Incident management        | A.16    | AES-028 Section 34                          |
+| Business continuity        | A.17    | AES-031                                     |
+| Compliance                 | A.18    | This document                               |
 
 ---
 
@@ -30480,29 +30656,29 @@ ISO 27001 Annex A — Key controls relevant to AutoShipp:
 
 Every data type in AutoShipp is classified under one of four categories:
 
-| Classification | Definition | Examples |
-|---|---|---|
-| **Public** | Intentionally public, no harm if disclosed | Product names, pricing plans, public documentation |
-| **Internal** | Non-sensitive business data, internal use | Platform metrics, feature flags, generic audit counts |
-| **Confidential** | Business-sensitive, restricted access | Organization data, billing amounts, product assignments |
-| **Restricted** | PII, credentials, financial records | User PII, passwords, order values, wallet balances, API keys |
+| Classification   | Definition                                 | Examples                                                     |
+| ---------------- | ------------------------------------------ | ------------------------------------------------------------ |
+| **Public**       | Intentionally public, no harm if disclosed | Product names, pricing plans, public documentation           |
+| **Internal**     | Non-sensitive business data, internal use  | Platform metrics, feature flags, generic audit counts        |
+| **Confidential** | Business-sensitive, restricted access      | Organization data, billing amounts, product assignments      |
+| **Restricted**   | PII, credentials, financial records        | User PII, passwords, order values, wallet balances, API keys |
 
 ---
 
 ## Classification by Schema
 
-| Schema | Classification | Reason |
-|---|---|---|
-| identity.users | Restricted | Email, password hash, PII |
-| identity.sessions | Restricted | Session tokens |
-| organization.organizations | Confidential | Business identity |
-| customer.customers | Restricted | Consumer PII |
-| commerce.orders | Confidential | Transaction data |
-| billing.invoices | Confidential | Financial records |
-| wallet.wallet_transactions | Restricted | Financial movements |
-| audit.logs | Confidential | Security-sensitive audit trail |
-| integration.provider_connections | Restricted | Encrypted API credentials |
-| feature_flag.feature_flags | Internal | Configuration |
+| Schema                           | Classification | Reason                         |
+| -------------------------------- | -------------- | ------------------------------ |
+| identity.users                   | Restricted     | Email, password hash, PII      |
+| identity.sessions                | Restricted     | Session tokens                 |
+| organization.organizations       | Confidential   | Business identity              |
+| customer.customers               | Restricted     | Consumer PII                   |
+| commerce.orders                  | Confidential   | Transaction data               |
+| billing.invoices                 | Confidential   | Financial records              |
+| wallet.wallet_transactions       | Restricted     | Financial movements            |
+| audit.logs                       | Confidential   | Security-sensitive audit trail |
+| integration.provider_connections | Restricted     | Encrypted API credentials      |
+| feature_flag.feature_flags       | Internal       | Configuration                  |
 
 ---
 
@@ -30512,22 +30688,22 @@ Every data type in AutoShipp is classified under one of four categories:
 
 AutoShipp processes personal data under:
 
-* **Contractual necessity** — processing user and customer data to deliver the contracted SaaS service
-* **Legitimate interest** — security monitoring, fraud prevention, platform operations
-* **Legal obligation** — financial record retention
+- **Contractual necessity** — processing user and customer data to deliver the contracted SaaS service
+- **Legitimate interest** — security monitoring, fraud prevention, platform operations
+- **Legal obligation** — financial record retention
 
 ---
 
 ## Data Subject Rights
 
-| Right | Implementation |
-|---|---|
-| Right of Access (SAR) | Platform admin can export all data for a user/org |
-| Right to Rectification | Users can update their profile; admins can correct records |
-| Right to Erasure | Section 7 below |
-| Right to Portability | Export APIs (CSV/JSON) for org data |
-| Right to Object | Suppression flags on marketing communications |
-| Right to Restrict Processing | Organization suspension preserves data without processing |
+| Right                        | Implementation                                             |
+| ---------------------------- | ---------------------------------------------------------- |
+| Right of Access (SAR)        | Platform admin can export all data for a user/org          |
+| Right to Rectification       | Users can update their profile; admins can correct records |
+| Right to Erasure             | Section 7 below                                            |
+| Right to Portability         | Export APIs (CSV/JSON) for org data                        |
+| Right to Object              | Suppression flags on marketing communications              |
+| Right to Restrict Processing | Organization suspension preserves data without processing  |
 
 ---
 
@@ -30553,9 +30729,9 @@ User data is processed under contractual necessity, not consent.
 
 Consent management is required for:
 
-* Marketing emails (opt-in required)
-* Non-essential analytics (opt-in required)
-* Promotional communications
+- Marketing emails (opt-in required)
+- Non-essential analytics (opt-in required)
+- Promotional communications
 
 Consent records are stored in `notification.notification_preferences`.
 
@@ -30592,9 +30768,9 @@ When a user requests erasure:
 
 **What is NOT deleted:**
 
-* Audit logs (legal obligation — immutable by design)
-* Financial records (tax law retention requirements)
-* Anonymized analytics (no PII present after pseudonymization)
+- Audit logs (legal obligation — immutable by design)
+- Financial records (tax law retention requirements)
+- Anonymized analytics (no PII present after pseudonymization)
 
 ---
 
@@ -30618,17 +30794,17 @@ When an organization requests deletion:
 
 # 8. Data Retention Policy
 
-| Data Type | Retention Period | Legal Basis |
-|---|---|---|
-| Financial records (invoices, payments) | 7 years | Tax law (India: IT Act) |
-| Audit logs | 5 years | Security and compliance |
-| User PII | Until erasure request + 30 days buffer | GDPR / DPDP |
-| Customer PII | Until organization deletion + 30 days buffer | GDPR / DPDP |
-| Session data | 90 days after expiry | Security |
-| Login history | 2 years | Security monitoring |
-| Export files | 7 days | Operational |
-| Sync logs | 30 days | Debugging |
-| Application logs | 90 days | Debugging |
+| Data Type                              | Retention Period                             | Legal Basis             |
+| -------------------------------------- | -------------------------------------------- | ----------------------- |
+| Financial records (invoices, payments) | 7 years                                      | Tax law (India: IT Act) |
+| Audit logs                             | 5 years                                      | Security and compliance |
+| User PII                               | Until erasure request + 30 days buffer       | GDPR / DPDP             |
+| Customer PII                           | Until organization deletion + 30 days buffer | GDPR / DPDP             |
+| Session data                           | 90 days after expiry                         | Security                |
+| Login history                          | 2 years                                      | Security monitoring     |
+| Export files                           | 7 days                                       | Operational             |
+| Sync logs                              | 30 days                                      | Debugging               |
+| Application logs                       | 90 days                                      | Debugging               |
 
 ---
 
@@ -30647,13 +30823,13 @@ Quarterly:
 
 # 10. Key Rotation Policy
 
-| Key Type | Rotation Frequency | Implementation |
-|---|---|---|
-| JWT signing secret | 90 days | Token version increment handles graceful rotation |
-| Database credentials | 180 days | Neon credential rotation |
-| Integration API keys | On-demand or 180 days | integration.provider_connections encrypted store |
-| Object storage credentials | 180 days | Provider-managed rotation |
-| Encryption keys (AES-256) | Annual | Key versioning — old keys retained for decryption only |
+| Key Type                   | Rotation Frequency    | Implementation                                         |
+| -------------------------- | --------------------- | ------------------------------------------------------ |
+| JWT signing secret         | 90 days               | Token version increment handles graceful rotation      |
+| Database credentials       | 180 days              | Neon credential rotation                               |
+| Integration API keys       | On-demand or 180 days | integration.provider_connections encrypted store       |
+| Object storage credentials | 180 days              | Provider-managed rotation                              |
+| Encryption keys (AES-256)  | Annual                | Key versioning — old keys retained for decryption only |
 
 Key rotation events are logged to audit.logs.
 
@@ -30661,16 +30837,16 @@ Key rotation events are logged to audit.logs.
 
 # 11. Supplier/Vendor Management
 
-| Supplier | Service | Data Access | SLA / Compliance |
-|---|---|---|---|
-| Neon | PostgreSQL hosting | All platform data | SOC 2 Type II |
-| Cloudflare | CDN + DDoS | Traffic metadata | SOC 2 Type II, ISO 27001 |
-| Upstash Redis / BullMQ | Message broker | Event payloads | SOC 2 Type II |
-| Razorpay | Payment processing | Payment tokens only | PCI DSS |
-| Resend / SMTP | Email delivery | Email content | GDPR-compliant |
-| Sentry | Error monitoring | Stack traces, sanitized context | SOC 2 Type II |
-| Upstash / Redis | Caching | Session metadata, cache | SOC 2 Type II |
-| OpenAI / AI Provider | AI inference | Prompt content | Enterprise DPA |
+| Supplier               | Service            | Data Access                     | SLA / Compliance         |
+| ---------------------- | ------------------ | ------------------------------- | ------------------------ |
+| Neon                   | PostgreSQL hosting | All platform data               | SOC 2 Type II            |
+| Cloudflare             | CDN + DDoS         | Traffic metadata                | SOC 2 Type II, ISO 27001 |
+| Upstash Redis / BullMQ | Message broker     | Event payloads                  | SOC 2 Type II            |
+| Razorpay               | Payment processing | Payment tokens only             | PCI DSS                  |
+| Resend / SMTP          | Email delivery     | Email content                   | GDPR-compliant           |
+| Sentry                 | Error monitoring   | Stack traces, sanitized context | SOC 2 Type II            |
+| Upstash / Redis        | Caching            | Session metadata, cache         | SOC 2 Type II            |
+| OpenAI / AI Provider   | AI inference       | Prompt content                  | Enterprise DPA           |
 
 **Rule:** Every supplier with access to personal data must have a signed Data Processing Agreement (DPA) on file before integration is activated.
 
@@ -30678,17 +30854,17 @@ Key rotation events are logged to audit.logs.
 
 # 12. Risk Register
 
-| Risk | Likelihood | Impact | Mitigation |
-|---|---|---|---|
-| Data breach via SQL injection | Low | Critical | Prisma ORM, RLS, input validation |
-| Tenant data leakage (app bug) | Medium | Critical | RLS on high-risk tables (AES-029 Section 13a) |
-| Credential compromise | Medium | High | Envelope encryption, secret rotation |
-| DDoS | Medium | High | Cloudflare, rate limiting |
-| Insider threat | Low | High | Least privilege, audit logs, access reviews |
-| Third-party supplier breach | Low | High | Supplier DPAs, data minimization |
-| Ransomware | Low | Critical | PITR backups, immutable audit logs |
-| Regulatory non-compliance (GDPR/DPDP) | Medium | High | Data retention + erasure flows (Section 7) |
-| Payment processor outage | Medium | Medium | Retry logic, grace periods (AES-037) |
+| Risk                                  | Likelihood | Impact   | Mitigation                                    |
+| ------------------------------------- | ---------- | -------- | --------------------------------------------- |
+| Data breach via SQL injection         | Low        | Critical | Prisma ORM, RLS, input validation             |
+| Tenant data leakage (app bug)         | Medium     | Critical | RLS on high-risk tables (AES-029 Section 13a) |
+| Credential compromise                 | Medium     | High     | Envelope encryption, secret rotation          |
+| DDoS                                  | Medium     | High     | Cloudflare, rate limiting                     |
+| Insider threat                        | Low        | High     | Least privilege, audit logs, access reviews   |
+| Third-party supplier breach           | Low        | High     | Supplier DPAs, data minimization              |
+| Ransomware                            | Low        | Critical | PITR backups, immutable audit logs            |
+| Regulatory non-compliance (GDPR/DPDP) | Medium     | High     | Data retention + erasure flows (Section 7)    |
+| Payment processor outage              | Medium     | Medium   | Retry logic, grace periods (AES-037)          |
 
 ---
 
@@ -30728,17 +30904,17 @@ Legal hold is stored in `organization.organization_metadata` JSONB:
 
 For SOC 2 and ISO 27001 audits, AutoShipp must produce:
 
-| Evidence Type | Source |
-|---|---|
-| Access control records | identity.memberships + identity.user_roles exports |
-| Authentication logs | identity.login_history exports |
-| Change management records | Git history + PR audit trail |
-| Incident records | audit.logs + Sentry incident history |
-| Backup verification | Neon PITR test restore records |
-| Vendor DPAs | Document repository (outside platform) |
-| Security training records | HR records |
-| Penetration test results | Annual third-party pen test reports |
-| Vulnerability scan results | CI dependency audit reports |
+| Evidence Type              | Source                                             |
+| -------------------------- | -------------------------------------------------- |
+| Access control records     | identity.memberships + identity.user_roles exports |
+| Authentication logs        | identity.login_history exports                     |
+| Change management records  | Git history + PR audit trail                       |
+| Incident records           | audit.logs + Sentry incident history               |
+| Backup verification        | Neon PITR test restore records                     |
+| Vendor DPAs                | Document repository (outside platform)             |
+| Security training records  | HR records                                         |
+| Penetration test results   | Annual third-party pen test reports                |
+| Vulnerability scan results | CI dependency audit reports                        |
 
 Platform provides an **Audit Export API** (Platform OWNER only):
 
@@ -30766,15 +30942,15 @@ When a security incident is detected:
 Detection → Classification → Containment → Investigation → Remediation → Disclosure → Postmortem
 ```
 
-| Phase | Action | Owner | SLA |
-|---|---|---|---|
-| Detection | Alert fires via Sentry/Grafana | On-call | Immediate |
-| Classification | P1/P2/P3 assigned | Lead engineer | < 15 min |
-| Containment | Block affected accounts/IPs | Security | < 1 hour |
-| Investigation | Root cause analysis | Engineering | < 4 hours |
-| Remediation | Fix deployed | Engineering | < 24 hours |
-| Disclosure | Affected customers notified | Leadership | < 72 hours (GDPR requirement) |
-| Postmortem | Written and published internally | Engineering | < 1 week |
+| Phase          | Action                           | Owner         | SLA                           |
+| -------------- | -------------------------------- | ------------- | ----------------------------- |
+| Detection      | Alert fires via Sentry/Grafana   | On-call       | Immediate                     |
+| Classification | P1/P2/P3 assigned                | Lead engineer | < 15 min                      |
+| Containment    | Block affected accounts/IPs      | Security      | < 1 hour                      |
+| Investigation  | Root cause analysis              | Engineering   | < 4 hours                     |
+| Remediation    | Fix deployed                     | Engineering   | < 24 hours                    |
+| Disclosure     | Affected customers notified      | Leadership    | < 72 hours (GDPR requirement) |
+| Postmortem     | Written and published internally | Engineering   | < 1 week                      |
 
 **GDPR requirement:** Data breaches affecting EU personal data must be reported to the relevant supervisory authority within **72 hours** of discovery.
 
@@ -30784,9 +30960,9 @@ Detection → Classification → Containment → Investigation → Remediation �
 
 Scheduled:
 
-* **Annual:** Full-platform external penetration test by a qualified third party
-* **On major release:** Targeted API security review
-* **On architecture change:** Focused review of affected components
+- **Annual:** Full-platform external penetration test by a qualified third party
+- **On major release:** Targeted API security review
+- **On architecture change:** Focused review of affected components
 
 Findings are tracked in a security backlog. Critical findings block the next release. High findings must be remediated within 30 days.
 
@@ -30796,30 +30972,29 @@ Findings are tracked in a security backlog. Critical findings block the next rel
 
 Not all controls need to exist on Day 1. This is the recommended progressive implementation:
 
-| Phase | Controls |
-|---|---|
-| **Phase 1 (MVP)** | Authentication, RBAC, audit logging, HTTPS, input validation, dependency scanning |
-| **Phase 2 (First customers)** | Session management, rate limiting, CSP, data retention policy, access reviews |
-| **Phase 3 (First enterprise deal)** | SOC 2 preparation, vendor DPAs, penetration test, GDPR erasure flows, legal hold |
-| **Phase 4 (Scale)** | SOC 2 Type II audit, ISO 27001 gap assessment, formal key rotation, compliance export API |
+| Phase                               | Controls                                                                                  |
+| ----------------------------------- | ----------------------------------------------------------------------------------------- |
+| **Phase 1 (MVP)**                   | Authentication, RBAC, audit logging, HTTPS, input validation, dependency scanning         |
+| **Phase 2 (First customers)**       | Session management, rate limiting, CSP, data retention policy, access reviews             |
+| **Phase 3 (First enterprise deal)** | SOC 2 preparation, vendor DPAs, penetration test, GDPR erasure flows, legal hold          |
+| **Phase 4 (Scale)**                 | SOC 2 Type II audit, ISO 27001 gap assessment, formal key rotation, compliance export API |
 
 ---
 
 # 18. Decision Register
 
-| ID    | Decision                                                                               | Status   |
-| ----- | -------------------------------------------------------------------------------------- | -------- |
-| D-421 | SOC 2 Type I is the first compliance target                                            | ✅ Locked |
-| D-422 | PCI DSS scope is limited to SAQ-A via Razorpay; AutoShipp stores no card data         | ✅ Locked |
-| D-423 | User erasure uses pseudonymization; audit logs and financial records are retained      | ✅ Locked |
-| D-424 | Financial records are retained 7 years per Indian tax law                             | ✅ Locked |
-| D-425 | All suppliers with PII access require a signed DPA before integration                  | ✅ Locked |
-| D-426 | Legal holds block all deletion and erasure operations                                  | ✅ Locked |
-| D-427 | Security incidents with EU PII must be disclosed within 72 hours per GDPR              | ✅ Locked |
-| D-428 | Annual third-party penetration test is mandatory                                       | ✅ Locked |
-| D-429 | Compliance evidence is exportable via a dedicated Platform API                         | ✅ Locked |
-| D-430 | Compliance implementation follows the 4-phase roadmap tied to business milestones     | ✅ Locked |
-
+| ID    | Decision                                                                          | Status    |
+| ----- | --------------------------------------------------------------------------------- | --------- |
+| D-421 | SOC 2 Type I is the first compliance target                                       | ✅ Locked |
+| D-422 | PCI DSS scope is limited to SAQ-A via Razorpay; AutoShipp stores no card data     | ✅ Locked |
+| D-423 | User erasure uses pseudonymization; audit logs and financial records are retained | ✅ Locked |
+| D-424 | Financial records are retained 7 years per Indian tax law                         | ✅ Locked |
+| D-425 | All suppliers with PII access require a signed DPA before integration             | ✅ Locked |
+| D-426 | Legal holds block all deletion and erasure operations                             | ✅ Locked |
+| D-427 | Security incidents with EU PII must be disclosed within 72 hours per GDPR         | ✅ Locked |
+| D-428 | Annual third-party penetration test is mandatory                                  | ✅ Locked |
+| D-429 | Compliance evidence is exportable via a dedicated Platform API                    | ✅ Locked |
+| D-430 | Compliance implementation follows the 4-phase roadmap tied to business milestones | ✅ Locked |
 
 ---
 
@@ -30900,6 +31075,7 @@ AutoShipp Intelligence Platform
 The AI does not just analyze; it scores. Every store receives a dynamic scorecard that recommendations aim to improve.
 
 **Example Scorecard:**
+
 ```text
 Overall Score: 83 / 100
 
@@ -30917,6 +31093,7 @@ Operations:  74
 Recommendations are driven by comparative benchmarking to increase persuasiveness.
 
 **Example Insight:**
+
 > "Apparel stores with ₹50L–₹1Cr monthly GMV average a 14.1% COD rejection rate. Your store is at 22.4%. You are 59% above the benchmark, resulting in an estimated ₹58,000 of lost revenue per month."
 
 ---
@@ -30926,13 +31103,14 @@ Recommendations are driven by comparative benchmarking to increase persuasivenes
 Dashboards are secondary. The primary output is a narrative-driven CEO report.
 
 **Example Report:**
+
 > **Executive Summary**
 > We analyzed your Shopify store and identified 14 opportunities.
-> 
+>
 > Your COD rejection rate (24.8%) is significantly above the industry benchmark (13.9%), resulting in an estimated ₹58,000 of lost revenue per month.
-> 
+>
 > Your mobile performance score is 48/100, and your average product page load time is 5.9 seconds, which likely contributes to conversion loss.
-> 
+>
 > Based on our analysis, implementing **Delivery ETA** and **Returns Management** could recover approximately ₹72,000/month with high confidence.
 
 ---
@@ -30942,7 +31120,9 @@ Dashboards are secondary. The primary output is a narrative-driven CEO report.
 Every LLM request incurs a variable cost. The Intelligence Platform enforces strict cost controls to ensure profitability at scale.
 
 ## 7.1 Model Abstraction & Fallback
+
 The platform abstracts the LLM provider.
+
 ```text
 OpenAI GPT-4o
       ↓ (Unavailable / Rate Limited)
@@ -30952,10 +31132,12 @@ Cached Result / Graceful Degradation
 ```
 
 ## 7.2 Tiered Model Sizing
+
 - **Large/Enterprise Stores:** Use high-parameter models (e.g., GPT-4o) for deep, nuanced analysis.
 - **Small/Free Stores:** Use highly efficient models (e.g., GPT-4o-mini / Claude 3 Haiku) to preserve margins.
 
 ## 7.3 Token Budgets & Caching
+
 - **Prompt Caching:** Unchanging inputs (e.g., standard platform capability definitions) are cached at the LLM level.
 - **Request Quotas:** Brands are limited to a specific number of manual re-scans per month unless they purchase additional AI credits.
 - **Token Budgets:** Maximum input/output token limits are enforced per analysis run.
@@ -30971,6 +31153,4 @@ The Intelligence Platform will be built in phases to manage complexity:
 - **V3:** Predictive Analytics, Revenue Forecasting, Churn Prediction, Inventory Forecasting.
 - **V4:** Autonomous AI Assistant (Chat interface for store operators).
 
-
 ---
-

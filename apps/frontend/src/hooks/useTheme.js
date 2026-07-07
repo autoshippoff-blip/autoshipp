@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 /**
  * Returns true if the current hour is "night" (6pm–6am).
@@ -22,23 +22,19 @@ function isNightTime() {
  * at 6am / 6pm if the user hasn't overridden it.
  */
 export function useTheme() {
-  const [isDark, setIsDark] = useState(true); // SSR-safe default
-
-  useEffect(() => {
-    const saved = localStorage.getItem('autoshipp-theme');
+  const [isDark, setIsDark] = useState(() => {
+    if (typeof window === "undefined") return true;
+    const saved = localStorage.getItem("autoshipp-theme");
     if (saved !== null) {
-      // User has previously chosen a theme – respect it
-      setIsDark(saved === 'dark');
-      return;
+      return saved === "dark";
     }
-    // No saved preference – use time of day
-    setIsDark(isNightTime());
-  }, []);
+    return isNightTime();
+  });
 
   // Re-evaluate every minute in case the threshold (6am/6pm) is crossed
   useEffect(() => {
     const interval = setInterval(() => {
-      const saved = localStorage.getItem('autoshipp-theme');
+      const saved = localStorage.getItem("autoshipp-theme");
       if (saved === null) {
         // Only auto-switch when no user preference is saved
         setIsDark(isNightTime());
@@ -49,7 +45,7 @@ export function useTheme() {
 
   function setIsDarkAndPersist(value) {
     setIsDark(value);
-    localStorage.setItem('autoshipp-theme', value ? 'dark' : 'light');
+    localStorage.setItem("autoshipp-theme", value ? "dark" : "light");
   }
 
   return [isDark, setIsDarkAndPersist];

@@ -379,3 +379,34 @@ This session successfully prepared the AutoShipp monorepo for its first producti
 2. Provide the client with the temporary login credentials and demo URL.
 3. Merge `main` back into `pre-prod` to sync the environment variable isolation commit.
 4. Shift engineering focus to **Phase 1 (Database)** and **Phase 2 (Authentication)**: Provision the Neon Database, deploy the NestJS backend to Render, and establish real authentication so the core AutoShipp platform can wake up.
+
+---
+
+## Session Update: 2026-07-11 — Git Sync and D-166 Persistence Enforcement
+
+### 1. Executive Summary
+
+This session focused on preparing the environment to safely continue development and completing the first implementation milestone for the Organization Relationships schema (AES-010).
+
+### 2. Git Synchronization
+
+- Analyzed the state of `main` and `pre-prod`.
+- Identified that `main` had commits that `pre-prod` lacked.
+- Safely merged `main` into `pre-prod` to ensure development continues from a fully synchronized state.
+
+### 3. D-166 Single Active Parent Invariant Implementation
+
+- **Milestone 1 Complete:** Implemented D-166 enforcement at the PostgreSQL persistence layer.
+- **Migration:** Generated a Prisma migration (`--create-only`) and manually injected a partial unique index on `organization_relationships` (`WHERE "active" = true`).
+- **Validation:** Added integration test coverage in `tenant.e2e-spec.ts` validating that the DB allows one active parent, blocks a second active parent, and allows unlimited inactive historical parents.
+- **Teardown Fix:** Fixed a cascading database teardown bug in the test suite by correctly sequencing the deletion of `communication` domain models before `organization` models.
+- **Type-Check & Tests Passed:** Verified that both `npx tsc --noEmit` and the e2e test suite pass cleanly.
+
+### 4. Current State
+
+- The database now guarantees deterministic hierarchy traversal for Wallet and Billing operations.
+- The `pre-prod` branch contains the completed D-166 implementation and is synchronized with `main`.
+
+### 5. Next Steps
+
+- Return to `TEAM_ENGINEERING_HANDBOOK.md` and complete discovery for the next milestone.

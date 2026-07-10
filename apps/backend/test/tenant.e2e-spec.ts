@@ -22,6 +22,7 @@ describe('Tenant Isolation & Dashboard Authorization (e2e)', () => {
 
   let orgAId = '';
   let orgBId = '';
+  let platformOrgId = '';
 
   beforeAll(async () => {
     pool = new Pool({ connectionString: process.env.DATABASE_URL });
@@ -38,6 +39,11 @@ describe('Tenant Isolation & Dashboard Authorization (e2e)', () => {
     jwtService = app.get(JwtService);
 
     // 2. Database Teardown
+    await prisma.communicationMessage.deleteMany();
+    await prisma.communicationConversation.deleteMany();
+    await prisma.communicationCampaign.deleteMany();
+    await prisma.communicationTemplate.deleteMany();
+    await prisma.organizationRelationship.deleteMany();
     await prisma.membership.deleteMany();
     await prisma.organizationProduct.deleteMany();
     await prisma.organization.deleteMany();
@@ -66,6 +72,7 @@ describe('Tenant Isolation & Dashboard Authorization (e2e)', () => {
         languageCode: 'en',
       },
     });
+    platformOrgId = platformOrg.id;
 
     const orgA = await prisma.organization.create({
       data: {
@@ -191,6 +198,66 @@ describe('Tenant Isolation & Dashboard Authorization (e2e)', () => {
 
     it('401 when no token is provided to dashboard', async () => {
       await request(server).get('/dashboard/platform/summary').expect(401);
+    });
+  });
+
+  describe('D-166 Single Active Parent Invariant', () => {
+    it('allows inserting one active parent', async () => {
+      const approver = await prisma.user.findFirst({
+        where: { email: 'admin@autoshipp.com' },
+      });
+      if (!approver) throw new Error('Approver not found');
+
+      const parentRel = await prisma.organizationRelationship.create({
+        data: {
+          parentOrganizationId: platformOrgId,
+          childOrganizationId: orgAId,
+          relationshipType: 'PARTNERS_WITH',
+          active: true,
+          approvedBy: approver.id,
+          validFrom: new Date(),
+        },
+      });
+      expect(parentRel).toBeDefined();
+    });
+
+    it('blocks inserting a second active parent of the same type', async () => {
+      const approver = await prisma.user.findFirst({
+        where: { email: 'admin@autoshipp.com' },
+      });
+      if (!approver) throw new Error('Approver not found');
+
+      await expect(
+        prisma.organizationRelationship.create({
+          data: {
+            parentOrganizationId: orgBId,
+            childOrganizationId: orgAId,
+            relationshipType: 'PARTNERS_WITH',
+            active: true,
+            approvedBy: approver.id,
+            validFrom: new Date(),
+          },
+        }),
+      ).rejects.toThrow(/Unique constraint failed/);
+    });
+
+    it('allows inserting a second INACTIVE parent of the same type', async () => {
+      const approver = await prisma.user.findFirst({
+        where: { email: 'admin@autoshipp.com' },
+      });
+      if (!approver) throw new Error('Approver not found');
+
+      const inactiveRel = await prisma.organizationRelationship.create({
+        data: {
+          parentOrganizationId: orgBId,
+          childOrganizationId: orgAId,
+          relationshipType: 'PARTNERS_WITH',
+          active: false,
+          approvedBy: approver.id,
+          validFrom: new Date(),
+        },
+      });
+      expect(inactiveRel).toBeDefined();
     });
   });
 });

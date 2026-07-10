@@ -82,6 +82,8 @@ model User {
   approvedRelationships   OrganizationRelationship[] @relation("OrganizationRelationshipApprover")
   createdRelationships    OrganizationRelationship[] @relation("OrganizationRelationshipCreator")
   updatedRelationships    OrganizationRelationship[] @relation("OrganizationRelationshipUpdater")
+  transfersInitiated      OrganizationTransferHistory[] @relation("TransferInitiator")
+  transfersApproved       OrganizationTransferHistory[] @relation("TransferApprover")
 
   @@map("users")
 }
@@ -131,6 +133,7 @@ model Organization {
   communicationCampaigns     CommunicationCampaign[]
   communicationTemplates     CommunicationTemplate[]
   communicationConversations CommunicationConversation[]
+  transferHistory            OrganizationTransferHistory[]
 
   @@map("organizations")
 }
@@ -158,6 +161,23 @@ model OrganizationRelationship {
   updater            User?        @relation("OrganizationRelationshipUpdater", fields: [updatedBy], references: [id])
 
   @@map("organization_relationships")
+}
+
+model OrganizationTransferHistory {
+  id                 String   @id @default(uuid()) @db.Uuid
+  organizationId     String   @map("organization_id") @db.Uuid
+  previousParentId   String?  @map("previous_parent_id") @db.Uuid
+  newParentId        String?  @map("new_parent_id") @db.Uuid
+  transferredBy      String   @map("transferred_by") @db.Uuid
+  approvedBy         String   @map("approved_by") @db.Uuid
+  transferredAt      DateTime @default(now()) @map("transferred_at")
+  reason             String?  @db.Text
+
+  organization       Organization @relation(fields: [organizationId], references: [id])
+  initiator          User         @relation("TransferInitiator", fields: [transferredBy], references: [id])
+  approver           User         @relation("TransferApprover", fields: [approvedBy], references: [id])
+
+  @@map("organization_transfer_history")
 }
 
 model Membership {

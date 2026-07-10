@@ -295,3 +295,87 @@ This session focused on unblocking the "Temporary Priority First" dashboard by f
 ```text
 The Communication Domain backend is fully implemented and seeded. I will now perform a manual E2E test in my browser at http://localhost:3000/client-login using momcreadlz@autoshipp.com / temporary_secure_password to verify the Analytics, Campaigns, Templates, and Inbox pages. Wait for my confirmation of the test results before we proceed to Phase 3 (BullMQ / External Integrations).
 ```
+
+---
+
+## Session Update: 2026-07-07 — Temporary Priority First Launch & Monorepo Deployment Readiness
+
+### 1. Executive Summary
+
+This session successfully prepared the AutoShipp monorepo for its first production frontend deployment on Vercel. We completed the "Temporary Priority First" integration, explicitly decoupling it from the core AutoShipp backend to unblock a live client demo. We identified and resolved critical repository configuration errors (package-lock conflicts, missing `.gitignore` entries, Turborepo Next.js detection failures) and completely refactored the overloaded environment variable architecture to prevent routing conflicts.
+
+### 2. Work Completed
+
+- **Temporary Priority First implementation:** Fully integrated the isolated client dashboard launchpad.
+- **WhatsApp dashboard integration:** Wired the frontend directly to the external Feature 2 API.
+- **Main login integration:** Implemented a secure fallback in `/login/page.js` that executes the Next.js Server Action (`loginTempClient`) first, bypassing the core AutoShipp backend entirely if the demo credentials match.
+- **Temporary client authentication flow:** Handled entirely via Next.js Server Actions setting a secure HTTP-only session cookie.
+- **Logout/session & Redirect improvements:** Fixed Next.js `NEXT_REDIRECT` errors being swallowed by `try/catch` blocks.
+
+### 3. Architecture Decisions
+
+- **Feature 2 remains an independent product:** It shares zero backend or database dependencies with the core AutoShipp platform.
+- **Frontend acts only as a portal:** The Next.js frontend securely routes traffic based on the active session context.
+- **Direct integration with shipping-automation.onrender.com:** The temporary dashboard strictly targets this external service.
+- **Environment Variable Isolation:** Introduced `NEXT_PUBLIC_FEATURE_TWO_API_URL` and removed the overloaded `NEXT_PUBLIC_API_URL` usage from Feature 2 components to prevent cross-contamination of API calls in production.
+
+### 4. API Investigation
+
+- **Endpoints Tested:** Thoroughly tested the external Feature 2 inbox, templates, and campaigns endpoints.
+- **Failures & Root Cause Analysis:** Verified that failures (e.g., specific template fetch errors, campaign validation mismatches resulting in `500` status codes) were explicitly originating from the external `shipping-automation` backend and/or Meta configuration, confirming they are **not** AutoShipp frontend defects.
+
+### 5. Repository & Git Work
+
+- **Repository cleanup:** Appended missing ignores (e.g., `pnpm-debug.log`, `.env`) to `.gitignore`.
+- **Lockfile & pnpm migration:** Resolved Vercel `ERR_PNPM_OUTDATED_LOCKFILE` by purging an accidental `apps/frontend/package-lock.json` and fully regenerating a normalized `pnpm-lock.yaml` (inclusive of new `recharts` dependencies).
+- **Merge Verification:** Performed a strict dry-run merge before successfully executing a fast-forward merge of `pre-prod` into `main` (`commit d9da5cf`).
+- **Branch Management:** Following the completion of the `main` deployment setup, the repository was successfully checked out back to `pre-prod` per owner request.
+- **Commits Created:** `chore: merge pre-prod into main`, `chore: isolate feature two api url for deployment` (on `main`).
+
+### 6. Deployment Work
+
+- **Vercel deployment investigation:** Investigated and resolved the "No Next.js version detected" deployment blocker.
+- **Monorepo Configuration:** Established that Vercel must have the **Root Directory** explicitly set to `apps/frontend` for Next.js and Turborepo to build correctly.
+- **Production validation:** Confirmed structural readiness with successful local `pnpm build`, `turbo run typecheck`, and `turbo run test`.
+- **Chrome Permission Investigation:** Diagnosed the `"wants to access other apps and services"` browser prompt as a Chrome Private Network Access (PNA) security block caused by missing environment variables falling back to `http://localhost:3001` in production.
+
+### 7. Environment Variables
+
+- **Final Environment Architecture:** Explicitly decoupled the backend APIs.
+- **Required:**
+  - `NEXT_PUBLIC_API_URL` (For AutoShipp Core Platform)
+  - `NEXT_PUBLIC_FEATURE_TWO_API_URL=https://shipping-automation.onrender.com/api/v1` (For Demo Dashboard)
+  - `GMAIL_USER` & `GMAIL_APP_PASSWORD` (For Book Demo route)
+- **Optional:**
+  - `NEXT_PUBLIC_TEMP_BRAND_ID` (Defaults to `momzcradle`)
+  - `NEXT_PUBLIC_FACEBOOK_APP_ID`, `NEXT_PUBLIC_META_CONFIG_ID`
+  - `TEMP_CLIENT_EMAIL`, `TEMP_CLIENT_PASSWORD`
+- **Deployment Notes:** A dummy URL (e.g., `https://api.autoshipp.in`) **MUST** be supplied to `NEXT_PUBLIC_API_URL` in Vercel to override the localhost fallback and silence the Chrome PNA security prompt.
+
+### 8. Production Status
+
+- **Current deployment status:** The `main` branch is 100% ready for Vercel deployment.
+- **What is currently working:** Temporary Dashboard UI, Feature 2 External Integration, Temporary Client Authentication, Eta Widget.
+- **What is intentionally not deployed:** The AutoShipp backend (NestJS, Prisma, Neon DB) is strictly dormant.
+- **Why it works:** The login flow natively halts and redirects upon recognizing the temporary credentials, entirely circumventing the missing AutoShipp backend.
+
+### 9. Known Issues
+
+- **External backend issues:** Lingering 500 errors on specific templates from `shipping-automation.onrender.com`.
+- **AutoShipp Backend:** Not yet hosted or connected to the production database.
+- **Branch Sync:** `main` currently has 1 commit (`chore: isolate feature two api url`) that does not exist on `pre-prod`.
+
+### 10. Evidence Collected
+
+- **Validation:**
+  - `turbo run typecheck` → PASSED
+  - `turbo run test` → PASSED (6 backend suites, 22 tests)
+  - `pnpm build` → PASSED
+- **Git:** Complete validation of a clean working tree prior to merges and branch switches.
+
+### 11. Next Recommended Tasks
+
+1. Execute the actual deployment in the Vercel Dashboard (ensuring Root Directory is `apps/frontend`).
+2. Provide the client with the temporary login credentials and demo URL.
+3. Merge `main` back into `pre-prod` to sync the environment variable isolation commit.
+4. Shift engineering focus to **Phase 1 (Database)** and **Phase 2 (Authentication)**: Provision the Neon Database, deploy the NestJS backend to Render, and establish real authentication so the core AutoShipp platform can wake up.

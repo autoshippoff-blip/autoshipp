@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useFormStatus } from 'react-dom';
-import { motion } from 'framer-motion';
-import { loginTempClient } from './actions';
-import { Lock, Mail, ArrowRight, ShieldCheck } from 'lucide-react';
-import { FadeInUp } from '@/components/AnimatedUI';
-import Image from 'next/image';
+import { useState } from "react";
+import { useFormStatus } from "react-dom";
+import { motion } from "framer-motion";
+import { loginTempClient } from "./actions";
+import { Lock, Mail, ArrowRight, ShieldCheck } from "lucide-react";
+import { FadeInUp } from "@/components/AnimatedUI";
+import Image from "next/image";
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -52,10 +52,11 @@ export default function ClientLoginPage() {
             </div>
           </div>
           <h2 className="mt-2 text-center text-3xl font-extrabold text-foreground tracking-tight">
-            Client Portal Access
+            Momzcradle Portal Access
           </h2>
           <p className="mt-2 text-center text-sm text-muted-foreground">
-            Please enter your provided credentials to access your secure dashboard.
+            Please enter your provided credentials to access your secure
+            dashboard.
           </p>
         </FadeInUp>
       </div>
@@ -101,8 +102,8 @@ export default function ClientLoginPage() {
               </div>
 
               {error && (
-                <motion.div 
-                  initial={{ opacity: 0, y: -10 }} 
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
                   className="p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-500 text-sm font-medium text-center"
                 >

@@ -25,7 +25,7 @@ import {
   Legend,
 } from "recharts";
 
-const COLORS = ["#10b981", "#3b82f6", "#f43f5e", "#f59e0b"]; // Emerald (Delivered), Blue (Read), Rose (Failed), Amber (Transit)
+const COLORS = ["#10b981", "#3b82f6", "#f43f5e", "#f59e0b"]; // Emerald (Delivered), Blue (Read), Rose (Failed), Amber (Sent)
 
 // Helper to generate realistic-looking time series data based on total volume
 const generateTimeSeries = (total) => {
@@ -120,104 +120,12 @@ export function AnalyticsView() {
     }
   }
 
-  const totalMessages =
-    (displayWa?.QUEUED || 0) +
-    (displayWa?.SENT || 0) +
-    (displayWa?.DELIVERED || 0) +
-    (displayWa?.READ || 0) +
-    (displayWa?.FAILED || 0);
-
   return (
     <div className="space-y-6 animate-in fade-in duration-500">
-      {/* Custom Minimal Filter Dropdown */}
+      {/* Campaign Info */}
       <div className="flex items-center mb-6">
-        <div className="relative inline-block">
-          {/* Dropdown Button */}
-          <button
-            onClick={() => {
-              document
-                .getElementById("campaign-dropdown-menu")
-                .classList.toggle("hidden");
-              document
-                .getElementById("campaign-dropdown-backdrop")
-                .classList.toggle("hidden");
-            }}
-            className="flex items-center justify-between min-w-[200px] max-w-[280px] bg-card border border-border rounded-md px-3 py-1.5 text-sm font-medium text-foreground shadow-sm hover:bg-muted/50 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-colors"
-          >
-            <span className="truncate mr-4">
-              {selectedCampaignId === "all"
-                ? "All Campaigns"
-                : campaigns?.find((c) => c.campaignId === selectedCampaignId)
-                    ?.name || "Unknown Campaign"}
-            </span>
-            <svg
-              className="h-4 w-4 opacity-70 flex-shrink-0"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M19 9l-7 7-7-7"
-              />
-            </svg>
-          </button>
-
-          {/* Invisible Backdrop to close on click outside */}
-          <div
-            id="campaign-dropdown-backdrop"
-            className="fixed inset-0 z-40 hidden"
-            onClick={() => {
-              document
-                .getElementById("campaign-dropdown-menu")
-                .classList.add("hidden");
-              document
-                .getElementById("campaign-dropdown-backdrop")
-                .classList.add("hidden");
-            }}
-          ></div>
-
-          {/* Dropdown Menu */}
-          <div
-            id="campaign-dropdown-menu"
-            className="absolute left-0 top-full mt-1 w-[280px] bg-card border border-border rounded-md shadow-lg z-50 hidden max-h-[240px] overflow-y-auto"
-          >
-            <ul className="py-1 text-sm text-foreground">
-              <li
-                className={`px-3 py-2 cursor-pointer hover:bg-muted transition-colors ${selectedCampaignId === "all" ? "bg-muted/50 font-medium" : ""}`}
-                onClick={() => {
-                  setSelectedCampaignId("all");
-                  document
-                    .getElementById("campaign-dropdown-menu")
-                    .classList.add("hidden");
-                  document
-                    .getElementById("campaign-dropdown-backdrop")
-                    .classList.add("hidden");
-                }}
-              >
-                All Campaigns
-              </li>
-              {campaigns?.map((camp, idx) => (
-                <li
-                  key={`${camp.campaignId}-${idx}`}
-                  className={`px-3 py-2 cursor-pointer hover:bg-muted transition-colors truncate ${selectedCampaignId === camp.campaignId ? "bg-muted/50 font-medium" : ""}`}
-                  onClick={() => {
-                    setSelectedCampaignId(camp.campaignId);
-                    document
-                      .getElementById("campaign-dropdown-menu")
-                      .classList.add("hidden");
-                    document
-                      .getElementById("campaign-dropdown-backdrop")
-                      .classList.add("hidden");
-                  }}
-                >
-                  {camp.name}
-                </li>
-              ))}
-            </ul>
-          </div>
+        <div className="bg-muted/50 border border-border rounded-md px-3 py-1.5 text-sm font-medium text-muted-foreground shadow-sm">
+          All Campaigns
         </div>
       </div>
 
@@ -225,8 +133,8 @@ export function AnalyticsView() {
         <h3 className="text-lg font-medium text-foreground mb-4">
           WhatsApp Performance
         </h3>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
-          <StatCard title="Total Messages" value={totalMessages} />
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+          <StatCard title="Sent" value={displayWa?.SENT || 0} />
           <StatCard
             title="Delivered"
             value={displayWa?.DELIVERED || 0}
@@ -246,14 +154,6 @@ export function AnalyticsView() {
             change="-2%"
             className="border-destructive/20"
           />
-        </div>
-        <div className="text-sm text-muted-foreground bg-muted/30 p-4 rounded-lg border border-border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 mb-8">
-          <span className="font-medium text-foreground">
-            In Transit: {displayWa?.SENT || 0}
-          </span>
-          <span className="text-xs">
-            *Messages sent but awaiting delivery confirmation.
-          </span>
         </div>
 
         {/* Charts Section */}
@@ -339,7 +239,7 @@ export function AnalyticsView() {
                       { name: "Delivered", value: displayWa?.DELIVERED || 0 },
                       { name: "Read", value: displayWa?.READ || 0 },
                       { name: "Failed", value: displayWa?.FAILED || 0 },
-                      { name: "In Transit", value: displayWa?.SENT || 0 },
+                      { name: "Sent", value: displayWa?.SENT || 0 },
                     ].filter((d) => d.value > 0)}
                     cx="50%"
                     cy="50%"
@@ -353,7 +253,7 @@ export function AnalyticsView() {
                       { name: "Delivered", value: displayWa?.DELIVERED || 0 },
                       { name: "Read", value: displayWa?.READ || 0 },
                       { name: "Failed", value: displayWa?.FAILED || 0 },
-                      { name: "In Transit", value: displayWa?.SENT || 0 },
+                      { name: "Sent", value: displayWa?.SENT || 0 },
                     ]
                       .filter((d) => d.value > 0)
                       .map((entry, index) => (

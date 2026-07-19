@@ -54,6 +54,24 @@ enum RelationshipType {
   PARTNERS_WITH
 }
 
+enum ProductStatus {
+  ACTIVE
+  DEPRECATED
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  CANCELED
+  SUSPENDED
+  EXPIRED
+}
+
+enum BillingCycle {
+  MONTHLY
+  YEARLY
+  ONE_TIME
+}
+
 model User {
   id            String     @id @default(uuid()) @db.Uuid
   email         String     @unique @db.VarChar(255)
@@ -124,7 +142,8 @@ model Organization {
   creator             User?                      @relation("OrganizationCreator", fields: [createdBy], references: [id])
   updater             User?                      @relation("OrganizationUpdater", fields: [updatedBy], references: [id])
   memberships         Membership[]
-  products            OrganizationProduct[]
+  subscriptions       Subscription[]
+  assignments         Assignment[]
   wallets             Wallet[]
   parentRelationships OrganizationRelationship[] @relation("ChildOrganization")
   childRelationships  OrganizationRelationship[] @relation("ParentOrganization")
@@ -285,28 +304,76 @@ model EmailVerificationToken {
 }
 
 model Product {
-  id          String   @id @default(uuid()) @db.Uuid
-  name        String
-  description String?
-  status      String   @default("active")
-  createdAt   DateTime @default(now()) @map("created_at")
+  id          String        @id @default(uuid()) @db.Uuid
+  name        String        @db.VarChar(255)
+  description String?       @db.Text
+  apiEndpoint String?       @map("api_endpoint") @db.VarChar(255)
+  version     String        @default("1.0.0") @db.VarChar(50)
+  status      ProductStatus @default(ACTIVE)
 
-  organizations OrganizationProduct[]
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+
+  subscriptions Subscription[]
 
   @@map("products")
 }
 
-model OrganizationProduct {
-  id             String   @id @default(uuid()) @db.Uuid
-  organizationId String   @map("organization_id") @db.Uuid
-  productId      String   @map("product_id") @db.Uuid
-  status         String   @default("active")
-  createdAt      DateTime @default(now()) @map("created_at")
+model Subscription {
+  id             String             @id @default(uuid()) @db.Uuid
+  organizationId String             @map("organization_id") @db.Uuid
+  productId      String             @map("product_id") @db.Uuid
+  status         SubscriptionStatus @default(ACTIVE)
+  billingCycle   BillingCycle       @default(MONTHLY) @map("billing_cycle")
+  
+  effectiveFrom  DateTime           @default(now()) @map("effective_from")
+  effectiveUntil DateTime?          @map("effective_until")
+
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
 
   organization Organization @relation(fields: [organizationId], references: [id])
   product      Product      @relation(fields: [productId], references: [id])
+  assignments  Assignment[]
+  entitlements Entitlement[]
 
-  @@map("organization_products")
+  @@index([organizationId])
+  @@index([productId])
+  @@map("subscriptions")
+}
+
+model Assignment {
+  id             String    @id @default(uuid()) @db.Uuid
+  subscriptionId String    @map("subscription_id") @db.Uuid
+  organizationId String    @map("organization_id") @db.Uuid
+  isActive       Boolean   @default(true) @map("is_active")
+  assignedAt     DateTime  @default(now()) @map("assigned_at")
+  assignedBy     String?   @map("assigned_by") @db.Uuid
+  assignedByOrg  String?   @map("assigned_by_org") @db.Uuid
+
+  subscription Subscription @relation(fields: [subscriptionId], references: [id])
+  organization Organization @relation(fields: [organizationId], references: [id])
+
+  @@unique([subscriptionId, organizationId])
+  @@index([organizationId])
+  @@map("assignments")
+}
+
+model Entitlement {
+  id             String    @id @default(uuid()) @db.Uuid
+  subscriptionId String    @map("subscription_id") @db.Uuid
+  featureCode    String    @map("feature_code") @db.VarChar(100)
+  limit          Int?
+  used           Int       @default(0)
+
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+
+  subscription Subscription @relation(fields: [subscriptionId], references: [id])
+
+  @@unique([subscriptionId, featureCode])
+  @@map("entitlements")
 }
 
 model Wallet {

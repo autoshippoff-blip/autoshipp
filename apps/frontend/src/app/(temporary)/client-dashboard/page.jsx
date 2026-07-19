@@ -27,7 +27,7 @@ export default function ClientDashboardPage() {
       color: "text-purple-500",
       bg: "bg-purple-500/10",
       border: "border-purple-500/20",
-      href: "https://returnflow-frontend.onrender.com/dashboard?clientId=89dd70ce-fc05-4ad7-b7e5-112cfad041aa",
+      href: "https://retrun-flow-off.vercel.app/dashboard?clientId=89dd70ce-fc05-4ad7-b7e5-112cfad041aa",
       external: true,
     },
     {

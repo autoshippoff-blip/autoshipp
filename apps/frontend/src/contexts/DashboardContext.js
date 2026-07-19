@@ -13,6 +13,8 @@ const DashboardContext = createContext({
   toggleTheme: () => {},
   sidebarOpen: false,
   setSidebarOpen: () => {},
+  desktopSidebarCollapsed: false,
+  setDesktopSidebarCollapsed: () => {},
 });
 
 export function DashboardProvider({ children }) {
@@ -25,6 +27,16 @@ export function DashboardProvider({ children }) {
     return isNightTime();
   });
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [desktopSidebarCollapsed, setDesktopSidebarCollapsed] = useState(false);
+
+  // Sync dark class with document element
+  useEffect(() => {
+    if (isDark) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, [isDark]);
 
   // Re-evaluate every minute at the 6am/6pm threshold (only if no saved preference)
   useEffect(() => {
@@ -47,7 +59,14 @@ export function DashboardProvider({ children }) {
 
   return (
     <DashboardContext.Provider
-      value={{ isDark, toggleTheme, sidebarOpen, setSidebarOpen }}
+      value={{
+        isDark,
+        toggleTheme,
+        sidebarOpen,
+        setSidebarOpen,
+        desktopSidebarCollapsed,
+        setDesktopSidebarCollapsed,
+      }}
     >
       {children}
     </DashboardContext.Provider>

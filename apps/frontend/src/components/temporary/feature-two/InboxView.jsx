@@ -29,6 +29,7 @@ export function InboxView() {
   };
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchCustomers();
     // Poll every 5 seconds for new inbound customers
     const interval = setInterval(() => fetchCustomers(true), 5000);
@@ -120,6 +121,7 @@ function ChatPanel({ phone }) {
   );
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchHistory();
     // Poll every 5 seconds for new inbound chat messages
     const interval = setInterval(() => fetchHistory(true), 5000);

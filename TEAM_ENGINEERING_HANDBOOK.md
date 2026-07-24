@@ -8,7 +8,15 @@ This handbook serves as the single source of truth for how the team operates, wr
 
 ## Temporary Priority First
 
-> **⚠️ URGENT:** This section temporarily overrides standard processes to serve a single live client immediately. Do **not** connect this implementation with the main architecture or alter long-term plans.
+> **⚠️ URGENT:** This section temporarily overrides standard processes to serve a single live client immediately.
+
+**Temporary Implementation Rules:**
+
+- Temporary implementations remain isolated.
+- Temporary implementations must not become dependencies of permanent architecture.
+- Temporary implementations must not modify long-term architectural decisions.
+- Temporary implementations must never be promoted into permanent architecture without explicit architecture review and approval.
+- Temporary implementations are replaced or removed once permanent implementations exist.
 
 **Goal:** Allow our single live client to log in and view the dashboard for the two currently ready features in production today.
 
@@ -66,14 +74,27 @@ pnpm dev
 **Part I — Team & Principles**
 
 1. [Guiding Principles](#1-guiding-principles)
-2. [Team Composition](#2-team-composition)
-3. [Architecture Ownership Matrix](#3-architecture-ownership-matrix)
+2. [Team Structure](#2-team-structure)
+   - 2.1 [Feature Ownership Policy](#21-feature-ownership-policy)
+   - 2.2 [Parallel Development Policy](#22-parallel-development-policy)
+   - 2.3 [Feature Reservation & Lock Workflow](#23-feature-reservation--lock-workflow)
+3. [Feature Ownership Registry](#3-feature-ownership-registry)
 
-**Part II — Development Environment** 4. [Tech Stack](#4-tech-stack) 5. [Architecture Diagram](#5-architecture-diagram) 6. [Local Environment Matrix & Remote Dev Flow](#6-local-environment-matrix--remote-dev-flow) 7. [Initial Bootstrap Checklist](#7-initial-bootstrap-checklist)
+**Part II — Development Environment & Architecture** 4. [Architecture & Tech Stack Reference](#4-architecture--tech-stack-reference) 5. [Local Environment Matrix & Remote Dev Flow](#5-local-environment-matrix--remote-dev-flow) 6. [Initial Bootstrap Checklist](#6-initial-bootstrap-checklist)
 
-**Part III — Workflow** 8. [Shared Workflow & Branching](#8-shared-workflow--branching) 9. [Merge Policy](#9-merge-policy) 10. [Code Review Guidelines](#10-code-review-guidelines) 11. [Definition of Done (DoD)](#11-definition-of-done-dod)
+**Part III — Workflow** 7. [Session Workflows](#7-session-workflows)
 
-**Part IV — Planning** 12. [Task Management & Living Backlog](#12-task-management--living-backlog) 13. [Sprint & Planning Strategy](#13-sprint--planning-strategy) 14. [Task Sizing](#14-task-sizing) 15. [Project Roadmap](#15-project-roadmap)
+- 7.1 [Session Start Workflow](#71-session-start-workflow)
+- 7.2 [Session End Workflow](#72-session-end-workflow)
+- 7.3 [AI Collaboration Workflow](#73-ai-collaboration-workflow)
+- 7.4 [Engineering Report Standard](#74-engineering-report-standard)
+
+8. [Shared Workflow & Branching](#8-shared-workflow--branching)
+9. [Merge Governance](#9-merge-governance)
+10. [Code Review Guidelines](#10-code-review-guidelines)
+11. [Definition of Done (DoD)](#11-definition-of-done-dod)
+
+**Part IV — Planning** 12. [Task Management & Living Backlog](#12-task-management--living-backlog) 13. [Sprint & Planning Strategy](#13-sprint--planning-strategy) 14. [Task Sizing](#14-task-sizing) 15. [Project Roadmap Reference](#15-project-roadmap-reference)
 
 **Part V — Engineering Standards** 16. [API Contract & Versioning Policy](#16-api-contract--versioning-policy) 17. [Database Migration Workflow](#17-database-migration-workflow) 18. [Testing Strategy](#18-testing-strategy) 19. [Security Checklist](#19-security-checklist) 20. [Performance Budget](#20-performance-budget) 21. [Coding Standards](#21-coding-standards)
 
@@ -102,67 +123,117 @@ pnpm dev
 - Mock APIs before waiting for backend completion.
 - Refactor and improve docs during idle time.
 
-### 2. Team Composition
+### 2. Team Structure
 
-- **Abbas (Core Dev):** RTX 4050 GPU, Intel i5 13th Gen, supports Docker. (High Compute)
-- **Grannie:** Intel i5 12th Gen, NO dedicated GPU, NO Docker. (Light Compute)
+#### ABBAS (Lead Developer)
 
-### 3. Architecture Ownership Matrix
+ABBAS is the primary platform owner.
 
-| Area              | Owner   | Backup                |
-| :---------------- | :------ | :-------------------- |
-| **Repository**    | Abbas   | Grannie               |
-| **CI/CD**         | Abbas   | —                     |
-| **Backend**       | Abbas   | Grannie (minor fixes) |
-| **Database**      | Abbas   | —                     |
-| **Frontend**      | Grannie | Abbas                 |
-| **UI Components** | Grannie | Abbas                 |
-| **API Contracts** | Shared  | Shared                |
-| **Documentation** | Shared  | Shared                |
-| **Releases**      | Abbas   | Shared                |
+Responsibilities include:
+
+- Overall architecture ownership.
+- Final architectural decisions.
+- Docker environment maintenance.
+- Local infrastructure maintenance.
+- PostgreSQL management.
+- Redis / BullMQ management.
+- CI/CD ownership.
+- Repository integration.
+- Merge conflict resolution.
+- Feature review and approval.
+- Production readiness review.
+- Performance optimization.
+- Security review.
+- Database migrations.
+- Development environment maintenance.
+- Final integration of completed features.
+- Repository hygiene.
+- Architecture compliance verification.
+
+Development Environment:
+
+- High-performance development workstation.
+- Full Docker support.
+- Complete AutoShipp local stack.
+- Primary integration environment.
+
+#### GRANNY (Feature Developer)
+
+GRANNY is the feature implementation developer.
+
+Responsibilities include:
+
+- Implement assigned architecture features.
+- Follow Full-architecture-file-autoshipp.md.
+- Follow AGENT.md.
+- Follow TEAM_ENGINEERING_HANDBOOK.md.
+- Produce discovery reports.
+- Produce implementation plans.
+- Produce implementation reports.
+- Produce architecture validation reports.
+- Produce session handovers.
+- Keep the working tree clean before ending a session.
+- Stop immediately if architecture ambiguity is discovered.
+- Never implement features outside assigned ownership.
+
+Development Environment:
+
+- Mid-range laptop.
+- Docker-supported development environment.
+- Optimized for feature implementation rather than full platform infrastructure.
+
+### 2.1 Feature Ownership Policy
+
+- Every architecture feature has exactly one active owner.
+- ABBAS assigns ownership.
+- GRANNY only works on assigned features.
+- Ownership transfers must be documented in HANDOVER.md.
+- No developer may begin implementation without verifying ownership.
+- If ownership is unclear, implementation must stop until clarified.
+
+### 2.2 Parallel Development Policy
+
+- Marketplace cannot have two active developers simultaneously.
+- Billing cannot have two active developers simultaneously.
+- Wallet cannot have two active developers simultaneously.
+- Any AES feature may have only one active owner.
+- If overlap is detected, work stops until ABBAS resolves ownership.
+
+### 2.3 Feature Reservation & Lock Workflow
+
+The lifecycle of any architecture feature is strictly defined as:
+`Unassigned` → `Reserved` → `In Progress` → `Architecture Review` → `Released` → `Ownership Closed`
+
+**Session Lock (Feature Lock):**
+
+- When a feature enters the **Reserved** or **In Progress** state, it is considered **locked**.
+- Only one developer may reserve or own a feature at any time.
+- No other developer or AI session may begin discovery or implementation on that feature until the lock is released.
+
+### 3. Feature Ownership Registry
+
+This registry tracks the active owner of AES features to prevent parallel development conflicts. This is a living registry and must be updated whenever ownership changes.
+
+| Architecture Feature | Feature Name | Owner      | Current Branch | State      | Started By | Last Updated | Integration Status           |
+| :------------------- | :----------- | :--------- | :------------- | :--------- | :--------- | :----------- | :--------------------------- |
+| AES-009              | Marketplace  | Unassigned | None           | Unassigned | None       | 2026-07-24   | Pending Ownership Resolution |
+| AES-006              | Billing      | Unassigned | None           | Unassigned | None       | 2026-07-24   | Pending Ownership Resolution |
+
+_(Note: Add features here as they are assigned. Identifiers must come directly from the architecture. Do not populate with speculative assignments.)_
 
 ---
 
-## Part II — Development Environment
+## Part II — Development Environment & Architecture
 
-### 4. Tech Stack
+### 4. Architecture & Tech Stack Reference
 
-| Layer               | Recommendation                 | Reason                               |
-| :------------------ | :----------------------------- | :----------------------------------- |
-| **Frontend**        | Next.js + TypeScript           | Mature ecosystem, SSR/CSR support    |
-| **Backend**         | NestJS or Express + TypeScript | Same language across stack           |
-| **ORM**             | Prisma                         | Excellent migrations and type safety |
-| **Database**        | PostgreSQL                     | Production-ready                     |
-| **Cache**           | Redis                          | Sessions, caching                    |
-| **Auth**            | JWT + Refresh Tokens           | Simple MVP authentication            |
-| **Package Manager** | pnpm                           | Fast, workspace support              |
-| **Monorepo**        | Turborepo (optional)           | Scales well if project grows         |
+The **Tech Stack** and **Architecture Diagram** are authoritative solely within the primary architecture documentation.
+Do not maintain competing versions of the stack or architecture in this handbook.
 
-### 5. Architecture Diagram
+- For the Tech Stack, refer to `Full-architecture-file-autoshipp.md` (e.g., Next.js, NestJS, Neon PostgreSQL, Upstash Redis).
+- For Architectural Diagrams and entity relationships, refer to `Full-architecture-file-autoshipp.md` and `autoshipp-architecture-diagrams.md`.
 
-```text
-          GitHub
-             │
-             ▼
-     GitHub Actions
-             │
-             ▼
-      Preview Deployment
-             │
-     ┌───────┴────────┐
-     ▼                ▼
- Next.js         NestJS API
-     │                │
-     └──────┬─────────┘
-            ▼
-        PostgreSQL
-            │
-      ┌─────┴─────┐
-      ▼           ▼
-    Redis      Object Storage
-```
-
-### 6. Local Environment Matrix & Remote Dev Flow
+### 5. Local Environment Matrix & Remote Dev Flow
 
 | Component      | Abbas                 | Grannie               |
 | :------------- | :-------------------- | :-------------------- |
@@ -177,7 +248,7 @@ pnpm dev
 - Abbas deploys backend changes automatically after merging.
 - Grannie always targets the latest development API.
 
-### 7. Initial Bootstrap Checklist
+### 6. Initial Bootstrap Checklist
 
 - [x] Create GitHub repository & configure branch protection
 - [x] Add LICENSE & README
@@ -191,11 +262,80 @@ pnpm dev
 
 ## Part III — Workflow
 
+### 7. Session Workflows
+
+#### 7.1 Session Start Workflow
+
+Every development session must begin by:
+
+1. Pulling the latest repository.
+2. Reading HANDOVER.md.
+3. Reading TEAM_ENGINEERING_HANDBOOK.md.
+4. Reading the relevant architecture sections.
+5. Verifying feature ownership in the Feature Ownership Registry and HANDOVER.
+6. Reviewing recent commits.
+7. Checking for overlapping work.
+8. Performing discovery.
+9. Producing an implementation plan before coding.
+
+#### 7.2 Session End Workflow
+
+Every development session must end by:
+
+- Updating HANDOVER.md.
+- Recording completed work.
+- Recording architecture decisions.
+- Recording outstanding work.
+- Recording repository state.
+- Recording current feature ownership.
+- Recording possible overlap risks.
+- Recording validation completed.
+- Ensuring the working tree is clean or documenting why it is not.
+- Stopping after the handover is complete.
+
+#### 7.3 AI Collaboration Workflow
+
+Before implementation, every AI-assisted session must execute the following discovery steps:
+
+- Review the current HANDOVER.
+- Review the engineering handbook (`TEAM_ENGINEERING_HANDBOOK.md`).
+- Review relevant architecture sections (`Full-architecture-file-autoshipp.md`).
+- Verify feature ownership.
+- Review recent repository activity.
+- Compare recent repository activity to detect overlapping modified modules.
+- Detect overlapping architecture features.
+- **Stop immediately** if overlap exists.
+- Report the overlap before any implementation planning begins.
+- Perform discovery.
+- Produce an implementation plan before coding.
+
+#### 7.4 Engineering Report Standard
+
+Every completed implementation must include a standard engineering report containing:
+
+- Executive Summary
+- Architecture Mapping
+- Discovery Summary
+- Files Changed
+- Validation Performed
+- Tests Executed
+- Risks
+- Remaining Work
+- Next Approved Task
+
 ### 8. Shared Workflow & Branching
 
 **Branch Strategy:** `main` | `feature/*` | `bugfix/*` | `hotfix/*` | `release/*`
 
-### 9. Merge Policy
+### 9. Merge Governance
+
+Repository integration follows strict ownership bounds:
+
+- **ABBAS** manages repository integration.
+- **GRANNY** submits completed work for review.
+- **ABBAS** performs final architecture verification.
+- **ABBAS** declares architecture features complete.
+- **Protected Integration Branches** receive reviewed work only.
 
 Merge only if:
 
@@ -252,15 +392,10 @@ Avoid heavyweight Scrum. Use lightweight Kanban.
 No task should exceed 3 days without being decomposed.
 **XS:** < 2 hours | **S:** Half day | **M:** 1 day | **L:** 2–3 days | **XL:** Split before starting
 
-### 15. Project Roadmap
+### 15. Project Roadmap Reference
 
-- **[x] Phase 1 Foundation**
-- **[x] Phase 2 Authentication**
-- **[x] Phase 3 CRUD**
-- **[x] Phase 4 Dashboard**
-- **[x] Phase 5 Testing**
-- **[ ] Phase 6 Production**
-- **[ ] Phase 7 Enhancements**
+Implementation sequencing follows the approved architecture roadmap (`Full-architecture-file-autoshipp.md` and `collaborative_dev_plan.md`) and the current priorities defined in `HANDOVER.md`.
+Do not maintain a generic phase-based roadmap here.
 
 ---
 
@@ -283,10 +418,23 @@ No manual database edits are permitted.
 
 ### 18. Testing Strategy
 
-- **Unit Tests:** Feature Developer (>90% Critical)
-- **Integration Tests:** Abbas
-- **UI Tests:** Grannie
-- **Smoke/Manual:** Shared
+Testing responsibilities are strictly separated to maintain quality:
+
+**Feature Developer (GRANNY):**
+
+- Unit tests.
+- Feature integration tests.
+- Static validation.
+
+**Platform Lead (ABBAS):**
+
+- Cross-feature integration validation.
+- Platform validation.
+- Final architecture verification.
+
+**Shared:**
+
+- Manual runtime validation remains the responsibility of the developer performing the verification.
 
 ### 19. Security Checklist
 

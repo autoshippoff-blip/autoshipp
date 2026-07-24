@@ -6,6 +6,7 @@ import {
   Body,
   Param,
   Request,
+  Query,
   UseGuards,
   ParseUUIDPipe,
 } from '@nestjs/common';
@@ -34,8 +35,12 @@ export class OrganizationMarketplaceController {
   @RequirePermissions(PlatformPermission.MARKETPLACE_MANAGE)
   async getCatalog(
     @Param('orgId', ParseUUIDPipe) orgId: string,
+    @Query('categoryId') categoryId?: string,
   ): Promise<CatalogResponseDto[]> {
-    const items = await this.catalogService.getCatalogForOrganization(orgId);
+    const items = await this.catalogService.getCatalogForOrganization(
+      orgId,
+      categoryId,
+    );
     return items.map((item) => new CatalogResponseDto(item));
   }
 

@@ -1,10 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../../prisma.service';
-import { ProductModel } from '../domain/marketplace.models';
+import {
+  ProductModel,
+  ProductCategoryModel,
+  ProductEditionModel,
+} from '../domain/marketplace.models';
 import { ProductStatus, SubscriptionStatus } from '@prisma/client';
 
 export interface CatalogItemModel extends ProductModel {
   isSubscribed: boolean;
+  editions?: ProductEditionModel[];
 }
 
 /**
@@ -18,12 +23,34 @@ export interface CatalogItemModel extends ProductModel {
 export class MarketplaceCatalogService {
   constructor(private readonly prisma: PrismaService) {}
 
+  async getCategories(): Promise<ProductCategoryModel[]> {
+    return await this.prisma.productCategory.findMany({
+      orderBy: { sortOrder: 'asc' },
+    });
+  }
+
   async getCatalogForOrganization(
     organizationId: string,
+    categoryId?: string,
   ): Promise<CatalogItemModel[]> {
     // 1. Fetch all ACTIVE products from the registry
+    const whereClause: any = { status: ProductStatus.ACTIVE };
+    if (categoryId) {
+      whereClause.categoryId = categoryId;
+    }
+
     const activeProducts = await this.prisma.product.findMany({
-      where: { status: ProductStatus.ACTIVE },
+      where: whereClause,
+      include: {
+        editions: {
+          where: { active: true },
+          include: {
+            features: {
+              include: { feature: true },
+            },
+          },
+        },
+      },
     });
 
     // 2. Fetch the organization's valid active subscriptions
@@ -52,6 +79,20 @@ export class MarketplaceCatalogService {
       status: product.status,
       createdAt: product.createdAt,
       isSubscribed: subscribedProductIds.has(product.id),
+      editions: product.editions.map((e) => ({
+        id: e.id,
+        code: e.code,
+        name: e.name,
+        description: e.description,
+        sortOrder: e.sortOrder,
+        active: e.active,
+        features: e.features.map((f) => ({
+          id: f.feature.id,
+          code: f.feature.code,
+          name: f.feature.name,
+          description: f.feature.description,
+        })),
+      })),
     }));
   }
 }

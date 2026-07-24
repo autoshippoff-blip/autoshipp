@@ -2,8 +2,42 @@ import { ProductStatus } from '@prisma/client';
 
 export interface EntitlementModel {
   id: string;
-  key: string;
-  value: string;
+  featureCode: string;
+  limit: number | null;
+  used: number;
+}
+
+export interface ProductCategoryModel {
+  id: string;
+  code: string;
+  name: string;
+  description: string | null;
+  sortOrder: number;
+}
+
+export interface ProductVersionModel {
+  id: string;
+  version: string;
+  releasedAt: Date;
+  deprecatedAt: Date | null;
+  supported: boolean;
+}
+
+export interface ProductFeatureModel {
+  id: string;
+  code: string;
+  name: string;
+  description: string | null;
+}
+
+export interface ProductEditionModel {
+  id: string;
+  code: string;
+  name: string;
+  description: string | null;
+  sortOrder: number;
+  active: boolean;
+  features?: ProductFeatureModel[];
 }
 
 export interface ProductModel {

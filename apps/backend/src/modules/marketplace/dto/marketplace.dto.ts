@@ -5,6 +5,8 @@ import {
   IsDateString,
   IsArray,
   ValidateNested,
+  IsNumber,
+  IsBoolean,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 
@@ -12,6 +14,21 @@ export enum BillingCycle {
   MONTHLY = 'MONTHLY',
   YEARLY = 'YEARLY',
   ONE_TIME = 'ONE_TIME',
+}
+
+export class CreateProductCategoryDto {
+  @IsString()
+  code: string;
+
+  @IsString()
+  name: string;
+
+  @IsOptional()
+  @IsString()
+  description?: string;
+
+  @IsNumber()
+  sortOrder: number;
 }
 
 export class CreateProductDto {
@@ -24,11 +41,47 @@ export class CreateProductDto {
 
   @IsOptional()
   @IsString()
+  categoryId?: string;
+
+  @IsOptional()
+  @IsString()
   version?: string;
 
   @IsOptional()
   @IsString()
   apiEndpoint?: string;
+}
+
+export class CreateProductVersionDto {
+  @IsString()
+  version: string;
+}
+
+export class CreateProductEditionDto {
+  @IsString()
+  code: string;
+
+  @IsString()
+  name: string;
+
+  @IsOptional()
+  @IsString()
+  description?: string;
+
+  @IsNumber()
+  sortOrder: number;
+}
+
+export class CreateProductFeatureDto {
+  @IsString()
+  code: string;
+
+  @IsString()
+  name: string;
+
+  @IsOptional()
+  @IsString()
+  description?: string;
 }
 
 export class EntitlementDto {
@@ -43,6 +96,9 @@ export class CreateSubscriptionDto {
   @IsString()
   productId: string;
 
+  @IsString()
+  editionId: string;
+
   @IsEnum(BillingCycle)
   billingCycle: BillingCycle;
 
@@ -53,17 +109,83 @@ export class CreateSubscriptionDto {
   @IsOptional()
   @IsDateString()
   effectiveUntil?: string;
-
-  @IsOptional()
-  @IsArray()
-  @ValidateNested({ each: true })
-  @Type(() => EntitlementDto)
-  entitlements?: EntitlementDto[];
 }
 
 export class CreateAssignmentDto {
   @IsString()
   targetOrgId: string;
+}
+
+export class CategoryResponseDto {
+  id: string;
+  code: string;
+  name: string;
+  description: string | null;
+  sortOrder: number;
+
+  constructor(model: any) {
+    this.id = model.id;
+    this.code = model.code;
+    this.name = model.name;
+    this.description = model.description;
+    this.sortOrder = model.sortOrder;
+  }
+}
+
+export class ProductFeatureResponseDto {
+  id: string;
+  code: string;
+  name: string;
+  description: string | null;
+
+  constructor(model: any) {
+    this.id = model.id;
+    this.code = model.code;
+    this.name = model.name;
+    this.description = model.description;
+  }
+}
+
+export class ProductEditionResponseDto {
+  id: string;
+  code: string;
+  name: string;
+  description: string | null;
+  sortOrder: number;
+  active: boolean;
+  features?: ProductFeatureResponseDto[];
+
+  constructor(model: any) {
+    this.id = model.id;
+    this.code = model.code;
+    this.name = model.name;
+    this.description = model.description;
+    this.sortOrder = model.sortOrder;
+    this.active = model.active;
+    if (model.features) {
+      this.features = model.features.map(
+        (f) => new ProductFeatureResponseDto(f),
+      );
+    }
+  }
+}
+
+export class ProductVersionResponseDto {
+  id: string;
+  version: string;
+  releasedAt: string;
+  deprecatedAt: string | null;
+  supported: boolean;
+
+  constructor(model: any) {
+    this.id = model.id;
+    this.version = model.version;
+    this.releasedAt = model.releasedAt.toISOString();
+    this.deprecatedAt = model.deprecatedAt
+      ? model.deprecatedAt.toISOString()
+      : null;
+    this.supported = model.supported;
+  }
 }
 
 export class ProductResponseDto {
@@ -88,10 +210,16 @@ export class ProductResponseDto {
 
 export class CatalogResponseDto extends ProductResponseDto {
   isSubscribed: boolean;
+  editions?: ProductEditionResponseDto[];
 
   constructor(model: any) {
     super(model);
     this.isSubscribed = model.isSubscribed;
+    if (model.editions) {
+      this.editions = model.editions.map(
+        (e) => new ProductEditionResponseDto(e),
+      );
+    }
   }
 }
 

@@ -1,8 +1,20 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../../prisma.service';
-import { ProductModel } from '../domain/marketplace.models';
+import {
+  ProductModel,
+  ProductCategoryModel,
+  ProductVersionModel,
+  ProductEditionModel,
+  ProductFeatureModel,
+} from '../domain/marketplace.models';
 import { ProductNotFoundException } from '../exceptions/marketplace.exceptions';
-import { CreateProductDto } from '../dto/marketplace.dto';
+import {
+  CreateProductDto,
+  CreateProductCategoryDto,
+  CreateProductVersionDto,
+  CreateProductEditionDto,
+  CreateProductFeatureDto,
+} from '../dto/marketplace.dto';
 import { ProductStatus } from '@prisma/client';
 
 /**
@@ -28,11 +40,31 @@ export class ProductRegistryService {
     };
   }
 
+  async createCategory(
+    dto: CreateProductCategoryDto,
+  ): Promise<ProductCategoryModel> {
+    return await this.prisma.productCategory.create({
+      data: {
+        code: dto.code,
+        name: dto.name,
+        description: dto.description,
+        sortOrder: dto.sortOrder,
+      },
+    });
+  }
+
+  async listCategories(): Promise<ProductCategoryModel[]> {
+    return await this.prisma.productCategory.findMany({
+      orderBy: { sortOrder: 'asc' },
+    });
+  }
+
   async registerProduct(dto: CreateProductDto): Promise<ProductModel> {
     const product = await this.prisma.product.create({
       data: {
         name: dto.name,
         description: dto.description,
+        categoryId: dto.categoryId,
         version: dto.version || '1.0.0',
         apiEndpoint: dto.apiEndpoint,
         status: ProductStatus.ACTIVE,
@@ -55,6 +87,7 @@ export class ProductRegistryService {
       data: {
         name: dto.name,
         description: dto.description,
+        categoryId: dto.categoryId,
         version: dto.version,
         apiEndpoint: dto.apiEndpoint,
       },
@@ -83,5 +116,58 @@ export class ProductRegistryService {
       : { status: ProductStatus.ACTIVE };
     const products = await this.prisma.product.findMany({ where: whereClause });
     return products.map(this.mapToDomain);
+  }
+
+  async addVersion(
+    productId: string,
+    dto: CreateProductVersionDto,
+  ): Promise<ProductVersionModel> {
+    return await this.prisma.productVersion.create({
+      data: {
+        productId,
+        version: dto.version,
+      },
+    });
+  }
+
+  async addEdition(
+    productId: string,
+    dto: CreateProductEditionDto,
+  ): Promise<ProductEditionModel> {
+    return await this.prisma.productEdition.create({
+      data: {
+        productId,
+        code: dto.code,
+        name: dto.name,
+        description: dto.description,
+        sortOrder: dto.sortOrder,
+      },
+    });
+  }
+
+  async addFeature(
+    productId: string,
+    dto: CreateProductFeatureDto,
+  ): Promise<ProductFeatureModel> {
+    return await this.prisma.productFeature.create({
+      data: {
+        productId,
+        code: dto.code,
+        name: dto.name,
+        description: dto.description,
+      },
+    });
+  }
+
+  async assignFeatureToEdition(
+    editionId: string,
+    featureId: string,
+  ): Promise<void> {
+    await this.prisma.productFeatureAssignment.create({
+      data: {
+        editionId,
+        featureId,
+      },
+    });
   }
 }

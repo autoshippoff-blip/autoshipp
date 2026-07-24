@@ -57,6 +57,19 @@ export class SubscriptionService {
       throw new ProductDeprecatedException(dto.productId);
     }
 
+    const edition = await this.prisma.productEdition.findUnique({
+      where: { id: dto.editionId },
+      include: {
+        features: {
+          include: { feature: true },
+        },
+      },
+    });
+
+    if (!edition || edition.productId !== dto.productId) {
+      throw new Error('Invalid edition for product');
+    }
+
     const effectiveFrom = dto.effectiveFrom
       ? new Date(dto.effectiveFrom)
       : new Date();
@@ -99,11 +112,10 @@ export class SubscriptionService {
           effectiveUntil,
           status: SubscriptionStatus.ACTIVE,
           entitlements: {
-            create:
-              dto.entitlements?.map((e) => ({
-                featureCode: e.key,
-                limit: parseInt(e.value, 10) || null,
-              })) || [],
+            create: edition.features.map((e) => ({
+              featureCode: e.feature.code,
+              limit: null, // Hardcoded for MVP, actual implementation could map limits
+            })),
           },
         },
         include: {

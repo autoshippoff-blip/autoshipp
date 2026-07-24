@@ -11,6 +11,7 @@ import { CreateSubscriptionDto, BillingCycle } from '../dto/marketplace.dto';
 describe('MarketplaceController', () => {
   let controller: MarketplaceController;
   let subscriptionService: jest.Mocked<SubscriptionService>;
+  let catalogService: jest.Mocked<MarketplaceCatalogService>;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -18,7 +19,10 @@ describe('MarketplaceController', () => {
       providers: [
         {
           provide: MarketplaceCatalogService,
-          useValue: { getCatalogForOrganization: jest.fn() },
+          useValue: {
+            getCatalogForOrganization: jest.fn(),
+            getCategories: jest.fn(),
+          },
         },
         {
           provide: AssignmentService,
@@ -38,12 +42,14 @@ describe('MarketplaceController', () => {
 
     controller = module.get<MarketplaceController>(MarketplaceController);
     subscriptionService = module.get(SubscriptionService);
+    catalogService = module.get(MarketplaceCatalogService);
   });
 
   it('should propagate SubscriptionOverlapException to the ExceptionFilter boundary', async () => {
     const req = { user: { organization_id: 'org-1' } };
     const dto: CreateSubscriptionDto = {
       productId: 'prod-1',
+      editionId: 'ed-1',
       billingCycle: BillingCycle.MONTHLY,
     };
 
@@ -62,6 +68,7 @@ describe('MarketplaceController', () => {
     const req = { user: { organization_id: 'org-1' } };
     const dto: CreateSubscriptionDto = {
       productId: 'prod-1',
+      editionId: 'ed-1',
       billingCycle: BillingCycle.MONTHLY,
     };
 

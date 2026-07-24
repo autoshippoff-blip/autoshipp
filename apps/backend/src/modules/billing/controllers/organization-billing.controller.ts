@@ -10,7 +10,7 @@ import {
   UseFilters,
   BadRequestException,
 } from '@nestjs/common';
-import { PrismaClient } from '@prisma/client';
+import { PrismaService } from '../../../prisma.service';
 import { BillingService } from '../services/billing.service';
 import { PaymentService } from '../services/payment.service';
 import { JwtAuthGuard } from '../../auth/jwt-auth.guard';
@@ -33,7 +33,7 @@ export class OrganizationBillingController {
   constructor(
     private readonly billingService: BillingService,
     private readonly paymentService: PaymentService,
-    private readonly prisma: PrismaClient,
+    private readonly prisma: PrismaService,
   ) {}
 
   @Get('invoices')

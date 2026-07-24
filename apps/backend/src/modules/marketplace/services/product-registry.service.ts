@@ -19,23 +19,51 @@ export class ProductRegistryService {
   private mapToDomain(prismaProduct: any): ProductModel {
     return {
       id: prismaProduct.id,
+      code: prismaProduct.code,
       name: prismaProduct.name,
       description: prismaProduct.description,
-      version: prismaProduct.version,
       apiEndpoint: prismaProduct.apiEndpoint,
       status: prismaProduct.status,
       createdAt: prismaProduct.createdAt,
+      category: prismaProduct.category
+        ? {
+            id: prismaProduct.category.id,
+            code: prismaProduct.category.code,
+            name: prismaProduct.category.name,
+          }
+        : null,
+      currentVersion: prismaProduct.currentVersion,
+      currentEdition: prismaProduct.editions?.[0]?.code || null,
     };
   }
 
   async registerProduct(dto: CreateProductDto): Promise<ProductModel> {
     const product = await this.prisma.product.create({
       data: {
+        code: dto.code,
         name: dto.name,
         description: dto.description,
-        version: dto.version || '1.0.0',
+        categoryId: dto.categoryId,
+        currentVersion: dto.initialVersion,
         apiEndpoint: dto.apiEndpoint,
         status: ProductStatus.ACTIVE,
+        versions: {
+          create: [{ version: dto.initialVersion }],
+        },
+        editions: {
+          create: [
+            {
+              code: dto.initialEditionCode,
+              name: dto.initialEditionCode,
+              sortOrder: 1,
+              active: true,
+            },
+          ],
+        },
+      },
+      include: {
+        category: true,
+        editions: true,
       },
     });
     return this.mapToDomain(product);
@@ -55,8 +83,11 @@ export class ProductRegistryService {
       data: {
         name: dto.name,
         description: dto.description,
-        version: dto.version,
         apiEndpoint: dto.apiEndpoint,
+      },
+      include: {
+        category: true,
+        editions: true,
       },
     });
     return this.mapToDomain(product);
@@ -71,6 +102,10 @@ export class ProductRegistryService {
     const product = await this.prisma.product.update({
       where: { id },
       data: { status: ProductStatus.DEPRECATED },
+      include: {
+        category: true,
+        editions: true,
+      },
     });
     return this.mapToDomain(product);
   }
@@ -81,7 +116,13 @@ export class ProductRegistryService {
     const whereClause = includeDeprecated
       ? {}
       : { status: ProductStatus.ACTIVE };
-    const products = await this.prisma.product.findMany({ where: whereClause });
-    return products.map(this.mapToDomain);
+    const products = await this.prisma.product.findMany({
+      where: whereClause,
+      include: {
+        category: true,
+        editions: true,
+      },
+    });
+    return products.map((p) => this.mapToDomain(p));
   }
 }

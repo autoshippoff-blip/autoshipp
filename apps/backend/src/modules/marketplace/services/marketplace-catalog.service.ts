@@ -24,6 +24,10 @@ export class MarketplaceCatalogService {
     // 1. Fetch all ACTIVE products from the registry
     const activeProducts = await this.prisma.product.findMany({
       where: { status: ProductStatus.ACTIVE },
+      include: {
+        category: true,
+        editions: true,
+      },
     });
 
     // 2. Fetch the organization's valid active subscriptions
@@ -45,12 +49,21 @@ export class MarketplaceCatalogService {
     // 3. Resolve visibility
     return activeProducts.map((product) => ({
       id: product.id,
+      code: product.code,
       name: product.name,
       description: product.description,
-      version: product.version,
       apiEndpoint: product.apiEndpoint,
       status: product.status,
       createdAt: product.createdAt,
+      category: product.category
+        ? {
+            id: product.category.id,
+            code: product.category.code,
+            name: product.category.name,
+          }
+        : null,
+      currentVersion: product.currentVersion,
+      currentEdition: product.editions?.[0]?.code || null,
       isSubscribed: subscribedProductIds.has(product.id),
     }));
   }

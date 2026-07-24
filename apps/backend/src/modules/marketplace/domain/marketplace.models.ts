@@ -6,14 +6,23 @@ export interface EntitlementModel {
   value: string;
 }
 
+export interface ProductCategoryModel {
+  id: string;
+  code: string;
+  name: string;
+}
+
 export interface ProductModel {
   id: string;
+  code: string | null;
   name: string;
   description: string | null;
-  version: string;
   apiEndpoint: string | null;
   status: ProductStatus;
   createdAt: Date;
+  category: ProductCategoryModel | null;
+  currentVersion: string | null;
+  currentEdition: string | null;
 }
 
 export interface SubscriptionModel {

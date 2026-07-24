@@ -16,15 +16,23 @@ export enum BillingCycle {
 
 export class CreateProductDto {
   @IsString()
+  code: string;
+
+  @IsString()
   name: string;
+
+  @IsString()
+  categoryId: string;
 
   @IsOptional()
   @IsString()
   description?: string;
 
-  @IsOptional()
   @IsString()
-  version?: string;
+  initialVersion: string;
+
+  @IsString()
+  initialEditionCode: string;
 
   @IsOptional()
   @IsString()
@@ -66,23 +74,35 @@ export class CreateAssignmentDto {
   targetOrgId: string;
 }
 
+export class ProductCategoryDto {
+  id: string;
+  code: string;
+  name: string;
+}
+
 export class ProductResponseDto {
   id: string;
+  code: string | null;
   name: string;
   description: string | null;
-  version: string;
   apiEndpoint: string | null;
   status: string;
   createdAt: string;
+  category: ProductCategoryDto | null;
+  currentVersion: string | null;
+  currentEdition: string | null;
 
   constructor(model: any) {
     this.id = model.id;
+    this.code = model.code;
     this.name = model.name;
     this.description = model.description;
-    this.version = model.version;
     this.apiEndpoint = model.apiEndpoint;
     this.status = model.status;
     this.createdAt = model.createdAt.toISOString();
+    this.category = model.category || null;
+    this.currentVersion = model.currentVersion || null;
+    this.currentEdition = model.currentEdition || null;
   }
 }
 

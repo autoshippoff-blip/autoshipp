@@ -5,6 +5,8 @@ import {
   IsDateString,
   IsArray,
   ValidateNested,
+  IsNumber,
+  IsBoolean,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 
@@ -12,6 +14,21 @@ export enum BillingCycle {
   MONTHLY = 'MONTHLY',
   YEARLY = 'YEARLY',
   ONE_TIME = 'ONE_TIME',
+}
+
+export class CreateProductCategoryDto {
+  @IsString()
+  code: string;
+
+  @IsString()
+  name: string;
+
+  @IsOptional()
+  @IsString()
+  description?: string;
+
+  @IsNumber()
+  sortOrder: number;
 }
 
 export class CreateProductDto {
@@ -39,6 +56,38 @@ export class CreateProductDto {
   apiEndpoint?: string;
 }
 
+export class CreateProductVersionDto {
+  @IsString()
+  version: string;
+}
+
+export class CreateProductEditionDto {
+  @IsString()
+  code: string;
+
+  @IsString()
+  name: string;
+
+  @IsOptional()
+  @IsString()
+  description?: string;
+
+  @IsNumber()
+  sortOrder: number;
+}
+
+export class CreateProductFeatureDto {
+  @IsString()
+  code: string;
+
+  @IsString()
+  name: string;
+
+  @IsOptional()
+  @IsString()
+  description?: string;
+}
+
 export class EntitlementDto {
   @IsString()
   key: string;
@@ -51,6 +100,9 @@ export class CreateSubscriptionDto {
   @IsString()
   productId: string;
 
+  @IsString()
+  editionId: string;
+
   @IsEnum(BillingCycle)
   billingCycle: BillingCycle;
 
@@ -61,12 +113,6 @@ export class CreateSubscriptionDto {
   @IsOptional()
   @IsDateString()
   effectiveUntil?: string;
-
-  @IsOptional()
-  @IsArray()
-  @ValidateNested({ each: true })
-  @Type(() => EntitlementDto)
-  entitlements?: EntitlementDto[];
 }
 
 export class CreateAssignmentDto {
@@ -108,10 +154,16 @@ export class ProductResponseDto {
 
 export class CatalogResponseDto extends ProductResponseDto {
   isSubscribed: boolean;
+  editions?: ProductEditionResponseDto[];
 
   constructor(model: any) {
     super(model);
     this.isSubscribed = model.isSubscribed;
+    if (model.editions) {
+      this.editions = model.editions.map(
+        (e) => new ProductEditionResponseDto(e),
+      );
+    }
   }
 }
 

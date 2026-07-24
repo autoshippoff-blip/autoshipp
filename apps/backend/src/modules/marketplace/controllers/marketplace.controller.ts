@@ -4,6 +4,7 @@ import {
   Post,
   Body,
   Request,
+  Query,
   UseGuards,
   ForbiddenException,
 } from '@nestjs/common';
@@ -15,6 +16,7 @@ import {
   AssignmentResponseDto,
   SubscriptionResponseDto,
   CreateSubscriptionDto,
+  CategoryResponseDto,
 } from '../dto/marketplace.dto';
 import { JwtAuthGuard } from '../../auth/jwt-auth.guard';
 import { PermissionGuard } from '../../auth/permission.guard';
@@ -40,11 +42,24 @@ export class MarketplaceController {
     return orgId;
   }
 
+  @Get('categories')
+  @RequirePermissions(PlatformPermission.MARKETPLACE_READ)
+  async getCategories(): Promise<CategoryResponseDto[]> {
+    const categories = await this.catalogService.getCategories();
+    return categories.map((c) => new CategoryResponseDto(c));
+  }
+
   @Get('catalog')
   @RequirePermissions(PlatformPermission.MARKETPLACE_READ)
-  async getCatalog(@Request() req): Promise<CatalogResponseDto[]> {
+  async getCatalog(
+    @Request() req,
+    @Query('categoryId') categoryId?: string,
+  ): Promise<CatalogResponseDto[]> {
     const orgId = this.getOrgId(req);
-    const items = await this.catalogService.getCatalogForOrganization(orgId);
+    const items = await this.catalogService.getCatalogForOrganization(
+      orgId,
+      categoryId,
+    );
     return items.map((item) => new CatalogResponseDto(item));
   }
 

@@ -99,6 +99,19 @@ enum PaymentProvider {
   BANK_TRANSFER
 }
 
+enum StoreStatus {
+  ACTIVE
+  DISCONNECTED
+  REAUTH_REQUIRED
+}
+
+enum CommercePlatform {
+  SHOPIFY
+  WOOCOMMERCE
+  MAGENTO
+  CUSTOM
+}
+
 model User {
   id            String     @id @default(uuid()) @db.Uuid
   email         String     @unique @db.VarChar(255)
@@ -177,7 +190,14 @@ model Organization {
   invoices            Invoice[]                  @relation("InvoicePayingOrganization")
   consumingInvoices   InvoiceItem[]              @relation("InvoiceConsumingOrganization")
   paymentMethods      PaymentMethod[]
-  parentRelationships OrganizationRelationship[] @relation("ChildOrganization")
+  stores              Store[]
+  commerceProducts       CommerceProduct[]
+  commerceOrders         CommerceOrder[]
+  commerceSyncLogs       CommerceSyncLog[]
+  intelligenceScorecards IntelligenceScorecard[]
+  intelligenceReports    IntelligenceReport[]
+  parentRelationships    OrganizationRelationship[] @relation("ChildOrganization")
+  usageRecords           UsageRecord[]
   childRelationships  OrganizationRelationship[] @relation("ParentOrganization")
   communicationCampaigns     CommunicationCampaign[]
   communicationTemplates     CommunicationTemplate[]
@@ -837,6 +857,7 @@ model Payment {
 }
 
 
+
 enum WebhookStatus {
   PENDING
   PROCESSED
@@ -858,4 +879,188 @@ model WebhookEvent {
   @@index([status])
   @@index([provider, eventType])
   @@map("webhook_events")
+
+model Store {
+  id                   String           @id @default(uuid()) @db.Uuid
+  organizationId       String           @map("organization_id") @db.Uuid
+  integrationId        String?          @map("integration_id") @db.Uuid
+  platform             CommercePlatform @default(SHOPIFY)
+  externalStoreId      String?          @map("external_store_id") @db.VarChar(255)
+  name                 String           @db.VarChar(255)
+  domain               String           @db.VarChar(255)
+  accessTokenEncrypted String?          @map("access_token_encrypted") @db.Text
+  scope                String?          @db.Text
+  status               StoreStatus      @default(ACTIVE)
+  syncedAt             DateTime?        @map("synced_at")
+  createdAt            DateTime         @default(now()) @map("created_at")
+  updatedAt            DateTime         @updatedAt @map("updated_at")
+
+  organization           Organization            @relation(fields: [organizationId], references: [id])
+  commerceProducts       CommerceProduct[]
+  commerceOrders         CommerceOrder[]
+  commerceSyncLogs       CommerceSyncLog[]
+  intelligenceScorecards IntelligenceScorecard[]
+  intelligenceReports    IntelligenceReport[]
+
+  @@unique([organizationId, domain])
+  @@map("stores")
+}
+
+model ProcessedWebhook {
+  id          String   @id @default(uuid()) @db.Uuid
+  webhookId   String   @unique @map("webhook_id") @db.VarChar(255)
+  topic       String   @db.VarChar(255)
+  shopDomain  String   @map("shop_domain") @db.VarChar(255)
+  processedAt DateTime @default(now()) @map("processed_at")
+
+  @@map("processed_webhooks")
+}
+
+model CommerceProduct {
+  id                String    @id @default(uuid()) @db.Uuid
+  storeId           String    @map("store_id") @db.Uuid
+  organizationId    String    @map("organization_id") @db.Uuid
+  externalProductId String    @map("external_product_id") @db.VarChar(255)
+  title             String    @db.VarChar(255)
+  description       String?   @db.Text
+  vendor            String?   @db.VarChar(255)
+  productType       String?   @map("product_type") @db.VarChar(255)
+  status            String    @db.VarChar(50)
+  externalCreatedAt DateTime? @map("external_created_at")
+  externalUpdatedAt DateTime? @map("external_updated_at")
+  syncVersion       Int       @default(1) @map("sync_version")
+  createdAt         DateTime  @default(now()) @map("created_at")
+  updatedAt         DateTime  @updatedAt @map("updated_at")
+
+  store        Store        @relation(fields: [storeId], references: [id])
+  organization Organization @relation(fields: [organizationId], references: [id])
+
+  @@unique([storeId, externalProductId])
+  @@index([organizationId])
+  @@map("commerce_products")
+}
+
+model CommerceOrder {
+  id                String    @id @default(uuid()) @db.Uuid
+  storeId           String    @map("store_id") @db.Uuid
+  organizationId    String    @map("organization_id") @db.Uuid
+  externalOrderId   String    @map("external_order_id") @db.VarChar(255)
+  orderNumber       String    @map("order_number") @db.VarChar(100)
+  currency          String    @db.Char(3)
+  totalPrice        Decimal   @map("total_price") @db.Decimal(18, 2)
+  subtotalPrice     Decimal   @map("subtotal_price") @db.Decimal(18, 2)
+  financialStatus   String    @map("financial_status") @db.VarChar(50)
+  fulfillmentStatus String    @map("fulfillment_status") @db.VarChar(50)
+  externalCreatedAt DateTime? @map("external_created_at")
+  externalUpdatedAt DateTime? @map("external_updated_at")
+  syncVersion       Int       @default(1) @map("sync_version")
+  createdAt         DateTime  @default(now()) @map("created_at")
+  updatedAt         DateTime  @updatedAt @map("updated_at")
+
+  store        Store               @relation(fields: [storeId], references: [id])
+  organization Organization        @relation(fields: [organizationId], references: [id])
+  items        CommerceOrderItem[]
+
+  @@unique([storeId, externalOrderId])
+  @@index([organizationId])
+  @@map("commerce_orders")
+}
+
+model CommerceOrderItem {
+  id                String  @id @default(uuid()) @db.Uuid
+  orderId           String  @map("order_id") @db.Uuid
+  externalItemId    String  @map("external_item_id") @db.VarChar(255)
+  externalProductId String? @map("external_product_id") @db.VarChar(255)
+  externalVariantId String? @map("external_variant_id") @db.VarChar(255)
+  title             String  @db.VarChar(255)
+  quantity          Int     @default(1)
+  price             Decimal @db.Decimal(18, 2)
+  sku               String? @db.VarChar(100)
+
+  order CommerceOrder @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@map("commerce_order_items")
+}
+
+model CommerceSyncLog {
+  id               String   @id @default(uuid()) @db.Uuid
+  organizationId   String   @map("organization_id") @db.Uuid
+  storeId          String?  @map("store_id") @db.Uuid
+  entityType       String   @map("entity_type") @db.VarChar(50)
+  externalEntityId String   @map("external_entity_id") @db.VarChar(255)
+  action           String   @db.VarChar(50)
+  message          String?  @db.Text
+  occurredAt       DateTime @default(now()) @map("occurred_at")
+
+  store        Store?       @relation(fields: [storeId], references: [id])
+  organization Organization @relation(fields: [organizationId], references: [id])
+
+  @@index([organizationId])
+  @@map("commerce_sync_logs")
+}
+
+model IntelligenceScorecard {
+  id              String   @id @default(uuid()) @db.Uuid
+  organizationId  String   @map("organization_id") @db.Uuid
+  storeId         String?  @map("store_id") @db.Uuid
+  overallScore    Int      @map("overall_score")
+  businessScore   Int      @map("business_score")
+  technicalScore  Int      @map("technical_score")
+  marketingScore  Int      @map("marketing_score")
+  securityScore   Int      @map("security_score")
+  operationsScore Int      @map("operations_score")
+  calculatedAt    DateTime @default(now()) @map("calculated_at")
+
+  organization Organization @relation(fields: [organizationId], references: [id])
+  store        Store?       @relation(fields: [storeId], references: [id])
+
+  @@index([organizationId])
+  @@map("intelligence_scorecards")
+}
+
+model IntelligenceReport {
+  id                     String   @id @default(uuid()) @db.Uuid
+  organizationId         String   @map("organization_id") @db.Uuid
+  storeId                String?  @map("store_id") @db.Uuid
+  title                  String   @db.VarChar(255)
+  executiveSummary       String   @map("executive_summary") @db.Text
+  opportunitiesJson      Json     @map("opportunities_json")
+  productRecommendations Json     @map("product_recommendations")
+  tokenUsage             Int      @default(0) @map("token_usage")
+  createdAt              DateTime @default(now()) @map("created_at")
+
+  organization Organization @relation(fields: [organizationId], references: [id])
+  store        Store?       @relation(fields: [storeId], references: [id])
+
+  @@index([organizationId])
+  @@map("intelligence_reports")
+}
+
+model UsageRecord {
+  id             String   @id @default(uuid()) @db.Uuid
+  organizationId String   @map("organization_id") @db.Uuid
+  featureCode    String   @map("feature_code") @db.VarChar(100)
+  quantity       Int      @default(1)
+  totalCost      Decimal  @map("total_cost") @db.Decimal(18, 2)
+  billedAt       DateTime @default(now()) @map("billed_at")
+
+  organization Organization @relation(fields: [organizationId], references: [id])
+
+  @@index([organizationId])
+  @@map("usage_records")
+}
+
+model OutboxEvent {
+  id            String    @id @default(uuid()) @db.Uuid
+  aggregateType String    @map("aggregate_type") @db.VarChar(100)
+  aggregateId   String    @map("aggregate_id") @db.VarChar(255)
+  eventType     String    @map("event_type") @db.VarChar(100)
+  payload       Json      @db.JsonB
+  status        String    @default("PENDING") @db.VarChar(50)
+  createdAt     DateTime  @default(now()) @map("created_at")
+  processedAt   DateTime? @map("processed_at")
+
+  @@index([status])
+  @@map("outbox_events")
+
 }

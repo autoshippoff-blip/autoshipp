@@ -11,17 +11,27 @@ import { BillingWebhookService } from './services/billing-webhook.service';
 import { WebhookProcessor } from './services/webhook.processor';
 import { BullModule } from '@nestjs/bullmq';
 import { PrismaService } from '../../prisma.service';
+import { RazorpayService } from './services/razorpay.service';
+import { UsageMeteringService } from './services/usage-metering.service';
+import { PaymentWebhookProcessor } from './processors/payment-webhook.processor';
+import { RazorpayWebhookController } from './controllers/razorpay-webhook.controller';
+import { WalletModule } from '../wallet/wallet.module';
 
 @Module({
   imports: [
     BullModule.registerQueue({
       name: 'billing-webhooks',
     }),
+    BullModule.registerQueue({
+      name: 'payment-webhooks',
+    }),
+    WalletModule,
   ],
   controllers: [
     AdminBillingController,
     OrganizationBillingController,
     PaymentWebhookController,
+    RazorpayWebhookController,
   ],
   providers: [
     BillingService,
@@ -30,6 +40,9 @@ import { PrismaService } from '../../prisma.service';
     BillingWebhookService,
     WebhookProcessor,
     PrismaService,
+    RazorpayService,
+    UsageMeteringService,
+    PaymentWebhookProcessor,
     {
       provide: EXTERNAL_PAYMENT_PORT,
       useClass: RazorpayAdapter,
@@ -41,6 +54,8 @@ import { PrismaService } from '../../prisma.service';
     PlanService,
     BillingWebhookService,
     EXTERNAL_PAYMENT_PORT,
+    RazorpayService,
+    UsageMeteringService,
   ],
 })
 export class BillingModule {}

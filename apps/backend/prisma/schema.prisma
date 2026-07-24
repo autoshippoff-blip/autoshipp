@@ -835,3 +835,27 @@ model Payment {
   @@index([invoiceId])
   @@map("payments")
 }
+
+
+enum WebhookStatus {
+  PENDING
+  PROCESSED
+  FAILED
+}
+
+model WebhookEvent {
+  id           String        @id @default(uuid()) @db.Uuid
+  provider     String        @db.VarChar(50)
+  eventId      String        @unique @map("event_id") @db.VarChar(255)
+  eventType    String        @map("event_type") @db.VarChar(100)
+  payload      Json
+  status       WebhookStatus @default(PENDING)
+  eventVersion String?       @map("event_version") @db.VarChar(50)
+  errorDetails String?       @map("error_details") @db.Text
+  createdAt    DateTime      @default(now()) @map("created_at")
+  updatedAt    DateTime      @updatedAt @map("updated_at")
+
+  @@index([status])
+  @@index([provider, eventType])
+  @@map("webhook_events")
+}

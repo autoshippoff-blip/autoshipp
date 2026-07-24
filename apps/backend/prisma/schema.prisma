@@ -879,6 +879,7 @@ model WebhookEvent {
   @@index([status])
   @@index([provider, eventType])
   @@map("webhook_events")
+}
 
 model Store {
   id                   String           @id @default(uuid()) @db.Uuid

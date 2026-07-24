@@ -40,12 +40,6 @@ export interface ProductEditionModel {
   features?: ProductFeatureModel[];
 }
 
-export interface ProductCategoryModel {
-  id: string;
-  code: string;
-  name: string;
-}
-
 export interface ProductModel {
   id: string;
   code: string | null;

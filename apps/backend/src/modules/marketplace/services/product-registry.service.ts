@@ -42,6 +42,8 @@ export class ProductRegistryService {
             id: prismaProduct.category.id,
             code: prismaProduct.category.code,
             name: prismaProduct.category.name,
+            description: prismaProduct.category.description,
+            sortOrder: prismaProduct.category.sortOrder,
           }
         : null,
       currentVersion: prismaProduct.currentVersion,

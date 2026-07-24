@@ -126,6 +126,78 @@ export class ProductCategoryDto {
   name: string;
 }
 
+export class CategoryResponseDto {
+  id: string;
+  code: string;
+  name: string;
+  description: string | null;
+  sortOrder: number;
+
+  constructor(model: any) {
+    this.id = model.id;
+    this.code = model.code;
+    this.name = model.name;
+    this.description = model.description;
+    this.sortOrder = model.sortOrder;
+  }
+}
+
+export class ProductFeatureResponseDto {
+  id: string;
+  code: string;
+  name: string;
+  description: string | null;
+
+  constructor(model: any) {
+    this.id = model.id;
+    this.code = model.code;
+    this.name = model.name;
+    this.description = model.description;
+  }
+}
+
+export class ProductEditionResponseDto {
+  id: string;
+  code: string;
+  name: string;
+  description: string | null;
+  sortOrder: number;
+  active: boolean;
+  features?: ProductFeatureResponseDto[];
+
+  constructor(model: any) {
+    this.id = model.id;
+    this.code = model.code;
+    this.name = model.name;
+    this.description = model.description;
+    this.sortOrder = model.sortOrder;
+    this.active = model.active;
+    if (model.features) {
+      this.features = model.features.map(
+        (f) => new ProductFeatureResponseDto(f),
+      );
+    }
+  }
+}
+
+export class ProductVersionResponseDto {
+  id: string;
+  version: string;
+  releasedAt: string;
+  deprecatedAt: string | null;
+  supported: boolean;
+
+  constructor(model: any) {
+    this.id = model.id;
+    this.version = model.version;
+    this.releasedAt = model.releasedAt.toISOString();
+    this.deprecatedAt = model.deprecatedAt
+      ? model.deprecatedAt.toISOString()
+      : null;
+    this.supported = model.supported;
+  }
+}
+
 export class ProductResponseDto {
   id: string;
   code: string | null;

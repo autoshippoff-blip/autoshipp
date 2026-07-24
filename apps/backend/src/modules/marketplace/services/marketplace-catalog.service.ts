@@ -43,6 +43,14 @@ export class MarketplaceCatalogService {
       where: whereClause,
       include: {
         category: true,
+        editions: {
+          where: { active: true },
+          include: {
+            features: {
+              include: { feature: true },
+            },
+          },
+        },
       },
     });
 
@@ -76,6 +84,8 @@ export class MarketplaceCatalogService {
             id: product.category.id,
             code: product.category.code,
             name: product.category.name,
+            description: product.category.description,
+            sortOrder: product.category.sortOrder,
           }
         : null,
       currentVersion: product.currentVersion,

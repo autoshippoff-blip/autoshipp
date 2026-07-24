@@ -7,6 +7,7 @@ import { OrganizationsModule } from './modules/organizations/organizations.modul
 import { DashboardModule } from './modules/dashboard/dashboard.module';
 import { CommunicationModule } from './modules/communication/communication.module';
 import { WalletModule } from './modules/wallet/wallet.module';
+import { BillingModule } from './modules/billing/billing.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { WalletModule } from './modules/wallet/wallet.module';
     DashboardModule,
     CommunicationModule,
     WalletModule,
+    BillingModule,
   ],
   controllers: [AppController],
   providers: [AppService],

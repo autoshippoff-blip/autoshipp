@@ -226,4 +226,57 @@ describe('OrganizationRelationshipsService', () => {
       ).rejects.toThrow(ConflictException);
     });
   });
+
+  describe('getAncestorOrganizationIds', () => {
+    it('should throw NotFoundException if starting organization does not exist', async () => {
+      mockPrismaService.organization.findUnique.mockResolvedValueOnce(null);
+
+      await expect(service.getAncestorOrganizationIds('org-1')).rejects.toThrow(
+        NotFoundException,
+      );
+    });
+
+    it('should return hierarchy path for normal traversal', async () => {
+      mockPrismaService.organization.findUnique.mockResolvedValueOnce({
+        id: 'child-org',
+      });
+      mockPrismaService.organizationRelationship.findFirst
+        .mockResolvedValueOnce({ parentOrganizationId: 'parent-org' })
+        .mockResolvedValueOnce({ parentOrganizationId: 'platform-org' })
+        .mockResolvedValueOnce(null);
+
+      const result = await service.getAncestorOrganizationIds('child-org');
+      expect(result).toEqual(['child-org', 'parent-org', 'platform-org']);
+    });
+
+    it('should throw ConflictException if hierarchy cycle is detected', async () => {
+      mockPrismaService.organization.findUnique.mockResolvedValueOnce({
+        id: 'child-org',
+      });
+      mockPrismaService.organizationRelationship.findFirst
+        .mockResolvedValueOnce({ parentOrganizationId: 'parent-org' })
+        .mockResolvedValueOnce({ parentOrganizationId: 'child-org' });
+
+      await expect(
+        service.getAncestorOrganizationIds('child-org'),
+      ).rejects.toThrow(ConflictException);
+    });
+
+    it('should throw ConflictException if traversal exceeds maximum depth', async () => {
+      mockPrismaService.organization.findUnique.mockResolvedValueOnce({
+        id: 'child-org',
+      });
+      mockPrismaService.organizationRelationship.findFirst.mockImplementation(
+        () => {
+          return Promise.resolve({
+            parentOrganizationId: `parent-${Math.random()}`,
+          });
+        },
+      );
+
+      await expect(
+        service.getAncestorOrganizationIds('child-org'),
+      ).rejects.toThrow(ConflictException);
+    });
+  });
 });

@@ -189,6 +189,64 @@ export class OrganizationRelationshipsService {
   }
 
   /**
+   * Resolves the full chain of ancestor organization IDs, starting from the given organizationId
+   * up to the root (PLATFORM). Used by modules like Wallet to determine hierarchy traversal
+   * without leaking relationship semantics.
+   *
+   * @param organizationId The starting child organization ID
+   * @returns An ordered array of organization IDs [child, parent, grandparent, ...]
+   * @throws NotFoundException if the starting organization does not exist
+   * @throws ConflictException if a hierarchy cycle is detected or MAX_DEPTH is exceeded
+   */
+  async getAncestorOrganizationIds(
+    organizationId: string,
+  ): Promise<readonly string[]> {
+    const orgExists = await this.prisma.organization.findUnique({
+      where: { id: organizationId },
+      select: { id: true },
+    });
+
+    if (!orgExists) {
+      throw new NotFoundException('Organization not found');
+    }
+
+    const path: string[] = [];
+    let currentId: string | null = organizationId;
+    let depth = 0;
+    const MAX_DEPTH = 100;
+
+    while (currentId) {
+      if (depth >= MAX_DEPTH) {
+        throw new ConflictException(
+          'Hierarchy traversal exceeded maximum depth',
+        );
+      }
+
+      if (path.includes(currentId)) {
+        throw new ConflictException(
+          'Hierarchy cycle detected during traversal',
+        );
+      }
+
+      path.push(currentId);
+
+      const parentRel = await this.prisma.organizationRelationship.findFirst({
+        where: {
+          childOrganizationId: currentId,
+          active: true,
+          relationshipType: RelationshipType.MANAGES,
+        },
+        select: { parentOrganizationId: true },
+      });
+
+      currentId = parentRel?.parentOrganizationId || null;
+      depth++;
+    }
+
+    return Object.freeze([...path]);
+  }
+
+  /**
    * Checks if targetParentId is a descendant of sourceId.
    */
   private async checkHierarchyCycle(

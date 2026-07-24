@@ -13,15 +13,25 @@ import {
   RelationshipType,
 } from '@prisma/client';
 import { Prisma } from '@prisma/client';
+import { OrganizationRelationshipsService } from '../organizations/organization-relationships.service';
 
 describe('WalletService', () => {
   let service: WalletService;
   let prisma: PrismaService;
+  let orgRelationshipsService: OrganizationRelationshipsService;
 
   beforeEach(async () => {
+    const mockOrgRelationshipsService = {
+      getAncestorOrganizationIds: jest.fn(),
+    };
+
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         WalletService,
+        {
+          provide: OrganizationRelationshipsService,
+          useValue: mockOrgRelationshipsService,
+        },
         {
           provide: PrismaService,
           useValue: {
@@ -29,6 +39,7 @@ describe('WalletService', () => {
               create: jest.fn(),
               findUnique: jest.fn(),
               findFirst: jest.fn(),
+              findMany: jest.fn(),
             },
             organizationRelationship: {
               findFirst: jest.fn(),
@@ -50,6 +61,9 @@ describe('WalletService', () => {
 
     service = module.get<WalletService>(WalletService);
     prisma = module.get<PrismaService>(PrismaService);
+    orgRelationshipsService = module.get<OrganizationRelationshipsService>(
+      OrganizationRelationshipsService,
+    );
 
     jest.spyOn(prisma.wallet, 'findUnique').mockResolvedValue({
       id: 'wallet-1',
@@ -461,18 +475,27 @@ describe('WalletService', () => {
         organizationId: 'org-1',
         type: WalletType.PRIMARY,
       };
+
       jest
-        .spyOn(prisma.wallet, 'findFirst')
-        .mockResolvedValue(mockWallet as any);
+        .spyOn(orgRelationshipsService, 'getAncestorOrganizationIds')
+        .mockResolvedValue(['org-1']);
+      jest
+        .spyOn(prisma.wallet, 'findMany')
+        .mockResolvedValue([mockWallet as any]);
 
       const result = await service.resolveWallet('org-1');
       expect(result).toEqual(mockWallet);
-      expect(prisma.wallet.findFirst).toHaveBeenCalledWith(
+      expect(
+        orgRelationshipsService.getAncestorOrganizationIds,
+      ).toHaveBeenCalledWith('org-1');
+      expect(prisma.wallet.findMany).toHaveBeenCalledWith(
         expect.objectContaining({
-          where: { organizationId: 'org-1', type: WalletType.PRIMARY },
+          where: {
+            organizationId: { in: ['org-1'] },
+            type: WalletType.PRIMARY,
+          },
         }),
       );
-      expect(prisma.organizationRelationship.findFirst).not.toHaveBeenCalled();
     });
 
     it('should resolve a parent aggregator wallet', async () => {
@@ -483,159 +506,53 @@ describe('WalletService', () => {
       };
 
       jest
-        .spyOn(prisma.wallet, 'findFirst')
-        .mockResolvedValueOnce(null) // Not found for child
-        .mockResolvedValueOnce(parentWallet as any); // Found for parent
-
+        .spyOn(orgRelationshipsService, 'getAncestorOrganizationIds')
+        .mockResolvedValue(['org-child', 'org-parent']);
       jest
-        .spyOn(prisma.organizationRelationship, 'findFirst')
-        .mockResolvedValueOnce({
-          parentOrganizationId: 'org-parent',
-          childOrganizationId: 'org-child',
-          relationshipType: RelationshipType.MANAGES,
-          active: true,
-        } as any);
+        .spyOn(prisma.wallet, 'findMany')
+        .mockResolvedValue([parentWallet as any]);
 
       const result = await service.resolveWallet('org-child');
       expect(result).toEqual(parentWallet);
-      expect(prisma.organizationRelationship.findFirst).toHaveBeenCalledWith(
-        expect.objectContaining({
-          where: {
-            childOrganizationId: 'org-child',
-            relationshipType: RelationshipType.MANAGES,
-            active: true,
-          },
-        }),
+    });
+
+    it('should throw NotFoundException if no wallet exists in the hierarchy', async () => {
+      jest
+        .spyOn(orgRelationshipsService, 'getAncestorOrganizationIds')
+        .mockResolvedValue(['org-child', 'org-parent', 'org-platform']);
+      jest.spyOn(prisma.wallet, 'findMany').mockResolvedValue([]);
+
+      await expect(service.resolveWallet('org-child')).rejects.toThrow(
+        NotFoundException,
+      );
+      await expect(service.resolveWallet('org-child')).rejects.toThrow(
+        'wallet-not-found',
       );
     });
 
-    it('should resolve the correct wallet after a parent transfer', async () => {
-      const newParentWallet = {
-        id: 'wallet-new-parent',
-        organizationId: 'org-new-parent',
+    it('should correctly select the nearest wallet when multiple exist', async () => {
+      const childWallet = {
+        id: 'wallet-child',
+        organizationId: 'org-child',
+        type: WalletType.PRIMARY,
+      };
+      const parentWallet = {
+        id: 'wallet-parent',
+        organizationId: 'org-parent',
         type: WalletType.PRIMARY,
       };
 
       jest
-        .spyOn(prisma.wallet, 'findFirst')
-        .mockResolvedValueOnce(null) // Not found for child
-        .mockResolvedValueOnce(newParentWallet as any); // Found for new parent
-
+        .spyOn(orgRelationshipsService, 'getAncestorOrganizationIds')
+        .mockResolvedValue(['org-child', 'org-parent']);
+      // findMany returns both
       jest
-        .spyOn(prisma.organizationRelationship, 'findFirst')
-        .mockResolvedValueOnce({
-          parentOrganizationId: 'org-new-parent',
-          childOrganizationId: 'org-child',
-          relationshipType: RelationshipType.MANAGES,
-          active: true,
-        } as any);
+        .spyOn(prisma.wallet, 'findMany')
+        .mockResolvedValue([parentWallet as any, childWallet as any]);
 
       const result = await service.resolveWallet('org-child');
-      expect(result).toEqual(newParentWallet);
-      expect(prisma.organizationRelationship.findFirst).toHaveBeenCalledWith(
-        expect.objectContaining({
-          where: {
-            childOrganizationId: 'org-child',
-            relationshipType: RelationshipType.MANAGES,
-            active: true,
-          },
-        }),
-      );
-    });
-
-    it('should resolve a multi-level hierarchy wallet', async () => {
-      const grandParentWallet = {
-        id: 'wallet-grandparent',
-        organizationId: 'org-grandparent',
-        type: WalletType.PRIMARY,
-      };
-
-      jest
-        .spyOn(prisma.wallet, 'findFirst')
-        .mockResolvedValueOnce(null) // Not found for child
-        .mockResolvedValueOnce(null) // Not found for parent
-        .mockResolvedValueOnce(grandParentWallet as any); // Found for grandparent
-
-      jest
-        .spyOn(prisma.organizationRelationship, 'findFirst')
-        .mockResolvedValueOnce({
-          parentOrganizationId: 'org-parent',
-          childOrganizationId: 'org-child',
-          relationshipType: RelationshipType.MANAGES,
-          active: true,
-        } as any)
-        .mockResolvedValueOnce({
-          parentOrganizationId: 'org-grandparent',
-          childOrganizationId: 'org-parent',
-          relationshipType: RelationshipType.MANAGES,
-          active: true,
-        } as any);
-
-      const result = await service.resolveWallet('org-child');
-      expect(result).toEqual(grandParentWallet);
-    });
-
-    it('should ignore historical inactive relationships', async () => {
-      jest.spyOn(prisma.wallet, 'findFirst').mockResolvedValue(null);
-      // Simulate inactive by returning null (as the query filters for active: true)
-      jest
-        .spyOn(prisma.organizationRelationship, 'findFirst')
-        .mockResolvedValue(null);
-
-      await expect(service.resolveWallet('org-child')).rejects.toThrow(
-        NotFoundException,
-      );
-      await expect(service.resolveWallet('org-child')).rejects.toThrow(
-        'wallet-not-found',
-      );
-    });
-
-    it('should correctly identify a zero-parent root organization', async () => {
-      jest.spyOn(prisma.wallet, 'findFirst').mockResolvedValue(null);
-
-      jest
-        .spyOn(prisma.organizationRelationship, 'findFirst')
-        .mockResolvedValueOnce({
-          parentOrganizationId: 'org-root',
-          childOrganizationId: 'org-child',
-          relationshipType: RelationshipType.MANAGES,
-          active: true,
-        } as any)
-        .mockResolvedValueOnce(null); // Root has no parent
-
-      await expect(service.resolveWallet('org-child')).rejects.toThrow(
-        NotFoundException,
-      );
-      await expect(service.resolveWallet('org-child')).rejects.toThrow(
-        'wallet-not-found',
-      );
-    });
-
-    it('should detect cycles and prevent infinite loops', async () => {
-      jest.spyOn(prisma.wallet, 'findFirst').mockResolvedValue(null);
-
-      // Cycle: child -> parent -> child
-      jest
-        .spyOn(prisma.organizationRelationship, 'findFirst')
-        .mockResolvedValueOnce({
-          parentOrganizationId: 'org-parent',
-          childOrganizationId: 'org-child',
-          relationshipType: RelationshipType.MANAGES,
-          active: true,
-        } as any)
-        .mockResolvedValueOnce({
-          parentOrganizationId: 'org-child',
-          childOrganizationId: 'org-parent',
-          relationshipType: RelationshipType.MANAGES,
-          active: true,
-        } as any);
-
-      await expect(service.resolveWallet('org-child')).rejects.toThrow(
-        NotFoundException,
-      );
-      await expect(service.resolveWallet('org-child')).rejects.toThrow(
-        'wallet-not-found',
-      );
+      // Should pick childWallet because org-child is first in the hierarchy array
+      expect(result).toEqual(childWallet);
     });
   });
 });

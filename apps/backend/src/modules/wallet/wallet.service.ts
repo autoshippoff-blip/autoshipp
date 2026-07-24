@@ -5,16 +5,16 @@ import {
   NotImplementedException,
 } from '@nestjs/common';
 import { PrismaService } from '../../prisma.service';
-import {
-  WalletType,
-  TransactionDirection,
-  RelationshipType,
-} from '@prisma/client';
+import { WalletType, TransactionDirection } from '@prisma/client';
 import { Prisma } from '@prisma/client';
+import { OrganizationRelationshipsService } from '../organizations/organization-relationships.service';
 
 @Injectable()
 export class WalletService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly orgRelationshipsService: OrganizationRelationshipsService,
+  ) {}
 
   async createWallet(
     organizationId: string,
@@ -53,47 +53,30 @@ export class WalletService {
   }
 
   async resolveWallet(organizationId: string) {
-    const directWallet = await this.prisma.wallet.findFirst({
-      where: { organizationId, type: WalletType.PRIMARY },
+    // 1. Resolve hierarchy from Organization bounded context
+    const hierarchyIds =
+      await this.orgRelationshipsService.getAncestorOrganizationIds(
+        organizationId,
+      );
+
+    // 2. Perform a single database query for all wallets in the hierarchy
+    const wallets = await this.prisma.wallet.findMany({
+      where: {
+        organizationId: { in: [...hierarchyIds] },
+        type: WalletType.PRIMARY,
+      },
       include: { balance: true },
     });
 
-    if (directWallet) {
-      return directWallet;
-    }
-
-    let currentOrgId = organizationId;
-    const visited = new Set<string>();
-
-    while (true) {
-      if (visited.has(currentOrgId)) {
-        throw new NotFoundException('wallet-not-found');
-      }
-      visited.add(currentOrgId);
-
-      const rel = await this.prisma.organizationRelationship.findFirst({
-        where: {
-          childOrganizationId: currentOrgId,
-          relationshipType: RelationshipType.MANAGES,
-          active: true,
-        },
-      });
-
-      if (!rel) {
-        throw new NotFoundException('wallet-not-found');
-      }
-
-      currentOrgId = rel.parentOrganizationId;
-
-      const parentWallet = await this.prisma.wallet.findFirst({
-        where: { organizationId: currentOrgId, type: WalletType.PRIMARY },
-        include: { balance: true },
-      });
-
-      if (parentWallet) {
-        return parentWallet;
+    // 3. Select the nearest wallet in memory, maintaining deterministic resolution
+    for (const orgId of hierarchyIds) {
+      const nearestWallet = wallets.find((w) => w.organizationId === orgId);
+      if (nearestWallet) {
+        return nearestWallet;
       }
     }
+
+    throw new NotFoundException('wallet-not-found');
   }
 
   async getBalance(walletId: string) {

@@ -99,7 +99,7 @@ describe('WalletService', () => {
   describe('credit', () => {
     it('should insert a transaction and increment the balance atomically', async () => {
       jest.spyOn(prisma, '$transaction').mockImplementation(async (cb) => {
-        return cb(prisma as any);
+        return cb(prisma);
       });
 
       const params = {
@@ -158,7 +158,7 @@ describe('WalletService', () => {
 
     it('should return existing transaction if idempotencyKey matches', async () => {
       jest.spyOn(prisma, '$transaction').mockImplementation(async (cb) => {
-        return cb(prisma as any);
+        return cb(prisma);
       });
 
       const params = {
@@ -198,7 +198,7 @@ describe('WalletService', () => {
 
     it('should handle concurrent idempotency check (P2002 race condition)', async () => {
       jest.spyOn(prisma, '$transaction').mockImplementation(async (cb) => {
-        return cb(prisma as any);
+        return cb(prisma);
       });
 
       const params = {
@@ -252,7 +252,7 @@ describe('WalletService', () => {
   describe('debit', () => {
     it('should insert a transaction and decrement the balance if funds are sufficient', async () => {
       jest.spyOn(prisma, '$transaction').mockImplementation(async (cb) => {
-        return cb(prisma as any);
+        return cb(prisma);
       });
 
       jest
@@ -311,7 +311,7 @@ describe('WalletService', () => {
 
     it('should throw BadRequestException if balance is insufficient', async () => {
       jest.spyOn(prisma, '$transaction').mockImplementation(async (cb) => {
-        return cb(prisma as any);
+        return cb(prisma);
       });
       jest
         .spyOn(prisma.walletTransaction, 'findUnique')
@@ -337,7 +337,7 @@ describe('WalletService', () => {
 
     it('should throw BadRequestException for suspended wallet', async () => {
       jest.spyOn(prisma, '$transaction').mockImplementation(async (cb) => {
-        return cb(prisma as any);
+        return cb(prisma);
       });
       jest
         .spyOn(prisma.walletTransaction, 'findUnique')
@@ -360,7 +360,7 @@ describe('WalletService', () => {
 
     it('should return existing transaction if idempotencyKey matches', async () => {
       jest.spyOn(prisma, '$transaction').mockImplementation(async (cb) => {
-        return cb(prisma as any);
+        return cb(prisma);
       });
 
       const params = {
@@ -400,7 +400,7 @@ describe('WalletService', () => {
 
     it('should handle concurrent idempotency check (P2002 race condition)', async () => {
       jest.spyOn(prisma, '$transaction').mockImplementation(async (cb) => {
-        return cb(prisma as any);
+        return cb(prisma);
       });
 
       const params = {

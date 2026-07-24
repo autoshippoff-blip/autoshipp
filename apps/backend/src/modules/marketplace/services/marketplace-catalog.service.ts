@@ -1,0 +1,57 @@
+import { Injectable } from '@nestjs/common';
+import { PrismaService } from '../../../prisma.service';
+import { ProductModel } from '../domain/marketplace.models';
+import { ProductStatus, SubscriptionStatus } from '@prisma/client';
+
+export interface CatalogItemModel extends ProductModel {
+  isSubscribed: boolean;
+}
+
+/**
+ * MarketplaceCatalogService (Marketplace & Licensing Domain)
+ *
+ * Responsibility: Commercial presentation and visibility resolution.
+ * Note: This is strictly a READ-ONLY model. It never mutates subscriptions,
+ * assignments, or products.
+ */
+@Injectable()
+export class MarketplaceCatalogService {
+  constructor(private readonly prisma: PrismaService) {}
+
+  async getCatalogForOrganization(
+    organizationId: string,
+  ): Promise<CatalogItemModel[]> {
+    // 1. Fetch all ACTIVE products from the registry
+    const activeProducts = await this.prisma.product.findMany({
+      where: { status: ProductStatus.ACTIVE },
+    });
+
+    // 2. Fetch the organization's valid active subscriptions
+    const now = new Date();
+    const activeSubscriptions = await this.prisma.subscription.findMany({
+      where: {
+        organizationId,
+        status: SubscriptionStatus.ACTIVE,
+        effectiveFrom: { lte: now },
+        OR: [{ effectiveUntil: null }, { effectiveUntil: { gt: now } }],
+      },
+      select: { productId: true },
+    });
+
+    const subscribedProductIds = new Set(
+      activeSubscriptions.map((s) => s.productId),
+    );
+
+    // 3. Resolve visibility
+    return activeProducts.map((product) => ({
+      id: product.id,
+      name: product.name,
+      description: product.description,
+      version: product.version,
+      apiEndpoint: product.apiEndpoint,
+      status: product.status,
+      createdAt: product.createdAt,
+      isSubscribed: subscribedProductIds.has(product.id),
+    }));
+  }
+}

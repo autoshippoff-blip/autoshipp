@@ -45,7 +45,6 @@ describe('Tenant Isolation & Dashboard Authorization (e2e)', () => {
     await prisma.communicationTemplate.deleteMany();
     await prisma.organizationRelationship.deleteMany();
     await prisma.membership.deleteMany();
-    await prisma.organizationProduct.deleteMany();
     await prisma.organization.deleteMany();
     await prisma.userRole.deleteMany();
     await prisma.role.deleteMany();

@@ -107,12 +107,12 @@
 - [ ] Enforce schema validation and parameter guards on every state-mutating LLM tool call (add to cart, initiate return, etc.) [CRITICAL NEW]
 - [ ] Rate-limit LLM API queries per tenant — prevent model extraction attacks via systematic API querying [HIGH NEW]
 - [ ] Log all LLM inputs and outputs for audit — store separately from general application logs with restricted access [CRITICAL NEW]
-- [ ] Implement output filtering to prevent the LLM from generating content that reveals other tenants' commerce data or intelligence reports [CRITICAL NEW]
-- [ ] Validate that LLM output cannot override commerce sync logic — LLM must not be able to instruct the system to skip or modify background jobs [CRITICAL NEW]
+- [ ] Implement output filtering to prevent the LLM from generating content that reveals other tenants' data, personas, or configurations [CRITICAL NEW]
+- [ ] Validate that safety engine overrides are structurally impossible — LLM must not be able to instruct the system to skip SafetyEngine [CRITICAL NEW]
 - [ ] Never pass raw user messages directly into LLM system prompt position — only into user turn position [CRITICAL NEW]
 - [ ] Maintain a Software Bill of Materials (SBOM) for all AI/ML dependencies and model versions in use [HIGH NEW]
-- [ ] Monitor LLM provider security advisories — subscribe to breach notifications [HIGH NEW]
-- [ ] Test all Intelligence Scorer prompts to verify they cannot be manipulated to extract internal prompt engineering [CRITICAL NEW]
+- [ ] Monitor LLM provider (Groq, Gemini) security advisories — subscribe to breach notifications [HIGH NEW]
+- [ ] Test all persona configurations to verify they cannot be used to bypass safety rules or extract system prompts [CRITICAL NEW]
 
 ## Monitoring, logging & incident response
 

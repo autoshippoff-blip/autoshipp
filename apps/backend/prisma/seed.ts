@@ -9,15 +9,27 @@ const prisma = new PrismaClient({ adapter });
 async function main() {
   console.log('Seeding products...');
 
+  const category = await prisma.productCategory.upsert({
+    where: { code: 'core' },
+    update: {},
+    create: {
+      code: 'core',
+      name: 'Core Services',
+      sortOrder: 1,
+    }
+  });
+
   const products = [
-    { name: 'SaaS Tool A', description: 'Our flagship product' },
-    { name: 'SaaS Tool B', description: 'Our secondary product' },
-    { name: 'Analytics Pro', description: 'Advanced analytics tool' },
+    { code: 'saas-a', name: 'SaaS Tool A', description: 'Our flagship product', ownerService: 'core', categoryId: category.id },
+    { code: 'saas-b', name: 'SaaS Tool B', description: 'Our secondary product', ownerService: 'core', categoryId: category.id },
+    { code: 'analytics', name: 'Analytics Pro', description: 'Advanced analytics tool', ownerService: 'analytics', categoryId: category.id },
   ];
 
   for (const p of products) {
-    const created = await prisma.product.create({
-      data: p,
+    const created = await prisma.product.upsert({
+      where: { code: p.code },
+      update: {},
+      create: p,
     });
     console.log(`Created product: ${created.name}`);
   }

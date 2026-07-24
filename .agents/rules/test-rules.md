@@ -30,12 +30,12 @@ to continue development.
 
 Only run targeted tests when:
 
-* modifying database schema or migrations
+* modifying database schema
 * modifying repository logic
-* modifying authentication (JWT/Multi-Org)
-* modifying AutoShipp Intelligence (Scorer/Crawler)
-* modifying BullMQ worker logic
-* modifying Shopify Commerce Sync
+* modifying authentication
+* modifying SafetyEngine
+* modifying LLMRouter
+* modifying shared types
 * modifying tenant isolation logic
 
 For all other development tasks:
@@ -68,9 +68,8 @@ Run all:
 * unit tests
 * repository tests
 * tenant isolation tests
-* BullMQ job failure tests
-* Commerce Sync tests
-* Scorer logic tests
+* safety tests
+* integration tests
 
 Fix failures.
 

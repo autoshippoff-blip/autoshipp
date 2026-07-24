@@ -1,3 +1,5 @@
+import { ProductStatus } from '@prisma/client';
+
 export interface EntitlementModel {
   id: string;
   key: string;
@@ -10,7 +12,7 @@ export interface ProductModel {
   description: string | null;
   version: string;
   apiEndpoint: string | null;
-  status: 'ACTIVE' | 'DEPRECATED';
+  status: ProductStatus;
   createdAt: Date;
 }
 

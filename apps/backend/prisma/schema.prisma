@@ -56,6 +56,10 @@ enum RelationshipType {
 
 enum ProductStatus {
   ACTIVE
+  AVAILABLE
+  PURCHASED
+  COMING_SOON
+  BETA
   DEPRECATED
 }
 
@@ -349,22 +353,101 @@ model EmailVerificationToken {
   @@map("email_verification_tokens")
 }
 
+
+model ProductCategory {
+  id          String    @id @default(uuid()) @db.Uuid
+  code        String    @unique @db.VarChar(50)
+  name        String    @db.VarChar(255)
+  description String?   @db.Text
+  sortOrder   Int       @map("sort_order")
+
+  products    Product[]
+
+  @@map("product_categories")
+}
+
 model Product {
-  id          String        @id @default(uuid()) @db.Uuid
-  name        String        @db.VarChar(255)
-  description String?       @db.Text
-  apiEndpoint String?       @map("api_endpoint") @db.VarChar(255)
-  version     String        @default("1.0.0") @db.VarChar(50)
-  status      ProductStatus @default(ACTIVE)
+  id               String        @id @default(uuid()) @db.Uuid
+  code             String?       @unique @db.VarChar(50)
+  name             String        @db.VarChar(255)
+  description      String?       @db.Text
+  categoryId       String?       @map("category_id") @db.Uuid
+  ownerService     String?       @map("owner_service") @db.VarChar(100)
+  icon             String?       @db.Text
+  documentationUrl String?       @map("documentation_url") @db.Text
+  healthEndpoint   String?       @map("health_endpoint") @db.Text
+  apiEndpoint      String?       @map("api_endpoint") @db.VarChar(255)
+  version          String        @default("1.0.0") @db.VarChar(50)
+  currentVersion   String?       @map("current_version") @db.VarChar(50)
+  status           ProductStatus @default(ACTIVE)
 
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime  @updatedAt @map("updated_at")
   deletedAt DateTime? @map("deleted_at")
 
+  category      ProductCategory? @relation(fields: [categoryId], references: [id])
+  versions      ProductVersion[]
+  editions      ProductEdition[]
+  features      ProductFeature[]
   subscriptions Subscription[]
   plans         Plan[]
 
+  @@index([code])
+  @@index([status])
+  @@index([categoryId])
   @@map("products")
+}
+
+model ProductVersion {
+  id           String    @id @default(uuid()) @db.Uuid
+  productId    String    @map("product_id") @db.Uuid
+  version      String    @db.VarChar(50)
+  releasedAt   DateTime  @default(now()) @map("released_at")
+  deprecatedAt DateTime? @map("deprecated_at")
+  supported    Boolean   @default(true)
+
+  product Product @relation(fields: [productId], references: [id])
+
+  @@map("product_versions")
+}
+
+model ProductEdition {
+  id          String  @id @default(uuid()) @db.Uuid
+  productId   String  @map("product_id") @db.Uuid
+  code        String  @db.VarChar(50)
+  name        String  @db.VarChar(255)
+  description String? @db.Text
+  sortOrder   Int     @map("sort_order")
+  active      Boolean @default(true)
+
+  product  Product                    @relation(fields: [productId], references: [id])
+  features ProductFeatureAssignment[]
+
+  @@map("product_editions")
+}
+
+model ProductFeature {
+  id          String  @id @default(uuid()) @db.Uuid
+  productId   String  @map("product_id") @db.Uuid
+  code        String  @db.VarChar(50)
+  name        String  @db.VarChar(255)
+  description String? @db.Text
+
+  product  Product                    @relation(fields: [productId], references: [id])
+  editions ProductFeatureAssignment[]
+
+  @@map("product_features")
+}
+
+model ProductFeatureAssignment {
+  editionId String @map("edition_id") @db.Uuid
+  featureId String @map("feature_id") @db.Uuid
+
+  edition ProductEdition @relation(fields: [editionId], references: [id])
+  feature ProductFeature @relation(fields: [featureId], references: [id])
+
+  @@id([editionId, featureId])
+  @@map("product_feature_assignments")
 }
 
 model Subscription {
@@ -373,17 +456,17 @@ model Subscription {
   productId      String             @map("product_id") @db.Uuid
   status         SubscriptionStatus @default(ACTIVE)
   billingCycle   BillingCycle       @default(MONTHLY) @map("billing_cycle")
-  
-  effectiveFrom  DateTime           @default(now()) @map("effective_from")
-  effectiveUntil DateTime?          @map("effective_until")
 
-  createdAt DateTime  @default(now()) @map("created_at")
-  updatedAt DateTime  @updatedAt @map("updated_at")
+  effectiveFrom  DateTime  @default(now()) @map("effective_from")
+  effectiveUntil DateTime? @map("effective_until")
 
-  organization Organization @relation(fields: [organizationId], references: [id])
-  product      Product      @relation(fields: [productId], references: [id])
-  assignments  Assignment[]
-  entitlements Entitlement[]
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  organization      Organization       @relation(fields: [organizationId], references: [id])
+  product           Product            @relation(fields: [productId], references: [id])
+  assignments       Assignment[]
+  entitlements      Entitlement[]
   subscriptionItems SubscriptionItem[]
 
   @@index([organizationId])

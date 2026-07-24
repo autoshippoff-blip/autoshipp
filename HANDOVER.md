@@ -1,9 +1,9 @@
-# HANDOVER.md â€” AutoShipp Architecture Session
+# HANDOVER.md Ã¢â‚¬â€� AutoShipp Architecture Session
 
 **Project:** AutoShipp Platform Architecture
 **Session Date:** 2026-07-02
-**Architecture Phase Status:** âœ… COMPLETE
-**Phase 0 (Foundation) Status:** âœ… COMPLETE
+**Architecture Phase Status:** Ã¢Å“â€¦ COMPLETE
+**Phase 0 (Foundation) Status:** Ã¢Å“â€¦ COMPLETE
 **Immediate Next Step:** Resolve Feature 2 Blocker & Complete "Temporary Priority First" Dashboard Integration
 
 ---
@@ -12,7 +12,7 @@
 
 This is the complete context handover for the next agent session.
 
-Read this file first. Everything that was designed, decided, decided-against, and produced during this session is summarized here. Do not re-read all 43 AES documents to get context â€” this file is your starting point.
+Read this file first. Everything that was designed, decided, decided-against, and produced during this session is summarized here. Do not re-read all 43 AES documents to get context Ã¢â‚¬â€� this file is your starting point.
 
 ---
 
@@ -20,14 +20,14 @@ Read this file first. Everything that was designed, decided, decided-against, an
 
 ```
 autoshipp-architecture/
-â”œâ”€â”€ HANDOVER.md                          â†� you are here
-â”œâ”€â”€ Full-architecture-file-autoshipp.md  â†� the original full architecture (AES-000 to AES-035)
-â”œâ”€â”€ artifacts/                           â†� session outputs (summaries, reviews, changelogs, cost breakdown)
-â”‚   â”œâ”€â”€ autoshipp_architecture_summary.md
-â”‚   â”œâ”€â”€ architecture_flaw_review.md
-â”‚   â”œâ”€â”€ architecture_v1.1_changelog.md
-â”‚   â””â”€â”€ autoshipp_cost_breakdown.md
-â””â”€â”€ part-specific-files/                 â†� ALL individual AES documents (AES-000 to AES-043)
+Ã¢â€�Å“Ã¢â€�â‚¬Ã¢â€�â‚¬ HANDOVER.md                          Ã¢â€ ï¿½ you are here
+Ã¢â€�Å“Ã¢â€�â‚¬Ã¢â€�â‚¬ Full-architecture-file-autoshipp.md  Ã¢â€ ï¿½ the original full architecture (AES-000 to AES-035)
+Ã¢â€�Å“Ã¢â€�â‚¬Ã¢â€�â‚¬ artifacts/                           Ã¢â€ ï¿½ session outputs (summaries, reviews, changelogs, cost breakdown)
+Ã¢â€�â€š   Ã¢â€�Å“Ã¢â€�â‚¬Ã¢â€�â‚¬ autoshipp_architecture_summary.md
+Ã¢â€�â€š   Ã¢â€�Å“Ã¢â€�â‚¬Ã¢â€�â‚¬ architecture_flaw_review.md
+Ã¢â€�â€š   Ã¢â€�Å“Ã¢â€�â‚¬Ã¢â€�â‚¬ architecture_v1.1_changelog.md
+Ã¢â€�â€š   Ã¢â€�â€�Ã¢â€�â‚¬Ã¢â€�â‚¬ autoshipp_cost_breakdown.md
+Ã¢â€�â€�Ã¢â€�â‚¬Ã¢â€�â‚¬ part-specific-files/                 Ã¢â€ ï¿½ ALL individual AES documents (AES-000 to AES-043)
 ```
 
 ---
@@ -125,7 +125,7 @@ The implementation order has been updated to prioritize Commerce Sync _before_ t
 | `artifacts/autoshipp_architecture_summary.md` | Full architecture overview (domains, schemas, services)                          |
 | `artifacts/architecture_v1.1_changelog.md`    | Every new doc and amendment from this session                                    |
 | `artifacts/autoshipp_cost_breakdown.md`       | Final $21/month lean stack (Render, BullMQ, Neon, Razorpay)                      |
-| `part-specific-files/AES-043.md`              | **[NEW]** AutoShipp Intelligence Platform â€” AI Onboarding and Product Matching |
+| `part-specific-files/AES-043.md`              | **[NEW]** AutoShipp Intelligence Platform Ã¢â‚¬â€� AI Onboarding and Product Matching |
 | `part-specific-files/AES-025.md`              | Binary Asset Strategy (No S3/Object Storage)                                     |
 | `part-specific-files/AES-036.md`              | Transactional Outbox (Updated for BullMQ)                                        |
 
@@ -133,7 +133,7 @@ The architecture phase is complete. Move directly to implementation artifacts (P
 
 ---
 
-## Session Update: 2026-07-06 â€” Wallet and Organization Hierarchy Architecture Verification
+## Session Update: 2026-07-06 Ã¢â‚¬â€� Wallet and Organization Hierarchy Architecture Verification
 
 ### 1. Executive Summary
 
@@ -274,7 +274,7 @@ Execute Milestone 1 by generating the necessary raw SQL Prisma migration for the
 
 ---
 
-## Session Update: 2026-07-06 (Late Session) â€” Communication Domain API & Dashboard Integration
+## Session Update: 2026-07-06 (Late Session) Ã¢â‚¬â€� Communication Domain API & Dashboard Integration
 
 ### 1. Executive Summary
 
@@ -327,7 +327,7 @@ The Communication Domain backend is fully implemented and seeded. I will now per
 
 ---
 
-## Session Update: 2026-07-07 â€” Temporary Priority First Launch & Monorepo Deployment Readiness
+## Session Update: 2026-07-07 Ã¢â‚¬â€� Temporary Priority First Launch & Monorepo Deployment Readiness
 
 ### 1. Executive Summary
 
@@ -397,9 +397,9 @@ This session successfully prepared the AutoShipp monorepo for its first producti
 ### 10. Evidence Collected
 
 - **Validation:**
-  - `turbo run typecheck` â†’ PASSED
-  - `turbo run test` â†’ PASSED (6 backend suites, 22 tests)
-  - `pnpm build` â†’ PASSED
+  - `turbo run typecheck` Ã¢â€ â€™ PASSED
+  - `turbo run test` Ã¢â€ â€™ PASSED (6 backend suites, 22 tests)
+  - `pnpm build` Ã¢â€ â€™ PASSED
 - **Git:** Complete validation of a clean working tree prior to merges and branch switches.
 
 ### 11. Next Recommended Tasks
@@ -411,7 +411,7 @@ This session successfully prepared the AutoShipp monorepo for its first producti
 
 ---
 
-## Session Update: 2026-07-11 â€” Git Sync and D-166 Persistence Enforcement
+## Session Update: 2026-07-11 Ã¢â‚¬â€� Git Sync and D-166 Persistence Enforcement
 
 ### 1. Executive Summary
 
@@ -442,7 +442,7 @@ This session focused on preparing the environment to safely continue development
 
 ---
 
-## Session Update: 2026-07-10 — AES-010 Milestone 2 Completion
+## Session Update: 2026-07-10 â€” AES-010 Milestone 2 Completion
 
 ### 1. Executive Summary
 
@@ -457,4 +457,114 @@ This session completed **AES-010 Milestone 2 (Relationship Management API Capabi
 
 ### 3. Next Steps
 
-- **Milestone 3 is the next unfinished milestone:** Wallet hierarchy traversal unblocking (from the engineering handbook)
+- **Note on Milestone 3:** It was previously inferred that "Milestone 3: Wallet hierarchy traversal unblocking" was the next step. However, architecture discovery proved this milestone is **not defined** in either the architecture or the engineering handbook.
+- **Future Implementation Order:** Must be reconstructed directly from `Full-architecture-file-autoshipp.md`. The currently approved next work is the **AES-012 Marketplace & Product Catalog persistence review** until that slice is approved.
+
+---
+
+## Session Update: 2026-07-11 - AES-012 Marketplace Core Product Catalog Persistence Implementation
+
+### 1. Session Objective
+This session focused exclusively on the first approved implementation slice of the AES-012 Marketplace & Product Catalog. The approved scope was strictly restricted to the **persistence layer** for the Core Product Catalog, explicitly avoiding any application logic or runtime components.
+
+### 2. Architecture Discovery
+Prior to implementation, a thorough architecture investigation was conducted by reviewing AES-012 within Full-architecture-file-autoshipp.md. 
+- Confirmed the exact specifications for the Marketplace Product Catalog entities (Sections 4.1 to 4.6).
+- Confirmed that this implementation slice explicitly **excludes**:
+  - Services, controllers, APIs, DTOs, and business logic.
+  - Entitlements, manifests, metadata, and visibility.
+  - Billing and Wallet domain changes.
+
+### 3. Schema Changes
+The Prisma persistence layer was successfully implemented for the core catalog:
+- ProductCategory
+- Product
+- ProductVersion
+- ProductEdition
+- ProductFeature
+- ProductFeatureAssignment
+- ProductStatus enum was introduced.
+- Added strict relations between Product and its categories, versions, editions, and features.
+- Preserved the existing OrganizationProduct legacy relationship by preserving the UUID primary key linkage to the Product table.
+
+### 4. Migration Work
+- Due to a legacy products table that existed in the database, prisma migrate dev --create-only aborted. Prisma detects the addition of new required unique constraints (code) as a data-loss risk and strictly blocks execution in non-interactive CI environments, even after existing table data was manually purged.
+- To circumvent this without losing the exact architectural schema changes, the migration SQL was strictly generated using prisma migrate diff.
+- The migration **has not yet been executed** against the database. The pure SQL artifact is safely stored in prisma/migrations/ for later review and manual application.
+
+### 5. Validation Performed
+- **Prisma validation passed:** 
+px prisma validate confirmed the syntax and structural integrity.
+- **Prisma client generation passed:** The types successfully generated.
+- **TypeScript compilation passed:** 
+px tsc --noEmit compiled successfully without errors.
+- **Seed updates:** Modified prisma/seed.ts because the new Product table correctly requires code, owner_service, and category_id, which the legacy seeder lacked. 
+
+### 6. Architectural Review Findings
+- **Complete Mapping:** All AES-012 sections 4.1–4.6 map 1-to-1 to the newly implemented Prisma schema.
+- **Implementation Additions:** Identified minor strictness additions not explicitly codified in AES-012 but required for production safety:
+  - ProductStatus was implemented as a formal Prisma enum (AVAILABLE, PURCHASED, COMING_SOON, BETA, DEPRECATED).
+  - ProductCategory.code received a UNIQUE constraint.
+  - VARCHAR(50) and VARCHAR(255) string limits were placed on product_editions and product_features fields to ensure safe index lengths (where AES-012 just suggested TEXT).
+- **Migration Strategy:** The schema leverages ALTER TABLE to preserve the existing Product table structure and UUID keys, seamlessly preserving OrganizationProduct relationships.
+
+### 7. Outstanding Review Items
+The implementation is **not yet approved**. Remaining review items for the next session include:
+- Validation of implementation additions against the architecture.
+- Review of referential actions (ON DELETE RESTRICT ON UPDATE CASCADE).
+- Review of unique constraints and composite indexes.
+- Final architecture compliance review.
+- Migration execution (still pending).
+
+### 8. Repository State
+- **Modified files:** prisma/schema.prisma and prisma/seed.ts.
+- **Untracked files:** A single untracked migration directory generated via migrate diff.
+- **Migration State:** Generated but unapplied.
+- **Commit State:** No commit has been created for this Marketplace persistence work.
+
+### 9. Next Starting Point
+The next session should begin with:
+1. Completing the architecture review of the AES-012 persistence layer.
+2. Resolving any remaining review findings (and executing the migration).
+3. Obtaining explicit approval before implementing any additional Marketplace slices.
+
+---
+
+## Session Handover Update (2026-07-24)
+
+### 1. Work Completed During This Session
+- **Pulled & Merged Remote Branch:** Successfully pulled all incoming cloud commits from `origin/pre-prod` (`6d6ce2b`, `985b9e6`, `a7af173`) into the local `pre-prod` branch. Created merge commit `336d794`.
+- **Prisma Schema Conflict Reconciled:** Resolved content conflict in `apps/backend/prisma/schema.prisma` resulting from `git stash pop` after merging.
+  - Consolidated `enum ProductStatus` to include all runtime & presentation states (`ACTIVE`, `AVAILABLE`, `PURCHASED`, `COMING_SOON`, `BETA`, `DEPRECATED`).
+  - Unified `Product` into a single canonical model combining runtime domain fields (version, apiEndpoint, status, deletedAt) with catalog metadata (code, categoryId, ownerService, icon, documentationUrl, healthEndpoint).
+  - Preserved approved Marketplace catalog entities (`ProductCategory`, `ProductVersion`, `ProductEdition`, `ProductFeature`, `ProductFeatureAssignment`).
+  - Kept `Subscription` as the single canonical model mapped to `@@map("subscriptions")` and eliminated duplicate table mapping from legacy draft model `OrganizationProduct`.
+  - Updated `apps/backend/src/modules/marketplace/domain/marketplace.models.ts` to import `ProductStatus` from `@prisma/client`.
+- **Verification & Validation:**
+  - `pnpm --filter @autoshipp/backend exec prisma validate` -> Validated 🚀
+  - `pnpm --filter @autoshipp/backend exec prisma generate` -> Generated Client 🚀
+  - `pnpm --filter @autoshipp/backend run typecheck` (`tsc --noEmit`) -> Passed with 0 errors 🚀
+  - `pnpm --filter @autoshipp/backend test` (`jest`) -> 11 test suites passed, 44/44 tests passed 🚀
+
+### 2. Current Repository & Branch State
+- **Current Branch:** `pre-prod`
+- **HEAD Commit:** `336d794` (`merge: integrate remote origin/pre-prod changes into pre-prod`)
+- **Working Tree:**
+  - Staged modified files:
+    - `.agents/rules/github-rules.md`
+    - `.agents/rules/security-checklist.md`
+    - `.agents/rules/test-rules.md`
+    - `HANDOVER.md`
+    - `apps/backend/prisma/schema.prisma`
+    - `apps/backend/prisma/seed.ts`
+    - `apps/backend/src/modules/marketplace/domain/marketplace.models.ts`
+  - Untracked files:
+    - `.agents/rules/Handover-Rule.md`
+    - `.agents/rules/Project-Start-Rule.md`
+    - `.agents/rules/Session-Ended-Rules.md`
+    - `apps/backend/prisma/migrations/20260711023741_init_marketplace_catalog/`
+
+### 3. Next Starting Point
+1. Review staged files and create a clean git commit on `pre-prod` for the resolved schema reconciliation.
+2. Manually push `pre-prod` to `origin/pre-prod` (per GITHUB_WORKFLOW_RULES, push is developer-executed).
+

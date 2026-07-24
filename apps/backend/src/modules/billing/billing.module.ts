@@ -8,6 +8,7 @@ import { AdminBillingController } from './controllers/admin-billing.controller';
 import { OrganizationBillingController } from './controllers/organization-billing.controller';
 import { PaymentWebhookController } from './controllers/payment-webhook.controller';
 import { BillingWebhookService } from './services/billing-webhook.service';
+import { WebhookProcessor } from './services/webhook.processor';
 import { BullModule } from '@nestjs/bullmq';
 import { PrismaService } from '../../prisma.service';
 
@@ -27,6 +28,7 @@ import { PrismaService } from '../../prisma.service';
     PaymentService,
     PlanService,
     BillingWebhookService,
+    WebhookProcessor,
     PrismaService,
     {
       provide: EXTERNAL_PAYMENT_PORT,

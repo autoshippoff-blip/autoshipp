@@ -130,4 +130,88 @@ export class PaymentService {
       return payment;
     });
   }
+
+  async reconcileExternalPayment(
+    invoiceId: string,
+    provider: PaymentProvider,
+    providerReference: string,
+    amount: number,
+    currency: string,
+  ): Promise<Payment> {
+    return this.prisma.$transaction(async (tx) => {
+      // 1. Idempotency Check
+      const existingPayment = await tx.payment.findFirst({
+        where: { providerReference },
+      });
+      if (existingPayment) {
+        if (existingPayment.status === PaymentStatus.SUCCESS) {
+          return existingPayment;
+        }
+        throw new DuplicatePaymentException(providerReference);
+      }
+
+      // 2. Lock Invoice
+      const invoice = await tx.invoice.findUnique({
+        where: { id: invoiceId },
+        include: { payments: { where: { status: PaymentStatus.SUCCESS } } },
+      });
+
+      if (!invoice) throw new Error(`Invoice ${invoiceId} not found`);
+
+      // Calculate Remaining Balance
+      const successfulPayments = invoice.payments.map((p) => p.amount);
+      const remainingBalance = BillingCalculator.calculateRemainingBalance(
+        invoice.grandTotal,
+        successfulPayments,
+      );
+
+      const paymentAmount = new Decimal(amount);
+
+      // Ensure we have a PaymentMethod for this provider and organization
+      let paymentMethod = await tx.paymentMethod.findFirst({
+        where: { organizationId: invoice.organizationId, provider },
+      });
+
+      if (!paymentMethod) {
+        paymentMethod = await tx.paymentMethod.create({
+          data: {
+            organizationId: invoice.organizationId,
+            provider,
+            active: true,
+            isDefault: false,
+          },
+        });
+      }
+
+      // 3. Create Payment Record
+      const payment = await tx.payment.create({
+        data: {
+          invoiceId,
+          paymentMethodId: paymentMethod.id,
+          amount: paymentAmount,
+          currency,
+          providerReference,
+          paidAt: new Date(),
+          status: PaymentStatus.SUCCESS,
+        },
+      });
+
+      // 4. Update Invoice Status
+      const newRemaining = BillingCalculator.calculateRemainingBalance(
+        invoice.grandTotal,
+        [...successfulPayments, paymentAmount],
+      );
+
+      const newStatus = newRemaining.lte(0)
+        ? InvoiceStatus.PAID
+        : InvoiceStatus.PARTIALLY_PAID;
+
+      await tx.invoice.update({
+        where: { id: invoiceId },
+        data: { status: newStatus },
+      });
+
+      return payment;
+    });
+  }
 }

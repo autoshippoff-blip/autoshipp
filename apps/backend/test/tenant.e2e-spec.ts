@@ -39,7 +39,6 @@ describe('Tenant Isolation & Dashboard Authorization (e2e)', () => {
 
     // 2. Database Teardown
     await prisma.membership.deleteMany();
-    await prisma.organizationProduct.deleteMany();
     await prisma.organization.deleteMany();
     await prisma.userRole.deleteMany();
     await prisma.role.deleteMany();

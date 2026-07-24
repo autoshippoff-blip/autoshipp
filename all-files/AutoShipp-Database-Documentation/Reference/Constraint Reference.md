@@ -1,0 +1,1361 @@
+---
+title: "Constraint Reference"
+type: "reference"
+status: "active"
+owner: "engineering"
+last_verified: "2026-07-16"
+tags:
+  - reference
+---
+
+# Constraint Reference
+
+- **`public._prisma_migrations`** (`CHECK`): `_prisma_migrations_id_not_null` -> `NOT NULL id`
+- **`public._prisma_migrations`** (`CHECK`): `_prisma_migrations_checksum_not_null` -> `NOT NULL checksum`
+- **`public._prisma_migrations`** (`CHECK`): `_prisma_migrations_migration_name_not_null` -> `NOT NULL migration_name`
+- **`public._prisma_migrations`** (`CHECK`): `_prisma_migrations_started_at_not_null` -> `NOT NULL started_at`
+- **`public._prisma_migrations`** (`CHECK`): `_prisma_migrations_applied_steps_count_not_null` -> `NOT NULL applied_steps_count`
+- **`public._prisma_migrations`** (`PRIMARY KEY`): `_prisma_migrations_pkey` -> `PRIMARY KEY (id)`
+- **`public.core_accounts`** (`CHECK`): `core_accounts_id_not_null` -> `NOT NULL id`
+- **`public.core_accounts`** (`CHECK`): `core_accounts_name_not_null` -> `NOT NULL name`
+- **`public.core_accounts`** (`CHECK`): `core_accounts_type_not_null` -> `NOT NULL type`
+- **`public.core_accounts`** (`CHECK`): `core_accounts_status_not_null` -> `NOT NULL status`
+- **`public.core_accounts`** (`CHECK`): `core_accounts_metadata_not_null` -> `NOT NULL metadata`
+- **`public.core_accounts`** (`CHECK`): `core_accounts_created_at_not_null` -> `NOT NULL created_at`
+- **`public.core_accounts`** (`CHECK`): `core_accounts_updated_at_not_null` -> `NOT NULL updated_at`
+- **`public.core_accounts`** (`PRIMARY KEY`): `core_accounts_pkey` -> `PRIMARY KEY (id)`
+- **`public.core_account_modules`** (`CHECK`): `core_account_modules_account_id_not_null` -> `NOT NULL account_id`
+- **`public.core_account_modules`** (`CHECK`): `core_account_modules_module_not_null` -> `NOT NULL module`
+- **`public.core_account_modules`** (`CHECK`): `core_account_modules_enabled_not_null` -> `NOT NULL enabled`
+- **`public.core_account_modules`** (`CHECK`): `core_account_modules_created_at_not_null` -> `NOT NULL created_at`
+- **`public.core_account_modules`** (`PRIMARY KEY`): `core_account_modules_pkey` -> `PRIMARY KEY (account_id, module)`
+- **`public.core_account_modules`** (`PRIMARY KEY`): `core_account_modules_pkey` -> `PRIMARY KEY (account_id, module)`
+- **`public.core_account_modules`** (`PRIMARY KEY`): `core_account_modules_pkey` -> `PRIMARY KEY (account_id, module)`
+- **`public.core_account_modules`** (`PRIMARY KEY`): `core_account_modules_pkey` -> `PRIMARY KEY (account_id, module)`
+- **`public.core_account_modules`** (`FOREIGN KEY`): `core_account_modules_account_id_fkey` -> `FOREIGN KEY (account_id) REFERENCES core_accounts(id) ON UPDATE CASCADE ON DELETE CASCADE`
+- **`public.identity_users`** (`CHECK`): `identity_users_id_not_null` -> `NOT NULL id`
+- **`public.identity_users`** (`CHECK`): `identity_users_email_not_null` -> `NOT NULL email`
+- **`public.identity_users`** (`CHECK`): `identity_users_status_not_null` -> `NOT NULL status`
+- **`public.identity_users`** (`CHECK`): `identity_users_metadata_not_null` -> `NOT NULL metadata`
+- **`public.identity_users`** (`CHECK`): `identity_users_created_at_not_null` -> `NOT NULL created_at`
+- **`public.identity_users`** (`CHECK`): `identity_users_updated_at_not_null` -> `NOT NULL updated_at`
+- **`public.identity_users`** (`PRIMARY KEY`): `identity_users_pkey` -> `PRIMARY KEY (id)`
+- **`public.identity_user_accounts`** (`CHECK`): `identity_user_accounts_user_id_not_null` -> `NOT NULL user_id`
+- **`public.identity_user_accounts`** (`CHECK`): `identity_user_accounts_account_id_not_null` -> `NOT NULL account_id`
+- **`public.identity_user_accounts`** (`CHECK`): `identity_user_accounts_created_at_not_null` -> `NOT NULL created_at`
+- **`public.identity_user_accounts`** (`PRIMARY KEY`): `identity_user_accounts_pkey` -> `PRIMARY KEY (user_id, account_id)`
+- **`public.identity_user_accounts`** (`PRIMARY KEY`): `identity_user_accounts_pkey` -> `PRIMARY KEY (user_id, account_id)`
+- **`public.identity_user_accounts`** (`PRIMARY KEY`): `identity_user_accounts_pkey` -> `PRIMARY KEY (user_id, account_id)`
+- **`public.identity_user_accounts`** (`PRIMARY KEY`): `identity_user_accounts_pkey` -> `PRIMARY KEY (user_id, account_id)`
+- **`public.identity_user_accounts`** (`FOREIGN KEY`): `identity_user_accounts_user_id_fkey` -> `FOREIGN KEY (user_id) REFERENCES identity_users(id) ON UPDATE CASCADE ON DELETE CASCADE`
+- **`public.identity_user_accounts`** (`FOREIGN KEY`): `identity_user_accounts_account_id_fkey` -> `FOREIGN KEY (account_id) REFERENCES core_accounts(id) ON UPDATE CASCADE ON DELETE CASCADE`
+- **`public.identity_roles`** (`CHECK`): `identity_roles_id_not_null` -> `NOT NULL id`
+- **`public.identity_roles`** (`CHECK`): `identity_roles_name_not_null` -> `NOT NULL name`
+- **`public.identity_roles`** (`CHECK`): `identity_roles_metadata_not_null` -> `NOT NULL metadata`
+- **`public.identity_roles`** (`CHECK`): `identity_roles_created_at_not_null` -> `NOT NULL created_at`
+- **`public.identity_roles`** (`CHECK`): `identity_roles_updated_at_not_null` -> `NOT NULL updated_at`
+- **`public.identity_roles`** (`PRIMARY KEY`): `identity_roles_pkey` -> `PRIMARY KEY (id)`
+- **`public.identity_permissions`** (`CHECK`): `identity_permissions_id_not_null` -> `NOT NULL id`
+- **`public.identity_permissions`** (`CHECK`): `identity_permissions_code_not_null` -> `NOT NULL code`
+- **`public.identity_permissions`** (`CHECK`): `identity_permissions_metadata_not_null` -> `NOT NULL metadata`
+- **`public.identity_permissions`** (`CHECK`): `identity_permissions_created_at_not_null` -> `NOT NULL created_at`
+- **`public.identity_permissions`** (`CHECK`): `identity_permissions_updated_at_not_null` -> `NOT NULL updated_at`
+- **`public.identity_permissions`** (`PRIMARY KEY`): `identity_permissions_pkey` -> `PRIMARY KEY (id)`
+- **`public.identity_role_permissions`** (`CHECK`): `identity_role_permissions_role_id_not_null` -> `NOT NULL role_id`
+- **`public.identity_role_permissions`** (`CHECK`): `identity_role_permissions_permission_id_not_null` -> `NOT NULL permission_id`
+- **`public.identity_role_permissions`** (`CHECK`): `identity_role_permissions_created_at_not_null` -> `NOT NULL created_at`
+- **`public.identity_role_permissions`** (`PRIMARY KEY`): `identity_role_permissions_pkey` -> `PRIMARY KEY (role_id, permission_id)`
+- **`public.identity_role_permissions`** (`PRIMARY KEY`): `identity_role_permissions_pkey` -> `PRIMARY KEY (role_id, permission_id)`
+- **`public.identity_role_permissions`** (`PRIMARY KEY`): `identity_role_permissions_pkey` -> `PRIMARY KEY (role_id, permission_id)`
+- **`public.identity_role_permissions`** (`PRIMARY KEY`): `identity_role_permissions_pkey` -> `PRIMARY KEY (role_id, permission_id)`
+- **`public.identity_user_roles`** (`CHECK`): `identity_user_roles_user_id_not_null` -> `NOT NULL user_id`
+- **`public.identity_user_roles`** (`CHECK`): `identity_user_roles_role_id_not_null` -> `NOT NULL role_id`
+- **`public.identity_user_roles`** (`CHECK`): `identity_user_roles_account_id_not_null` -> `NOT NULL account_id`
+- **`public.identity_user_roles`** (`CHECK`): `identity_user_roles_created_at_not_null` -> `NOT NULL created_at`
+- **`public.identity_user_roles`** (`PRIMARY KEY`): `identity_user_roles_pkey` -> `PRIMARY KEY (user_id, role_id, account_id)`
+- **`public.identity_user_roles`** (`PRIMARY KEY`): `identity_user_roles_pkey` -> `PRIMARY KEY (user_id, role_id, account_id)`
+- **`public.identity_user_roles`** (`PRIMARY KEY`): `identity_user_roles_pkey` -> `PRIMARY KEY (user_id, role_id, account_id)`
+- **`public.identity_user_roles`** (`PRIMARY KEY`): `identity_user_roles_pkey` -> `PRIMARY KEY (user_id, role_id, account_id)`
+- **`public.identity_user_roles`** (`PRIMARY KEY`): `identity_user_roles_pkey` -> `PRIMARY KEY (user_id, role_id, account_id)`
+- **`public.identity_user_roles`** (`PRIMARY KEY`): `identity_user_roles_pkey` -> `PRIMARY KEY (user_id, role_id, account_id)`
+- **`public.identity_user_roles`** (`PRIMARY KEY`): `identity_user_roles_pkey` -> `PRIMARY KEY (user_id, role_id, account_id)`
+- **`public.identity_user_roles`** (`PRIMARY KEY`): `identity_user_roles_pkey` -> `PRIMARY KEY (user_id, role_id, account_id)`
+- **`public.identity_user_roles`** (`PRIMARY KEY`): `identity_user_roles_pkey` -> `PRIMARY KEY (user_id, role_id, account_id)`
+- **`public.identity_role_permissions`** (`FOREIGN KEY`): `identity_role_permissions_role_id_fkey` -> `FOREIGN KEY (role_id) REFERENCES identity_roles(id) ON UPDATE CASCADE ON DELETE CASCADE`
+- **`public.identity_role_permissions`** (`FOREIGN KEY`): `identity_role_permissions_permission_id_fkey` -> `FOREIGN KEY (permission_id) REFERENCES identity_permissions(id) ON UPDATE CASCADE ON DELETE CASCADE`
+- **`public.identity_user_roles`** (`FOREIGN KEY`): `identity_user_roles_user_id_fkey` -> `FOREIGN KEY (user_id) REFERENCES identity_users(id) ON UPDATE CASCADE ON DELETE CASCADE`
+- **`public.identity_user_roles`** (`FOREIGN KEY`): `identity_user_roles_role_id_fkey` -> `FOREIGN KEY (role_id) REFERENCES identity_roles(id) ON UPDATE CASCADE ON DELETE CASCADE`
+- **`public.identity_user_roles`** (`FOREIGN KEY`): `identity_user_roles_account_id_fkey` -> `FOREIGN KEY (account_id) REFERENCES core_accounts(id) ON UPDATE CASCADE ON DELETE CASCADE`
+- **`public.commerce_stores`** (`CHECK`): `commerce_stores_id_not_null` -> `NOT NULL id`
+- **`public.commerce_stores`** (`CHECK`): `commerce_stores_account_id_not_null` -> `NOT NULL account_id`
+- **`public.commerce_stores`** (`CHECK`): `commerce_stores_name_not_null` -> `NOT NULL name`
+- **`public.commerce_stores`** (`CHECK`): `commerce_stores_status_not_null` -> `NOT NULL status`
+- **`public.commerce_stores`** (`CHECK`): `commerce_stores_metadata_not_null` -> `NOT NULL metadata`
+- **`public.commerce_stores`** (`CHECK`): `commerce_stores_created_at_not_null` -> `NOT NULL created_at`
+- **`public.commerce_stores`** (`CHECK`): `commerce_stores_updated_at_not_null` -> `NOT NULL updated_at`
+- **`public.commerce_stores`** (`PRIMARY KEY`): `commerce_stores_pkey` -> `PRIMARY KEY (id)`
+- **`public.commerce_products`** (`CHECK`): `commerce_products_id_not_null` -> `NOT NULL id`
+- **`public.commerce_products`** (`CHECK`): `commerce_products_account_id_not_null` -> `NOT NULL account_id`
+- **`public.commerce_products`** (`CHECK`): `commerce_products_store_id_not_null` -> `NOT NULL store_id`
+- **`public.commerce_products`** (`CHECK`): `commerce_products_name_not_null` -> `NOT NULL name`
+- **`public.commerce_products`** (`CHECK`): `commerce_products_status_not_null` -> `NOT NULL status`
+- **`public.commerce_products`** (`CHECK`): `commerce_products_metadata_not_null` -> `NOT NULL metadata`
+- **`public.commerce_products`** (`CHECK`): `commerce_products_created_at_not_null` -> `NOT NULL created_at`
+- **`public.commerce_products`** (`CHECK`): `commerce_products_updated_at_not_null` -> `NOT NULL updated_at`
+- **`public.commerce_products`** (`PRIMARY KEY`): `commerce_products_pkey` -> `PRIMARY KEY (id)`
+- **`public.commerce_product_variants`** (`CHECK`): `commerce_product_variants_id_not_null` -> `NOT NULL id`
+- **`public.commerce_product_variants`** (`CHECK`): `commerce_product_variants_account_id_not_null` -> `NOT NULL account_id`
+- **`public.commerce_product_variants`** (`CHECK`): `commerce_product_variants_product_id_not_null` -> `NOT NULL product_id`
+- **`public.commerce_product_variants`** (`CHECK`): `commerce_product_variants_price_amount_not_null` -> `NOT NULL price_amount`
+- **`public.commerce_product_variants`** (`CHECK`): `commerce_product_variants_currency_not_null` -> `NOT NULL currency`
+- **`public.commerce_product_variants`** (`CHECK`): `commerce_product_variants_status_not_null` -> `NOT NULL status`
+- **`public.commerce_product_variants`** (`CHECK`): `commerce_product_variants_metadata_not_null` -> `NOT NULL metadata`
+- **`public.commerce_product_variants`** (`CHECK`): `commerce_product_variants_created_at_not_null` -> `NOT NULL created_at`
+- **`public.commerce_product_variants`** (`CHECK`): `commerce_product_variants_updated_at_not_null` -> `NOT NULL updated_at`
+- **`public.commerce_product_variants`** (`PRIMARY KEY`): `commerce_product_variants_pkey` -> `PRIMARY KEY (id)`
+- **`public.commerce_orders`** (`CHECK`): `commerce_orders_id_not_null` -> `NOT NULL id`
+- **`public.commerce_orders`** (`CHECK`): `commerce_orders_account_id_not_null` -> `NOT NULL account_id`
+- **`public.commerce_orders`** (`CHECK`): `commerce_orders_store_id_not_null` -> `NOT NULL store_id`
+- **`public.commerce_orders`** (`CHECK`): `commerce_orders_order_number_not_null` -> `NOT NULL order_number`
+- **`public.commerce_orders`** (`CHECK`): `commerce_orders_total_amount_not_null` -> `NOT NULL total_amount`
+- **`public.commerce_orders`** (`CHECK`): `commerce_orders_currency_not_null` -> `NOT NULL currency`
+- **`public.commerce_orders`** (`CHECK`): `commerce_orders_status_not_null` -> `NOT NULL status`
+- **`public.commerce_orders`** (`CHECK`): `commerce_orders_metadata_not_null` -> `NOT NULL metadata`
+- **`public.commerce_orders`** (`CHECK`): `commerce_orders_created_at_not_null` -> `NOT NULL created_at`
+- **`public.commerce_orders`** (`CHECK`): `commerce_orders_updated_at_not_null` -> `NOT NULL updated_at`
+- **`public.commerce_orders`** (`PRIMARY KEY`): `commerce_orders_pkey` -> `PRIMARY KEY (id)`
+- **`public.commerce_order_items`** (`CHECK`): `commerce_order_items_id_not_null` -> `NOT NULL id`
+- **`public.commerce_order_items`** (`CHECK`): `commerce_order_items_account_id_not_null` -> `NOT NULL account_id`
+- **`public.commerce_order_items`** (`CHECK`): `commerce_order_items_order_id_not_null` -> `NOT NULL order_id`
+- **`public.commerce_order_items`** (`CHECK`): `commerce_order_items_quantity_not_null` -> `NOT NULL quantity`
+- **`public.commerce_order_items`** (`CHECK`): `commerce_order_items_unit_price_amount_not_null` -> `NOT NULL unit_price_amount`
+- **`public.commerce_order_items`** (`CHECK`): `commerce_order_items_currency_not_null` -> `NOT NULL currency`
+- **`public.commerce_order_items`** (`CHECK`): `commerce_order_items_metadata_not_null` -> `NOT NULL metadata`
+- **`public.commerce_order_items`** (`CHECK`): `commerce_order_items_created_at_not_null` -> `NOT NULL created_at`
+- **`public.commerce_order_items`** (`CHECK`): `commerce_order_items_updated_at_not_null` -> `NOT NULL updated_at`
+- **`public.commerce_order_items`** (`PRIMARY KEY`): `commerce_order_items_pkey` -> `PRIMARY KEY (id)`
+- **`public.commerce_stores`** (`FOREIGN KEY`): `commerce_stores_account_id_fkey` -> `FOREIGN KEY (account_id) REFERENCES core_accounts(id) ON UPDATE CASCADE ON DELETE RESTRICT`
+- **`public.commerce_products`** (`FOREIGN KEY`): `commerce_products_account_id_fkey` -> `FOREIGN KEY (account_id) REFERENCES core_accounts(id) ON UPDATE CASCADE ON DELETE RESTRICT`
+- **`public.commerce_products`** (`FOREIGN KEY`): `commerce_products_store_id_fkey` -> `FOREIGN KEY (store_id) REFERENCES commerce_stores(id) ON UPDATE CASCADE ON DELETE RESTRICT`
+- **`public.commerce_product_variants`** (`FOREIGN KEY`): `commerce_product_variants_account_id_fkey` -> `FOREIGN KEY (account_id) REFERENCES core_accounts(id) ON UPDATE CASCADE ON DELETE RESTRICT`
+- **`public.commerce_product_variants`** (`FOREIGN KEY`): `commerce_product_variants_product_id_fkey` -> `FOREIGN KEY (product_id) REFERENCES commerce_products(id) ON UPDATE CASCADE ON DELETE CASCADE`
+- **`public.commerce_orders`** (`FOREIGN KEY`): `commerce_orders_account_id_fkey` -> `FOREIGN KEY (account_id) REFERENCES core_accounts(id) ON UPDATE CASCADE ON DELETE RESTRICT`
+- **`public.commerce_orders`** (`FOREIGN KEY`): `commerce_orders_store_id_fkey` -> `FOREIGN KEY (store_id) REFERENCES commerce_stores(id) ON UPDATE CASCADE ON DELETE RESTRICT`
+- **`public.commerce_order_items`** (`FOREIGN KEY`): `commerce_order_items_account_id_fkey` -> `FOREIGN KEY (account_id) REFERENCES core_accounts(id) ON UPDATE CASCADE ON DELETE RESTRICT`
+- **`public.commerce_order_items`** (`FOREIGN KEY`): `commerce_order_items_order_id_fkey` -> `FOREIGN KEY (order_id) REFERENCES commerce_orders(id) ON UPDATE CASCADE ON DELETE CASCADE`
+- **`public.commerce_order_items`** (`FOREIGN KEY`): `commerce_order_items_product_variant_id_fkey` -> `FOREIGN KEY (product_variant_id) REFERENCES commerce_product_variants(id) ON UPDATE CASCADE ON DELETE RESTRICT`
+- **`public.customers_customers`** (`CHECK`): `customers_customers_id_not_null` -> `NOT NULL id`
+- **`public.customers_customers`** (`CHECK`): `customers_customers_account_id_not_null` -> `NOT NULL account_id`
+- **`public.customers_customers`** (`CHECK`): `customers_customers_email_not_null` -> `NOT NULL email`
+- **`public.customers_customers`** (`CHECK`): `customers_customers_status_not_null` -> `NOT NULL status`
+- **`public.customers_customers`** (`CHECK`): `customers_customers_metadata_not_null` -> `NOT NULL metadata`
+- **`public.customers_customers`** (`CHECK`): `customers_customers_created_at_not_null` -> `NOT NULL created_at`
+- **`public.customers_customers`** (`CHECK`): `customers_customers_updated_at_not_null` -> `NOT NULL updated_at`
+- **`public.customers_customers`** (`PRIMARY KEY`): `customers_customers_pkey` -> `PRIMARY KEY (id)`
+- **`public.customers_customer_profiles`** (`CHECK`): `customers_customer_profiles_id_not_null` -> `NOT NULL id`
+- **`public.customers_customer_profiles`** (`CHECK`): `customers_customer_profiles_account_id_not_null` -> `NOT NULL account_id`
+- **`public.customers_customer_profiles`** (`CHECK`): `customers_customer_profiles_customer_id_not_null` -> `NOT NULL customer_id`
+- **`public.customers_customer_profiles`** (`CHECK`): `customers_customer_profiles_preferences_not_null` -> `NOT NULL preferences`
+- **`public.customers_customer_profiles`** (`CHECK`): `customers_customer_profiles_metadata_not_null` -> `NOT NULL metadata`
+- **`public.customers_customer_profiles`** (`CHECK`): `customers_customer_profiles_created_at_not_null` -> `NOT NULL created_at`
+- **`public.customers_customer_profiles`** (`CHECK`): `customers_customer_profiles_updated_at_not_null` -> `NOT NULL updated_at`
+- **`public.customers_customer_profiles`** (`PRIMARY KEY`): `customers_customer_profiles_pkey` -> `PRIMARY KEY (id)`
+- **`public.commerce_orders`** (`FOREIGN KEY`): `commerce_orders_customer_id_fkey` -> `FOREIGN KEY (customer_id) REFERENCES customers_customers(id) ON UPDATE CASCADE ON DELETE RESTRICT`
+- **`public.customers_customers`** (`FOREIGN KEY`): `customers_customers_account_id_fkey` -> `FOREIGN KEY (account_id) REFERENCES core_accounts(id) ON UPDATE CASCADE ON DELETE RESTRICT`
+- **`public.customers_customer_profiles`** (`FOREIGN KEY`): `customers_customer_profiles_account_id_fkey` -> `FOREIGN KEY (account_id) REFERENCES core_accounts(id) ON UPDATE CASCADE ON DELETE RESTRICT`
+- **`public.customers_customer_profiles`** (`FOREIGN KEY`): `customers_customer_profiles_customer_id_fkey` -> `FOREIGN KEY (customer_id) REFERENCES customers_customers(id) ON UPDATE CASCADE ON DELETE CASCADE`
+- **`public.core_account_types`** (`CHECK`): `core_account_types_id_not_null` -> `NOT NULL id`
+- **`public.core_account_types`** (`CHECK`): `core_account_types_code_not_null` -> `NOT NULL code`
+- **`public.core_account_types`** (`CHECK`): `core_account_types_created_at_not_null` -> `NOT NULL created_at`
+- **`public.core_account_types`** (`CHECK`): `core_account_types_updated_at_not_null` -> `NOT NULL updated_at`
+- **`public.core_account_types`** (`PRIMARY KEY`): `core_account_types_pkey` -> `PRIMARY KEY (id)`
+- **`public.core_system_modules`** (`CHECK`): `core_system_modules_id_not_null` -> `NOT NULL id`
+- **`public.core_system_modules`** (`CHECK`): `core_system_modules_code_not_null` -> `NOT NULL code`
+- **`public.core_system_modules`** (`CHECK`): `core_system_modules_created_at_not_null` -> `NOT NULL created_at`
+- **`public.core_system_modules`** (`CHECK`): `core_system_modules_updated_at_not_null` -> `NOT NULL updated_at`
+- **`public.core_system_modules`** (`PRIMARY KEY`): `core_system_modules_pkey` -> `PRIMARY KEY (id)`
+- **`public.core_notification_channels`** (`CHECK`): `core_notification_channels_id_not_null` -> `NOT NULL id`
+- **`public.core_notification_channels`** (`CHECK`): `core_notification_channels_code_not_null` -> `NOT NULL code`
+- **`public.core_notification_channels`** (`CHECK`): `core_notification_channels_created_at_not_null` -> `NOT NULL created_at`
+- **`public.core_notification_channels`** (`CHECK`): `core_notification_channels_updated_at_not_null` -> `NOT NULL updated_at`
+- **`public.core_notification_channels`** (`PRIMARY KEY`): `core_notification_channels_pkey` -> `PRIMARY KEY (id)`
+- **`public.identity_users`** (`CHECK`): `identity_users_failed_login_attempts_not_null` -> `NOT NULL failed_login_attempts`
+- **`public.identity_users`** (`CHECK`): `identity_users_token_version_not_null` -> `NOT NULL token_version`
+- **`public.fit_feedback_events`** (`CHECK`): `fit_feedback_events_id_not_null` -> `NOT NULL id`
+- **`public.fit_feedback_events`** (`CHECK`): `fit_feedback_events_id_not_null` -> `NOT NULL id`
+- **`public.fit_feedback_events`** (`CHECK`): `fit_feedback_events_recommendation_id_not_null` -> `NOT NULL recommendation_id`
+- **`public.fit_feedback_events`** (`CHECK`): `fit_feedback_events_recommendation_id_not_null` -> `NOT NULL recommendation_id`
+- **`public.fit_feedback_events`** (`CHECK`): `fit_feedback_events_account_id_not_null` -> `NOT NULL account_id`
+- **`public.fit_feedback_events`** (`CHECK`): `fit_feedback_events_account_id_not_null` -> `NOT NULL account_id`
+- **`public.fit_feedback_events`** (`CHECK`): `fit_feedback_events_product_id_not_null` -> `NOT NULL product_id`
+- **`public.fit_feedback_events`** (`CHECK`): `fit_feedback_events_product_id_not_null` -> `NOT NULL product_id`
+- **`public.fit_feedback_events`** (`CHECK`): `fit_feedback_events_purchased_not_null` -> `NOT NULL purchased`
+- **`public.fit_feedback_events`** (`CHECK`): `fit_feedback_events_purchased_not_null` -> `NOT NULL purchased`
+- **`public.fit_feedback_events`** (`CHECK`): `fit_feedback_events_returned_not_null` -> `NOT NULL returned`
+- **`public.fit_feedback_events`** (`CHECK`): `fit_feedback_events_returned_not_null` -> `NOT NULL returned`
+- **`public.fit_feedback_events`** (`CHECK`): `fit_feedback_events_exchanged_not_null` -> `NOT NULL exchanged`
+- **`public.fit_feedback_events`** (`CHECK`): `fit_feedback_events_exchanged_not_null` -> `NOT NULL exchanged`
+- **`public.fit_feedback_events`** (`CHECK`): `fit_feedback_events_created_at_not_null` -> `NOT NULL created_at`
+- **`public.fit_feedback_events`** (`CHECK`): `fit_feedback_events_created_at_not_null` -> `NOT NULL created_at`
+- **`public.fit_feedback_events`** (`PRIMARY KEY`): `PK_fc045dd56261ab337945d3a79f2` -> `PRIMARY KEY (id)`
+- **`public.fit_feedback_events`** (`PRIMARY KEY`): `PK_fc045dd56261ab337945d3a79f2` -> `PRIMARY KEY (id)`
+- **`public.fit_recommendations`** (`CHECK`): `fit_recommendations_id_not_null` -> `NOT NULL id`
+- **`public.fit_recommendations`** (`CHECK`): `fit_recommendations_id_not_null` -> `NOT NULL id`
+- **`public.fit_recommendations`** (`CHECK`): `fit_recommendations_account_id_not_null` -> `NOT NULL account_id`
+- **`public.fit_recommendations`** (`CHECK`): `fit_recommendations_account_id_not_null` -> `NOT NULL account_id`
+- **`public.fit_recommendations`** (`CHECK`): `fit_recommendations_product_id_not_null` -> `NOT NULL product_id`
+- **`public.fit_recommendations`** (`CHECK`): `fit_recommendations_product_id_not_null` -> `NOT NULL product_id`
+- **`public.fit_recommendations`** (`CHECK`): `fit_recommendations_user_inputs_not_null` -> `NOT NULL user_inputs`
+- **`public.fit_recommendations`** (`CHECK`): `fit_recommendations_user_inputs_not_null` -> `NOT NULL user_inputs`
+- **`public.fit_recommendations`** (`CHECK`): `fit_recommendations_recommended_size_not_null` -> `NOT NULL recommended_size`
+- **`public.fit_recommendations`** (`CHECK`): `fit_recommendations_recommended_size_not_null` -> `NOT NULL recommended_size`
+- **`public.fit_recommendations`** (`CHECK`): `fit_recommendations_confidence_not_null` -> `NOT NULL confidence`
+- **`public.fit_recommendations`** (`CHECK`): `fit_recommendations_confidence_not_null` -> `NOT NULL confidence`
+- **`public.fit_recommendations`** (`CHECK`): `fit_recommendations_boundary_case_not_null` -> `NOT NULL boundary_case`
+- **`public.fit_recommendations`** (`CHECK`): `fit_recommendations_boundary_case_not_null` -> `NOT NULL boundary_case`
+- **`public.fit_recommendations`** (`CHECK`): `fit_recommendations_engine_version_not_null` -> `NOT NULL engine_version`
+- **`public.fit_recommendations`** (`CHECK`): `fit_recommendations_engine_version_not_null` -> `NOT NULL engine_version`
+- **`public.fit_recommendations`** (`CHECK`): `fit_recommendations_created_at_not_null` -> `NOT NULL created_at`
+- **`public.fit_recommendations`** (`CHECK`): `fit_recommendations_created_at_not_null` -> `NOT NULL created_at`
+- **`public.fit_recommendations`** (`PRIMARY KEY`): `PK_43bbac6c21ed26277935bd2a348` -> `PRIMARY KEY (id)`
+- **`public.fit_recommendations`** (`PRIMARY KEY`): `PK_43bbac6c21ed26277935bd2a348` -> `PRIMARY KEY (id)`
+- **`public.fit_products`** (`CHECK`): `fit_products_id_not_null` -> `NOT NULL id`
+- **`public.fit_products`** (`CHECK`): `fit_products_id_not_null` -> `NOT NULL id`
+- **`public.fit_products`** (`CHECK`): `fit_products_account_id_not_null` -> `NOT NULL account_id`
+- **`public.fit_products`** (`CHECK`): `fit_products_account_id_not_null` -> `NOT NULL account_id`
+- **`public.fit_products`** (`CHECK`): `fit_products_name_not_null` -> `NOT NULL name`
+- **`public.fit_products`** (`CHECK`): `fit_products_name_not_null` -> `NOT NULL name`
+- **`public.fit_products`** (`CHECK`): `fit_products_category_not_null` -> `NOT NULL category`
+- **`public.fit_products`** (`CHECK`): `fit_products_category_not_null` -> `NOT NULL category`
+- **`public.fit_products`** (`CHECK`): `fit_products_fit_type_not_null` -> `NOT NULL fit_type`
+- **`public.fit_products`** (`CHECK`): `fit_products_fit_type_not_null` -> `NOT NULL fit_type`
+- **`public.fit_products`** (`CHECK`): `fit_products_stretch_level_not_null` -> `NOT NULL stretch_level`
+- **`public.fit_products`** (`CHECK`): `fit_products_stretch_level_not_null` -> `NOT NULL stretch_level`
+- **`public.fit_products`** (`CHECK`): `fit_products_created_at_not_null` -> `NOT NULL created_at`
+- **`public.fit_products`** (`CHECK`): `fit_products_created_at_not_null` -> `NOT NULL created_at`
+- **`public.fit_products`** (`PRIMARY KEY`): `PK_71d7afa508e36ef0382102d3fde` -> `PRIMARY KEY (id)`
+- **`public.fit_products`** (`PRIMARY KEY`): `PK_71d7afa508e36ef0382102d3fde` -> `PRIMARY KEY (id)`
+- **`public.fit_tenant_configs`** (`CHECK`): `fit_tenant_configs_id_not_null` -> `NOT NULL id`
+- **`public.fit_tenant_configs`** (`CHECK`): `fit_tenant_configs_id_not_null` -> `NOT NULL id`
+- **`public.fit_tenant_configs`** (`CHECK`): `fit_tenant_configs_account_id_not_null` -> `NOT NULL account_id`
+- **`public.fit_tenant_configs`** (`CHECK`): `fit_tenant_configs_account_id_not_null` -> `NOT NULL account_id`
+- **`public.fit_tenant_configs`** (`CHECK`): `fit_tenant_configs_created_at_not_null` -> `NOT NULL created_at`
+- **`public.fit_tenant_configs`** (`CHECK`): `fit_tenant_configs_created_at_not_null` -> `NOT NULL created_at`
+- **`public.fit_tenant_configs`** (`CHECK`): `fit_tenant_configs_updated_at_not_null` -> `NOT NULL updated_at`
+- **`public.fit_tenant_configs`** (`CHECK`): `fit_tenant_configs_updated_at_not_null` -> `NOT NULL updated_at`
+- **`public.fit_tenant_configs`** (`PRIMARY KEY`): `PK_19d1eaa9e762b0e253b3e27fd02` -> `PRIMARY KEY (id)`
+- **`public.fit_tenant_configs`** (`PRIMARY KEY`): `PK_19d1eaa9e762b0e253b3e27fd02` -> `PRIMARY KEY (id)`
+- **`public.fit_tenant_configs`** (`UNIQUE`): `UQ_e22297d1d895f72f08f75c18f9e` -> `UNIQUE (account_id)`
+- **`public.fit_size_charts`** (`CHECK`): `fit_size_charts_id_not_null` -> `NOT NULL id`
+- **`public.fit_size_charts`** (`CHECK`): `fit_size_charts_id_not_null` -> `NOT NULL id`
+- **`public.fit_size_charts`** (`CHECK`): `fit_size_charts_account_id_not_null` -> `NOT NULL account_id`
+- **`public.fit_size_charts`** (`CHECK`): `fit_size_charts_account_id_not_null` -> `NOT NULL account_id`
+- **`public.fit_size_charts`** (`CHECK`): `fit_size_charts_category_not_null` -> `NOT NULL category`
+- **`public.fit_size_charts`** (`CHECK`): `fit_size_charts_category_not_null` -> `NOT NULL category`
+- **`public.fit_size_charts`** (`CHECK`): `fit_size_charts_gender_not_null` -> `NOT NULL gender`
+- **`public.fit_size_charts`** (`CHECK`): `fit_size_charts_gender_not_null` -> `NOT NULL gender`
+- **`public.fit_size_charts`** (`CHECK`): `fit_size_charts_size_label_not_null` -> `NOT NULL size_label`
+- **`public.fit_size_charts`** (`CHECK`): `fit_size_charts_size_label_not_null` -> `NOT NULL size_label`
+- **`public.fit_size_charts`** (`CHECK`): `fit_size_charts_sort_order_not_null` -> `NOT NULL sort_order`
+- **`public.fit_size_charts`** (`CHECK`): `fit_size_charts_sort_order_not_null` -> `NOT NULL sort_order`
+- **`public.fit_size_charts`** (`PRIMARY KEY`): `PK_5e7a9790b8f7fa8dc30abe3071c` -> `PRIMARY KEY (id)`
+- **`public.fit_size_charts`** (`PRIMARY KEY`): `PK_5e7a9790b8f7fa8dc30abe3071c` -> `PRIMARY KEY (id)`
+- **`public.fit_raw_catalog_products`** (`CHECK`): `fit_raw_catalog_products_id_not_null` -> `NOT NULL id`
+- **`public.fit_raw_catalog_products`** (`CHECK`): `fit_raw_catalog_products_id_not_null` -> `NOT NULL id`
+- **`public.fit_raw_catalog_products`** (`CHECK`): `fit_raw_catalog_products_account_id_not_null` -> `NOT NULL account_id`
+- **`public.fit_raw_catalog_products`** (`CHECK`): `fit_raw_catalog_products_account_id_not_null` -> `NOT NULL account_id`
+- **`public.fit_raw_catalog_products`** (`CHECK`): `fit_raw_catalog_products_external_product_id_not_null` -> `NOT NULL external_product_id`
+- **`public.fit_raw_catalog_products`** (`CHECK`): `fit_raw_catalog_products_external_product_id_not_null` -> `NOT NULL external_product_id`
+- **`public.fit_raw_catalog_products`** (`CHECK`): `fit_raw_catalog_products_shop_domain_not_null` -> `NOT NULL shop_domain`
+- **`public.fit_raw_catalog_products`** (`CHECK`): `fit_raw_catalog_products_shop_domain_not_null` -> `NOT NULL shop_domain`
+- **`public.fit_raw_catalog_products`** (`CHECK`): `fit_raw_catalog_products_raw_payload_not_null` -> `NOT NULL raw_payload`
+- **`public.fit_raw_catalog_products`** (`CHECK`): `fit_raw_catalog_products_raw_payload_not_null` -> `NOT NULL raw_payload`
+- **`public.fit_raw_catalog_products`** (`CHECK`): `fit_raw_catalog_products_payload_hash_not_null` -> `NOT NULL payload_hash`
+- **`public.fit_raw_catalog_products`** (`CHECK`): `fit_raw_catalog_products_payload_hash_not_null` -> `NOT NULL payload_hash`
+- **`public.fit_raw_catalog_products`** (`CHECK`): `fit_raw_catalog_products_source_not_null` -> `NOT NULL source`
+- **`public.fit_raw_catalog_products`** (`CHECK`): `fit_raw_catalog_products_source_not_null` -> `NOT NULL source`
+- **`public.fit_raw_catalog_products`** (`CHECK`): `fit_raw_catalog_products_received_at_not_null` -> `NOT NULL received_at`
+- **`public.fit_raw_catalog_products`** (`CHECK`): `fit_raw_catalog_products_received_at_not_null` -> `NOT NULL received_at`
+- **`public.fit_raw_catalog_products`** (`PRIMARY KEY`): `PK_db4fff1dd897d96f2ca3993994e` -> `PRIMARY KEY (id)`
+- **`public.fit_raw_catalog_products`** (`PRIMARY KEY`): `PK_db4fff1dd897d96f2ca3993994e` -> `PRIMARY KEY (id)`
+- **`public.fit_raw_catalog_products`** (`UNIQUE`): `UQ_raw_catalog_brand_ext` -> `UNIQUE (account_id, external_product_id)`
+- **`public.fit_raw_catalog_products`** (`UNIQUE`): `UQ_raw_catalog_brand_ext` -> `UNIQUE (account_id, external_product_id)`
+- **`public.fit_raw_catalog_products`** (`UNIQUE`): `UQ_raw_catalog_brand_ext` -> `UNIQUE (account_id, external_product_id)`
+- **`public.fit_raw_catalog_products`** (`UNIQUE`): `UQ_raw_catalog_brand_ext` -> `UNIQUE (account_id, external_product_id)`
+- **`public.fit_raw_catalog_products`** (`UNIQUE`): `UQ_raw_catalog_brand_ext` -> `UNIQUE (account_id, external_product_id)`
+- **`public.fit_raw_catalog_products`** (`UNIQUE`): `UQ_raw_catalog_brand_ext` -> `UNIQUE (account_id, external_product_id)`
+- **`public.fit_raw_catalog_products`** (`UNIQUE`): `UQ_raw_catalog_brand_ext` -> `UNIQUE (account_id, external_product_id)`
+- **`public.fit_raw_catalog_products`** (`UNIQUE`): `UQ_raw_catalog_brand_ext` -> `UNIQUE (account_id, external_product_id)`
+- **`public.fit_processed_webhooks`** (`CHECK`): `fit_processed_webhooks_webhook_id_not_null` -> `NOT NULL webhook_id`
+- **`public.fit_processed_webhooks`** (`CHECK`): `fit_processed_webhooks_webhook_id_not_null` -> `NOT NULL webhook_id`
+- **`public.fit_processed_webhooks`** (`CHECK`): `fit_processed_webhooks_topic_not_null` -> `NOT NULL topic`
+- **`public.fit_processed_webhooks`** (`CHECK`): `fit_processed_webhooks_topic_not_null` -> `NOT NULL topic`
+- **`public.fit_processed_webhooks`** (`CHECK`): `fit_processed_webhooks_shop_domain_not_null` -> `NOT NULL shop_domain`
+- **`public.fit_processed_webhooks`** (`CHECK`): `fit_processed_webhooks_shop_domain_not_null` -> `NOT NULL shop_domain`
+- **`public.fit_processed_webhooks`** (`CHECK`): `fit_processed_webhooks_processed_at_not_null` -> `NOT NULL processed_at`
+- **`public.fit_processed_webhooks`** (`CHECK`): `fit_processed_webhooks_processed_at_not_null` -> `NOT NULL processed_at`
+- **`public.fit_processed_webhooks`** (`PRIMARY KEY`): `PK_f6aa322808ff0bfb727af878878` -> `PRIMARY KEY (webhook_id)`
+- **`public.fit_processed_webhooks`** (`PRIMARY KEY`): `PK_f6aa322808ff0bfb727af878878` -> `PRIMARY KEY (webhook_id)`
+- **`public.fit_shopify_connections`** (`CHECK`): `fit_shopify_connections_id_not_null` -> `NOT NULL id`
+- **`public.fit_shopify_connections`** (`CHECK`): `fit_shopify_connections_id_not_null` -> `NOT NULL id`
+- **`public.fit_shopify_connections`** (`CHECK`): `fit_shopify_connections_account_id_not_null` -> `NOT NULL account_id`
+- **`public.fit_shopify_connections`** (`CHECK`): `fit_shopify_connections_account_id_not_null` -> `NOT NULL account_id`
+- **`public.fit_shopify_connections`** (`CHECK`): `fit_shopify_connections_shop_domain_not_null` -> `NOT NULL shop_domain`
+- **`public.fit_shopify_connections`** (`CHECK`): `fit_shopify_connections_shop_domain_not_null` -> `NOT NULL shop_domain`
+- **`public.fit_shopify_connections`** (`CHECK`): `fit_shopify_connections_access_token_not_null` -> `NOT NULL access_token`
+- **`public.fit_shopify_connections`** (`CHECK`): `fit_shopify_connections_access_token_not_null` -> `NOT NULL access_token`
+- **`public.fit_shopify_connections`** (`CHECK`): `fit_shopify_connections_scope_not_null` -> `NOT NULL scope`
+- **`public.fit_shopify_connections`** (`CHECK`): `fit_shopify_connections_scope_not_null` -> `NOT NULL scope`
+- **`public.fit_shopify_connections`** (`CHECK`): `fit_shopify_connections_webhook_secret_not_null` -> `NOT NULL webhook_secret`
+- **`public.fit_shopify_connections`** (`CHECK`): `fit_shopify_connections_webhook_secret_not_null` -> `NOT NULL webhook_secret`
+- **`public.fit_shopify_connections`** (`CHECK`): `fit_shopify_connections_api_version_not_null` -> `NOT NULL api_version`
+- **`public.fit_shopify_connections`** (`CHECK`): `fit_shopify_connections_api_version_not_null` -> `NOT NULL api_version`
+- **`public.fit_shopify_connections`** (`CHECK`): `fit_shopify_connections_connected_at_not_null` -> `NOT NULL connected_at`
+- **`public.fit_shopify_connections`** (`CHECK`): `fit_shopify_connections_connected_at_not_null` -> `NOT NULL connected_at`
+- **`public.fit_shopify_connections`** (`CHECK`): `fit_shopify_connections_created_at_not_null` -> `NOT NULL created_at`
+- **`public.fit_shopify_connections`** (`CHECK`): `fit_shopify_connections_created_at_not_null` -> `NOT NULL created_at`
+- **`public.fit_shopify_connections`** (`CHECK`): `fit_shopify_connections_updated_at_not_null` -> `NOT NULL updated_at`
+- **`public.fit_shopify_connections`** (`CHECK`): `fit_shopify_connections_updated_at_not_null` -> `NOT NULL updated_at`
+- **`public.fit_shopify_connections`** (`PRIMARY KEY`): `PK_92685c9cf1b5992b7685afc0df6` -> `PRIMARY KEY (id)`
+- **`public.fit_shopify_connections`** (`PRIMARY KEY`): `PK_92685c9cf1b5992b7685afc0df6` -> `PRIMARY KEY (id)`
+- **`public.fit_shopify_connections`** (`UNIQUE`): `UQ_e313137969b144a0738e90b03c8` -> `UNIQUE (shop_domain)`
+- **`public.fit_shopify_connections`** (`UNIQUE`): `UQ_e313137969b144a0738e90b03c8` -> `UNIQUE (shop_domain)`
+- **`public.fit_analytics_events`** (`CHECK`): `fit_analytics_events_id_not_null` -> `NOT NULL id`
+- **`public.fit_analytics_events`** (`CHECK`): `fit_analytics_events_id_not_null` -> `NOT NULL id`
+- **`public.fit_analytics_events`** (`CHECK`): `fit_analytics_events_event_type_not_null` -> `NOT NULL event_type`
+- **`public.fit_analytics_events`** (`CHECK`): `fit_analytics_events_event_type_not_null` -> `NOT NULL event_type`
+- **`public.fit_analytics_events`** (`CHECK`): `fit_analytics_events_payload_not_null` -> `NOT NULL payload`
+- **`public.fit_analytics_events`** (`CHECK`): `fit_analytics_events_payload_not_null` -> `NOT NULL payload`
+- **`public.fit_analytics_events`** (`CHECK`): `fit_analytics_events_created_at_not_null` -> `NOT NULL created_at`
+- **`public.fit_analytics_events`** (`CHECK`): `fit_analytics_events_created_at_not_null` -> `NOT NULL created_at`
+- **`public.fit_analytics_events`** (`PRIMARY KEY`): `PK_8132ca5085a8638f91a3a6377ec` -> `PRIMARY KEY (id)`
+- **`public.fit_analytics_events`** (`PRIMARY KEY`): `PK_8132ca5085a8638f91a3a6377ec` -> `PRIMARY KEY (id)`
+- **`public.fit_profiles`** (`CHECK`): `fit_profiles_id_not_null` -> `NOT NULL id`
+- **`public.fit_profiles`** (`CHECK`): `fit_profiles_id_not_null` -> `NOT NULL id`
+- **`public.fit_profiles`** (`CHECK`): `fit_profiles_default_fit_preference_not_null` -> `NOT NULL default_fit_preference`
+- **`public.fit_profiles`** (`CHECK`): `fit_profiles_default_fit_preference_not_null` -> `NOT NULL default_fit_preference`
+- **`public.fit_profiles`** (`CHECK`): `fit_profiles_default_gender_not_null` -> `NOT NULL default_gender`
+- **`public.fit_profiles`** (`CHECK`): `fit_profiles_default_gender_not_null` -> `NOT NULL default_gender`
+- **`public.fit_profiles`** (`CHECK`): `fit_profiles_profile_version_not_null` -> `NOT NULL profile_version`
+- **`public.fit_profiles`** (`CHECK`): `fit_profiles_profile_version_not_null` -> `NOT NULL profile_version`
+- **`public.fit_profiles`** (`CHECK`): `fit_profiles_consent_version_not_null` -> `NOT NULL consent_version`
+- **`public.fit_profiles`** (`CHECK`): `fit_profiles_consent_version_not_null` -> `NOT NULL consent_version`
+- **`public.fit_profiles`** (`CHECK`): `fit_profiles_created_at_not_null` -> `NOT NULL created_at`
+- **`public.fit_profiles`** (`CHECK`): `fit_profiles_created_at_not_null` -> `NOT NULL created_at`
+- **`public.fit_profiles`** (`CHECK`): `fit_profiles_updated_at_not_null` -> `NOT NULL updated_at`
+- **`public.fit_profiles`** (`CHECK`): `fit_profiles_updated_at_not_null` -> `NOT NULL updated_at`
+- **`public.fit_profiles`** (`PRIMARY KEY`): `PK_f448c7f5cefa510a08d615df844` -> `PRIMARY KEY (id)`
+- **`public.fit_profiles`** (`PRIMARY KEY`): `PK_f448c7f5cefa510a08d615df844` -> `PRIMARY KEY (id)`
+- **`public.fit_profile_learning_states`** (`CHECK`): `fit_profile_learning_states_id_not_null` -> `NOT NULL id`
+- **`public.fit_profile_learning_states`** (`CHECK`): `fit_profile_learning_states_id_not_null` -> `NOT NULL id`
+- **`public.fit_profile_learning_states`** (`CHECK`): `fit_profile_learning_states_profile_id_not_null` -> `NOT NULL profile_id`
+- **`public.fit_profile_learning_states`** (`CHECK`): `fit_profile_learning_states_profile_id_not_null` -> `NOT NULL profile_id`
+- **`public.fit_profile_learning_states`** (`CHECK`): `fit_profile_learning_states_successful_purchases_not_null` -> `NOT NULL successful_purchases`
+- **`public.fit_profile_learning_states`** (`CHECK`): `fit_profile_learning_states_successful_purchases_not_null` -> `NOT NULL successful_purchases`
+- **`public.fit_profile_learning_states`** (`CHECK`): `fit_profile_learning_states_returns_count_not_null` -> `NOT NULL returns_count`
+- **`public.fit_profile_learning_states`** (`CHECK`): `fit_profile_learning_states_returns_count_not_null` -> `NOT NULL returns_count`
+- **`public.fit_profile_learning_states`** (`CHECK`): `fit_profile_learning_states_exchanges_count_not_null` -> `NOT NULL exchanges_count`
+- **`public.fit_profile_learning_states`** (`CHECK`): `fit_profile_learning_states_exchanges_count_not_null` -> `NOT NULL exchanges_count`
+- **`public.fit_profile_learning_states`** (`CHECK`): `fit_profile_learning_states_perfect_fit_count_not_null` -> `NOT NULL perfect_fit_count`
+- **`public.fit_profile_learning_states`** (`CHECK`): `fit_profile_learning_states_perfect_fit_count_not_null` -> `NOT NULL perfect_fit_count`
+- **`public.fit_profile_learning_states`** (`CHECK`): `fit_profile_learning_states_too_small_count_not_null` -> `NOT NULL too_small_count`
+- **`public.fit_profile_learning_states`** (`CHECK`): `fit_profile_learning_states_too_small_count_not_null` -> `NOT NULL too_small_count`
+- **`public.fit_profile_learning_states`** (`CHECK`): `fit_profile_learning_states_too_large_count_not_null` -> `NOT NULL too_large_count`
+- **`public.fit_profile_learning_states`** (`CHECK`): `fit_profile_learning_states_too_large_count_not_null` -> `NOT NULL too_large_count`
+- **`public.fit_profile_learning_states`** (`CHECK`): `fit_profile_learning_states_preferred_fit_bias_not_null` -> `NOT NULL preferred_fit_bias`
+- **`public.fit_profile_learning_states`** (`CHECK`): `fit_profile_learning_states_preferred_fit_bias_not_null` -> `NOT NULL preferred_fit_bias`
+- **`public.fit_profile_learning_states`** (`CHECK`): `fit_profile_learning_states_confidence_modifier_not_null` -> `NOT NULL confidence_modifier`
+- **`public.fit_profile_learning_states`** (`CHECK`): `fit_profile_learning_states_confidence_modifier_not_null` -> `NOT NULL confidence_modifier`
+- **`public.fit_profile_learning_states`** (`CHECK`): `fit_profile_learning_states_last_aggregated_at_not_null` -> `NOT NULL last_aggregated_at`
+- **`public.fit_profile_learning_states`** (`CHECK`): `fit_profile_learning_states_last_aggregated_at_not_null` -> `NOT NULL last_aggregated_at`
+- **`public.fit_profile_learning_states`** (`CHECK`): `fit_profile_learning_states_created_at_not_null` -> `NOT NULL created_at`
+- **`public.fit_profile_learning_states`** (`CHECK`): `fit_profile_learning_states_created_at_not_null` -> `NOT NULL created_at`
+- **`public.fit_profile_learning_states`** (`CHECK`): `fit_profile_learning_states_updated_at_not_null` -> `NOT NULL updated_at`
+- **`public.fit_profile_learning_states`** (`CHECK`): `fit_profile_learning_states_updated_at_not_null` -> `NOT NULL updated_at`
+- **`public.fit_profile_learning_states`** (`PRIMARY KEY`): `PK_156c0e78fa8a950e1d41f96d916` -> `PRIMARY KEY (id)`
+- **`public.fit_profile_learning_states`** (`PRIMARY KEY`): `PK_156c0e78fa8a950e1d41f96d916` -> `PRIMARY KEY (id)`
+- **`public.fit_profile_learning_states`** (`UNIQUE`): `UQ_8459388b0f67a6b99e7cfc5d252` -> `UNIQUE (profile_id, account_id)`
+- **`public.fit_profile_learning_states`** (`UNIQUE`): `UQ_8459388b0f67a6b99e7cfc5d252` -> `UNIQUE (profile_id, account_id)`
+- **`public.fit_profile_learning_states`** (`UNIQUE`): `UQ_8459388b0f67a6b99e7cfc5d252` -> `UNIQUE (profile_id, account_id)`
+- **`public.fit_profile_learning_states`** (`UNIQUE`): `UQ_8459388b0f67a6b99e7cfc5d252` -> `UNIQUE (profile_id, account_id)`
+- **`public.fit_unmapped_signals`** (`CHECK`): `fit_unmapped_signals_id_not_null` -> `NOT NULL id`
+- **`public.fit_unmapped_signals`** (`CHECK`): `fit_unmapped_signals_id_not_null` -> `NOT NULL id`
+- **`public.fit_unmapped_signals`** (`CHECK`): `fit_unmapped_signals_raw_value_not_null` -> `NOT NULL raw_value`
+- **`public.fit_unmapped_signals`** (`CHECK`): `fit_unmapped_signals_raw_value_not_null` -> `NOT NULL raw_value`
+- **`public.fit_unmapped_signals`** (`CHECK`): `fit_unmapped_signals_source_not_null` -> `NOT NULL source`
+- **`public.fit_unmapped_signals`** (`CHECK`): `fit_unmapped_signals_source_not_null` -> `NOT NULL source`
+- **`public.fit_unmapped_signals`** (`CHECK`): `fit_unmapped_signals_frequency_not_null` -> `NOT NULL frequency`
+- **`public.fit_unmapped_signals`** (`CHECK`): `fit_unmapped_signals_frequency_not_null` -> `NOT NULL frequency`
+- **`public.fit_unmapped_signals`** (`CHECK`): `fit_unmapped_signals_account_id_not_null` -> `NOT NULL account_id`
+- **`public.fit_unmapped_signals`** (`CHECK`): `fit_unmapped_signals_account_id_not_null` -> `NOT NULL account_id`
+- **`public.fit_unmapped_signals`** (`CHECK`): `fit_unmapped_signals_first_seen_at_not_null` -> `NOT NULL first_seen_at`
+- **`public.fit_unmapped_signals`** (`CHECK`): `fit_unmapped_signals_first_seen_at_not_null` -> `NOT NULL first_seen_at`
+- **`public.fit_unmapped_signals`** (`CHECK`): `fit_unmapped_signals_last_seen_at_not_null` -> `NOT NULL last_seen_at`
+- **`public.fit_unmapped_signals`** (`CHECK`): `fit_unmapped_signals_last_seen_at_not_null` -> `NOT NULL last_seen_at`
+- **`public.fit_unmapped_signals`** (`PRIMARY KEY`): `PK_c73087b004231f54ff2d9b0cab6` -> `PRIMARY KEY (id)`
+- **`public.fit_unmapped_signals`** (`PRIMARY KEY`): `PK_c73087b004231f54ff2d9b0cab6` -> `PRIMARY KEY (id)`
+- **`public.fit_unmapped_signals`** (`UNIQUE`): `UQ_unmapped_signal` -> `UNIQUE (account_id, raw_value, source)`
+- **`public.fit_unmapped_signals`** (`UNIQUE`): `UQ_unmapped_signal` -> `UNIQUE (account_id, raw_value, source)`
+- **`public.fit_unmapped_signals`** (`UNIQUE`): `UQ_unmapped_signal` -> `UNIQUE (account_id, raw_value, source)`
+- **`public.fit_unmapped_signals`** (`UNIQUE`): `UQ_unmapped_signal` -> `UNIQUE (account_id, raw_value, source)`
+- **`public.fit_unmapped_signals`** (`UNIQUE`): `UQ_unmapped_signal` -> `UNIQUE (account_id, raw_value, source)`
+- **`public.fit_unmapped_signals`** (`UNIQUE`): `UQ_unmapped_signal` -> `UNIQUE (account_id, raw_value, source)`
+- **`public.fit_unmapped_signals`** (`UNIQUE`): `UQ_unmapped_signal` -> `UNIQUE (account_id, raw_value, source)`
+- **`public.fit_unmapped_signals`** (`UNIQUE`): `UQ_unmapped_signal` -> `UNIQUE (account_id, raw_value, source)`
+- **`public.fit_unmapped_signals`** (`UNIQUE`): `UQ_unmapped_signal` -> `UNIQUE (account_id, raw_value, source)`
+- **`public.fit_unmapped_signals`** (`UNIQUE`): `UQ_unmapped_signal` -> `UNIQUE (account_id, raw_value, source)`
+- **`public.fit_unmapped_signals`** (`UNIQUE`): `UQ_unmapped_signal` -> `UNIQUE (account_id, raw_value, source)`
+- **`public.fit_unmapped_signals`** (`UNIQUE`): `UQ_unmapped_signal` -> `UNIQUE (account_id, raw_value, source)`
+- **`public.fit_unmapped_signals`** (`UNIQUE`): `UQ_unmapped_signal` -> `UNIQUE (account_id, raw_value, source)`
+- **`public.fit_unmapped_signals`** (`UNIQUE`): `UQ_unmapped_signal` -> `UNIQUE (account_id, raw_value, source)`
+- **`public.fit_unmapped_signals`** (`UNIQUE`): `UQ_unmapped_signal` -> `UNIQUE (account_id, raw_value, source)`
+- **`public.fit_unmapped_signals`** (`UNIQUE`): `UQ_unmapped_signal` -> `UNIQUE (account_id, raw_value, source)`
+- **`public.fit_unmapped_signals`** (`UNIQUE`): `UQ_unmapped_signal` -> `UNIQUE (account_id, raw_value, source)`
+- **`public.fit_unmapped_signals`** (`UNIQUE`): `UQ_unmapped_signal` -> `UNIQUE (account_id, raw_value, source)`
+- **`public.fit_replay_jobs`** (`CHECK`): `fit_replay_jobs_id_not_null` -> `NOT NULL id`
+- **`public.fit_replay_jobs`** (`CHECK`): `fit_replay_jobs_id_not_null` -> `NOT NULL id`
+- **`public.fit_replay_jobs`** (`CHECK`): `fit_replay_jobs_account_id_not_null` -> `NOT NULL account_id`
+- **`public.fit_replay_jobs`** (`CHECK`): `fit_replay_jobs_account_id_not_null` -> `NOT NULL account_id`
+- **`public.fit_replay_jobs`** (`CHECK`): `fit_replay_jobs_scope_not_null` -> `NOT NULL scope`
+- **`public.fit_replay_jobs`** (`CHECK`): `fit_replay_jobs_scope_not_null` -> `NOT NULL scope`
+- **`public.fit_replay_jobs`** (`CHECK`): `fit_replay_jobs_target_id_not_null` -> `NOT NULL target_id`
+- **`public.fit_replay_jobs`** (`CHECK`): `fit_replay_jobs_target_id_not_null` -> `NOT NULL target_id`
+- **`public.fit_replay_jobs`** (`CHECK`): `fit_replay_jobs_status_not_null` -> `NOT NULL status`
+- **`public.fit_replay_jobs`** (`CHECK`): `fit_replay_jobs_status_not_null` -> `NOT NULL status`
+- **`public.fit_replay_jobs`** (`CHECK`): `fit_replay_jobs_priority_not_null` -> `NOT NULL priority`
+- **`public.fit_replay_jobs`** (`CHECK`): `fit_replay_jobs_priority_not_null` -> `NOT NULL priority`
+- **`public.fit_replay_jobs`** (`CHECK`): `fit_replay_jobs_is_dry_run_not_null` -> `NOT NULL is_dry_run`
+- **`public.fit_replay_jobs`** (`CHECK`): `fit_replay_jobs_is_dry_run_not_null` -> `NOT NULL is_dry_run`
+- **`public.fit_replay_jobs`** (`CHECK`): `fit_replay_jobs_total_products_not_null` -> `NOT NULL total_products`
+- **`public.fit_replay_jobs`** (`CHECK`): `fit_replay_jobs_total_products_not_null` -> `NOT NULL total_products`
+- **`public.fit_replay_jobs`** (`CHECK`): `fit_replay_jobs_processed_products_not_null` -> `NOT NULL processed_products`
+- **`public.fit_replay_jobs`** (`CHECK`): `fit_replay_jobs_processed_products_not_null` -> `NOT NULL processed_products`
+- **`public.fit_replay_jobs`** (`CHECK`): `fit_replay_jobs_failed_products_not_null` -> `NOT NULL failed_products`
+- **`public.fit_replay_jobs`** (`CHECK`): `fit_replay_jobs_failed_products_not_null` -> `NOT NULL failed_products`
+- **`public.fit_replay_jobs`** (`CHECK`): `fit_replay_jobs_execution_manifest_not_null` -> `NOT NULL execution_manifest`
+- **`public.fit_replay_jobs`** (`CHECK`): `fit_replay_jobs_execution_manifest_not_null` -> `NOT NULL execution_manifest`
+- **`public.fit_replay_jobs`** (`CHECK`): `fit_replay_jobs_replay_request_hash_not_null` -> `NOT NULL replay_request_hash`
+- **`public.fit_replay_jobs`** (`CHECK`): `fit_replay_jobs_replay_request_hash_not_null` -> `NOT NULL replay_request_hash`
+- **`public.fit_replay_jobs`** (`CHECK`): `fit_replay_jobs_triggered_by_not_null` -> `NOT NULL triggered_by`
+- **`public.fit_replay_jobs`** (`CHECK`): `fit_replay_jobs_triggered_by_not_null` -> `NOT NULL triggered_by`
+- **`public.fit_replay_jobs`** (`CHECK`): `fit_replay_jobs_correlation_id_not_null` -> `NOT NULL correlation_id`
+- **`public.fit_replay_jobs`** (`CHECK`): `fit_replay_jobs_correlation_id_not_null` -> `NOT NULL correlation_id`
+- **`public.fit_replay_jobs`** (`CHECK`): `fit_replay_jobs_created_at_not_null` -> `NOT NULL created_at`
+- **`public.fit_replay_jobs`** (`CHECK`): `fit_replay_jobs_created_at_not_null` -> `NOT NULL created_at`
+- **`public.fit_replay_jobs`** (`CHECK`): `fit_replay_jobs_updated_at_not_null` -> `NOT NULL updated_at`
+- **`public.fit_replay_jobs`** (`CHECK`): `fit_replay_jobs_updated_at_not_null` -> `NOT NULL updated_at`
+- **`public.fit_replay_jobs`** (`PRIMARY KEY`): `PK_6433fae2010cb9b9b4d4c5bdffa` -> `PRIMARY KEY (id)`
+- **`public.fit_replay_jobs`** (`PRIMARY KEY`): `PK_6433fae2010cb9b9b4d4c5bdffa` -> `PRIMARY KEY (id)`
+- **`public.fit_fingerprint_versions`** (`CHECK`): `fit_fingerprint_versions_id_not_null` -> `NOT NULL id`
+- **`public.fit_fingerprint_versions`** (`CHECK`): `fit_fingerprint_versions_id_not_null` -> `NOT NULL id`
+- **`public.fit_fingerprint_versions`** (`CHECK`): `fit_fingerprint_versions_fingerprint_id_not_null` -> `NOT NULL fingerprint_id`
+- **`public.fit_fingerprint_versions`** (`CHECK`): `fit_fingerprint_versions_fingerprint_id_not_null` -> `NOT NULL fingerprint_id`
+- **`public.fit_fingerprint_versions`** (`CHECK`): `fit_fingerprint_versions_account_id_not_null` -> `NOT NULL account_id`
+- **`public.fit_fingerprint_versions`** (`CHECK`): `fit_fingerprint_versions_account_id_not_null` -> `NOT NULL account_id`
+- **`public.fit_fingerprint_versions`** (`CHECK`): `fit_fingerprint_versions_external_product_id_not_null` -> `NOT NULL external_product_id`
+- **`public.fit_fingerprint_versions`** (`CHECK`): `fit_fingerprint_versions_external_product_id_not_null` -> `NOT NULL external_product_id`
+- **`public.fit_fingerprint_versions`** (`CHECK`): `fit_fingerprint_versions_version_not_null` -> `NOT NULL version`
+- **`public.fit_fingerprint_versions`** (`CHECK`): `fit_fingerprint_versions_version_not_null` -> `NOT NULL version`
+- **`public.fit_fingerprint_versions`** (`CHECK`): `fit_fingerprint_versions_fingerprint_data_not_null` -> `NOT NULL fingerprint_data`
+- **`public.fit_fingerprint_versions`** (`CHECK`): `fit_fingerprint_versions_fingerprint_data_not_null` -> `NOT NULL fingerprint_data`
+- **`public.fit_fingerprint_versions`** (`CHECK`): `fit_fingerprint_versions_classifier_version_not_null` -> `NOT NULL classifier_version`
+- **`public.fit_fingerprint_versions`** (`CHECK`): `fit_fingerprint_versions_classifier_version_not_null` -> `NOT NULL classifier_version`
+- **`public.fit_fingerprint_versions`** (`CHECK`): `fit_fingerprint_versions_lineage_reason_not_null` -> `NOT NULL lineage_reason`
+- **`public.fit_fingerprint_versions`** (`CHECK`): `fit_fingerprint_versions_lineage_reason_not_null` -> `NOT NULL lineage_reason`
+- **`public.fit_fingerprint_versions`** (`CHECK`): `fit_fingerprint_versions_severity_not_null` -> `NOT NULL severity`
+- **`public.fit_fingerprint_versions`** (`CHECK`): `fit_fingerprint_versions_severity_not_null` -> `NOT NULL severity`
+- **`public.fit_fingerprint_versions`** (`CHECK`): `fit_fingerprint_versions_generated_at_not_null` -> `NOT NULL generated_at`
+- **`public.fit_fingerprint_versions`** (`CHECK`): `fit_fingerprint_versions_generated_at_not_null` -> `NOT NULL generated_at`
+- **`public.fit_fingerprint_versions`** (`PRIMARY KEY`): `PK_080292fbc75d5597483a51a913d` -> `PRIMARY KEY (id)`
+- **`public.fit_fingerprint_versions`** (`PRIMARY KEY`): `PK_080292fbc75d5597483a51a913d` -> `PRIMARY KEY (id)`
+- **`public.fit_lineage_snapshot_pointers`** (`CHECK`): `fit_lineage_snapshot_pointers_account_id_not_null` -> `NOT NULL account_id`
+- **`public.fit_lineage_snapshot_pointers`** (`CHECK`): `fit_lineage_snapshot_pointers_account_id_not_null` -> `NOT NULL account_id`
+- **`public.fit_lineage_snapshot_pointers`** (`CHECK`): `fit_lineage_snapshot_pointers_external_product_id_not_null` -> `NOT NULL external_product_id`
+- **`public.fit_lineage_snapshot_pointers`** (`CHECK`): `fit_lineage_snapshot_pointers_external_product_id_not_null` -> `NOT NULL external_product_id`
+- **`public.fit_lineage_snapshot_pointers`** (`CHECK`): `fit_lineage_snapshot_pointers_active_version_id_not_null` -> `NOT NULL active_version_id`
+- **`public.fit_lineage_snapshot_pointers`** (`CHECK`): `fit_lineage_snapshot_pointers_active_version_id_not_null` -> `NOT NULL active_version_id`
+- **`public.fit_lineage_snapshot_pointers`** (`CHECK`): `fit_lineage_snapshot_pointers_is_quarantined_not_null` -> `NOT NULL is_quarantined`
+- **`public.fit_lineage_snapshot_pointers`** (`CHECK`): `fit_lineage_snapshot_pointers_is_quarantined_not_null` -> `NOT NULL is_quarantined`
+- **`public.fit_lineage_snapshot_pointers`** (`CHECK`): `fit_lineage_snapshot_pointers_updated_at_not_null` -> `NOT NULL updated_at`
+- **`public.fit_lineage_snapshot_pointers`** (`CHECK`): `fit_lineage_snapshot_pointers_updated_at_not_null` -> `NOT NULL updated_at`
+- **`public.fit_lineage_snapshot_pointers`** (`PRIMARY KEY`): `PK_7164d5edcccf2476270f230921b` -> `PRIMARY KEY (account_id, external_product_id)`
+- **`public.fit_lineage_snapshot_pointers`** (`PRIMARY KEY`): `PK_7164d5edcccf2476270f230921b` -> `PRIMARY KEY (account_id, external_product_id)`
+- **`public.fit_lineage_snapshot_pointers`** (`PRIMARY KEY`): `PK_7164d5edcccf2476270f230921b` -> `PRIMARY KEY (account_id, external_product_id)`
+- **`public.fit_lineage_snapshot_pointers`** (`PRIMARY KEY`): `PK_7164d5edcccf2476270f230921b` -> `PRIMARY KEY (account_id, external_product_id)`
+- **`public.fit_governance_incidents`** (`CHECK`): `fit_governance_incidents_id_not_null` -> `NOT NULL id`
+- **`public.fit_governance_incidents`** (`CHECK`): `fit_governance_incidents_id_not_null` -> `NOT NULL id`
+- **`public.fit_governance_incidents`** (`CHECK`): `fit_governance_incidents_account_id_not_null` -> `NOT NULL account_id`
+- **`public.fit_governance_incidents`** (`CHECK`): `fit_governance_incidents_account_id_not_null` -> `NOT NULL account_id`
+- **`public.fit_governance_incidents`** (`CHECK`): `fit_governance_incidents_incident_type_not_null` -> `NOT NULL incident_type`
+- **`public.fit_governance_incidents`** (`CHECK`): `fit_governance_incidents_incident_type_not_null` -> `NOT NULL incident_type`
+- **`public.fit_governance_incidents`** (`CHECK`): `fit_governance_incidents_severity_not_null` -> `NOT NULL severity`
+- **`public.fit_governance_incidents`** (`CHECK`): `fit_governance_incidents_severity_not_null` -> `NOT NULL severity`
+- **`public.fit_governance_incidents`** (`CHECK`): `fit_governance_incidents_title_not_null` -> `NOT NULL title`
+- **`public.fit_governance_incidents`** (`CHECK`): `fit_governance_incidents_title_not_null` -> `NOT NULL title`
+- **`public.fit_governance_incidents`** (`CHECK`): `fit_governance_incidents_description_not_null` -> `NOT NULL description`
+- **`public.fit_governance_incidents`** (`CHECK`): `fit_governance_incidents_description_not_null` -> `NOT NULL description`
+- **`public.fit_governance_incidents`** (`CHECK`): `fit_governance_incidents_status_not_null` -> `NOT NULL status`
+- **`public.fit_governance_incidents`** (`CHECK`): `fit_governance_incidents_status_not_null` -> `NOT NULL status`
+- **`public.fit_governance_incidents`** (`CHECK`): `fit_governance_incidents_occurred_at_not_null` -> `NOT NULL occurred_at`
+- **`public.fit_governance_incidents`** (`CHECK`): `fit_governance_incidents_occurred_at_not_null` -> `NOT NULL occurred_at`
+- **`public.fit_governance_incidents`** (`PRIMARY KEY`): `PK_86d6717683a32fff0ccf7443243` -> `PRIMARY KEY (id)`
+- **`public.fit_governance_incidents`** (`PRIMARY KEY`): `PK_86d6717683a32fff0ccf7443243` -> `PRIMARY KEY (id)`
+- **`public.fit_governance_audit_events`** (`CHECK`): `fit_governance_audit_events_id_not_null` -> `NOT NULL id`
+- **`public.fit_governance_audit_events`** (`CHECK`): `fit_governance_audit_events_id_not_null` -> `NOT NULL id`
+- **`public.fit_governance_audit_events`** (`CHECK`): `fit_governance_audit_events_account_id_not_null` -> `NOT NULL account_id`
+- **`public.fit_governance_audit_events`** (`CHECK`): `fit_governance_audit_events_account_id_not_null` -> `NOT NULL account_id`
+- **`public.fit_governance_audit_events`** (`CHECK`): `fit_governance_audit_events_entity_id_not_null` -> `NOT NULL entity_id`
+- **`public.fit_governance_audit_events`** (`CHECK`): `fit_governance_audit_events_entity_id_not_null` -> `NOT NULL entity_id`
+- **`public.fit_governance_audit_events`** (`CHECK`): `fit_governance_audit_events_entity_type_not_null` -> `NOT NULL entity_type`
+- **`public.fit_governance_audit_events`** (`CHECK`): `fit_governance_audit_events_entity_type_not_null` -> `NOT NULL entity_type`
+- **`public.fit_governance_audit_events`** (`CHECK`): `fit_governance_audit_events_event_type_not_null` -> `NOT NULL event_type`
+- **`public.fit_governance_audit_events`** (`CHECK`): `fit_governance_audit_events_event_type_not_null` -> `NOT NULL event_type`
+- **`public.fit_governance_audit_events`** (`CHECK`): `fit_governance_audit_events_event_schema_version_not_null` -> `NOT NULL event_schema_version`
+- **`public.fit_governance_audit_events`** (`CHECK`): `fit_governance_audit_events_event_schema_version_not_null` -> `NOT NULL event_schema_version`
+- **`public.fit_governance_audit_events`** (`CHECK`): `fit_governance_audit_events_source_service_not_null` -> `NOT NULL source_service`
+- **`public.fit_governance_audit_events`** (`CHECK`): `fit_governance_audit_events_source_service_not_null` -> `NOT NULL source_service`
+- **`public.fit_governance_audit_events`** (`CHECK`): `fit_governance_audit_events_occurred_at_not_null` -> `NOT NULL occurred_at`
+- **`public.fit_governance_audit_events`** (`CHECK`): `fit_governance_audit_events_occurred_at_not_null` -> `NOT NULL occurred_at`
+- **`public.fit_governance_audit_events`** (`PRIMARY KEY`): `PK_bec606fa2c87fffcde4173bbaaa` -> `PRIMARY KEY (id)`
+- **`public.fit_governance_audit_events`** (`PRIMARY KEY`): `PK_bec606fa2c87fffcde4173bbaaa` -> `PRIMARY KEY (id)`
+- **`public.fit_feature_flags`** (`CHECK`): `fit_feature_flags_id_not_null` -> `NOT NULL id`
+- **`public.fit_feature_flags`** (`CHECK`): `fit_feature_flags_id_not_null` -> `NOT NULL id`
+- **`public.fit_feature_flags`** (`CHECK`): `fit_feature_flags_key_not_null` -> `NOT NULL key`
+- **`public.fit_feature_flags`** (`CHECK`): `fit_feature_flags_key_not_null` -> `NOT NULL key`
+- **`public.fit_feature_flags`** (`CHECK`): `fit_feature_flags_enabled_not_null` -> `NOT NULL enabled`
+- **`public.fit_feature_flags`** (`CHECK`): `fit_feature_flags_enabled_not_null` -> `NOT NULL enabled`
+- **`public.fit_feature_flags`** (`CHECK`): `fit_feature_flags_rollout_percentage_not_null` -> `NOT NULL rollout_percentage`
+- **`public.fit_feature_flags`** (`CHECK`): `fit_feature_flags_rollout_percentage_not_null` -> `NOT NULL rollout_percentage`
+- **`public.fit_feature_flags`** (`CHECK`): `fit_feature_flags_scope_not_null` -> `NOT NULL scope`
+- **`public.fit_feature_flags`** (`CHECK`): `fit_feature_flags_scope_not_null` -> `NOT NULL scope`
+- **`public.fit_feature_flags`** (`CHECK`): `fit_feature_flags_created_at_not_null` -> `NOT NULL created_at`
+- **`public.fit_feature_flags`** (`CHECK`): `fit_feature_flags_created_at_not_null` -> `NOT NULL created_at`
+- **`public.fit_feature_flags`** (`CHECK`): `fit_feature_flags_updated_at_not_null` -> `NOT NULL updated_at`
+- **`public.fit_feature_flags`** (`CHECK`): `fit_feature_flags_updated_at_not_null` -> `NOT NULL updated_at`
+- **`public.fit_feature_flags`** (`PRIMARY KEY`): `PK_d17eb66f91080680a02e6b2188c` -> `PRIMARY KEY (id)`
+- **`public.fit_feature_flags`** (`PRIMARY KEY`): `PK_d17eb66f91080680a02e6b2188c` -> `PRIMARY KEY (id)`
+- **`public.fit_feature_flags`** (`UNIQUE`): `UQ_9e1afe5772f649a89a24b0faaac` -> `UNIQUE (key, account_id)`
+- **`public.fit_feature_flags`** (`UNIQUE`): `UQ_9e1afe5772f649a89a24b0faaac` -> `UNIQUE (key, account_id)`
+- **`public.fit_feature_flags`** (`UNIQUE`): `UQ_9e1afe5772f649a89a24b0faaac` -> `UNIQUE (key, account_id)`
+- **`public.fit_feature_flags`** (`UNIQUE`): `UQ_9e1afe5772f649a89a24b0faaac` -> `UNIQUE (key, account_id)`
+- **`public.fit_replay_partition_jobs`** (`CHECK`): `fit_replay_partition_jobs_id_not_null` -> `NOT NULL id`
+- **`public.fit_replay_partition_jobs`** (`CHECK`): `fit_replay_partition_jobs_id_not_null` -> `NOT NULL id`
+- **`public.fit_replay_partition_jobs`** (`CHECK`): `fit_replay_partition_jobs_replay_job_id_not_null` -> `NOT NULL replay_job_id`
+- **`public.fit_replay_partition_jobs`** (`CHECK`): `fit_replay_partition_jobs_replay_job_id_not_null` -> `NOT NULL replay_job_id`
+- **`public.fit_replay_partition_jobs`** (`CHECK`): `fit_replay_partition_jobs_partition_index_not_null` -> `NOT NULL partition_index`
+- **`public.fit_replay_partition_jobs`** (`CHECK`): `fit_replay_partition_jobs_partition_index_not_null` -> `NOT NULL partition_index`
+- **`public.fit_replay_partition_jobs`** (`CHECK`): `fit_replay_partition_jobs_status_not_null` -> `NOT NULL status`
+- **`public.fit_replay_partition_jobs`** (`CHECK`): `fit_replay_partition_jobs_status_not_null` -> `NOT NULL status`
+- **`public.fit_replay_partition_jobs`** (`CHECK`): `fit_replay_partition_jobs_total_products_not_null` -> `NOT NULL total_products`
+- **`public.fit_replay_partition_jobs`** (`CHECK`): `fit_replay_partition_jobs_total_products_not_null` -> `NOT NULL total_products`
+- **`public.fit_replay_partition_jobs`** (`CHECK`): `fit_replay_partition_jobs_processed_products_not_null` -> `NOT NULL processed_products`
+- **`public.fit_replay_partition_jobs`** (`CHECK`): `fit_replay_partition_jobs_processed_products_not_null` -> `NOT NULL processed_products`
+- **`public.fit_replay_partition_jobs`** (`CHECK`): `fit_replay_partition_jobs_failed_products_not_null` -> `NOT NULL failed_products`
+- **`public.fit_replay_partition_jobs`** (`CHECK`): `fit_replay_partition_jobs_failed_products_not_null` -> `NOT NULL failed_products`
+- **`public.fit_replay_partition_jobs`** (`CHECK`): `fit_replay_partition_jobs_retry_count_not_null` -> `NOT NULL retry_count`
+- **`public.fit_replay_partition_jobs`** (`CHECK`): `fit_replay_partition_jobs_retry_count_not_null` -> `NOT NULL retry_count`
+- **`public.fit_replay_partition_jobs`** (`CHECK`): `fit_replay_partition_jobs_correlation_id_not_null` -> `NOT NULL correlation_id`
+- **`public.fit_replay_partition_jobs`** (`CHECK`): `fit_replay_partition_jobs_correlation_id_not_null` -> `NOT NULL correlation_id`
+- **`public.fit_replay_partition_jobs`** (`CHECK`): `fit_replay_partition_jobs_created_at_not_null` -> `NOT NULL created_at`
+- **`public.fit_replay_partition_jobs`** (`CHECK`): `fit_replay_partition_jobs_created_at_not_null` -> `NOT NULL created_at`
+- **`public.fit_replay_partition_jobs`** (`CHECK`): `fit_replay_partition_jobs_updated_at_not_null` -> `NOT NULL updated_at`
+- **`public.fit_replay_partition_jobs`** (`CHECK`): `fit_replay_partition_jobs_updated_at_not_null` -> `NOT NULL updated_at`
+- **`public.fit_replay_partition_jobs`** (`PRIMARY KEY`): `PK_9d9c3f0282bb120b91f255fb7cd` -> `PRIMARY KEY (id)`
+- **`public.fit_replay_partition_jobs`** (`PRIMARY KEY`): `PK_9d9c3f0282bb120b91f255fb7cd` -> `PRIMARY KEY (id)`
+- **`public.fit_recommendation_evaluations`** (`CHECK`): `fit_recommendation_evaluations_id_not_null` -> `NOT NULL id`
+- **`public.fit_recommendation_evaluations`** (`CHECK`): `fit_recommendation_evaluations_id_not_null` -> `NOT NULL id`
+- **`public.fit_recommendation_evaluations`** (`CHECK`): `fit_recommendation_evaluations_recommendation_id_not_null` -> `NOT NULL recommendation_id`
+- **`public.fit_recommendation_evaluations`** (`CHECK`): `fit_recommendation_evaluations_recommendation_id_not_null` -> `NOT NULL recommendation_id`
+- **`public.fit_recommendation_evaluations`** (`CHECK`): `fit_recommendation_evaluati_confidence_at_recommendati_not_null` -> `NOT NULL confidence_at_recommendation`
+- **`public.fit_recommendation_evaluations`** (`CHECK`): `fit_recommendation_evaluati_confidence_at_recommendati_not_null` -> `NOT NULL confidence_at_recommendation`
+- **`public.fit_recommendation_evaluations`** (`CHECK`): `fit_recommendation_evaluations_created_at_not_null` -> `NOT NULL created_at`
+- **`public.fit_recommendation_evaluations`** (`CHECK`): `fit_recommendation_evaluations_created_at_not_null` -> `NOT NULL created_at`
+- **`public.fit_recommendation_evaluations`** (`PRIMARY KEY`): `PK_ca73fe1b0430365333ffb78672c` -> `PRIMARY KEY (id)`
+- **`public.fit_recommendation_evaluations`** (`PRIMARY KEY`): `PK_ca73fe1b0430365333ffb78672c` -> `PRIMARY KEY (id)`
+- **`public.fit_experiment_assignments`** (`CHECK`): `fit_experiment_assignments_id_not_null` -> `NOT NULL id`
+- **`public.fit_experiment_assignments`** (`CHECK`): `fit_experiment_assignments_id_not_null` -> `NOT NULL id`
+- **`public.fit_experiment_assignments`** (`CHECK`): `fit_experiment_assignments_experiment_id_not_null` -> `NOT NULL experiment_id`
+- **`public.fit_experiment_assignments`** (`CHECK`): `fit_experiment_assignments_experiment_id_not_null` -> `NOT NULL experiment_id`
+- **`public.fit_experiment_assignments`** (`CHECK`): `fit_experiment_assignments_variant_not_null` -> `NOT NULL variant`
+- **`public.fit_experiment_assignments`** (`CHECK`): `fit_experiment_assignments_variant_not_null` -> `NOT NULL variant`
+- **`public.fit_experiment_assignments`** (`CHECK`): `fit_experiment_assignments_assignment_hash_not_null` -> `NOT NULL assignment_hash`
+- **`public.fit_experiment_assignments`** (`CHECK`): `fit_experiment_assignments_assignment_hash_not_null` -> `NOT NULL assignment_hash`
+- **`public.fit_experiment_assignments`** (`CHECK`): `fit_experiment_assignments_created_at_not_null` -> `NOT NULL created_at`
+- **`public.fit_experiment_assignments`** (`CHECK`): `fit_experiment_assignments_created_at_not_null` -> `NOT NULL created_at`
+- **`public.fit_experiment_assignments`** (`PRIMARY KEY`): `PK_b5b6c47f7c3f31954a4be85e612` -> `PRIMARY KEY (id)`
+- **`public.fit_experiment_assignments`** (`PRIMARY KEY`): `PK_b5b6c47f7c3f31954a4be85e612` -> `PRIMARY KEY (id)`
+- **`public.fit_replay_integrity_incidents`** (`CHECK`): `fit_replay_integrity_incidents_id_not_null` -> `NOT NULL id`
+- **`public.fit_replay_integrity_incidents`** (`CHECK`): `fit_replay_integrity_incidents_id_not_null` -> `NOT NULL id`
+- **`public.fit_replay_integrity_incidents`** (`CHECK`): `fit_replay_integrity_incidents_product_id_not_null` -> `NOT NULL product_id`
+- **`public.fit_replay_integrity_incidents`** (`CHECK`): `fit_replay_integrity_incidents_product_id_not_null` -> `NOT NULL product_id`
+- **`public.fit_replay_integrity_incidents`** (`CHECK`): `fit_replay_integrity_incidents_fingerprint_id_not_null` -> `NOT NULL fingerprint_id`
+- **`public.fit_replay_integrity_incidents`** (`CHECK`): `fit_replay_integrity_incidents_fingerprint_id_not_null` -> `NOT NULL fingerprint_id`
+- **`public.fit_replay_integrity_incidents`** (`CHECK`): `fit_replay_integrity_incidents_expected_hash_not_null` -> `NOT NULL expected_hash`
+- **`public.fit_replay_integrity_incidents`** (`CHECK`): `fit_replay_integrity_incidents_expected_hash_not_null` -> `NOT NULL expected_hash`
+- **`public.fit_replay_integrity_incidents`** (`CHECK`): `fit_replay_integrity_incidents_actual_hash_not_null` -> `NOT NULL actual_hash`
+- **`public.fit_replay_integrity_incidents`** (`CHECK`): `fit_replay_integrity_incidents_actual_hash_not_null` -> `NOT NULL actual_hash`
+- **`public.fit_replay_integrity_incidents`** (`CHECK`): `fit_replay_integrity_incidents_ontology_version_not_null` -> `NOT NULL ontology_version`
+- **`public.fit_replay_integrity_incidents`** (`CHECK`): `fit_replay_integrity_incidents_ontology_version_not_null` -> `NOT NULL ontology_version`
+- **`public.fit_replay_integrity_incidents`** (`CHECK`): `fit_replay_integrity_incidents_classifier_version_not_null` -> `NOT NULL classifier_version`
+- **`public.fit_replay_integrity_incidents`** (`CHECK`): `fit_replay_integrity_incidents_classifier_version_not_null` -> `NOT NULL classifier_version`
+- **`public.fit_replay_integrity_incidents`** (`CHECK`): `fit_replay_integrity_incidents_governance_reason_not_null` -> `NOT NULL governance_reason`
+- **`public.fit_replay_integrity_incidents`** (`CHECK`): `fit_replay_integrity_incidents_governance_reason_not_null` -> `NOT NULL governance_reason`
+- **`public.fit_replay_integrity_incidents`** (`CHECK`): `fit_replay_integrity_incidents_occurred_at_not_null` -> `NOT NULL occurred_at`
+- **`public.fit_replay_integrity_incidents`** (`CHECK`): `fit_replay_integrity_incidents_occurred_at_not_null` -> `NOT NULL occurred_at`
+- **`public.fit_replay_integrity_incidents`** (`PRIMARY KEY`): `PK_3688f45f4c54d48473b0d3c84ba` -> `PRIMARY KEY (id)`
+- **`public.fit_replay_integrity_incidents`** (`PRIMARY KEY`): `PK_3688f45f4c54d48473b0d3c84ba` -> `PRIMARY KEY (id)`
+- **`public.fit_experiments`** (`CHECK`): `fit_experiments_id_not_null` -> `NOT NULL id`
+- **`public.fit_experiments`** (`CHECK`): `fit_experiments_id_not_null` -> `NOT NULL id`
+- **`public.fit_experiments`** (`CHECK`): `fit_experiments_name_not_null` -> `NOT NULL name`
+- **`public.fit_experiments`** (`CHECK`): `fit_experiments_name_not_null` -> `NOT NULL name`
+- **`public.fit_experiments`** (`CHECK`): `fit_experiments_status_not_null` -> `NOT NULL status`
+- **`public.fit_experiments`** (`CHECK`): `fit_experiments_status_not_null` -> `NOT NULL status`
+- **`public.fit_experiments`** (`CHECK`): `fit_experiments_traffic_percentage_not_null` -> `NOT NULL traffic_percentage`
+- **`public.fit_experiments`** (`CHECK`): `fit_experiments_traffic_percentage_not_null` -> `NOT NULL traffic_percentage`
+- **`public.fit_experiments`** (`CHECK`): `fit_experiments_variant_config_not_null` -> `NOT NULL variant_config`
+- **`public.fit_experiments`** (`CHECK`): `fit_experiments_variant_config_not_null` -> `NOT NULL variant_config`
+- **`public.fit_experiments`** (`CHECK`): `fit_experiments_start_at_not_null` -> `NOT NULL start_at`
+- **`public.fit_experiments`** (`CHECK`): `fit_experiments_start_at_not_null` -> `NOT NULL start_at`
+- **`public.fit_experiments`** (`CHECK`): `fit_experiments_created_at_not_null` -> `NOT NULL created_at`
+- **`public.fit_experiments`** (`CHECK`): `fit_experiments_created_at_not_null` -> `NOT NULL created_at`
+- **`public.fit_experiments`** (`CHECK`): `fit_experiments_updated_at_not_null` -> `NOT NULL updated_at`
+- **`public.fit_experiments`** (`CHECK`): `fit_experiments_updated_at_not_null` -> `NOT NULL updated_at`
+- **`public.fit_experiments`** (`PRIMARY KEY`): `PK_f2e31ddb790df8d953624a62d5f` -> `PRIMARY KEY (id)`
+- **`public.fit_experiments`** (`PRIMARY KEY`): `PK_f2e31ddb790df8d953624a62d5f` -> `PRIMARY KEY (id)`
+- **`public.fit_audit_logs`** (`CHECK`): `fit_audit_logs_id_not_null` -> `NOT NULL id`
+- **`public.fit_audit_logs`** (`CHECK`): `fit_audit_logs_id_not_null` -> `NOT NULL id`
+- **`public.fit_audit_logs`** (`CHECK`): `fit_audit_logs_actor_not_null` -> `NOT NULL actor`
+- **`public.fit_audit_logs`** (`CHECK`): `fit_audit_logs_actor_not_null` -> `NOT NULL actor`
+- **`public.fit_audit_logs`** (`CHECK`): `fit_audit_logs_action_not_null` -> `NOT NULL action`
+- **`public.fit_audit_logs`** (`CHECK`): `fit_audit_logs_action_not_null` -> `NOT NULL action`
+- **`public.fit_audit_logs`** (`CHECK`): `fit_audit_logs_entity_type_not_null` -> `NOT NULL entity_type`
+- **`public.fit_audit_logs`** (`CHECK`): `fit_audit_logs_entity_type_not_null` -> `NOT NULL entity_type`
+- **`public.fit_audit_logs`** (`CHECK`): `fit_audit_logs_metadata_not_null` -> `NOT NULL metadata`
+- **`public.fit_audit_logs`** (`CHECK`): `fit_audit_logs_metadata_not_null` -> `NOT NULL metadata`
+- **`public.fit_audit_logs`** (`CHECK`): `fit_audit_logs_created_at_not_null` -> `NOT NULL created_at`
+- **`public.fit_audit_logs`** (`CHECK`): `fit_audit_logs_created_at_not_null` -> `NOT NULL created_at`
+- **`public.fit_audit_logs`** (`PRIMARY KEY`): `PK_69558c599d59bb09bcfff322acc` -> `PRIMARY KEY (id)`
+- **`public.fit_audit_logs`** (`PRIMARY KEY`): `PK_69558c599d59bb09bcfff322acc` -> `PRIMARY KEY (id)`
+- **`public.fit_admins`** (`CHECK`): `fit_admins_id_not_null` -> `NOT NULL id`
+- **`public.fit_admins`** (`CHECK`): `fit_admins_id_not_null` -> `NOT NULL id`
+- **`public.fit_admins`** (`CHECK`): `fit_admins_email_not_null` -> `NOT NULL email`
+- **`public.fit_admins`** (`CHECK`): `fit_admins_email_not_null` -> `NOT NULL email`
+- **`public.fit_admins`** (`CHECK`): `fit_admins_password_not_null` -> `NOT NULL password`
+- **`public.fit_admins`** (`CHECK`): `fit_admins_password_not_null` -> `NOT NULL password`
+- **`public.fit_admins`** (`CHECK`): `fit_admins_created_at_not_null` -> `NOT NULL created_at`
+- **`public.fit_admins`** (`CHECK`): `fit_admins_created_at_not_null` -> `NOT NULL created_at`
+- **`public.fit_admins`** (`CHECK`): `fit_admins_updated_at_not_null` -> `NOT NULL updated_at`
+- **`public.fit_admins`** (`CHECK`): `fit_admins_updated_at_not_null` -> `NOT NULL updated_at`
+- **`public.fit_admins`** (`PRIMARY KEY`): `PK_7482c59c8a83caab65abbbe819c` -> `PRIMARY KEY (id)`
+- **`public.fit_admins`** (`PRIMARY KEY`): `PK_7482c59c8a83caab65abbbe819c` -> `PRIMARY KEY (id)`
+- **`public.fit_admins`** (`UNIQUE`): `UQ_fee21b05e52645d413ef901cd49` -> `UNIQUE (email)`
+- **`public.fit_admins`** (`UNIQUE`): `UQ_fee21b05e52645d413ef901cd49` -> `UNIQUE (email)`
+- **`public.fit_operator_roles`** (`CHECK`): `fit_operator_roles_id_not_null` -> `NOT NULL id`
+- **`public.fit_operator_roles`** (`CHECK`): `fit_operator_roles_id_not_null` -> `NOT NULL id`
+- **`public.fit_operator_roles`** (`CHECK`): `fit_operator_roles_admin_id_not_null` -> `NOT NULL admin_id`
+- **`public.fit_operator_roles`** (`CHECK`): `fit_operator_roles_admin_id_not_null` -> `NOT NULL admin_id`
+- **`public.fit_operator_roles`** (`CHECK`): `fit_operator_roles_role_not_null` -> `NOT NULL role`
+- **`public.fit_operator_roles`** (`CHECK`): `fit_operator_roles_role_not_null` -> `NOT NULL role`
+- **`public.fit_operator_roles`** (`CHECK`): `fit_operator_roles_created_at_not_null` -> `NOT NULL created_at`
+- **`public.fit_operator_roles`** (`CHECK`): `fit_operator_roles_created_at_not_null` -> `NOT NULL created_at`
+- **`public.fit_operator_roles`** (`CHECK`): `fit_operator_roles_updated_at_not_null` -> `NOT NULL updated_at`
+- **`public.fit_operator_roles`** (`CHECK`): `fit_operator_roles_updated_at_not_null` -> `NOT NULL updated_at`
+- **`public.fit_operator_roles`** (`PRIMARY KEY`): `PK_f6c9c5f1c8078667e68a9f21a36` -> `PRIMARY KEY (id)`
+- **`public.fit_operator_roles`** (`PRIMARY KEY`): `PK_f6c9c5f1c8078667e68a9f21a36` -> `PRIMARY KEY (id)`
+- **`public.fit_operator_roles`** (`UNIQUE`): `UQ_f411bbef5096d9fd99b61a4387b` -> `UNIQUE (admin_id)`
+- **`public.fit_operator_roles`** (`UNIQUE`): `UQ_f411bbef5096d9fd99b61a4387b` -> `UNIQUE (admin_id)`
+- **`public.fit_automation_reviews`** (`CHECK`): `fit_automation_reviews_id_not_null` -> `NOT NULL id`
+- **`public.fit_automation_reviews`** (`CHECK`): `fit_automation_reviews_id_not_null` -> `NOT NULL id`
+- **`public.fit_automation_reviews`** (`CHECK`): `fit_automation_reviews_account_id_not_null` -> `NOT NULL account_id`
+- **`public.fit_automation_reviews`** (`CHECK`): `fit_automation_reviews_account_id_not_null` -> `NOT NULL account_id`
+- **`public.fit_automation_reviews`** (`CHECK`): `fit_automation_reviews_external_product_id_not_null` -> `NOT NULL external_product_id`
+- **`public.fit_automation_reviews`** (`CHECK`): `fit_automation_reviews_external_product_id_not_null` -> `NOT NULL external_product_id`
+- **`public.fit_automation_reviews`** (`CHECK`): `fit_automation_reviews_status_not_null` -> `NOT NULL status`
+- **`public.fit_automation_reviews`** (`CHECK`): `fit_automation_reviews_status_not_null` -> `NOT NULL status`
+- **`public.fit_automation_reviews`** (`CHECK`): `fit_automation_reviews_priority_not_null` -> `NOT NULL priority`
+- **`public.fit_automation_reviews`** (`CHECK`): `fit_automation_reviews_priority_not_null` -> `NOT NULL priority`
+- **`public.fit_automation_reviews`** (`CHECK`): `fit_automation_reviews_confidence_not_null` -> `NOT NULL confidence`
+- **`public.fit_automation_reviews`** (`CHECK`): `fit_automation_reviews_confidence_not_null` -> `NOT NULL confidence`
+- **`public.fit_automation_reviews`** (`CHECK`): `fit_automation_reviews_requires_recovery_not_null` -> `NOT NULL requires_recovery`
+- **`public.fit_automation_reviews`** (`CHECK`): `fit_automation_reviews_requires_recovery_not_null` -> `NOT NULL requires_recovery`
+- **`public.fit_automation_reviews`** (`CHECK`): `fit_automation_reviews_created_at_not_null` -> `NOT NULL created_at`
+- **`public.fit_automation_reviews`** (`CHECK`): `fit_automation_reviews_created_at_not_null` -> `NOT NULL created_at`
+- **`public.fit_automation_reviews`** (`CHECK`): `fit_automation_reviews_updated_at_not_null` -> `NOT NULL updated_at`
+- **`public.fit_automation_reviews`** (`CHECK`): `fit_automation_reviews_updated_at_not_null` -> `NOT NULL updated_at`
+- **`public.fit_automation_reviews`** (`PRIMARY KEY`): `PK_562193f41fd63782e862696899a` -> `PRIMARY KEY (id)`
+- **`public.fit_automation_reviews`** (`PRIMARY KEY`): `PK_562193f41fd63782e862696899a` -> `PRIMARY KEY (id)`
+- **`public.fit_feedback_hooks`** (`CHECK`): `fit_feedback_hooks_id_not_null` -> `NOT NULL id`
+- **`public.fit_feedback_hooks`** (`CHECK`): `fit_feedback_hooks_id_not_null` -> `NOT NULL id`
+- **`public.fit_feedback_hooks`** (`CHECK`): `fit_feedback_hooks_recommendation_id_not_null` -> `NOT NULL recommendation_id`
+- **`public.fit_feedback_hooks`** (`CHECK`): `fit_feedback_hooks_recommendation_id_not_null` -> `NOT NULL recommendation_id`
+- **`public.fit_feedback_hooks`** (`CHECK`): `fit_feedback_hooks_account_id_not_null` -> `NOT NULL account_id`
+- **`public.fit_feedback_hooks`** (`CHECK`): `fit_feedback_hooks_account_id_not_null` -> `NOT NULL account_id`
+- **`public.fit_feedback_hooks`** (`CHECK`): `fit_feedback_hooks_product_id_not_null` -> `NOT NULL product_id`
+- **`public.fit_feedback_hooks`** (`CHECK`): `fit_feedback_hooks_product_id_not_null` -> `NOT NULL product_id`
+- **`public.fit_feedback_hooks`** (`CHECK`): `fit_feedback_hooks_event_type_not_null` -> `NOT NULL event_type`
+- **`public.fit_feedback_hooks`** (`CHECK`): `fit_feedback_hooks_event_type_not_null` -> `NOT NULL event_type`
+- **`public.fit_feedback_hooks`** (`CHECK`): `fit_feedback_hooks_recommended_size_not_null` -> `NOT NULL recommended_size`
+- **`public.fit_feedback_hooks`** (`CHECK`): `fit_feedback_hooks_recommended_size_not_null` -> `NOT NULL recommended_size`
+- **`public.fit_feedback_hooks`** (`CHECK`): `fit_feedback_hooks_signal_strength_not_null` -> `NOT NULL signal_strength`
+- **`public.fit_feedback_hooks`** (`CHECK`): `fit_feedback_hooks_signal_strength_not_null` -> `NOT NULL signal_strength`
+- **`public.fit_feedback_hooks`** (`CHECK`): `fit_feedback_hooks_occurred_at_not_null` -> `NOT NULL occurred_at`
+- **`public.fit_feedback_hooks`** (`CHECK`): `fit_feedback_hooks_occurred_at_not_null` -> `NOT NULL occurred_at`
+- **`public.fit_feedback_hooks`** (`PRIMARY KEY`): `PK_e93a4311d79bc5de5a704790f13` -> `PRIMARY KEY (id)`
+- **`public.fit_feedback_hooks`** (`PRIMARY KEY`): `PK_e93a4311d79bc5de5a704790f13` -> `PRIMARY KEY (id)`
+- **`public.fit_feedback_events`** (`FOREIGN KEY`): `FK_cbbe64d07eeee0497110d6b1bad` -> `FOREIGN KEY (recommendation_id) REFERENCES fit_recommendations(id) ON DELETE CASCADE`
+- **`public.fit_feedback_events`** (`FOREIGN KEY`): `FK_cbbe64d07eeee0497110d6b1bad` -> `FOREIGN KEY (recommendation_id) REFERENCES fit.fit_recommendations(id) ON DELETE CASCADE`
+- **`public.fit_recommendations`** (`FOREIGN KEY`): `FK_b797d91b1a3f03a5c545d7971c8` -> `FOREIGN KEY (product_id) REFERENCES fit_products(id) ON DELETE SET NULL`
+- **`public.fit_recommendations`** (`FOREIGN KEY`): `FK_b797d91b1a3f03a5c545d7971c8` -> `FOREIGN KEY (product_id) REFERENCES fit.fit_products(id) ON DELETE SET NULL`
+- **`public.fit_products`** (`FOREIGN KEY`): `FK_840b28ca354228731af6bb42d1a` -> `FOREIGN KEY (account_id) REFERENCES fit_tenant_configs(id) ON DELETE CASCADE`
+- **`public.fit_size_charts`** (`FOREIGN KEY`): `FK_abdadcecc44285c00dc8ff317dc` -> `FOREIGN KEY (account_id) REFERENCES fit_tenant_configs(id) ON DELETE CASCADE`
+- **`public.fit_shopify_connections`** (`FOREIGN KEY`): `FK_c830f5b30dd5e6b49147fa463ed` -> `FOREIGN KEY (account_id) REFERENCES fit_tenant_configs(id) ON DELETE CASCADE`
+- **`public.fit_lineage_snapshot_pointers`** (`FOREIGN KEY`): `FK_20e78089779ea095a03b8b8a7c4` -> `FOREIGN KEY (active_version_id) REFERENCES fit_fingerprint_versions(id) ON DELETE CASCADE`
+- **`public.fit_lineage_snapshot_pointers`** (`FOREIGN KEY`): `FK_20e78089779ea095a03b8b8a7c4` -> `FOREIGN KEY (active_version_id) REFERENCES fit.fit_fingerprint_versions(id) ON DELETE CASCADE`
+- **`public.fit_replay_partition_jobs`** (`FOREIGN KEY`): `FK_bce2bb266ad76aa670369b2ee5e` -> `FOREIGN KEY (replay_job_id) REFERENCES fit_replay_jobs(id) ON DELETE CASCADE`
+- **`public.fit_replay_partition_jobs`** (`FOREIGN KEY`): `FK_bce2bb266ad76aa670369b2ee5e` -> `FOREIGN KEY (replay_job_id) REFERENCES fit.fit_replay_jobs(id) ON DELETE CASCADE`
+- **`public.fit_operator_roles`** (`FOREIGN KEY`): `FK_f411bbef5096d9fd99b61a4387b` -> `FOREIGN KEY (admin_id) REFERENCES fit_admins(id) ON DELETE CASCADE`
+- **`public.fit_operator_roles`** (`FOREIGN KEY`): `FK_f411bbef5096d9fd99b61a4387b` -> `FOREIGN KEY (admin_id) REFERENCES fit.fit_admins(id) ON DELETE CASCADE`
+- **`public.core_integration_credentials`** (`CHECK`): `core_integration_credentials_id_not_null` -> `NOT NULL id`
+- **`public.core_integration_credentials`** (`CHECK`): `core_integration_credentials_id_not_null` -> `NOT NULL id`
+- **`public.core_integration_credentials`** (`CHECK`): `core_integration_credentials_integration_id_not_null` -> `NOT NULL integration_id`
+- **`public.core_integration_credentials`** (`CHECK`): `core_integration_credentials_integration_id_not_null` -> `NOT NULL integration_id`
+- **`public.core_integration_credentials`** (`CHECK`): `core_integration_credentials_encrypted_payload_not_null` -> `NOT NULL encrypted_payload`
+- **`public.core_integration_credentials`** (`CHECK`): `core_integration_credentials_encrypted_payload_not_null` -> `NOT NULL encrypted_payload`
+- **`public.core_integration_credentials`** (`CHECK`): `core_integration_credentials_encryption_version_not_null` -> `NOT NULL encryption_version`
+- **`public.core_integration_credentials`** (`CHECK`): `core_integration_credentials_encryption_version_not_null` -> `NOT NULL encryption_version`
+- **`public.core_integration_credentials`** (`CHECK`): `core_integration_credentials_scopes_not_null` -> `NOT NULL scopes`
+- **`public.core_integration_credentials`** (`CHECK`): `core_integration_credentials_scopes_not_null` -> `NOT NULL scopes`
+- **`public.core_integration_credentials`** (`CHECK`): `core_integration_credentials_connected_at_not_null` -> `NOT NULL connected_at`
+- **`public.core_integration_credentials`** (`CHECK`): `core_integration_credentials_connected_at_not_null` -> `NOT NULL connected_at`
+- **`public.core_integration_credentials`** (`PRIMARY KEY`): `PK_935d994e45e310b87349f960d62` -> `PRIMARY KEY (id)`
+- **`public.core_integration_credentials`** (`PRIMARY KEY`): `PK_935d994e45e310b87349f960d62` -> `PRIMARY KEY (id)`
+- **`public.core_integration_credentials`** (`UNIQUE`): `UQ_e87143b2b02737a247452172bd9` -> `UNIQUE (integration_id)`
+- **`public.core_integration_credentials`** (`UNIQUE`): `UQ_e87143b2b02737a247452172bd9` -> `UNIQUE (integration_id)`
+- **`public.core_integrations`** (`CHECK`): `core_integrations_id_not_null` -> `NOT NULL id`
+- **`public.core_integrations`** (`CHECK`): `core_integrations_id_not_null` -> `NOT NULL id`
+- **`public.core_integrations`** (`CHECK`): `core_integrations_account_id_not_null` -> `NOT NULL account_id`
+- **`public.core_integrations`** (`CHECK`): `core_integrations_account_id_not_null` -> `NOT NULL account_id`
+- **`public.core_integrations`** (`CHECK`): `core_integrations_provider_not_null` -> `NOT NULL provider`
+- **`public.core_integrations`** (`CHECK`): `core_integrations_provider_not_null` -> `NOT NULL provider`
+- **`public.core_integrations`** (`CHECK`): `core_integrations_status_not_null` -> `NOT NULL status`
+- **`public.core_integrations`** (`CHECK`): `core_integrations_status_not_null` -> `NOT NULL status`
+- **`public.core_integrations`** (`CHECK`): `core_integrations_external_id_not_null` -> `NOT NULL external_id`
+- **`public.core_integrations`** (`CHECK`): `core_integrations_external_id_not_null` -> `NOT NULL external_id`
+- **`public.core_integrations`** (`CHECK`): `core_integrations_metadata_not_null` -> `NOT NULL metadata`
+- **`public.core_integrations`** (`CHECK`): `core_integrations_metadata_not_null` -> `NOT NULL metadata`
+- **`public.core_integrations`** (`CHECK`): `core_integrations_created_at_not_null` -> `NOT NULL created_at`
+- **`public.core_integrations`** (`CHECK`): `core_integrations_created_at_not_null` -> `NOT NULL created_at`
+- **`public.core_integrations`** (`CHECK`): `core_integrations_updated_at_not_null` -> `NOT NULL updated_at`
+- **`public.core_integrations`** (`CHECK`): `core_integrations_updated_at_not_null` -> `NOT NULL updated_at`
+- **`public.core_integrations`** (`PRIMARY KEY`): `PK_54a5ec19d93656ac5c2a407e554` -> `PRIMARY KEY (id)`
+- **`public.core_integrations`** (`PRIMARY KEY`): `PK_54a5ec19d93656ac5c2a407e554` -> `PRIMARY KEY (id)`
+- **`public.core_integrations`** (`UNIQUE`): `uq_account_provider_external` -> `UNIQUE (account_id, provider, external_id)`
+- **`public.core_integrations`** (`UNIQUE`): `uq_account_provider_external` -> `UNIQUE (account_id, provider, external_id)`
+- **`public.core_integrations`** (`UNIQUE`): `uq_account_provider_external` -> `UNIQUE (account_id, provider, external_id)`
+- **`public.core_integrations`** (`UNIQUE`): `uq_account_provider_external` -> `UNIQUE (account_id, provider, external_id)`
+- **`public.core_integrations`** (`UNIQUE`): `uq_account_provider_external` -> `UNIQUE (account_id, provider, external_id)`
+- **`public.core_integrations`** (`UNIQUE`): `uq_account_provider_external` -> `UNIQUE (account_id, provider, external_id)`
+- **`public.core_integrations`** (`UNIQUE`): `uq_account_provider_external` -> `UNIQUE (account_id, provider, external_id)`
+- **`public.core_integrations`** (`UNIQUE`): `uq_account_provider_external` -> `UNIQUE (account_id, provider, external_id)`
+- **`public.core_integrations`** (`UNIQUE`): `uq_account_provider_external` -> `UNIQUE (account_id, provider, external_id)`
+- **`public.core_integrations`** (`UNIQUE`): `uq_account_provider_external` -> `UNIQUE (account_id, provider, external_id)`
+- **`public.core_integrations`** (`UNIQUE`): `uq_account_provider_external` -> `UNIQUE (account_id, provider, external_id)`
+- **`public.core_integrations`** (`UNIQUE`): `uq_account_provider_external` -> `UNIQUE (account_id, provider, external_id)`
+- **`public.core_integrations`** (`UNIQUE`): `uq_account_provider_external` -> `UNIQUE (account_id, provider, external_id)`
+- **`public.core_integrations`** (`UNIQUE`): `uq_account_provider_external` -> `UNIQUE (account_id, provider, external_id)`
+- **`public.core_integrations`** (`UNIQUE`): `uq_account_provider_external` -> `UNIQUE (account_id, provider, external_id)`
+- **`public.core_integrations`** (`UNIQUE`): `uq_account_provider_external` -> `UNIQUE (account_id, provider, external_id)`
+- **`public.core_integrations`** (`UNIQUE`): `uq_account_provider_external` -> `UNIQUE (account_id, provider, external_id)`
+- **`public.core_integrations`** (`UNIQUE`): `uq_account_provider_external` -> `UNIQUE (account_id, provider, external_id)`
+- **`public.core_integration_credentials`** (`FOREIGN KEY`): `FK_e87143b2b02737a247452172bd9` -> `FOREIGN KEY (integration_id) REFERENCES core_integrations(id) ON DELETE CASCADE`
+- **`public.core_integration_credentials`** (`FOREIGN KEY`): `FK_e87143b2b02737a247452172bd9` -> `FOREIGN KEY (integration_id) REFERENCES fit.core_integrations(id) ON DELETE CASCADE`
+- **`public.identity_users`** (`CHECK`): `identity_users_user_type_not_null` -> `NOT NULL user_type`
+- **`fit.typeorm_migrations`** (`CHECK`): `typeorm_migrations_id_not_null` -> `NOT NULL id`
+- **`fit.typeorm_migrations`** (`CHECK`): `typeorm_migrations_timestamp_not_null` -> `NOT NULL "timestamp"`
+- **`fit.typeorm_migrations`** (`CHECK`): `typeorm_migrations_name_not_null` -> `NOT NULL name`
+- **`fit.typeorm_migrations`** (`PRIMARY KEY`): `PK_bb2f075707dd300ba86d0208923` -> `PRIMARY KEY (id)`
+- **`fit.fit_size_charts`** (`CHECK`): `fit_size_charts_id_not_null` -> `NOT NULL id`
+- **`fit.fit_size_charts`** (`CHECK`): `fit_size_charts_id_not_null` -> `NOT NULL id`
+- **`fit.fit_size_charts`** (`CHECK`): `fit_size_charts_account_id_not_null` -> `NOT NULL account_id`
+- **`fit.fit_size_charts`** (`CHECK`): `fit_size_charts_account_id_not_null` -> `NOT NULL account_id`
+- **`fit.fit_size_charts`** (`CHECK`): `fit_size_charts_category_not_null` -> `NOT NULL category`
+- **`fit.fit_size_charts`** (`CHECK`): `fit_size_charts_category_not_null` -> `NOT NULL category`
+- **`fit.fit_size_charts`** (`CHECK`): `fit_size_charts_gender_not_null` -> `NOT NULL gender`
+- **`fit.fit_size_charts`** (`CHECK`): `fit_size_charts_gender_not_null` -> `NOT NULL gender`
+- **`fit.fit_size_charts`** (`CHECK`): `fit_size_charts_size_label_not_null` -> `NOT NULL size_label`
+- **`fit.fit_size_charts`** (`CHECK`): `fit_size_charts_size_label_not_null` -> `NOT NULL size_label`
+- **`fit.fit_size_charts`** (`CHECK`): `fit_size_charts_sort_order_not_null` -> `NOT NULL sort_order`
+- **`fit.fit_size_charts`** (`CHECK`): `fit_size_charts_sort_order_not_null` -> `NOT NULL sort_order`
+- **`fit.fit_size_charts`** (`PRIMARY KEY`): `PK_5e7a9790b8f7fa8dc30abe3071c` -> `PRIMARY KEY (id)`
+- **`fit.fit_size_charts`** (`PRIMARY KEY`): `PK_5e7a9790b8f7fa8dc30abe3071c` -> `PRIMARY KEY (id)`
+- **`fit.fit_raw_catalog_products`** (`CHECK`): `fit_raw_catalog_products_id_not_null` -> `NOT NULL id`
+- **`fit.fit_raw_catalog_products`** (`CHECK`): `fit_raw_catalog_products_id_not_null` -> `NOT NULL id`
+- **`fit.fit_raw_catalog_products`** (`CHECK`): `fit_raw_catalog_products_account_id_not_null` -> `NOT NULL account_id`
+- **`fit.fit_raw_catalog_products`** (`CHECK`): `fit_raw_catalog_products_account_id_not_null` -> `NOT NULL account_id`
+- **`fit.fit_raw_catalog_products`** (`CHECK`): `fit_raw_catalog_products_external_product_id_not_null` -> `NOT NULL external_product_id`
+- **`fit.fit_raw_catalog_products`** (`CHECK`): `fit_raw_catalog_products_external_product_id_not_null` -> `NOT NULL external_product_id`
+- **`fit.fit_raw_catalog_products`** (`CHECK`): `fit_raw_catalog_products_shop_domain_not_null` -> `NOT NULL shop_domain`
+- **`fit.fit_raw_catalog_products`** (`CHECK`): `fit_raw_catalog_products_shop_domain_not_null` -> `NOT NULL shop_domain`
+- **`fit.fit_raw_catalog_products`** (`CHECK`): `fit_raw_catalog_products_raw_payload_not_null` -> `NOT NULL raw_payload`
+- **`fit.fit_raw_catalog_products`** (`CHECK`): `fit_raw_catalog_products_raw_payload_not_null` -> `NOT NULL raw_payload`
+- **`fit.fit_raw_catalog_products`** (`CHECK`): `fit_raw_catalog_products_payload_hash_not_null` -> `NOT NULL payload_hash`
+- **`fit.fit_raw_catalog_products`** (`CHECK`): `fit_raw_catalog_products_payload_hash_not_null` -> `NOT NULL payload_hash`
+- **`fit.fit_raw_catalog_products`** (`CHECK`): `fit_raw_catalog_products_source_not_null` -> `NOT NULL source`
+- **`fit.fit_raw_catalog_products`** (`CHECK`): `fit_raw_catalog_products_source_not_null` -> `NOT NULL source`
+- **`fit.fit_raw_catalog_products`** (`CHECK`): `fit_raw_catalog_products_received_at_not_null` -> `NOT NULL received_at`
+- **`fit.fit_raw_catalog_products`** (`CHECK`): `fit_raw_catalog_products_received_at_not_null` -> `NOT NULL received_at`
+- **`fit.fit_raw_catalog_products`** (`PRIMARY KEY`): `PK_db4fff1dd897d96f2ca3993994e` -> `PRIMARY KEY (id)`
+- **`fit.fit_raw_catalog_products`** (`PRIMARY KEY`): `PK_db4fff1dd897d96f2ca3993994e` -> `PRIMARY KEY (id)`
+- **`fit.fit_raw_catalog_products`** (`UNIQUE`): `UQ_raw_catalog_brand_ext` -> `UNIQUE (account_id, external_product_id)`
+- **`fit.fit_raw_catalog_products`** (`UNIQUE`): `UQ_raw_catalog_brand_ext` -> `UNIQUE (account_id, external_product_id)`
+- **`fit.fit_raw_catalog_products`** (`UNIQUE`): `UQ_raw_catalog_brand_ext` -> `UNIQUE (account_id, external_product_id)`
+- **`fit.fit_raw_catalog_products`** (`UNIQUE`): `UQ_raw_catalog_brand_ext` -> `UNIQUE (account_id, external_product_id)`
+- **`fit.fit_raw_catalog_products`** (`UNIQUE`): `UQ_raw_catalog_brand_ext` -> `UNIQUE (account_id, external_product_id)`
+- **`fit.fit_raw_catalog_products`** (`UNIQUE`): `UQ_raw_catalog_brand_ext` -> `UNIQUE (account_id, external_product_id)`
+- **`fit.fit_raw_catalog_products`** (`UNIQUE`): `UQ_raw_catalog_brand_ext` -> `UNIQUE (account_id, external_product_id)`
+- **`fit.fit_raw_catalog_products`** (`UNIQUE`): `UQ_raw_catalog_brand_ext` -> `UNIQUE (account_id, external_product_id)`
+- **`fit.fit_feedback_events`** (`CHECK`): `fit_feedback_events_id_not_null` -> `NOT NULL id`
+- **`fit.fit_feedback_events`** (`CHECK`): `fit_feedback_events_id_not_null` -> `NOT NULL id`
+- **`fit.fit_feedback_events`** (`CHECK`): `fit_feedback_events_recommendation_id_not_null` -> `NOT NULL recommendation_id`
+- **`fit.fit_feedback_events`** (`CHECK`): `fit_feedback_events_recommendation_id_not_null` -> `NOT NULL recommendation_id`
+- **`fit.fit_feedback_events`** (`CHECK`): `fit_feedback_events_account_id_not_null` -> `NOT NULL account_id`
+- **`fit.fit_feedback_events`** (`CHECK`): `fit_feedback_events_account_id_not_null` -> `NOT NULL account_id`
+- **`fit.fit_feedback_events`** (`CHECK`): `fit_feedback_events_product_id_not_null` -> `NOT NULL product_id`
+- **`fit.fit_feedback_events`** (`CHECK`): `fit_feedback_events_product_id_not_null` -> `NOT NULL product_id`
+- **`fit.fit_feedback_events`** (`CHECK`): `fit_feedback_events_purchased_not_null` -> `NOT NULL purchased`
+- **`fit.fit_feedback_events`** (`CHECK`): `fit_feedback_events_purchased_not_null` -> `NOT NULL purchased`
+- **`fit.fit_feedback_events`** (`CHECK`): `fit_feedback_events_returned_not_null` -> `NOT NULL returned`
+- **`fit.fit_feedback_events`** (`CHECK`): `fit_feedback_events_returned_not_null` -> `NOT NULL returned`
+- **`fit.fit_feedback_events`** (`CHECK`): `fit_feedback_events_exchanged_not_null` -> `NOT NULL exchanged`
+- **`fit.fit_feedback_events`** (`CHECK`): `fit_feedback_events_exchanged_not_null` -> `NOT NULL exchanged`
+- **`fit.fit_feedback_events`** (`CHECK`): `fit_feedback_events_created_at_not_null` -> `NOT NULL created_at`
+- **`fit.fit_feedback_events`** (`CHECK`): `fit_feedback_events_created_at_not_null` -> `NOT NULL created_at`
+- **`fit.fit_feedback_events`** (`PRIMARY KEY`): `PK_fc045dd56261ab337945d3a79f2` -> `PRIMARY KEY (id)`
+- **`fit.fit_feedback_events`** (`PRIMARY KEY`): `PK_fc045dd56261ab337945d3a79f2` -> `PRIMARY KEY (id)`
+- **`fit.fit_recommendations`** (`CHECK`): `fit_recommendations_id_not_null` -> `NOT NULL id`
+- **`fit.fit_recommendations`** (`CHECK`): `fit_recommendations_id_not_null` -> `NOT NULL id`
+- **`fit.fit_recommendations`** (`CHECK`): `fit_recommendations_account_id_not_null` -> `NOT NULL account_id`
+- **`fit.fit_recommendations`** (`CHECK`): `fit_recommendations_account_id_not_null` -> `NOT NULL account_id`
+- **`fit.fit_recommendations`** (`CHECK`): `fit_recommendations_product_id_not_null` -> `NOT NULL product_id`
+- **`fit.fit_recommendations`** (`CHECK`): `fit_recommendations_product_id_not_null` -> `NOT NULL product_id`
+- **`fit.fit_recommendations`** (`CHECK`): `fit_recommendations_user_inputs_not_null` -> `NOT NULL user_inputs`
+- **`fit.fit_recommendations`** (`CHECK`): `fit_recommendations_user_inputs_not_null` -> `NOT NULL user_inputs`
+- **`fit.fit_recommendations`** (`CHECK`): `fit_recommendations_recommended_size_not_null` -> `NOT NULL recommended_size`
+- **`fit.fit_recommendations`** (`CHECK`): `fit_recommendations_recommended_size_not_null` -> `NOT NULL recommended_size`
+- **`fit.fit_recommendations`** (`CHECK`): `fit_recommendations_confidence_not_null` -> `NOT NULL confidence`
+- **`fit.fit_recommendations`** (`CHECK`): `fit_recommendations_confidence_not_null` -> `NOT NULL confidence`
+- **`fit.fit_recommendations`** (`CHECK`): `fit_recommendations_boundary_case_not_null` -> `NOT NULL boundary_case`
+- **`fit.fit_recommendations`** (`CHECK`): `fit_recommendations_boundary_case_not_null` -> `NOT NULL boundary_case`
+- **`fit.fit_recommendations`** (`CHECK`): `fit_recommendations_engine_version_not_null` -> `NOT NULL engine_version`
+- **`fit.fit_recommendations`** (`CHECK`): `fit_recommendations_engine_version_not_null` -> `NOT NULL engine_version`
+- **`fit.fit_recommendations`** (`CHECK`): `fit_recommendations_created_at_not_null` -> `NOT NULL created_at`
+- **`fit.fit_recommendations`** (`CHECK`): `fit_recommendations_created_at_not_null` -> `NOT NULL created_at`
+- **`fit.fit_recommendations`** (`PRIMARY KEY`): `PK_43bbac6c21ed26277935bd2a348` -> `PRIMARY KEY (id)`
+- **`fit.fit_recommendations`** (`PRIMARY KEY`): `PK_43bbac6c21ed26277935bd2a348` -> `PRIMARY KEY (id)`
+- **`fit.fit_products`** (`CHECK`): `fit_products_id_not_null` -> `NOT NULL id`
+- **`fit.fit_products`** (`CHECK`): `fit_products_id_not_null` -> `NOT NULL id`
+- **`fit.fit_products`** (`CHECK`): `fit_products_account_id_not_null` -> `NOT NULL account_id`
+- **`fit.fit_products`** (`CHECK`): `fit_products_account_id_not_null` -> `NOT NULL account_id`
+- **`fit.fit_products`** (`CHECK`): `fit_products_name_not_null` -> `NOT NULL name`
+- **`fit.fit_products`** (`CHECK`): `fit_products_name_not_null` -> `NOT NULL name`
+- **`fit.fit_products`** (`CHECK`): `fit_products_category_not_null` -> `NOT NULL category`
+- **`fit.fit_products`** (`CHECK`): `fit_products_category_not_null` -> `NOT NULL category`
+- **`fit.fit_products`** (`CHECK`): `fit_products_fit_type_not_null` -> `NOT NULL fit_type`
+- **`fit.fit_products`** (`CHECK`): `fit_products_fit_type_not_null` -> `NOT NULL fit_type`
+- **`fit.fit_products`** (`CHECK`): `fit_products_stretch_level_not_null` -> `NOT NULL stretch_level`
+- **`fit.fit_products`** (`CHECK`): `fit_products_stretch_level_not_null` -> `NOT NULL stretch_level`
+- **`fit.fit_products`** (`CHECK`): `fit_products_created_at_not_null` -> `NOT NULL created_at`
+- **`fit.fit_products`** (`CHECK`): `fit_products_created_at_not_null` -> `NOT NULL created_at`
+- **`fit.fit_products`** (`PRIMARY KEY`): `PK_71d7afa508e36ef0382102d3fde` -> `PRIMARY KEY (id)`
+- **`fit.fit_products`** (`PRIMARY KEY`): `PK_71d7afa508e36ef0382102d3fde` -> `PRIMARY KEY (id)`
+- **`fit.fit_tenant_configs`** (`CHECK`): `fit_tenant_configs_id_not_null` -> `NOT NULL id`
+- **`fit.fit_tenant_configs`** (`CHECK`): `fit_tenant_configs_id_not_null` -> `NOT NULL id`
+- **`fit.fit_tenant_configs`** (`CHECK`): `fit_tenant_configs_account_id_not_null` -> `NOT NULL account_id`
+- **`fit.fit_tenant_configs`** (`CHECK`): `fit_tenant_configs_account_id_not_null` -> `NOT NULL account_id`
+- **`fit.fit_tenant_configs`** (`CHECK`): `fit_tenant_configs_created_at_not_null` -> `NOT NULL created_at`
+- **`fit.fit_tenant_configs`** (`CHECK`): `fit_tenant_configs_created_at_not_null` -> `NOT NULL created_at`
+- **`fit.fit_tenant_configs`** (`CHECK`): `fit_tenant_configs_updated_at_not_null` -> `NOT NULL updated_at`
+- **`fit.fit_tenant_configs`** (`CHECK`): `fit_tenant_configs_updated_at_not_null` -> `NOT NULL updated_at`
+- **`fit.fit_tenant_configs`** (`PRIMARY KEY`): `PK_19d1eaa9e762b0e253b3e27fd02` -> `PRIMARY KEY (id)`
+- **`fit.fit_tenant_configs`** (`PRIMARY KEY`): `PK_19d1eaa9e762b0e253b3e27fd02` -> `PRIMARY KEY (id)`
+- **`fit.fit_tenant_configs`** (`UNIQUE`): `UQ_d103e20e8def903f4845459fd99` -> `UNIQUE (account_id)`
+- **`fit.fit_analytics_events`** (`CHECK`): `fit_analytics_events_id_not_null` -> `NOT NULL id`
+- **`fit.fit_analytics_events`** (`CHECK`): `fit_analytics_events_id_not_null` -> `NOT NULL id`
+- **`fit.fit_analytics_events`** (`CHECK`): `fit_analytics_events_event_type_not_null` -> `NOT NULL event_type`
+- **`fit.fit_analytics_events`** (`CHECK`): `fit_analytics_events_event_type_not_null` -> `NOT NULL event_type`
+- **`fit.fit_analytics_events`** (`CHECK`): `fit_analytics_events_payload_not_null` -> `NOT NULL payload`
+- **`fit.fit_analytics_events`** (`CHECK`): `fit_analytics_events_payload_not_null` -> `NOT NULL payload`
+- **`fit.fit_analytics_events`** (`CHECK`): `fit_analytics_events_created_at_not_null` -> `NOT NULL created_at`
+- **`fit.fit_analytics_events`** (`CHECK`): `fit_analytics_events_created_at_not_null` -> `NOT NULL created_at`
+- **`fit.fit_analytics_events`** (`PRIMARY KEY`): `PK_8132ca5085a8638f91a3a6377ec` -> `PRIMARY KEY (id)`
+- **`fit.fit_analytics_events`** (`PRIMARY KEY`): `PK_8132ca5085a8638f91a3a6377ec` -> `PRIMARY KEY (id)`
+- **`fit.fit_processed_webhooks`** (`CHECK`): `fit_processed_webhooks_webhook_id_not_null` -> `NOT NULL webhook_id`
+- **`fit.fit_processed_webhooks`** (`CHECK`): `fit_processed_webhooks_webhook_id_not_null` -> `NOT NULL webhook_id`
+- **`fit.fit_processed_webhooks`** (`CHECK`): `fit_processed_webhooks_topic_not_null` -> `NOT NULL topic`
+- **`fit.fit_processed_webhooks`** (`CHECK`): `fit_processed_webhooks_topic_not_null` -> `NOT NULL topic`
+- **`fit.fit_processed_webhooks`** (`CHECK`): `fit_processed_webhooks_shop_domain_not_null` -> `NOT NULL shop_domain`
+- **`fit.fit_processed_webhooks`** (`CHECK`): `fit_processed_webhooks_shop_domain_not_null` -> `NOT NULL shop_domain`
+- **`fit.fit_processed_webhooks`** (`CHECK`): `fit_processed_webhooks_processed_at_not_null` -> `NOT NULL processed_at`
+- **`fit.fit_processed_webhooks`** (`CHECK`): `fit_processed_webhooks_processed_at_not_null` -> `NOT NULL processed_at`
+- **`fit.fit_processed_webhooks`** (`PRIMARY KEY`): `PK_f6aa322808ff0bfb727af878878` -> `PRIMARY KEY (webhook_id)`
+- **`fit.fit_processed_webhooks`** (`PRIMARY KEY`): `PK_f6aa322808ff0bfb727af878878` -> `PRIMARY KEY (webhook_id)`
+- **`fit.fit_shopify_connections`** (`CHECK`): `fit_shopify_connections_id_not_null` -> `NOT NULL id`
+- **`fit.fit_shopify_connections`** (`CHECK`): `fit_shopify_connections_id_not_null` -> `NOT NULL id`
+- **`fit.fit_shopify_connections`** (`CHECK`): `fit_shopify_connections_account_id_not_null` -> `NOT NULL account_id`
+- **`fit.fit_shopify_connections`** (`CHECK`): `fit_shopify_connections_account_id_not_null` -> `NOT NULL account_id`
+- **`fit.fit_shopify_connections`** (`CHECK`): `fit_shopify_connections_shop_domain_not_null` -> `NOT NULL shop_domain`
+- **`fit.fit_shopify_connections`** (`CHECK`): `fit_shopify_connections_shop_domain_not_null` -> `NOT NULL shop_domain`
+- **`fit.fit_shopify_connections`** (`CHECK`): `fit_shopify_connections_access_token_not_null` -> `NOT NULL access_token`
+- **`fit.fit_shopify_connections`** (`CHECK`): `fit_shopify_connections_access_token_not_null` -> `NOT NULL access_token`
+- **`fit.fit_shopify_connections`** (`CHECK`): `fit_shopify_connections_scope_not_null` -> `NOT NULL scope`
+- **`fit.fit_shopify_connections`** (`CHECK`): `fit_shopify_connections_scope_not_null` -> `NOT NULL scope`
+- **`fit.fit_shopify_connections`** (`CHECK`): `fit_shopify_connections_webhook_secret_not_null` -> `NOT NULL webhook_secret`
+- **`fit.fit_shopify_connections`** (`CHECK`): `fit_shopify_connections_webhook_secret_not_null` -> `NOT NULL webhook_secret`
+- **`fit.fit_shopify_connections`** (`CHECK`): `fit_shopify_connections_api_version_not_null` -> `NOT NULL api_version`
+- **`fit.fit_shopify_connections`** (`CHECK`): `fit_shopify_connections_api_version_not_null` -> `NOT NULL api_version`
+- **`fit.fit_shopify_connections`** (`CHECK`): `fit_shopify_connections_connected_at_not_null` -> `NOT NULL connected_at`
+- **`fit.fit_shopify_connections`** (`CHECK`): `fit_shopify_connections_connected_at_not_null` -> `NOT NULL connected_at`
+- **`fit.fit_shopify_connections`** (`CHECK`): `fit_shopify_connections_created_at_not_null` -> `NOT NULL created_at`
+- **`fit.fit_shopify_connections`** (`CHECK`): `fit_shopify_connections_created_at_not_null` -> `NOT NULL created_at`
+- **`fit.fit_shopify_connections`** (`CHECK`): `fit_shopify_connections_updated_at_not_null` -> `NOT NULL updated_at`
+- **`fit.fit_shopify_connections`** (`CHECK`): `fit_shopify_connections_updated_at_not_null` -> `NOT NULL updated_at`
+- **`fit.fit_shopify_connections`** (`PRIMARY KEY`): `PK_92685c9cf1b5992b7685afc0df6` -> `PRIMARY KEY (id)`
+- **`fit.fit_shopify_connections`** (`PRIMARY KEY`): `PK_92685c9cf1b5992b7685afc0df6` -> `PRIMARY KEY (id)`
+- **`fit.fit_shopify_connections`** (`UNIQUE`): `UQ_e313137969b144a0738e90b03c8` -> `UNIQUE (shop_domain)`
+- **`fit.fit_shopify_connections`** (`UNIQUE`): `UQ_e313137969b144a0738e90b03c8` -> `UNIQUE (shop_domain)`
+- **`fit.fit_replay_jobs`** (`CHECK`): `fit_replay_jobs_id_not_null` -> `NOT NULL id`
+- **`fit.fit_replay_jobs`** (`CHECK`): `fit_replay_jobs_id_not_null` -> `NOT NULL id`
+- **`fit.fit_replay_jobs`** (`CHECK`): `fit_replay_jobs_account_id_not_null` -> `NOT NULL account_id`
+- **`fit.fit_replay_jobs`** (`CHECK`): `fit_replay_jobs_account_id_not_null` -> `NOT NULL account_id`
+- **`fit.fit_replay_jobs`** (`CHECK`): `fit_replay_jobs_scope_not_null` -> `NOT NULL scope`
+- **`fit.fit_replay_jobs`** (`CHECK`): `fit_replay_jobs_scope_not_null` -> `NOT NULL scope`
+- **`fit.fit_replay_jobs`** (`CHECK`): `fit_replay_jobs_target_id_not_null` -> `NOT NULL target_id`
+- **`fit.fit_replay_jobs`** (`CHECK`): `fit_replay_jobs_target_id_not_null` -> `NOT NULL target_id`
+- **`fit.fit_replay_jobs`** (`CHECK`): `fit_replay_jobs_status_not_null` -> `NOT NULL status`
+- **`fit.fit_replay_jobs`** (`CHECK`): `fit_replay_jobs_status_not_null` -> `NOT NULL status`
+- **`fit.fit_replay_jobs`** (`CHECK`): `fit_replay_jobs_priority_not_null` -> `NOT NULL priority`
+- **`fit.fit_replay_jobs`** (`CHECK`): `fit_replay_jobs_priority_not_null` -> `NOT NULL priority`
+- **`fit.fit_replay_jobs`** (`CHECK`): `fit_replay_jobs_is_dry_run_not_null` -> `NOT NULL is_dry_run`
+- **`fit.fit_replay_jobs`** (`CHECK`): `fit_replay_jobs_is_dry_run_not_null` -> `NOT NULL is_dry_run`
+- **`fit.fit_replay_jobs`** (`CHECK`): `fit_replay_jobs_total_products_not_null` -> `NOT NULL total_products`
+- **`fit.fit_replay_jobs`** (`CHECK`): `fit_replay_jobs_total_products_not_null` -> `NOT NULL total_products`
+- **`fit.fit_replay_jobs`** (`CHECK`): `fit_replay_jobs_processed_products_not_null` -> `NOT NULL processed_products`
+- **`fit.fit_replay_jobs`** (`CHECK`): `fit_replay_jobs_processed_products_not_null` -> `NOT NULL processed_products`
+- **`fit.fit_replay_jobs`** (`CHECK`): `fit_replay_jobs_failed_products_not_null` -> `NOT NULL failed_products`
+- **`fit.fit_replay_jobs`** (`CHECK`): `fit_replay_jobs_failed_products_not_null` -> `NOT NULL failed_products`
+- **`fit.fit_replay_jobs`** (`CHECK`): `fit_replay_jobs_execution_manifest_not_null` -> `NOT NULL execution_manifest`
+- **`fit.fit_replay_jobs`** (`CHECK`): `fit_replay_jobs_execution_manifest_not_null` -> `NOT NULL execution_manifest`
+- **`fit.fit_replay_jobs`** (`CHECK`): `fit_replay_jobs_replay_request_hash_not_null` -> `NOT NULL replay_request_hash`
+- **`fit.fit_replay_jobs`** (`CHECK`): `fit_replay_jobs_replay_request_hash_not_null` -> `NOT NULL replay_request_hash`
+- **`fit.fit_replay_jobs`** (`CHECK`): `fit_replay_jobs_triggered_by_not_null` -> `NOT NULL triggered_by`
+- **`fit.fit_replay_jobs`** (`CHECK`): `fit_replay_jobs_triggered_by_not_null` -> `NOT NULL triggered_by`
+- **`fit.fit_replay_jobs`** (`CHECK`): `fit_replay_jobs_correlation_id_not_null` -> `NOT NULL correlation_id`
+- **`fit.fit_replay_jobs`** (`CHECK`): `fit_replay_jobs_correlation_id_not_null` -> `NOT NULL correlation_id`
+- **`fit.fit_replay_jobs`** (`CHECK`): `fit_replay_jobs_created_at_not_null` -> `NOT NULL created_at`
+- **`fit.fit_replay_jobs`** (`CHECK`): `fit_replay_jobs_created_at_not_null` -> `NOT NULL created_at`
+- **`fit.fit_replay_jobs`** (`CHECK`): `fit_replay_jobs_updated_at_not_null` -> `NOT NULL updated_at`
+- **`fit.fit_replay_jobs`** (`CHECK`): `fit_replay_jobs_updated_at_not_null` -> `NOT NULL updated_at`
+- **`fit.fit_replay_jobs`** (`PRIMARY KEY`): `PK_6433fae2010cb9b9b4d4c5bdffa` -> `PRIMARY KEY (id)`
+- **`fit.fit_replay_jobs`** (`PRIMARY KEY`): `PK_6433fae2010cb9b9b4d4c5bdffa` -> `PRIMARY KEY (id)`
+- **`fit.fit_replay_partition_jobs`** (`CHECK`): `fit_replay_partition_jobs_id_not_null` -> `NOT NULL id`
+- **`fit.fit_replay_partition_jobs`** (`CHECK`): `fit_replay_partition_jobs_id_not_null` -> `NOT NULL id`
+- **`fit.fit_replay_partition_jobs`** (`CHECK`): `fit_replay_partition_jobs_replay_job_id_not_null` -> `NOT NULL replay_job_id`
+- **`fit.fit_replay_partition_jobs`** (`CHECK`): `fit_replay_partition_jobs_replay_job_id_not_null` -> `NOT NULL replay_job_id`
+- **`fit.fit_replay_partition_jobs`** (`CHECK`): `fit_replay_partition_jobs_partition_index_not_null` -> `NOT NULL partition_index`
+- **`fit.fit_replay_partition_jobs`** (`CHECK`): `fit_replay_partition_jobs_partition_index_not_null` -> `NOT NULL partition_index`
+- **`fit.fit_replay_partition_jobs`** (`CHECK`): `fit_replay_partition_jobs_status_not_null` -> `NOT NULL status`
+- **`fit.fit_replay_partition_jobs`** (`CHECK`): `fit_replay_partition_jobs_status_not_null` -> `NOT NULL status`
+- **`fit.fit_replay_partition_jobs`** (`CHECK`): `fit_replay_partition_jobs_total_products_not_null` -> `NOT NULL total_products`
+- **`fit.fit_replay_partition_jobs`** (`CHECK`): `fit_replay_partition_jobs_total_products_not_null` -> `NOT NULL total_products`
+- **`fit.fit_replay_partition_jobs`** (`CHECK`): `fit_replay_partition_jobs_processed_products_not_null` -> `NOT NULL processed_products`
+- **`fit.fit_replay_partition_jobs`** (`CHECK`): `fit_replay_partition_jobs_processed_products_not_null` -> `NOT NULL processed_products`
+- **`fit.fit_replay_partition_jobs`** (`CHECK`): `fit_replay_partition_jobs_failed_products_not_null` -> `NOT NULL failed_products`
+- **`fit.fit_replay_partition_jobs`** (`CHECK`): `fit_replay_partition_jobs_failed_products_not_null` -> `NOT NULL failed_products`
+- **`fit.fit_replay_partition_jobs`** (`CHECK`): `fit_replay_partition_jobs_retry_count_not_null` -> `NOT NULL retry_count`
+- **`fit.fit_replay_partition_jobs`** (`CHECK`): `fit_replay_partition_jobs_retry_count_not_null` -> `NOT NULL retry_count`
+- **`fit.fit_replay_partition_jobs`** (`CHECK`): `fit_replay_partition_jobs_correlation_id_not_null` -> `NOT NULL correlation_id`
+- **`fit.fit_replay_partition_jobs`** (`CHECK`): `fit_replay_partition_jobs_correlation_id_not_null` -> `NOT NULL correlation_id`
+- **`fit.fit_replay_partition_jobs`** (`CHECK`): `fit_replay_partition_jobs_created_at_not_null` -> `NOT NULL created_at`
+- **`fit.fit_replay_partition_jobs`** (`CHECK`): `fit_replay_partition_jobs_created_at_not_null` -> `NOT NULL created_at`
+- **`fit.fit_replay_partition_jobs`** (`CHECK`): `fit_replay_partition_jobs_updated_at_not_null` -> `NOT NULL updated_at`
+- **`fit.fit_replay_partition_jobs`** (`CHECK`): `fit_replay_partition_jobs_updated_at_not_null` -> `NOT NULL updated_at`
+- **`fit.fit_replay_partition_jobs`** (`PRIMARY KEY`): `PK_9d9c3f0282bb120b91f255fb7cd` -> `PRIMARY KEY (id)`
+- **`fit.fit_replay_partition_jobs`** (`PRIMARY KEY`): `PK_9d9c3f0282bb120b91f255fb7cd` -> `PRIMARY KEY (id)`
+- **`fit.fit_profiles`** (`CHECK`): `fit_profiles_id_not_null` -> `NOT NULL id`
+- **`fit.fit_profiles`** (`CHECK`): `fit_profiles_id_not_null` -> `NOT NULL id`
+- **`fit.fit_profiles`** (`CHECK`): `fit_profiles_default_fit_preference_not_null` -> `NOT NULL default_fit_preference`
+- **`fit.fit_profiles`** (`CHECK`): `fit_profiles_default_fit_preference_not_null` -> `NOT NULL default_fit_preference`
+- **`fit.fit_profiles`** (`CHECK`): `fit_profiles_default_gender_not_null` -> `NOT NULL default_gender`
+- **`fit.fit_profiles`** (`CHECK`): `fit_profiles_default_gender_not_null` -> `NOT NULL default_gender`
+- **`fit.fit_profiles`** (`CHECK`): `fit_profiles_profile_version_not_null` -> `NOT NULL profile_version`
+- **`fit.fit_profiles`** (`CHECK`): `fit_profiles_profile_version_not_null` -> `NOT NULL profile_version`
+- **`fit.fit_profiles`** (`CHECK`): `fit_profiles_consent_version_not_null` -> `NOT NULL consent_version`
+- **`fit.fit_profiles`** (`CHECK`): `fit_profiles_consent_version_not_null` -> `NOT NULL consent_version`
+- **`fit.fit_profiles`** (`CHECK`): `fit_profiles_created_at_not_null` -> `NOT NULL created_at`
+- **`fit.fit_profiles`** (`CHECK`): `fit_profiles_created_at_not_null` -> `NOT NULL created_at`
+- **`fit.fit_profiles`** (`CHECK`): `fit_profiles_updated_at_not_null` -> `NOT NULL updated_at`
+- **`fit.fit_profiles`** (`CHECK`): `fit_profiles_updated_at_not_null` -> `NOT NULL updated_at`
+- **`fit.fit_profiles`** (`PRIMARY KEY`): `PK_f448c7f5cefa510a08d615df844` -> `PRIMARY KEY (id)`
+- **`fit.fit_profiles`** (`PRIMARY KEY`): `PK_f448c7f5cefa510a08d615df844` -> `PRIMARY KEY (id)`
+- **`fit.fit_unmapped_signals`** (`CHECK`): `fit_unmapped_signals_id_not_null` -> `NOT NULL id`
+- **`fit.fit_unmapped_signals`** (`CHECK`): `fit_unmapped_signals_id_not_null` -> `NOT NULL id`
+- **`fit.fit_unmapped_signals`** (`CHECK`): `fit_unmapped_signals_raw_value_not_null` -> `NOT NULL raw_value`
+- **`fit.fit_unmapped_signals`** (`CHECK`): `fit_unmapped_signals_raw_value_not_null` -> `NOT NULL raw_value`
+- **`fit.fit_unmapped_signals`** (`CHECK`): `fit_unmapped_signals_source_not_null` -> `NOT NULL source`
+- **`fit.fit_unmapped_signals`** (`CHECK`): `fit_unmapped_signals_source_not_null` -> `NOT NULL source`
+- **`fit.fit_unmapped_signals`** (`CHECK`): `fit_unmapped_signals_frequency_not_null` -> `NOT NULL frequency`
+- **`fit.fit_unmapped_signals`** (`CHECK`): `fit_unmapped_signals_frequency_not_null` -> `NOT NULL frequency`
+- **`fit.fit_unmapped_signals`** (`CHECK`): `fit_unmapped_signals_account_id_not_null` -> `NOT NULL account_id`
+- **`fit.fit_unmapped_signals`** (`CHECK`): `fit_unmapped_signals_account_id_not_null` -> `NOT NULL account_id`
+- **`fit.fit_unmapped_signals`** (`CHECK`): `fit_unmapped_signals_first_seen_at_not_null` -> `NOT NULL first_seen_at`
+- **`fit.fit_unmapped_signals`** (`CHECK`): `fit_unmapped_signals_first_seen_at_not_null` -> `NOT NULL first_seen_at`
+- **`fit.fit_unmapped_signals`** (`CHECK`): `fit_unmapped_signals_last_seen_at_not_null` -> `NOT NULL last_seen_at`
+- **`fit.fit_unmapped_signals`** (`CHECK`): `fit_unmapped_signals_last_seen_at_not_null` -> `NOT NULL last_seen_at`
+- **`fit.fit_unmapped_signals`** (`PRIMARY KEY`): `PK_c73087b004231f54ff2d9b0cab6` -> `PRIMARY KEY (id)`
+- **`fit.fit_unmapped_signals`** (`PRIMARY KEY`): `PK_c73087b004231f54ff2d9b0cab6` -> `PRIMARY KEY (id)`
+- **`fit.fit_unmapped_signals`** (`UNIQUE`): `UQ_unmapped_signal` -> `UNIQUE (account_id, raw_value, source)`
+- **`fit.fit_unmapped_signals`** (`UNIQUE`): `UQ_unmapped_signal` -> `UNIQUE (account_id, raw_value, source)`
+- **`fit.fit_unmapped_signals`** (`UNIQUE`): `UQ_unmapped_signal` -> `UNIQUE (account_id, raw_value, source)`
+- **`fit.fit_unmapped_signals`** (`UNIQUE`): `UQ_unmapped_signal` -> `UNIQUE (account_id, raw_value, source)`
+- **`fit.fit_unmapped_signals`** (`UNIQUE`): `UQ_unmapped_signal` -> `UNIQUE (account_id, raw_value, source)`
+- **`fit.fit_unmapped_signals`** (`UNIQUE`): `UQ_unmapped_signal` -> `UNIQUE (account_id, raw_value, source)`
+- **`fit.fit_unmapped_signals`** (`UNIQUE`): `UQ_unmapped_signal` -> `UNIQUE (account_id, raw_value, source)`
+- **`fit.fit_unmapped_signals`** (`UNIQUE`): `UQ_unmapped_signal` -> `UNIQUE (account_id, raw_value, source)`
+- **`fit.fit_unmapped_signals`** (`UNIQUE`): `UQ_unmapped_signal` -> `UNIQUE (account_id, raw_value, source)`
+- **`fit.fit_unmapped_signals`** (`UNIQUE`): `UQ_unmapped_signal` -> `UNIQUE (account_id, raw_value, source)`
+- **`fit.fit_unmapped_signals`** (`UNIQUE`): `UQ_unmapped_signal` -> `UNIQUE (account_id, raw_value, source)`
+- **`fit.fit_unmapped_signals`** (`UNIQUE`): `UQ_unmapped_signal` -> `UNIQUE (account_id, raw_value, source)`
+- **`fit.fit_unmapped_signals`** (`UNIQUE`): `UQ_unmapped_signal` -> `UNIQUE (account_id, raw_value, source)`
+- **`fit.fit_unmapped_signals`** (`UNIQUE`): `UQ_unmapped_signal` -> `UNIQUE (account_id, raw_value, source)`
+- **`fit.fit_unmapped_signals`** (`UNIQUE`): `UQ_unmapped_signal` -> `UNIQUE (account_id, raw_value, source)`
+- **`fit.fit_unmapped_signals`** (`UNIQUE`): `UQ_unmapped_signal` -> `UNIQUE (account_id, raw_value, source)`
+- **`fit.fit_unmapped_signals`** (`UNIQUE`): `UQ_unmapped_signal` -> `UNIQUE (account_id, raw_value, source)`
+- **`fit.fit_unmapped_signals`** (`UNIQUE`): `UQ_unmapped_signal` -> `UNIQUE (account_id, raw_value, source)`
+- **`fit.fit_profile_learning_states`** (`CHECK`): `fit_profile_learning_states_id_not_null` -> `NOT NULL id`
+- **`fit.fit_profile_learning_states`** (`CHECK`): `fit_profile_learning_states_id_not_null` -> `NOT NULL id`
+- **`fit.fit_profile_learning_states`** (`CHECK`): `fit_profile_learning_states_profile_id_not_null` -> `NOT NULL profile_id`
+- **`fit.fit_profile_learning_states`** (`CHECK`): `fit_profile_learning_states_profile_id_not_null` -> `NOT NULL profile_id`
+- **`fit.fit_profile_learning_states`** (`CHECK`): `fit_profile_learning_states_successful_purchases_not_null` -> `NOT NULL successful_purchases`
+- **`fit.fit_profile_learning_states`** (`CHECK`): `fit_profile_learning_states_successful_purchases_not_null` -> `NOT NULL successful_purchases`
+- **`fit.fit_profile_learning_states`** (`CHECK`): `fit_profile_learning_states_returns_count_not_null` -> `NOT NULL returns_count`
+- **`fit.fit_profile_learning_states`** (`CHECK`): `fit_profile_learning_states_returns_count_not_null` -> `NOT NULL returns_count`
+- **`fit.fit_profile_learning_states`** (`CHECK`): `fit_profile_learning_states_exchanges_count_not_null` -> `NOT NULL exchanges_count`
+- **`fit.fit_profile_learning_states`** (`CHECK`): `fit_profile_learning_states_exchanges_count_not_null` -> `NOT NULL exchanges_count`
+- **`fit.fit_profile_learning_states`** (`CHECK`): `fit_profile_learning_states_perfect_fit_count_not_null` -> `NOT NULL perfect_fit_count`
+- **`fit.fit_profile_learning_states`** (`CHECK`): `fit_profile_learning_states_perfect_fit_count_not_null` -> `NOT NULL perfect_fit_count`
+- **`fit.fit_profile_learning_states`** (`CHECK`): `fit_profile_learning_states_too_small_count_not_null` -> `NOT NULL too_small_count`
+- **`fit.fit_profile_learning_states`** (`CHECK`): `fit_profile_learning_states_too_small_count_not_null` -> `NOT NULL too_small_count`
+- **`fit.fit_profile_learning_states`** (`CHECK`): `fit_profile_learning_states_too_large_count_not_null` -> `NOT NULL too_large_count`
+- **`fit.fit_profile_learning_states`** (`CHECK`): `fit_profile_learning_states_too_large_count_not_null` -> `NOT NULL too_large_count`
+- **`fit.fit_profile_learning_states`** (`CHECK`): `fit_profile_learning_states_preferred_fit_bias_not_null` -> `NOT NULL preferred_fit_bias`
+- **`fit.fit_profile_learning_states`** (`CHECK`): `fit_profile_learning_states_preferred_fit_bias_not_null` -> `NOT NULL preferred_fit_bias`
+- **`fit.fit_profile_learning_states`** (`CHECK`): `fit_profile_learning_states_confidence_modifier_not_null` -> `NOT NULL confidence_modifier`
+- **`fit.fit_profile_learning_states`** (`CHECK`): `fit_profile_learning_states_confidence_modifier_not_null` -> `NOT NULL confidence_modifier`
+- **`fit.fit_profile_learning_states`** (`CHECK`): `fit_profile_learning_states_last_aggregated_at_not_null` -> `NOT NULL last_aggregated_at`
+- **`fit.fit_profile_learning_states`** (`CHECK`): `fit_profile_learning_states_last_aggregated_at_not_null` -> `NOT NULL last_aggregated_at`
+- **`fit.fit_profile_learning_states`** (`CHECK`): `fit_profile_learning_states_created_at_not_null` -> `NOT NULL created_at`
+- **`fit.fit_profile_learning_states`** (`CHECK`): `fit_profile_learning_states_created_at_not_null` -> `NOT NULL created_at`
+- **`fit.fit_profile_learning_states`** (`CHECK`): `fit_profile_learning_states_updated_at_not_null` -> `NOT NULL updated_at`
+- **`fit.fit_profile_learning_states`** (`CHECK`): `fit_profile_learning_states_updated_at_not_null` -> `NOT NULL updated_at`
+- **`fit.fit_profile_learning_states`** (`PRIMARY KEY`): `PK_156c0e78fa8a950e1d41f96d916` -> `PRIMARY KEY (id)`
+- **`fit.fit_profile_learning_states`** (`PRIMARY KEY`): `PK_156c0e78fa8a950e1d41f96d916` -> `PRIMARY KEY (id)`
+- **`fit.fit_profile_learning_states`** (`UNIQUE`): `UQ_f415a01820a9e6dd207fc73a8e8` -> `UNIQUE (profile_id, account_id)`
+- **`fit.fit_profile_learning_states`** (`UNIQUE`): `UQ_f415a01820a9e6dd207fc73a8e8` -> `UNIQUE (profile_id, account_id)`
+- **`fit.fit_profile_learning_states`** (`UNIQUE`): `UQ_f415a01820a9e6dd207fc73a8e8` -> `UNIQUE (profile_id, account_id)`
+- **`fit.fit_profile_learning_states`** (`UNIQUE`): `UQ_f415a01820a9e6dd207fc73a8e8` -> `UNIQUE (profile_id, account_id)`
+- **`fit.fit_replay_integrity_incidents`** (`CHECK`): `fit_replay_integrity_incidents_id_not_null` -> `NOT NULL id`
+- **`fit.fit_replay_integrity_incidents`** (`CHECK`): `fit_replay_integrity_incidents_id_not_null` -> `NOT NULL id`
+- **`fit.fit_replay_integrity_incidents`** (`CHECK`): `fit_replay_integrity_incidents_product_id_not_null` -> `NOT NULL product_id`
+- **`fit.fit_replay_integrity_incidents`** (`CHECK`): `fit_replay_integrity_incidents_product_id_not_null` -> `NOT NULL product_id`
+- **`fit.fit_replay_integrity_incidents`** (`CHECK`): `fit_replay_integrity_incidents_fingerprint_id_not_null` -> `NOT NULL fingerprint_id`
+- **`fit.fit_replay_integrity_incidents`** (`CHECK`): `fit_replay_integrity_incidents_fingerprint_id_not_null` -> `NOT NULL fingerprint_id`
+- **`fit.fit_replay_integrity_incidents`** (`CHECK`): `fit_replay_integrity_incidents_expected_hash_not_null` -> `NOT NULL expected_hash`
+- **`fit.fit_replay_integrity_incidents`** (`CHECK`): `fit_replay_integrity_incidents_expected_hash_not_null` -> `NOT NULL expected_hash`
+- **`fit.fit_replay_integrity_incidents`** (`CHECK`): `fit_replay_integrity_incidents_actual_hash_not_null` -> `NOT NULL actual_hash`
+- **`fit.fit_replay_integrity_incidents`** (`CHECK`): `fit_replay_integrity_incidents_actual_hash_not_null` -> `NOT NULL actual_hash`
+- **`fit.fit_replay_integrity_incidents`** (`CHECK`): `fit_replay_integrity_incidents_ontology_version_not_null` -> `NOT NULL ontology_version`
+- **`fit.fit_replay_integrity_incidents`** (`CHECK`): `fit_replay_integrity_incidents_ontology_version_not_null` -> `NOT NULL ontology_version`
+- **`fit.fit_replay_integrity_incidents`** (`CHECK`): `fit_replay_integrity_incidents_classifier_version_not_null` -> `NOT NULL classifier_version`
+- **`fit.fit_replay_integrity_incidents`** (`CHECK`): `fit_replay_integrity_incidents_classifier_version_not_null` -> `NOT NULL classifier_version`
+- **`fit.fit_replay_integrity_incidents`** (`CHECK`): `fit_replay_integrity_incidents_governance_reason_not_null` -> `NOT NULL governance_reason`
+- **`fit.fit_replay_integrity_incidents`** (`CHECK`): `fit_replay_integrity_incidents_governance_reason_not_null` -> `NOT NULL governance_reason`
+- **`fit.fit_replay_integrity_incidents`** (`CHECK`): `fit_replay_integrity_incidents_occurred_at_not_null` -> `NOT NULL occurred_at`
+- **`fit.fit_replay_integrity_incidents`** (`CHECK`): `fit_replay_integrity_incidents_occurred_at_not_null` -> `NOT NULL occurred_at`
+- **`fit.fit_replay_integrity_incidents`** (`PRIMARY KEY`): `PK_3688f45f4c54d48473b0d3c84ba` -> `PRIMARY KEY (id)`
+- **`fit.fit_replay_integrity_incidents`** (`PRIMARY KEY`): `PK_3688f45f4c54d48473b0d3c84ba` -> `PRIMARY KEY (id)`
+- **`fit.fit_governance_incidents`** (`CHECK`): `fit_governance_incidents_id_not_null` -> `NOT NULL id`
+- **`fit.fit_governance_incidents`** (`CHECK`): `fit_governance_incidents_id_not_null` -> `NOT NULL id`
+- **`fit.fit_governance_incidents`** (`CHECK`): `fit_governance_incidents_account_id_not_null` -> `NOT NULL account_id`
+- **`fit.fit_governance_incidents`** (`CHECK`): `fit_governance_incidents_account_id_not_null` -> `NOT NULL account_id`
+- **`fit.fit_governance_incidents`** (`CHECK`): `fit_governance_incidents_incident_type_not_null` -> `NOT NULL incident_type`
+- **`fit.fit_governance_incidents`** (`CHECK`): `fit_governance_incidents_incident_type_not_null` -> `NOT NULL incident_type`
+- **`fit.fit_governance_incidents`** (`CHECK`): `fit_governance_incidents_severity_not_null` -> `NOT NULL severity`
+- **`fit.fit_governance_incidents`** (`CHECK`): `fit_governance_incidents_severity_not_null` -> `NOT NULL severity`
+- **`fit.fit_governance_incidents`** (`CHECK`): `fit_governance_incidents_title_not_null` -> `NOT NULL title`
+- **`fit.fit_governance_incidents`** (`CHECK`): `fit_governance_incidents_title_not_null` -> `NOT NULL title`
+- **`fit.fit_governance_incidents`** (`CHECK`): `fit_governance_incidents_description_not_null` -> `NOT NULL description`
+- **`fit.fit_governance_incidents`** (`CHECK`): `fit_governance_incidents_description_not_null` -> `NOT NULL description`
+- **`fit.fit_governance_incidents`** (`CHECK`): `fit_governance_incidents_status_not_null` -> `NOT NULL status`
+- **`fit.fit_governance_incidents`** (`CHECK`): `fit_governance_incidents_status_not_null` -> `NOT NULL status`
+- **`fit.fit_governance_incidents`** (`CHECK`): `fit_governance_incidents_occurred_at_not_null` -> `NOT NULL occurred_at`
+- **`fit.fit_governance_incidents`** (`CHECK`): `fit_governance_incidents_occurred_at_not_null` -> `NOT NULL occurred_at`
+- **`fit.fit_governance_incidents`** (`PRIMARY KEY`): `PK_86d6717683a32fff0ccf7443243` -> `PRIMARY KEY (id)`
+- **`fit.fit_governance_incidents`** (`PRIMARY KEY`): `PK_86d6717683a32fff0ccf7443243` -> `PRIMARY KEY (id)`
+- **`fit.fit_governance_audit_events`** (`CHECK`): `fit_governance_audit_events_id_not_null` -> `NOT NULL id`
+- **`fit.fit_governance_audit_events`** (`CHECK`): `fit_governance_audit_events_id_not_null` -> `NOT NULL id`
+- **`fit.fit_governance_audit_events`** (`CHECK`): `fit_governance_audit_events_account_id_not_null` -> `NOT NULL account_id`
+- **`fit.fit_governance_audit_events`** (`CHECK`): `fit_governance_audit_events_account_id_not_null` -> `NOT NULL account_id`
+- **`fit.fit_governance_audit_events`** (`CHECK`): `fit_governance_audit_events_entity_id_not_null` -> `NOT NULL entity_id`
+- **`fit.fit_governance_audit_events`** (`CHECK`): `fit_governance_audit_events_entity_id_not_null` -> `NOT NULL entity_id`
+- **`fit.fit_governance_audit_events`** (`CHECK`): `fit_governance_audit_events_entity_type_not_null` -> `NOT NULL entity_type`
+- **`fit.fit_governance_audit_events`** (`CHECK`): `fit_governance_audit_events_entity_type_not_null` -> `NOT NULL entity_type`
+- **`fit.fit_governance_audit_events`** (`CHECK`): `fit_governance_audit_events_event_type_not_null` -> `NOT NULL event_type`
+- **`fit.fit_governance_audit_events`** (`CHECK`): `fit_governance_audit_events_event_type_not_null` -> `NOT NULL event_type`
+- **`fit.fit_governance_audit_events`** (`CHECK`): `fit_governance_audit_events_event_schema_version_not_null` -> `NOT NULL event_schema_version`
+- **`fit.fit_governance_audit_events`** (`CHECK`): `fit_governance_audit_events_event_schema_version_not_null` -> `NOT NULL event_schema_version`
+- **`fit.fit_governance_audit_events`** (`CHECK`): `fit_governance_audit_events_source_service_not_null` -> `NOT NULL source_service`
+- **`fit.fit_governance_audit_events`** (`CHECK`): `fit_governance_audit_events_source_service_not_null` -> `NOT NULL source_service`
+- **`fit.fit_governance_audit_events`** (`CHECK`): `fit_governance_audit_events_occurred_at_not_null` -> `NOT NULL occurred_at`
+- **`fit.fit_governance_audit_events`** (`CHECK`): `fit_governance_audit_events_occurred_at_not_null` -> `NOT NULL occurred_at`
+- **`fit.fit_governance_audit_events`** (`PRIMARY KEY`): `PK_bec606fa2c87fffcde4173bbaaa` -> `PRIMARY KEY (id)`
+- **`fit.fit_governance_audit_events`** (`PRIMARY KEY`): `PK_bec606fa2c87fffcde4173bbaaa` -> `PRIMARY KEY (id)`
+- **`fit.fit_feature_flags`** (`CHECK`): `fit_feature_flags_id_not_null` -> `NOT NULL id`
+- **`fit.fit_feature_flags`** (`CHECK`): `fit_feature_flags_id_not_null` -> `NOT NULL id`
+- **`fit.fit_feature_flags`** (`CHECK`): `fit_feature_flags_key_not_null` -> `NOT NULL key`
+- **`fit.fit_feature_flags`** (`CHECK`): `fit_feature_flags_key_not_null` -> `NOT NULL key`
+- **`fit.fit_feature_flags`** (`CHECK`): `fit_feature_flags_enabled_not_null` -> `NOT NULL enabled`
+- **`fit.fit_feature_flags`** (`CHECK`): `fit_feature_flags_enabled_not_null` -> `NOT NULL enabled`
+- **`fit.fit_feature_flags`** (`CHECK`): `fit_feature_flags_rollout_percentage_not_null` -> `NOT NULL rollout_percentage`
+- **`fit.fit_feature_flags`** (`CHECK`): `fit_feature_flags_rollout_percentage_not_null` -> `NOT NULL rollout_percentage`
+- **`fit.fit_feature_flags`** (`CHECK`): `fit_feature_flags_scope_not_null` -> `NOT NULL scope`
+- **`fit.fit_feature_flags`** (`CHECK`): `fit_feature_flags_scope_not_null` -> `NOT NULL scope`
+- **`fit.fit_feature_flags`** (`CHECK`): `fit_feature_flags_created_at_not_null` -> `NOT NULL created_at`
+- **`fit.fit_feature_flags`** (`CHECK`): `fit_feature_flags_created_at_not_null` -> `NOT NULL created_at`
+- **`fit.fit_feature_flags`** (`CHECK`): `fit_feature_flags_updated_at_not_null` -> `NOT NULL updated_at`
+- **`fit.fit_feature_flags`** (`CHECK`): `fit_feature_flags_updated_at_not_null` -> `NOT NULL updated_at`
+- **`fit.fit_feature_flags`** (`PRIMARY KEY`): `PK_d17eb66f91080680a02e6b2188c` -> `PRIMARY KEY (id)`
+- **`fit.fit_feature_flags`** (`PRIMARY KEY`): `PK_d17eb66f91080680a02e6b2188c` -> `PRIMARY KEY (id)`
+- **`fit.fit_feature_flags`** (`UNIQUE`): `UQ_8abc31e8770f24bd79cd091c2bf` -> `UNIQUE (key, account_id)`
+- **`fit.fit_feature_flags`** (`UNIQUE`): `UQ_8abc31e8770f24bd79cd091c2bf` -> `UNIQUE (key, account_id)`
+- **`fit.fit_feature_flags`** (`UNIQUE`): `UQ_8abc31e8770f24bd79cd091c2bf` -> `UNIQUE (key, account_id)`
+- **`fit.fit_feature_flags`** (`UNIQUE`): `UQ_8abc31e8770f24bd79cd091c2bf` -> `UNIQUE (key, account_id)`
+- **`fit.fit_fingerprint_versions`** (`CHECK`): `fit_fingerprint_versions_id_not_null` -> `NOT NULL id`
+- **`fit.fit_fingerprint_versions`** (`CHECK`): `fit_fingerprint_versions_id_not_null` -> `NOT NULL id`
+- **`fit.fit_fingerprint_versions`** (`CHECK`): `fit_fingerprint_versions_fingerprint_id_not_null` -> `NOT NULL fingerprint_id`
+- **`fit.fit_fingerprint_versions`** (`CHECK`): `fit_fingerprint_versions_fingerprint_id_not_null` -> `NOT NULL fingerprint_id`
+- **`fit.fit_fingerprint_versions`** (`CHECK`): `fit_fingerprint_versions_account_id_not_null` -> `NOT NULL account_id`
+- **`fit.fit_fingerprint_versions`** (`CHECK`): `fit_fingerprint_versions_account_id_not_null` -> `NOT NULL account_id`
+- **`fit.fit_fingerprint_versions`** (`CHECK`): `fit_fingerprint_versions_external_product_id_not_null` -> `NOT NULL external_product_id`
+- **`fit.fit_fingerprint_versions`** (`CHECK`): `fit_fingerprint_versions_external_product_id_not_null` -> `NOT NULL external_product_id`
+- **`fit.fit_fingerprint_versions`** (`CHECK`): `fit_fingerprint_versions_version_not_null` -> `NOT NULL version`
+- **`fit.fit_fingerprint_versions`** (`CHECK`): `fit_fingerprint_versions_version_not_null` -> `NOT NULL version`
+- **`fit.fit_fingerprint_versions`** (`CHECK`): `fit_fingerprint_versions_fingerprint_data_not_null` -> `NOT NULL fingerprint_data`
+- **`fit.fit_fingerprint_versions`** (`CHECK`): `fit_fingerprint_versions_fingerprint_data_not_null` -> `NOT NULL fingerprint_data`
+- **`fit.fit_fingerprint_versions`** (`CHECK`): `fit_fingerprint_versions_classifier_version_not_null` -> `NOT NULL classifier_version`
+- **`fit.fit_fingerprint_versions`** (`CHECK`): `fit_fingerprint_versions_classifier_version_not_null` -> `NOT NULL classifier_version`
+- **`fit.fit_fingerprint_versions`** (`CHECK`): `fit_fingerprint_versions_lineage_reason_not_null` -> `NOT NULL lineage_reason`
+- **`fit.fit_fingerprint_versions`** (`CHECK`): `fit_fingerprint_versions_lineage_reason_not_null` -> `NOT NULL lineage_reason`
+- **`fit.fit_fingerprint_versions`** (`CHECK`): `fit_fingerprint_versions_severity_not_null` -> `NOT NULL severity`
+- **`fit.fit_fingerprint_versions`** (`CHECK`): `fit_fingerprint_versions_severity_not_null` -> `NOT NULL severity`
+- **`fit.fit_fingerprint_versions`** (`CHECK`): `fit_fingerprint_versions_generated_at_not_null` -> `NOT NULL generated_at`
+- **`fit.fit_fingerprint_versions`** (`CHECK`): `fit_fingerprint_versions_generated_at_not_null` -> `NOT NULL generated_at`
+- **`fit.fit_fingerprint_versions`** (`PRIMARY KEY`): `PK_080292fbc75d5597483a51a913d` -> `PRIMARY KEY (id)`
+- **`fit.fit_fingerprint_versions`** (`PRIMARY KEY`): `PK_080292fbc75d5597483a51a913d` -> `PRIMARY KEY (id)`
+- **`fit.fit_lineage_snapshot_pointers`** (`CHECK`): `fit_lineage_snapshot_pointers_account_id_not_null` -> `NOT NULL account_id`
+- **`fit.fit_lineage_snapshot_pointers`** (`CHECK`): `fit_lineage_snapshot_pointers_account_id_not_null` -> `NOT NULL account_id`
+- **`fit.fit_lineage_snapshot_pointers`** (`CHECK`): `fit_lineage_snapshot_pointers_external_product_id_not_null` -> `NOT NULL external_product_id`
+- **`fit.fit_lineage_snapshot_pointers`** (`CHECK`): `fit_lineage_snapshot_pointers_external_product_id_not_null` -> `NOT NULL external_product_id`
+- **`fit.fit_lineage_snapshot_pointers`** (`CHECK`): `fit_lineage_snapshot_pointers_active_version_id_not_null` -> `NOT NULL active_version_id`
+- **`fit.fit_lineage_snapshot_pointers`** (`CHECK`): `fit_lineage_snapshot_pointers_active_version_id_not_null` -> `NOT NULL active_version_id`
+- **`fit.fit_lineage_snapshot_pointers`** (`CHECK`): `fit_lineage_snapshot_pointers_is_quarantined_not_null` -> `NOT NULL is_quarantined`
+- **`fit.fit_lineage_snapshot_pointers`** (`CHECK`): `fit_lineage_snapshot_pointers_is_quarantined_not_null` -> `NOT NULL is_quarantined`
+- **`fit.fit_lineage_snapshot_pointers`** (`CHECK`): `fit_lineage_snapshot_pointers_updated_at_not_null` -> `NOT NULL updated_at`
+- **`fit.fit_lineage_snapshot_pointers`** (`CHECK`): `fit_lineage_snapshot_pointers_updated_at_not_null` -> `NOT NULL updated_at`
+- **`fit.fit_lineage_snapshot_pointers`** (`PRIMARY KEY`): `PK_a25841f0197e7b4a4fb27b1ea18` -> `PRIMARY KEY (account_id, external_product_id)`
+- **`fit.fit_lineage_snapshot_pointers`** (`PRIMARY KEY`): `PK_a25841f0197e7b4a4fb27b1ea18` -> `PRIMARY KEY (account_id, external_product_id)`
+- **`fit.fit_lineage_snapshot_pointers`** (`PRIMARY KEY`): `PK_a25841f0197e7b4a4fb27b1ea18` -> `PRIMARY KEY (account_id, external_product_id)`
+- **`fit.fit_lineage_snapshot_pointers`** (`PRIMARY KEY`): `PK_a25841f0197e7b4a4fb27b1ea18` -> `PRIMARY KEY (account_id, external_product_id)`
+- **`fit.fit_recommendation_evaluations`** (`CHECK`): `fit_recommendation_evaluations_id_not_null` -> `NOT NULL id`
+- **`fit.fit_recommendation_evaluations`** (`CHECK`): `fit_recommendation_evaluations_id_not_null` -> `NOT NULL id`
+- **`fit.fit_recommendation_evaluations`** (`CHECK`): `fit_recommendation_evaluations_recommendation_id_not_null` -> `NOT NULL recommendation_id`
+- **`fit.fit_recommendation_evaluations`** (`CHECK`): `fit_recommendation_evaluations_recommendation_id_not_null` -> `NOT NULL recommendation_id`
+- **`fit.fit_recommendation_evaluations`** (`CHECK`): `fit_recommendation_evaluati_confidence_at_recommendati_not_null` -> `NOT NULL confidence_at_recommendation`
+- **`fit.fit_recommendation_evaluations`** (`CHECK`): `fit_recommendation_evaluati_confidence_at_recommendati_not_null` -> `NOT NULL confidence_at_recommendation`
+- **`fit.fit_recommendation_evaluations`** (`CHECK`): `fit_recommendation_evaluations_created_at_not_null` -> `NOT NULL created_at`
+- **`fit.fit_recommendation_evaluations`** (`CHECK`): `fit_recommendation_evaluations_created_at_not_null` -> `NOT NULL created_at`
+- **`fit.fit_recommendation_evaluations`** (`PRIMARY KEY`): `PK_ca73fe1b0430365333ffb78672c` -> `PRIMARY KEY (id)`
+- **`fit.fit_recommendation_evaluations`** (`PRIMARY KEY`): `PK_ca73fe1b0430365333ffb78672c` -> `PRIMARY KEY (id)`
+- **`fit.fit_feedback_hooks`** (`CHECK`): `fit_feedback_hooks_id_not_null` -> `NOT NULL id`
+- **`fit.fit_feedback_hooks`** (`CHECK`): `fit_feedback_hooks_id_not_null` -> `NOT NULL id`
+- **`fit.fit_feedback_hooks`** (`CHECK`): `fit_feedback_hooks_recommendation_id_not_null` -> `NOT NULL recommendation_id`
+- **`fit.fit_feedback_hooks`** (`CHECK`): `fit_feedback_hooks_recommendation_id_not_null` -> `NOT NULL recommendation_id`
+- **`fit.fit_feedback_hooks`** (`CHECK`): `fit_feedback_hooks_account_id_not_null` -> `NOT NULL account_id`
+- **`fit.fit_feedback_hooks`** (`CHECK`): `fit_feedback_hooks_account_id_not_null` -> `NOT NULL account_id`
+- **`fit.fit_feedback_hooks`** (`CHECK`): `fit_feedback_hooks_product_id_not_null` -> `NOT NULL product_id`
+- **`fit.fit_feedback_hooks`** (`CHECK`): `fit_feedback_hooks_product_id_not_null` -> `NOT NULL product_id`
+- **`fit.fit_feedback_hooks`** (`CHECK`): `fit_feedback_hooks_event_type_not_null` -> `NOT NULL event_type`
+- **`fit.fit_feedback_hooks`** (`CHECK`): `fit_feedback_hooks_event_type_not_null` -> `NOT NULL event_type`
+- **`fit.fit_feedback_hooks`** (`CHECK`): `fit_feedback_hooks_recommended_size_not_null` -> `NOT NULL recommended_size`
+- **`fit.fit_feedback_hooks`** (`CHECK`): `fit_feedback_hooks_recommended_size_not_null` -> `NOT NULL recommended_size`
+- **`fit.fit_feedback_hooks`** (`CHECK`): `fit_feedback_hooks_signal_strength_not_null` -> `NOT NULL signal_strength`
+- **`fit.fit_feedback_hooks`** (`CHECK`): `fit_feedback_hooks_signal_strength_not_null` -> `NOT NULL signal_strength`
+- **`fit.fit_feedback_hooks`** (`CHECK`): `fit_feedback_hooks_occurred_at_not_null` -> `NOT NULL occurred_at`
+- **`fit.fit_feedback_hooks`** (`CHECK`): `fit_feedback_hooks_occurred_at_not_null` -> `NOT NULL occurred_at`
+- **`fit.fit_feedback_hooks`** (`PRIMARY KEY`): `PK_e93a4311d79bc5de5a704790f13` -> `PRIMARY KEY (id)`
+- **`fit.fit_feedback_hooks`** (`PRIMARY KEY`): `PK_e93a4311d79bc5de5a704790f13` -> `PRIMARY KEY (id)`
+- **`fit.fit_admins`** (`CHECK`): `fit_admins_id_not_null` -> `NOT NULL id`
+- **`fit.fit_admins`** (`CHECK`): `fit_admins_id_not_null` -> `NOT NULL id`
+- **`fit.fit_admins`** (`CHECK`): `fit_admins_email_not_null` -> `NOT NULL email`
+- **`fit.fit_admins`** (`CHECK`): `fit_admins_email_not_null` -> `NOT NULL email`
+- **`fit.fit_admins`** (`CHECK`): `fit_admins_password_not_null` -> `NOT NULL password`
+- **`fit.fit_admins`** (`CHECK`): `fit_admins_password_not_null` -> `NOT NULL password`
+- **`fit.fit_admins`** (`CHECK`): `fit_admins_created_at_not_null` -> `NOT NULL created_at`
+- **`fit.fit_admins`** (`CHECK`): `fit_admins_created_at_not_null` -> `NOT NULL created_at`
+- **`fit.fit_admins`** (`CHECK`): `fit_admins_updated_at_not_null` -> `NOT NULL updated_at`
+- **`fit.fit_admins`** (`CHECK`): `fit_admins_updated_at_not_null` -> `NOT NULL updated_at`
+- **`fit.fit_admins`** (`PRIMARY KEY`): `PK_7482c59c8a83caab65abbbe819c` -> `PRIMARY KEY (id)`
+- **`fit.fit_admins`** (`PRIMARY KEY`): `PK_7482c59c8a83caab65abbbe819c` -> `PRIMARY KEY (id)`
+- **`fit.fit_admins`** (`UNIQUE`): `UQ_fee21b05e52645d413ef901cd49` -> `UNIQUE (email)`
+- **`fit.fit_admins`** (`UNIQUE`): `UQ_fee21b05e52645d413ef901cd49` -> `UNIQUE (email)`
+- **`fit.fit_operator_roles`** (`CHECK`): `fit_operator_roles_id_not_null` -> `NOT NULL id`
+- **`fit.fit_operator_roles`** (`CHECK`): `fit_operator_roles_id_not_null` -> `NOT NULL id`
+- **`fit.fit_operator_roles`** (`CHECK`): `fit_operator_roles_admin_id_not_null` -> `NOT NULL admin_id`
+- **`fit.fit_operator_roles`** (`CHECK`): `fit_operator_roles_admin_id_not_null` -> `NOT NULL admin_id`
+- **`fit.fit_operator_roles`** (`CHECK`): `fit_operator_roles_role_not_null` -> `NOT NULL role`
+- **`fit.fit_operator_roles`** (`CHECK`): `fit_operator_roles_role_not_null` -> `NOT NULL role`
+- **`fit.fit_operator_roles`** (`CHECK`): `fit_operator_roles_created_at_not_null` -> `NOT NULL created_at`
+- **`fit.fit_operator_roles`** (`CHECK`): `fit_operator_roles_created_at_not_null` -> `NOT NULL created_at`
+- **`fit.fit_operator_roles`** (`CHECK`): `fit_operator_roles_updated_at_not_null` -> `NOT NULL updated_at`
+- **`fit.fit_operator_roles`** (`CHECK`): `fit_operator_roles_updated_at_not_null` -> `NOT NULL updated_at`
+- **`fit.fit_operator_roles`** (`PRIMARY KEY`): `PK_f6c9c5f1c8078667e68a9f21a36` -> `PRIMARY KEY (id)`
+- **`fit.fit_operator_roles`** (`PRIMARY KEY`): `PK_f6c9c5f1c8078667e68a9f21a36` -> `PRIMARY KEY (id)`
+- **`fit.fit_operator_roles`** (`UNIQUE`): `UQ_f411bbef5096d9fd99b61a4387b` -> `UNIQUE (admin_id)`
+- **`fit.fit_operator_roles`** (`UNIQUE`): `UQ_f411bbef5096d9fd99b61a4387b` -> `UNIQUE (admin_id)`
+- **`fit.fit_automation_reviews`** (`CHECK`): `fit_automation_reviews_id_not_null` -> `NOT NULL id`
+- **`fit.fit_automation_reviews`** (`CHECK`): `fit_automation_reviews_id_not_null` -> `NOT NULL id`
+- **`fit.fit_automation_reviews`** (`CHECK`): `fit_automation_reviews_account_id_not_null` -> `NOT NULL account_id`
+- **`fit.fit_automation_reviews`** (`CHECK`): `fit_automation_reviews_account_id_not_null` -> `NOT NULL account_id`
+- **`fit.fit_automation_reviews`** (`CHECK`): `fit_automation_reviews_external_product_id_not_null` -> `NOT NULL external_product_id`
+- **`fit.fit_automation_reviews`** (`CHECK`): `fit_automation_reviews_external_product_id_not_null` -> `NOT NULL external_product_id`
+- **`fit.fit_automation_reviews`** (`CHECK`): `fit_automation_reviews_status_not_null` -> `NOT NULL status`
+- **`fit.fit_automation_reviews`** (`CHECK`): `fit_automation_reviews_status_not_null` -> `NOT NULL status`
+- **`fit.fit_automation_reviews`** (`CHECK`): `fit_automation_reviews_priority_not_null` -> `NOT NULL priority`
+- **`fit.fit_automation_reviews`** (`CHECK`): `fit_automation_reviews_priority_not_null` -> `NOT NULL priority`
+- **`fit.fit_automation_reviews`** (`CHECK`): `fit_automation_reviews_confidence_not_null` -> `NOT NULL confidence`
+- **`fit.fit_automation_reviews`** (`CHECK`): `fit_automation_reviews_confidence_not_null` -> `NOT NULL confidence`
+- **`fit.fit_automation_reviews`** (`CHECK`): `fit_automation_reviews_requires_recovery_not_null` -> `NOT NULL requires_recovery`
+- **`fit.fit_automation_reviews`** (`CHECK`): `fit_automation_reviews_requires_recovery_not_null` -> `NOT NULL requires_recovery`
+- **`fit.fit_automation_reviews`** (`CHECK`): `fit_automation_reviews_created_at_not_null` -> `NOT NULL created_at`
+- **`fit.fit_automation_reviews`** (`CHECK`): `fit_automation_reviews_created_at_not_null` -> `NOT NULL created_at`
+- **`fit.fit_automation_reviews`** (`CHECK`): `fit_automation_reviews_updated_at_not_null` -> `NOT NULL updated_at`
+- **`fit.fit_automation_reviews`** (`CHECK`): `fit_automation_reviews_updated_at_not_null` -> `NOT NULL updated_at`
+- **`fit.fit_automation_reviews`** (`PRIMARY KEY`): `PK_562193f41fd63782e862696899a` -> `PRIMARY KEY (id)`
+- **`fit.fit_automation_reviews`** (`PRIMARY KEY`): `PK_562193f41fd63782e862696899a` -> `PRIMARY KEY (id)`
+- **`fit.fit_experiments`** (`CHECK`): `fit_experiments_id_not_null` -> `NOT NULL id`
+- **`fit.fit_experiments`** (`CHECK`): `fit_experiments_id_not_null` -> `NOT NULL id`
+- **`fit.fit_experiments`** (`CHECK`): `fit_experiments_name_not_null` -> `NOT NULL name`
+- **`fit.fit_experiments`** (`CHECK`): `fit_experiments_name_not_null` -> `NOT NULL name`
+- **`fit.fit_experiments`** (`CHECK`): `fit_experiments_status_not_null` -> `NOT NULL status`
+- **`fit.fit_experiments`** (`CHECK`): `fit_experiments_status_not_null` -> `NOT NULL status`
+- **`fit.fit_experiments`** (`CHECK`): `fit_experiments_traffic_percentage_not_null` -> `NOT NULL traffic_percentage`
+- **`fit.fit_experiments`** (`CHECK`): `fit_experiments_traffic_percentage_not_null` -> `NOT NULL traffic_percentage`
+- **`fit.fit_experiments`** (`CHECK`): `fit_experiments_variant_config_not_null` -> `NOT NULL variant_config`
+- **`fit.fit_experiments`** (`CHECK`): `fit_experiments_variant_config_not_null` -> `NOT NULL variant_config`
+- **`fit.fit_experiments`** (`CHECK`): `fit_experiments_start_at_not_null` -> `NOT NULL start_at`
+- **`fit.fit_experiments`** (`CHECK`): `fit_experiments_start_at_not_null` -> `NOT NULL start_at`
+- **`fit.fit_experiments`** (`CHECK`): `fit_experiments_created_at_not_null` -> `NOT NULL created_at`
+- **`fit.fit_experiments`** (`CHECK`): `fit_experiments_created_at_not_null` -> `NOT NULL created_at`
+- **`fit.fit_experiments`** (`CHECK`): `fit_experiments_updated_at_not_null` -> `NOT NULL updated_at`
+- **`fit.fit_experiments`** (`CHECK`): `fit_experiments_updated_at_not_null` -> `NOT NULL updated_at`
+- **`fit.fit_experiments`** (`PRIMARY KEY`): `PK_f2e31ddb790df8d953624a62d5f` -> `PRIMARY KEY (id)`
+- **`fit.fit_experiments`** (`PRIMARY KEY`): `PK_f2e31ddb790df8d953624a62d5f` -> `PRIMARY KEY (id)`
+- **`fit.fit_experiment_assignments`** (`CHECK`): `fit_experiment_assignments_id_not_null` -> `NOT NULL id`
+- **`fit.fit_experiment_assignments`** (`CHECK`): `fit_experiment_assignments_id_not_null` -> `NOT NULL id`
+- **`fit.fit_experiment_assignments`** (`CHECK`): `fit_experiment_assignments_experiment_id_not_null` -> `NOT NULL experiment_id`
+- **`fit.fit_experiment_assignments`** (`CHECK`): `fit_experiment_assignments_experiment_id_not_null` -> `NOT NULL experiment_id`
+- **`fit.fit_experiment_assignments`** (`CHECK`): `fit_experiment_assignments_variant_not_null` -> `NOT NULL variant`
+- **`fit.fit_experiment_assignments`** (`CHECK`): `fit_experiment_assignments_variant_not_null` -> `NOT NULL variant`
+- **`fit.fit_experiment_assignments`** (`CHECK`): `fit_experiment_assignments_assignment_hash_not_null` -> `NOT NULL assignment_hash`
+- **`fit.fit_experiment_assignments`** (`CHECK`): `fit_experiment_assignments_assignment_hash_not_null` -> `NOT NULL assignment_hash`
+- **`fit.fit_experiment_assignments`** (`CHECK`): `fit_experiment_assignments_created_at_not_null` -> `NOT NULL created_at`
+- **`fit.fit_experiment_assignments`** (`CHECK`): `fit_experiment_assignments_created_at_not_null` -> `NOT NULL created_at`
+- **`fit.fit_experiment_assignments`** (`PRIMARY KEY`): `PK_b5b6c47f7c3f31954a4be85e612` -> `PRIMARY KEY (id)`
+- **`fit.fit_experiment_assignments`** (`PRIMARY KEY`): `PK_b5b6c47f7c3f31954a4be85e612` -> `PRIMARY KEY (id)`
+- **`fit.fit_audit_logs`** (`CHECK`): `fit_audit_logs_id_not_null` -> `NOT NULL id`
+- **`fit.fit_audit_logs`** (`CHECK`): `fit_audit_logs_id_not_null` -> `NOT NULL id`
+- **`fit.fit_audit_logs`** (`CHECK`): `fit_audit_logs_actor_not_null` -> `NOT NULL actor`
+- **`fit.fit_audit_logs`** (`CHECK`): `fit_audit_logs_actor_not_null` -> `NOT NULL actor`
+- **`fit.fit_audit_logs`** (`CHECK`): `fit_audit_logs_action_not_null` -> `NOT NULL action`
+- **`fit.fit_audit_logs`** (`CHECK`): `fit_audit_logs_action_not_null` -> `NOT NULL action`
+- **`fit.fit_audit_logs`** (`CHECK`): `fit_audit_logs_entity_type_not_null` -> `NOT NULL entity_type`
+- **`fit.fit_audit_logs`** (`CHECK`): `fit_audit_logs_entity_type_not_null` -> `NOT NULL entity_type`
+- **`fit.fit_audit_logs`** (`CHECK`): `fit_audit_logs_metadata_not_null` -> `NOT NULL metadata`
+- **`fit.fit_audit_logs`** (`CHECK`): `fit_audit_logs_metadata_not_null` -> `NOT NULL metadata`
+- **`fit.fit_audit_logs`** (`CHECK`): `fit_audit_logs_created_at_not_null` -> `NOT NULL created_at`
+- **`fit.fit_audit_logs`** (`CHECK`): `fit_audit_logs_created_at_not_null` -> `NOT NULL created_at`
+- **`fit.fit_audit_logs`** (`PRIMARY KEY`): `PK_69558c599d59bb09bcfff322acc` -> `PRIMARY KEY (id)`
+- **`fit.fit_audit_logs`** (`PRIMARY KEY`): `PK_69558c599d59bb09bcfff322acc` -> `PRIMARY KEY (id)`
+- **`fit.fit_feedback_events`** (`FOREIGN KEY`): `FK_cbbe64d07eeee0497110d6b1bad` -> `FOREIGN KEY (recommendation_id) REFERENCES fit_recommendations(id) ON DELETE CASCADE`
+- **`fit.fit_feedback_events`** (`FOREIGN KEY`): `FK_cbbe64d07eeee0497110d6b1bad` -> `FOREIGN KEY (recommendation_id) REFERENCES fit.fit_recommendations(id) ON DELETE CASCADE`
+- **`fit.fit_recommendations`** (`FOREIGN KEY`): `FK_b797d91b1a3f03a5c545d7971c8` -> `FOREIGN KEY (product_id) REFERENCES fit_products(id) ON DELETE SET NULL`
+- **`fit.fit_recommendations`** (`FOREIGN KEY`): `FK_b797d91b1a3f03a5c545d7971c8` -> `FOREIGN KEY (product_id) REFERENCES fit.fit_products(id) ON DELETE SET NULL`
+- **`fit.fit_replay_partition_jobs`** (`FOREIGN KEY`): `FK_bce2bb266ad76aa670369b2ee5e` -> `FOREIGN KEY (replay_job_id) REFERENCES fit_replay_jobs(id) ON DELETE CASCADE`
+- **`fit.fit_replay_partition_jobs`** (`FOREIGN KEY`): `FK_bce2bb266ad76aa670369b2ee5e` -> `FOREIGN KEY (replay_job_id) REFERENCES fit.fit_replay_jobs(id) ON DELETE CASCADE`
+- **`fit.fit_lineage_snapshot_pointers`** (`FOREIGN KEY`): `FK_20e78089779ea095a03b8b8a7c4` -> `FOREIGN KEY (active_version_id) REFERENCES fit_fingerprint_versions(id) ON DELETE CASCADE`
+- **`fit.fit_lineage_snapshot_pointers`** (`FOREIGN KEY`): `FK_20e78089779ea095a03b8b8a7c4` -> `FOREIGN KEY (active_version_id) REFERENCES fit.fit_fingerprint_versions(id) ON DELETE CASCADE`
+- **`fit.fit_operator_roles`** (`FOREIGN KEY`): `FK_f411bbef5096d9fd99b61a4387b` -> `FOREIGN KEY (admin_id) REFERENCES fit_admins(id) ON DELETE CASCADE`
+- **`fit.fit_operator_roles`** (`FOREIGN KEY`): `FK_f411bbef5096d9fd99b61a4387b` -> `FOREIGN KEY (admin_id) REFERENCES fit.fit_admins(id) ON DELETE CASCADE`
+- **`fit.core_integration_credentials`** (`CHECK`): `core_integration_credentials_id_not_null` -> `NOT NULL id`
+- **`fit.core_integration_credentials`** (`CHECK`): `core_integration_credentials_id_not_null` -> `NOT NULL id`
+- **`fit.core_integration_credentials`** (`CHECK`): `core_integration_credentials_integration_id_not_null` -> `NOT NULL integration_id`
+- **`fit.core_integration_credentials`** (`CHECK`): `core_integration_credentials_integration_id_not_null` -> `NOT NULL integration_id`
+- **`fit.core_integration_credentials`** (`CHECK`): `core_integration_credentials_encrypted_payload_not_null` -> `NOT NULL encrypted_payload`
+- **`fit.core_integration_credentials`** (`CHECK`): `core_integration_credentials_encrypted_payload_not_null` -> `NOT NULL encrypted_payload`
+- **`fit.core_integration_credentials`** (`CHECK`): `core_integration_credentials_encryption_version_not_null` -> `NOT NULL encryption_version`
+- **`fit.core_integration_credentials`** (`CHECK`): `core_integration_credentials_encryption_version_not_null` -> `NOT NULL encryption_version`
+- **`fit.core_integration_credentials`** (`CHECK`): `core_integration_credentials_scopes_not_null` -> `NOT NULL scopes`
+- **`fit.core_integration_credentials`** (`CHECK`): `core_integration_credentials_scopes_not_null` -> `NOT NULL scopes`
+- **`fit.core_integration_credentials`** (`CHECK`): `core_integration_credentials_connected_at_not_null` -> `NOT NULL connected_at`
+- **`fit.core_integration_credentials`** (`CHECK`): `core_integration_credentials_connected_at_not_null` -> `NOT NULL connected_at`
+- **`fit.core_integration_credentials`** (`PRIMARY KEY`): `PK_935d994e45e310b87349f960d62` -> `PRIMARY KEY (id)`
+- **`fit.core_integration_credentials`** (`PRIMARY KEY`): `PK_935d994e45e310b87349f960d62` -> `PRIMARY KEY (id)`
+- **`fit.core_integration_credentials`** (`UNIQUE`): `UQ_e87143b2b02737a247452172bd9` -> `UNIQUE (integration_id)`
+- **`fit.core_integration_credentials`** (`UNIQUE`): `UQ_e87143b2b02737a247452172bd9` -> `UNIQUE (integration_id)`
+- **`fit.core_integrations`** (`CHECK`): `core_integrations_id_not_null` -> `NOT NULL id`
+- **`fit.core_integrations`** (`CHECK`): `core_integrations_id_not_null` -> `NOT NULL id`
+- **`fit.core_integrations`** (`CHECK`): `core_integrations_account_id_not_null` -> `NOT NULL account_id`
+- **`fit.core_integrations`** (`CHECK`): `core_integrations_account_id_not_null` -> `NOT NULL account_id`
+- **`fit.core_integrations`** (`CHECK`): `core_integrations_provider_not_null` -> `NOT NULL provider`
+- **`fit.core_integrations`** (`CHECK`): `core_integrations_provider_not_null` -> `NOT NULL provider`
+- **`fit.core_integrations`** (`CHECK`): `core_integrations_status_not_null` -> `NOT NULL status`
+- **`fit.core_integrations`** (`CHECK`): `core_integrations_status_not_null` -> `NOT NULL status`
+- **`fit.core_integrations`** (`CHECK`): `core_integrations_external_id_not_null` -> `NOT NULL external_id`
+- **`fit.core_integrations`** (`CHECK`): `core_integrations_external_id_not_null` -> `NOT NULL external_id`
+- **`fit.core_integrations`** (`CHECK`): `core_integrations_metadata_not_null` -> `NOT NULL metadata`
+- **`fit.core_integrations`** (`CHECK`): `core_integrations_metadata_not_null` -> `NOT NULL metadata`
+- **`fit.core_integrations`** (`CHECK`): `core_integrations_created_at_not_null` -> `NOT NULL created_at`
+- **`fit.core_integrations`** (`CHECK`): `core_integrations_created_at_not_null` -> `NOT NULL created_at`
+- **`fit.core_integrations`** (`CHECK`): `core_integrations_updated_at_not_null` -> `NOT NULL updated_at`
+- **`fit.core_integrations`** (`CHECK`): `core_integrations_updated_at_not_null` -> `NOT NULL updated_at`
+- **`fit.core_integrations`** (`PRIMARY KEY`): `PK_54a5ec19d93656ac5c2a407e554` -> `PRIMARY KEY (id)`
+- **`fit.core_integrations`** (`PRIMARY KEY`): `PK_54a5ec19d93656ac5c2a407e554` -> `PRIMARY KEY (id)`
+- **`fit.core_integrations`** (`UNIQUE`): `uq_account_provider_external` -> `UNIQUE (account_id, provider, external_id)`
+- **`fit.core_integrations`** (`UNIQUE`): `uq_account_provider_external` -> `UNIQUE (account_id, provider, external_id)`
+- **`fit.core_integrations`** (`UNIQUE`): `uq_account_provider_external` -> `UNIQUE (account_id, provider, external_id)`
+- **`fit.core_integrations`** (`UNIQUE`): `uq_account_provider_external` -> `UNIQUE (account_id, provider, external_id)`
+- **`fit.core_integrations`** (`UNIQUE`): `uq_account_provider_external` -> `UNIQUE (account_id, provider, external_id)`
+- **`fit.core_integrations`** (`UNIQUE`): `uq_account_provider_external` -> `UNIQUE (account_id, provider, external_id)`
+- **`fit.core_integrations`** (`UNIQUE`): `uq_account_provider_external` -> `UNIQUE (account_id, provider, external_id)`
+- **`fit.core_integrations`** (`UNIQUE`): `uq_account_provider_external` -> `UNIQUE (account_id, provider, external_id)`
+- **`fit.core_integrations`** (`UNIQUE`): `uq_account_provider_external` -> `UNIQUE (account_id, provider, external_id)`
+- **`fit.core_integrations`** (`UNIQUE`): `uq_account_provider_external` -> `UNIQUE (account_id, provider, external_id)`
+- **`fit.core_integrations`** (`UNIQUE`): `uq_account_provider_external` -> `UNIQUE (account_id, provider, external_id)`
+- **`fit.core_integrations`** (`UNIQUE`): `uq_account_provider_external` -> `UNIQUE (account_id, provider, external_id)`
+- **`fit.core_integrations`** (`UNIQUE`): `uq_account_provider_external` -> `UNIQUE (account_id, provider, external_id)`
+- **`fit.core_integrations`** (`UNIQUE`): `uq_account_provider_external` -> `UNIQUE (account_id, provider, external_id)`
+- **`fit.core_integrations`** (`UNIQUE`): `uq_account_provider_external` -> `UNIQUE (account_id, provider, external_id)`
+- **`fit.core_integrations`** (`UNIQUE`): `uq_account_provider_external` -> `UNIQUE (account_id, provider, external_id)`
+- **`fit.core_integrations`** (`UNIQUE`): `uq_account_provider_external` -> `UNIQUE (account_id, provider, external_id)`
+- **`fit.core_integrations`** (`UNIQUE`): `uq_account_provider_external` -> `UNIQUE (account_id, provider, external_id)`
+- **`fit.core_integration_credentials`** (`FOREIGN KEY`): `FK_e87143b2b02737a247452172bd9` -> `FOREIGN KEY (integration_id) REFERENCES core_integrations(id) ON DELETE CASCADE`
+- **`fit.core_integration_credentials`** (`FOREIGN KEY`): `FK_e87143b2b02737a247452172bd9` -> `FOREIGN KEY (integration_id) REFERENCES fit.core_integrations(id) ON DELETE CASCADE`

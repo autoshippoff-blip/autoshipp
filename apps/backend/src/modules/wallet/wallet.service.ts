@@ -108,6 +108,28 @@ export class WalletService {
     return balance;
   }
 
+  async getTransactions(
+    walletId: string,
+    page: number = 1,
+    limit: number = 20,
+  ) {
+    const skip = (page - 1) * limit;
+
+    const [transactions, total] = await Promise.all([
+      this.prisma.walletTransaction.findMany({
+        where: { walletId },
+        orderBy: { createdAt: 'desc' },
+        skip,
+        take: limit,
+      }),
+      this.prisma.walletTransaction.count({
+        where: { walletId },
+      }),
+    ]);
+
+    return { transactions, total };
+  }
+
   async credit(params: {
     walletId: string;
     idempotencyKey: string;

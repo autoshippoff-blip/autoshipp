@@ -1,0 +1,186 @@
+---
+title: "Index Reference"
+type: "reference"
+status: "active"
+owner: "engineering"
+last_verified: "2026-07-16"
+tags:
+  - reference
+---
+
+# Index Reference
+
+- **`public._prisma_migrations`**: `_prisma_migrations_pkey` -> `CREATE UNIQUE INDEX _prisma_migrations_pkey ON public._prisma_migrations USING btree (id)`
+- **`public.core_accounts`**: `core_accounts_pkey` -> `CREATE UNIQUE INDEX core_accounts_pkey ON public.core_accounts USING btree (id)`
+- **`public.core_account_modules`**: `core_account_modules_pkey` -> `CREATE UNIQUE INDEX core_account_modules_pkey ON public.core_account_modules USING btree (account_id, module)`
+- **`public.identity_users`**: `identity_users_pkey` -> `CREATE UNIQUE INDEX identity_users_pkey ON public.identity_users USING btree (id)`
+- **`public.identity_user_accounts`**: `identity_user_accounts_pkey` -> `CREATE UNIQUE INDEX identity_user_accounts_pkey ON public.identity_user_accounts USING btree (user_id, account_id)`
+- **`public.identity_users`**: `identity_users_email_key` -> `CREATE UNIQUE INDEX identity_users_email_key ON public.identity_users USING btree (email)`
+- **`public.identity_roles`**: `identity_roles_pkey` -> `CREATE UNIQUE INDEX identity_roles_pkey ON public.identity_roles USING btree (id)`
+- **`public.identity_permissions`**: `identity_permissions_pkey` -> `CREATE UNIQUE INDEX identity_permissions_pkey ON public.identity_permissions USING btree (id)`
+- **`public.identity_role_permissions`**: `identity_role_permissions_pkey` -> `CREATE UNIQUE INDEX identity_role_permissions_pkey ON public.identity_role_permissions USING btree (role_id, permission_id)`
+- **`public.identity_user_roles`**: `identity_user_roles_pkey` -> `CREATE UNIQUE INDEX identity_user_roles_pkey ON public.identity_user_roles USING btree (user_id, role_id, account_id)`
+- **`public.identity_permissions`**: `identity_permissions_code_key` -> `CREATE UNIQUE INDEX identity_permissions_code_key ON public.identity_permissions USING btree (code)`
+- **`public.commerce_stores`**: `commerce_stores_pkey` -> `CREATE UNIQUE INDEX commerce_stores_pkey ON public.commerce_stores USING btree (id)`
+- **`public.commerce_products`**: `commerce_products_pkey` -> `CREATE UNIQUE INDEX commerce_products_pkey ON public.commerce_products USING btree (id)`
+- **`public.commerce_product_variants`**: `commerce_product_variants_pkey` -> `CREATE UNIQUE INDEX commerce_product_variants_pkey ON public.commerce_product_variants USING btree (id)`
+- **`public.commerce_orders`**: `commerce_orders_pkey` -> `CREATE UNIQUE INDEX commerce_orders_pkey ON public.commerce_orders USING btree (id)`
+- **`public.commerce_order_items`**: `commerce_order_items_pkey` -> `CREATE UNIQUE INDEX commerce_order_items_pkey ON public.commerce_order_items USING btree (id)`
+- **`public.customers_customers`**: `customers_customers_pkey` -> `CREATE UNIQUE INDEX customers_customers_pkey ON public.customers_customers USING btree (id)`
+- **`public.customers_customer_profiles`**: `customers_customer_profiles_pkey` -> `CREATE UNIQUE INDEX customers_customer_profiles_pkey ON public.customers_customer_profiles USING btree (id)`
+- **`public.customers_customers`**: `customers_customers_account_id_email_key` -> `CREATE UNIQUE INDEX customers_customers_account_id_email_key ON public.customers_customers USING btree (account_id, email)`
+- **`public.customers_customer_profiles`**: `customers_customer_profiles_customer_id_key` -> `CREATE UNIQUE INDEX customers_customer_profiles_customer_id_key ON public.customers_customer_profiles USING btree (customer_id)`
+- **`public.core_account_types`**: `core_account_types_pkey` -> `CREATE UNIQUE INDEX core_account_types_pkey ON public.core_account_types USING btree (id)`
+- **`public.core_system_modules`**: `core_system_modules_pkey` -> `CREATE UNIQUE INDEX core_system_modules_pkey ON public.core_system_modules USING btree (id)`
+- **`public.core_notification_channels`**: `core_notification_channels_pkey` -> `CREATE UNIQUE INDEX core_notification_channels_pkey ON public.core_notification_channels USING btree (id)`
+- **`public.core_account_types`**: `core_account_types_code_key` -> `CREATE UNIQUE INDEX core_account_types_code_key ON public.core_account_types USING btree (code)`
+- **`public.core_system_modules`**: `core_system_modules_code_key` -> `CREATE UNIQUE INDEX core_system_modules_code_key ON public.core_system_modules USING btree (code)`
+- **`public.core_notification_channels`**: `core_notification_channels_code_key` -> `CREATE UNIQUE INDEX core_notification_channels_code_key ON public.core_notification_channels USING btree (code)`
+- **`fit.typeorm_migrations`**: `PK_bb2f075707dd300ba86d0208923` -> `CREATE UNIQUE INDEX "PK_bb2f075707dd300ba86d0208923" ON fit.typeorm_migrations USING btree (id)`
+- **`public.fit_feedback_events`**: `PK_fc045dd56261ab337945d3a79f2` -> `CREATE UNIQUE INDEX "PK_fc045dd56261ab337945d3a79f2" ON public.fit_feedback_events USING btree (id)`
+- **`public.fit_recommendations`**: `PK_43bbac6c21ed26277935bd2a348` -> `CREATE UNIQUE INDEX "PK_43bbac6c21ed26277935bd2a348" ON public.fit_recommendations USING btree (id)`
+- **`public.fit_products`**: `PK_71d7afa508e36ef0382102d3fde` -> `CREATE UNIQUE INDEX "PK_71d7afa508e36ef0382102d3fde" ON public.fit_products USING btree (id)`
+- **`public.fit_products`**: `IDX_fit_products_metadata_gin` -> `CREATE INDEX "IDX_fit_products_metadata_gin" ON public.fit_products USING btree (metadata)`
+- **`public.fit_tenant_configs`**: `PK_19d1eaa9e762b0e253b3e27fd02` -> `CREATE UNIQUE INDEX "PK_19d1eaa9e762b0e253b3e27fd02" ON public.fit_tenant_configs USING btree (id)`
+- **`public.fit_tenant_configs`**: `UQ_e22297d1d895f72f08f75c18f9e` -> `CREATE UNIQUE INDEX "UQ_e22297d1d895f72f08f75c18f9e" ON public.fit_tenant_configs USING btree (account_id)`
+- **`public.fit_size_charts`**: `PK_5e7a9790b8f7fa8dc30abe3071c` -> `CREATE UNIQUE INDEX "PK_5e7a9790b8f7fa8dc30abe3071c" ON public.fit_size_charts USING btree (id)`
+- **`public.fit_raw_catalog_products`**: `PK_db4fff1dd897d96f2ca3993994e` -> `CREATE UNIQUE INDEX "PK_db4fff1dd897d96f2ca3993994e" ON public.fit_raw_catalog_products USING btree (id)`
+- **`public.fit_raw_catalog_products`**: `UQ_raw_catalog_brand_ext` -> `CREATE UNIQUE INDEX "UQ_raw_catalog_brand_ext" ON public.fit_raw_catalog_products USING btree (account_id, external_product_id)`
+- **`public.fit_processed_webhooks`**: `PK_f6aa322808ff0bfb727af878878` -> `CREATE UNIQUE INDEX "PK_f6aa322808ff0bfb727af878878" ON public.fit_processed_webhooks USING btree (webhook_id)`
+- **`public.fit_shopify_connections`**: `PK_92685c9cf1b5992b7685afc0df6` -> `CREATE UNIQUE INDEX "PK_92685c9cf1b5992b7685afc0df6" ON public.fit_shopify_connections USING btree (id)`
+- **`public.fit_shopify_connections`**: `UQ_e313137969b144a0738e90b03c8` -> `CREATE UNIQUE INDEX "UQ_e313137969b144a0738e90b03c8" ON public.fit_shopify_connections USING btree (shop_domain)`
+- **`public.fit_analytics_events`**: `PK_8132ca5085a8638f91a3a6377ec` -> `CREATE UNIQUE INDEX "PK_8132ca5085a8638f91a3a6377ec" ON public.fit_analytics_events USING btree (id)`
+- **`public.fit_analytics_events`**: `IDX_766832455887bb858dd7ac923e` -> `CREATE INDEX "IDX_766832455887bb858dd7ac923e" ON public.fit_analytics_events USING btree (event_type)`
+- **`public.fit_profiles`**: `PK_f448c7f5cefa510a08d615df844` -> `CREATE UNIQUE INDEX "PK_f448c7f5cefa510a08d615df844" ON public.fit_profiles USING btree (id)`
+- **`public.fit_profiles`**: `IDX_c081e852c45adb03ee2a47f424` -> `CREATE INDEX "IDX_c081e852c45adb03ee2a47f424" ON public.fit_profiles USING btree (last_used_at)`
+- **`public.fit_profile_learning_states`**: `PK_156c0e78fa8a950e1d41f96d916` -> `CREATE UNIQUE INDEX "PK_156c0e78fa8a950e1d41f96d916" ON public.fit_profile_learning_states USING btree (id)`
+- **`public.fit_profile_learning_states`**: `UQ_8459388b0f67a6b99e7cfc5d252` -> `CREATE UNIQUE INDEX "UQ_8459388b0f67a6b99e7cfc5d252" ON public.fit_profile_learning_states USING btree (profile_id, account_id)`
+- **`public.fit_profile_learning_states`**: `IDX_4f518bacaa69fbb9ba8279459c` -> `CREATE INDEX "IDX_4f518bacaa69fbb9ba8279459c" ON public.fit_profile_learning_states USING btree (profile_id)`
+- **`public.fit_profile_learning_states`**: `IDX_3c1c01023b2b21dd819d02797a` -> `CREATE INDEX "IDX_3c1c01023b2b21dd819d02797a" ON public.fit_profile_learning_states USING btree (account_id)`
+- **`public.fit_unmapped_signals`**: `PK_c73087b004231f54ff2d9b0cab6` -> `CREATE UNIQUE INDEX "PK_c73087b004231f54ff2d9b0cab6" ON public.fit_unmapped_signals USING btree (id)`
+- **`public.fit_unmapped_signals`**: `UQ_unmapped_signal` -> `CREATE UNIQUE INDEX "UQ_unmapped_signal" ON public.fit_unmapped_signals USING btree (account_id, raw_value, source)`
+- **`public.fit_replay_jobs`**: `PK_6433fae2010cb9b9b4d4c5bdffa` -> `CREATE UNIQUE INDEX "PK_6433fae2010cb9b9b4d4c5bdffa" ON public.fit_replay_jobs USING btree (id)`
+- **`public.fit_replay_jobs`**: `IDX_replay_jobs_correlation` -> `CREATE INDEX "IDX_replay_jobs_correlation" ON public.fit_replay_jobs USING btree (correlation_id)`
+- **`public.fit_replay_jobs`**: `IDX_replay_jobs_request_hash` -> `CREATE INDEX "IDX_replay_jobs_request_hash" ON public.fit_replay_jobs USING btree (replay_request_hash)`
+- **`public.fit_replay_jobs`**: `IDX_replay_jobs_brand_status` -> `CREATE INDEX "IDX_replay_jobs_brand_status" ON public.fit_replay_jobs USING btree (account_id, status)`
+- **`public.fit_fingerprint_versions`**: `PK_080292fbc75d5597483a51a913d` -> `CREATE UNIQUE INDEX "PK_080292fbc75d5597483a51a913d" ON public.fit_fingerprint_versions USING btree (id)`
+- **`public.fit_fingerprint_versions`**: `IDX_fingerprint_versions_brand_ext` -> `CREATE INDEX "IDX_fingerprint_versions_brand_ext" ON public.fit_fingerprint_versions USING btree (account_id, external_product_id)`
+- **`public.fit_lineage_snapshot_pointers`**: `PK_7164d5edcccf2476270f230921b` -> `CREATE UNIQUE INDEX "PK_7164d5edcccf2476270f230921b" ON public.fit_lineage_snapshot_pointers USING btree (account_id, external_product_id)`
+- **`public.fit_governance_incidents`**: `PK_86d6717683a32fff0ccf7443243` -> `CREATE UNIQUE INDEX "PK_86d6717683a32fff0ccf7443243" ON public.fit_governance_incidents USING btree (id)`
+- **`public.fit_governance_incidents`**: `IDX_governance_incidents_occurred` -> `CREATE INDEX "IDX_governance_incidents_occurred" ON public.fit_governance_incidents USING btree (occurred_at)`
+- **`public.fit_governance_incidents`**: `IDX_governance_incidents_brand_status` -> `CREATE INDEX "IDX_governance_incidents_brand_status" ON public.fit_governance_incidents USING btree (account_id, status)`
+- **`public.fit_governance_audit_events`**: `PK_bec606fa2c87fffcde4173bbaaa` -> `CREATE UNIQUE INDEX "PK_bec606fa2c87fffcde4173bbaaa" ON public.fit_governance_audit_events USING btree (id)`
+- **`public.fit_governance_audit_events`**: `IDX_gae_event_type` -> `CREATE INDEX "IDX_gae_event_type" ON public.fit_governance_audit_events USING btree (event_type, occurred_at)`
+- **`public.fit_governance_audit_events`**: `IDX_gae_correlation` -> `CREATE INDEX "IDX_gae_correlation" ON public.fit_governance_audit_events USING btree (correlation_id)`
+- **`public.fit_governance_audit_events`**: `IDX_gae_product_occurred` -> `CREATE INDEX "IDX_gae_product_occurred" ON public.fit_governance_audit_events USING btree (product_id, occurred_at)`
+- **`public.fit_governance_audit_events`**: `IDX_gae_brand_occurred` -> `CREATE INDEX "IDX_gae_brand_occurred" ON public.fit_governance_audit_events USING btree (account_id, occurred_at)`
+- **`public.fit_feature_flags`**: `PK_d17eb66f91080680a02e6b2188c` -> `CREATE UNIQUE INDEX "PK_d17eb66f91080680a02e6b2188c" ON public.fit_feature_flags USING btree (id)`
+- **`public.fit_feature_flags`**: `UQ_9e1afe5772f649a89a24b0faaac` -> `CREATE UNIQUE INDEX "UQ_9e1afe5772f649a89a24b0faaac" ON public.fit_feature_flags USING btree (key, account_id)`
+- **`public.fit_feature_flags`**: `IDX_4cb50323d31b5c8bfaa5d34185` -> `CREATE INDEX "IDX_4cb50323d31b5c8bfaa5d34185" ON public.fit_feature_flags USING btree (key)`
+- **`public.fit_feature_flags`**: `IDX_eed2235f9fdc11692219290980` -> `CREATE INDEX "IDX_eed2235f9fdc11692219290980" ON public.fit_feature_flags USING btree (account_id)`
+- **`public.fit_replay_partition_jobs`**: `PK_9d9c3f0282bb120b91f255fb7cd` -> `CREATE UNIQUE INDEX "PK_9d9c3f0282bb120b91f255fb7cd" ON public.fit_replay_partition_jobs USING btree (id)`
+- **`public.fit_replay_partition_jobs`**: `IDX_rpj_lease_status` -> `CREATE INDEX "IDX_rpj_lease_status" ON public.fit_replay_partition_jobs USING btree (lease_expires_at, status)`
+- **`public.fit_replay_partition_jobs`**: `IDX_rpj_job_partition` -> `CREATE UNIQUE INDEX "IDX_rpj_job_partition" ON public.fit_replay_partition_jobs USING btree (replay_job_id, partition_index)`
+- **`public.fit_recommendation_evaluations`**: `PK_ca73fe1b0430365333ffb78672c` -> `CREATE UNIQUE INDEX "PK_ca73fe1b0430365333ffb78672c" ON public.fit_recommendation_evaluations USING btree (id)`
+- **`public.fit_recommendation_evaluations`**: `IDX_223166bdd71f1f61d5239d96b0` -> `CREATE UNIQUE INDEX "IDX_223166bdd71f1f61d5239d96b0" ON public.fit_recommendation_evaluations USING btree (recommendation_id)`
+- **`public.fit_recommendation_evaluations`**: `IDX_90bf9430794303be2b341b1a91` -> `CREATE INDEX "IDX_90bf9430794303be2b341b1a91" ON public.fit_recommendation_evaluations USING btree (profile_id)`
+- **`public.fit_recommendation_evaluations`**: `IDX_e00a7a259d5f9ab46c234fedd1` -> `CREATE INDEX "IDX_e00a7a259d5f9ab46c234fedd1" ON public.fit_recommendation_evaluations USING btree (experiment_id)`
+- **`public.fit_experiment_assignments`**: `PK_b5b6c47f7c3f31954a4be85e612` -> `CREATE UNIQUE INDEX "PK_b5b6c47f7c3f31954a4be85e612" ON public.fit_experiment_assignments USING btree (id)`
+- **`public.fit_experiment_assignments`**: `IDX_353b57f3a617a78a5bbfde54f8` -> `CREATE INDEX "IDX_353b57f3a617a78a5bbfde54f8" ON public.fit_experiment_assignments USING btree (experiment_id)`
+- **`public.fit_experiment_assignments`**: `IDX_314d5402374369f90b576a7d54` -> `CREATE INDEX "IDX_314d5402374369f90b576a7d54" ON public.fit_experiment_assignments USING btree (profile_id)`
+- **`public.fit_experiment_assignments`**: `IDX_c3eb601a5b72b3abd0d67538e2` -> `CREATE UNIQUE INDEX "IDX_c3eb601a5b72b3abd0d67538e2" ON public.fit_experiment_assignments USING btree (profile_id, experiment_id)`
+- **`public.fit_replay_integrity_incidents`**: `PK_3688f45f4c54d48473b0d3c84ba` -> `CREATE UNIQUE INDEX "PK_3688f45f4c54d48473b0d3c84ba" ON public.fit_replay_integrity_incidents USING btree (id)`
+- **`public.fit_experiments`**: `PK_f2e31ddb790df8d953624a62d5f` -> `CREATE UNIQUE INDEX "PK_f2e31ddb790df8d953624a62d5f" ON public.fit_experiments USING btree (id)`
+- **`public.fit_experiments`**: `IDX_e3c722642425ac4be1fbeb8613` -> `CREATE UNIQUE INDEX "IDX_e3c722642425ac4be1fbeb8613" ON public.fit_experiments USING btree (name)`
+- **`public.fit_experiments`**: `IDX_36f721869493d91b6cff7f31c6` -> `CREATE INDEX "IDX_36f721869493d91b6cff7f31c6" ON public.fit_experiments USING btree (account_id)`
+- **`public.fit_audit_logs`**: `PK_69558c599d59bb09bcfff322acc` -> `CREATE UNIQUE INDEX "PK_69558c599d59bb09bcfff322acc" ON public.fit_audit_logs USING btree (id)`
+- **`public.fit_audit_logs`**: `IDX_3b48b748c2c129608e0be1b674` -> `CREATE INDEX "IDX_3b48b748c2c129608e0be1b674" ON public.fit_audit_logs USING btree (actor)`
+- **`public.fit_audit_logs`**: `IDX_042266d3c24bbcb0511d338e75` -> `CREATE INDEX "IDX_042266d3c24bbcb0511d338e75" ON public.fit_audit_logs USING btree (action)`
+- **`public.fit_admins`**: `PK_7482c59c8a83caab65abbbe819c` -> `CREATE UNIQUE INDEX "PK_7482c59c8a83caab65abbbe819c" ON public.fit_admins USING btree (id)`
+- **`public.fit_admins`**: `UQ_fee21b05e52645d413ef901cd49` -> `CREATE UNIQUE INDEX "UQ_fee21b05e52645d413ef901cd49" ON public.fit_admins USING btree (email)`
+- **`public.fit_operator_roles`**: `PK_f6c9c5f1c8078667e68a9f21a36` -> `CREATE UNIQUE INDEX "PK_f6c9c5f1c8078667e68a9f21a36" ON public.fit_operator_roles USING btree (id)`
+- **`public.fit_operator_roles`**: `UQ_f411bbef5096d9fd99b61a4387b` -> `CREATE UNIQUE INDEX "UQ_f411bbef5096d9fd99b61a4387b" ON public.fit_operator_roles USING btree (admin_id)`
+- **`public.fit_automation_reviews`**: `PK_562193f41fd63782e862696899a` -> `CREATE UNIQUE INDEX "PK_562193f41fd63782e862696899a" ON public.fit_automation_reviews USING btree (id)`
+- **`public.fit_automation_reviews`**: `IDX_automation_reviews_created_at` -> `CREATE INDEX "IDX_automation_reviews_created_at" ON public.fit_automation_reviews USING btree (created_at)`
+- **`public.fit_automation_reviews`**: `IDX_automation_reviews_brand_status` -> `CREATE INDEX "IDX_automation_reviews_brand_status" ON public.fit_automation_reviews USING btree (account_id, status)`
+- **`public.fit_feedback_hooks`**: `PK_e93a4311d79bc5de5a704790f13` -> `CREATE UNIQUE INDEX "PK_e93a4311d79bc5de5a704790f13" ON public.fit_feedback_hooks USING btree (id)`
+- **`public.fit_feedback_hooks`**: `IDX_feedback_hooks_fingerprint` -> `CREATE INDEX "IDX_feedback_hooks_fingerprint" ON public.fit_feedback_hooks USING btree (fingerprint_id)`
+- **`fit.fit_size_charts`**: `PK_5e7a9790b8f7fa8dc30abe3071c` -> `CREATE UNIQUE INDEX "PK_5e7a9790b8f7fa8dc30abe3071c" ON fit.fit_size_charts USING btree (id)`
+- **`fit.fit_raw_catalog_products`**: `PK_db4fff1dd897d96f2ca3993994e` -> `CREATE UNIQUE INDEX "PK_db4fff1dd897d96f2ca3993994e" ON fit.fit_raw_catalog_products USING btree (id)`
+- **`fit.fit_raw_catalog_products`**: `UQ_raw_catalog_brand_ext` -> `CREATE UNIQUE INDEX "UQ_raw_catalog_brand_ext" ON fit.fit_raw_catalog_products USING btree (account_id, external_product_id)`
+- **`fit.fit_feedback_events`**: `PK_fc045dd56261ab337945d3a79f2` -> `CREATE UNIQUE INDEX "PK_fc045dd56261ab337945d3a79f2" ON fit.fit_feedback_events USING btree (id)`
+- **`fit.fit_recommendations`**: `PK_43bbac6c21ed26277935bd2a348` -> `CREATE UNIQUE INDEX "PK_43bbac6c21ed26277935bd2a348" ON fit.fit_recommendations USING btree (id)`
+- **`fit.fit_products`**: `PK_71d7afa508e36ef0382102d3fde` -> `CREATE UNIQUE INDEX "PK_71d7afa508e36ef0382102d3fde" ON fit.fit_products USING btree (id)`
+- **`fit.fit_products`**: `IDX_fit_products_metadata_gin` -> `CREATE INDEX "IDX_fit_products_metadata_gin" ON fit.fit_products USING btree (metadata)`
+- **`fit.fit_tenant_configs`**: `PK_19d1eaa9e762b0e253b3e27fd02` -> `CREATE UNIQUE INDEX "PK_19d1eaa9e762b0e253b3e27fd02" ON fit.fit_tenant_configs USING btree (id)`
+- **`fit.fit_tenant_configs`**: `UQ_d103e20e8def903f4845459fd99` -> `CREATE UNIQUE INDEX "UQ_d103e20e8def903f4845459fd99" ON fit.fit_tenant_configs USING btree (account_id)`
+- **`fit.fit_analytics_events`**: `PK_8132ca5085a8638f91a3a6377ec` -> `CREATE UNIQUE INDEX "PK_8132ca5085a8638f91a3a6377ec" ON fit.fit_analytics_events USING btree (id)`
+- **`fit.fit_analytics_events`**: `IDX_766832455887bb858dd7ac923e` -> `CREATE INDEX "IDX_766832455887bb858dd7ac923e" ON fit.fit_analytics_events USING btree (event_type)`
+- **`fit.fit_processed_webhooks`**: `PK_f6aa322808ff0bfb727af878878` -> `CREATE UNIQUE INDEX "PK_f6aa322808ff0bfb727af878878" ON fit.fit_processed_webhooks USING btree (webhook_id)`
+- **`fit.fit_shopify_connections`**: `PK_92685c9cf1b5992b7685afc0df6` -> `CREATE UNIQUE INDEX "PK_92685c9cf1b5992b7685afc0df6" ON fit.fit_shopify_connections USING btree (id)`
+- **`fit.fit_shopify_connections`**: `UQ_e313137969b144a0738e90b03c8` -> `CREATE UNIQUE INDEX "UQ_e313137969b144a0738e90b03c8" ON fit.fit_shopify_connections USING btree (shop_domain)`
+- **`fit.fit_replay_jobs`**: `PK_6433fae2010cb9b9b4d4c5bdffa` -> `CREATE UNIQUE INDEX "PK_6433fae2010cb9b9b4d4c5bdffa" ON fit.fit_replay_jobs USING btree (id)`
+- **`fit.fit_replay_jobs`**: `IDX_replay_jobs_correlation` -> `CREATE INDEX "IDX_replay_jobs_correlation" ON fit.fit_replay_jobs USING btree (correlation_id)`
+- **`fit.fit_replay_jobs`**: `IDX_replay_jobs_request_hash` -> `CREATE INDEX "IDX_replay_jobs_request_hash" ON fit.fit_replay_jobs USING btree (replay_request_hash)`
+- **`fit.fit_replay_jobs`**: `IDX_replay_jobs_brand_status` -> `CREATE INDEX "IDX_replay_jobs_brand_status" ON fit.fit_replay_jobs USING btree (account_id, status)`
+- **`fit.fit_replay_partition_jobs`**: `PK_9d9c3f0282bb120b91f255fb7cd` -> `CREATE UNIQUE INDEX "PK_9d9c3f0282bb120b91f255fb7cd" ON fit.fit_replay_partition_jobs USING btree (id)`
+- **`fit.fit_replay_partition_jobs`**: `IDX_rpj_lease_status` -> `CREATE INDEX "IDX_rpj_lease_status" ON fit.fit_replay_partition_jobs USING btree (lease_expires_at, status)`
+- **`fit.fit_replay_partition_jobs`**: `IDX_rpj_job_partition` -> `CREATE UNIQUE INDEX "IDX_rpj_job_partition" ON fit.fit_replay_partition_jobs USING btree (replay_job_id, partition_index)`
+- **`fit.fit_profiles`**: `PK_f448c7f5cefa510a08d615df844` -> `CREATE UNIQUE INDEX "PK_f448c7f5cefa510a08d615df844" ON fit.fit_profiles USING btree (id)`
+- **`fit.fit_profiles`**: `IDX_c081e852c45adb03ee2a47f424` -> `CREATE INDEX "IDX_c081e852c45adb03ee2a47f424" ON fit.fit_profiles USING btree (last_used_at)`
+- **`fit.fit_unmapped_signals`**: `PK_c73087b004231f54ff2d9b0cab6` -> `CREATE UNIQUE INDEX "PK_c73087b004231f54ff2d9b0cab6" ON fit.fit_unmapped_signals USING btree (id)`
+- **`fit.fit_unmapped_signals`**: `UQ_unmapped_signal` -> `CREATE UNIQUE INDEX "UQ_unmapped_signal" ON fit.fit_unmapped_signals USING btree (account_id, raw_value, source)`
+- **`fit.fit_profile_learning_states`**: `PK_156c0e78fa8a950e1d41f96d916` -> `CREATE UNIQUE INDEX "PK_156c0e78fa8a950e1d41f96d916" ON fit.fit_profile_learning_states USING btree (id)`
+- **`fit.fit_profile_learning_states`**: `UQ_f415a01820a9e6dd207fc73a8e8` -> `CREATE UNIQUE INDEX "UQ_f415a01820a9e6dd207fc73a8e8" ON fit.fit_profile_learning_states USING btree (profile_id, account_id)`
+- **`fit.fit_profile_learning_states`**: `IDX_4f518bacaa69fbb9ba8279459c` -> `CREATE INDEX "IDX_4f518bacaa69fbb9ba8279459c" ON fit.fit_profile_learning_states USING btree (profile_id)`
+- **`fit.fit_profile_learning_states`**: `IDX_e083695f94bdac6e44d580a205` -> `CREATE INDEX "IDX_e083695f94bdac6e44d580a205" ON fit.fit_profile_learning_states USING btree (account_id)`
+- **`fit.fit_replay_integrity_incidents`**: `PK_3688f45f4c54d48473b0d3c84ba` -> `CREATE UNIQUE INDEX "PK_3688f45f4c54d48473b0d3c84ba" ON fit.fit_replay_integrity_incidents USING btree (id)`
+- **`fit.fit_governance_incidents`**: `PK_86d6717683a32fff0ccf7443243` -> `CREATE UNIQUE INDEX "PK_86d6717683a32fff0ccf7443243" ON fit.fit_governance_incidents USING btree (id)`
+- **`fit.fit_governance_incidents`**: `IDX_governance_incidents_occurred` -> `CREATE INDEX "IDX_governance_incidents_occurred" ON fit.fit_governance_incidents USING btree (occurred_at)`
+- **`fit.fit_governance_incidents`**: `IDX_governance_incidents_brand_status` -> `CREATE INDEX "IDX_governance_incidents_brand_status" ON fit.fit_governance_incidents USING btree (account_id, status)`
+- **`fit.fit_governance_audit_events`**: `PK_bec606fa2c87fffcde4173bbaaa` -> `CREATE UNIQUE INDEX "PK_bec606fa2c87fffcde4173bbaaa" ON fit.fit_governance_audit_events USING btree (id)`
+- **`fit.fit_governance_audit_events`**: `IDX_gae_event_type` -> `CREATE INDEX "IDX_gae_event_type" ON fit.fit_governance_audit_events USING btree (event_type, occurred_at)`
+- **`fit.fit_governance_audit_events`**: `IDX_gae_correlation` -> `CREATE INDEX "IDX_gae_correlation" ON fit.fit_governance_audit_events USING btree (correlation_id)`
+- **`fit.fit_governance_audit_events`**: `IDX_gae_product_occurred` -> `CREATE INDEX "IDX_gae_product_occurred" ON fit.fit_governance_audit_events USING btree (product_id, occurred_at)`
+- **`fit.fit_governance_audit_events`**: `IDX_gae_brand_occurred` -> `CREATE INDEX "IDX_gae_brand_occurred" ON fit.fit_governance_audit_events USING btree (account_id, occurred_at)`
+- **`fit.fit_feature_flags`**: `PK_d17eb66f91080680a02e6b2188c` -> `CREATE UNIQUE INDEX "PK_d17eb66f91080680a02e6b2188c" ON fit.fit_feature_flags USING btree (id)`
+- **`fit.fit_feature_flags`**: `UQ_8abc31e8770f24bd79cd091c2bf` -> `CREATE UNIQUE INDEX "UQ_8abc31e8770f24bd79cd091c2bf" ON fit.fit_feature_flags USING btree (key, account_id)`
+- **`fit.fit_feature_flags`**: `IDX_4cb50323d31b5c8bfaa5d34185` -> `CREATE INDEX "IDX_4cb50323d31b5c8bfaa5d34185" ON fit.fit_feature_flags USING btree (key)`
+- **`fit.fit_feature_flags`**: `IDX_f618946dbd28365e9d0de7738a` -> `CREATE INDEX "IDX_f618946dbd28365e9d0de7738a" ON fit.fit_feature_flags USING btree (account_id)`
+- **`fit.fit_fingerprint_versions`**: `PK_080292fbc75d5597483a51a913d` -> `CREATE UNIQUE INDEX "PK_080292fbc75d5597483a51a913d" ON fit.fit_fingerprint_versions USING btree (id)`
+- **`fit.fit_fingerprint_versions`**: `IDX_fingerprint_versions_brand_ext` -> `CREATE INDEX "IDX_fingerprint_versions_brand_ext" ON fit.fit_fingerprint_versions USING btree (account_id, external_product_id)`
+- **`fit.fit_lineage_snapshot_pointers`**: `PK_a25841f0197e7b4a4fb27b1ea18` -> `CREATE UNIQUE INDEX "PK_a25841f0197e7b4a4fb27b1ea18" ON fit.fit_lineage_snapshot_pointers USING btree (account_id, external_product_id)`
+- **`fit.fit_recommendation_evaluations`**: `PK_ca73fe1b0430365333ffb78672c` -> `CREATE UNIQUE INDEX "PK_ca73fe1b0430365333ffb78672c" ON fit.fit_recommendation_evaluations USING btree (id)`
+- **`fit.fit_recommendation_evaluations`**: `IDX_223166bdd71f1f61d5239d96b0` -> `CREATE UNIQUE INDEX "IDX_223166bdd71f1f61d5239d96b0" ON fit.fit_recommendation_evaluations USING btree (recommendation_id)`
+- **`fit.fit_recommendation_evaluations`**: `IDX_90bf9430794303be2b341b1a91` -> `CREATE INDEX "IDX_90bf9430794303be2b341b1a91" ON fit.fit_recommendation_evaluations USING btree (profile_id)`
+- **`fit.fit_recommendation_evaluations`**: `IDX_e00a7a259d5f9ab46c234fedd1` -> `CREATE INDEX "IDX_e00a7a259d5f9ab46c234fedd1" ON fit.fit_recommendation_evaluations USING btree (experiment_id)`
+- **`fit.fit_feedback_hooks`**: `PK_e93a4311d79bc5de5a704790f13` -> `CREATE UNIQUE INDEX "PK_e93a4311d79bc5de5a704790f13" ON fit.fit_feedback_hooks USING btree (id)`
+- **`fit.fit_feedback_hooks`**: `IDX_feedback_hooks_fingerprint` -> `CREATE INDEX "IDX_feedback_hooks_fingerprint" ON fit.fit_feedback_hooks USING btree (fingerprint_id)`
+- **`fit.fit_admins`**: `PK_7482c59c8a83caab65abbbe819c` -> `CREATE UNIQUE INDEX "PK_7482c59c8a83caab65abbbe819c" ON fit.fit_admins USING btree (id)`
+- **`fit.fit_admins`**: `UQ_fee21b05e52645d413ef901cd49` -> `CREATE UNIQUE INDEX "UQ_fee21b05e52645d413ef901cd49" ON fit.fit_admins USING btree (email)`
+- **`fit.fit_operator_roles`**: `PK_f6c9c5f1c8078667e68a9f21a36` -> `CREATE UNIQUE INDEX "PK_f6c9c5f1c8078667e68a9f21a36" ON fit.fit_operator_roles USING btree (id)`
+- **`fit.fit_operator_roles`**: `UQ_f411bbef5096d9fd99b61a4387b` -> `CREATE UNIQUE INDEX "UQ_f411bbef5096d9fd99b61a4387b" ON fit.fit_operator_roles USING btree (admin_id)`
+- **`fit.fit_automation_reviews`**: `PK_562193f41fd63782e862696899a` -> `CREATE UNIQUE INDEX "PK_562193f41fd63782e862696899a" ON fit.fit_automation_reviews USING btree (id)`
+- **`fit.fit_automation_reviews`**: `IDX_automation_reviews_created_at` -> `CREATE INDEX "IDX_automation_reviews_created_at" ON fit.fit_automation_reviews USING btree (created_at)`
+- **`fit.fit_automation_reviews`**: `IDX_automation_reviews_brand_status` -> `CREATE INDEX "IDX_automation_reviews_brand_status" ON fit.fit_automation_reviews USING btree (account_id, status)`
+- **`fit.fit_experiments`**: `PK_f2e31ddb790df8d953624a62d5f` -> `CREATE UNIQUE INDEX "PK_f2e31ddb790df8d953624a62d5f" ON fit.fit_experiments USING btree (id)`
+- **`fit.fit_experiments`**: `IDX_e3c722642425ac4be1fbeb8613` -> `CREATE UNIQUE INDEX "IDX_e3c722642425ac4be1fbeb8613" ON fit.fit_experiments USING btree (name)`
+- **`fit.fit_experiments`**: `IDX_42b3f919013924f291cef38103` -> `CREATE INDEX "IDX_42b3f919013924f291cef38103" ON fit.fit_experiments USING btree (account_id)`
+- **`fit.fit_experiment_assignments`**: `PK_b5b6c47f7c3f31954a4be85e612` -> `CREATE UNIQUE INDEX "PK_b5b6c47f7c3f31954a4be85e612" ON fit.fit_experiment_assignments USING btree (id)`
+- **`fit.fit_experiment_assignments`**: `IDX_353b57f3a617a78a5bbfde54f8` -> `CREATE INDEX "IDX_353b57f3a617a78a5bbfde54f8" ON fit.fit_experiment_assignments USING btree (experiment_id)`
+- **`fit.fit_experiment_assignments`**: `IDX_314d5402374369f90b576a7d54` -> `CREATE INDEX "IDX_314d5402374369f90b576a7d54" ON fit.fit_experiment_assignments USING btree (profile_id)`
+- **`fit.fit_experiment_assignments`**: `IDX_c3eb601a5b72b3abd0d67538e2` -> `CREATE UNIQUE INDEX "IDX_c3eb601a5b72b3abd0d67538e2" ON fit.fit_experiment_assignments USING btree (profile_id, experiment_id)`
+- **`fit.fit_audit_logs`**: `PK_69558c599d59bb09bcfff322acc` -> `CREATE UNIQUE INDEX "PK_69558c599d59bb09bcfff322acc" ON fit.fit_audit_logs USING btree (id)`
+- **`fit.fit_audit_logs`**: `IDX_3b48b748c2c129608e0be1b674` -> `CREATE INDEX "IDX_3b48b748c2c129608e0be1b674" ON fit.fit_audit_logs USING btree (actor)`
+- **`fit.fit_audit_logs`**: `IDX_042266d3c24bbcb0511d338e75` -> `CREATE INDEX "IDX_042266d3c24bbcb0511d338e75" ON fit.fit_audit_logs USING btree (action)`
+- **`public.core_integration_credentials`**: `PK_935d994e45e310b87349f960d62` -> `CREATE UNIQUE INDEX "PK_935d994e45e310b87349f960d62" ON public.core_integration_credentials USING btree (id)`
+- **`public.core_integration_credentials`**: `UQ_e87143b2b02737a247452172bd9` -> `CREATE UNIQUE INDEX "UQ_e87143b2b02737a247452172bd9" ON public.core_integration_credentials USING btree (integration_id)`
+- **`public.core_integrations`**: `PK_54a5ec19d93656ac5c2a407e554` -> `CREATE UNIQUE INDEX "PK_54a5ec19d93656ac5c2a407e554" ON public.core_integrations USING btree (id)`
+- **`public.core_integrations`**: `uq_account_provider_external` -> `CREATE UNIQUE INDEX uq_account_provider_external ON public.core_integrations USING btree (account_id, provider, external_id)`
+- **`fit.core_integration_credentials`**: `PK_935d994e45e310b87349f960d62` -> `CREATE UNIQUE INDEX "PK_935d994e45e310b87349f960d62" ON fit.core_integration_credentials USING btree (id)`
+- **`fit.core_integration_credentials`**: `UQ_e87143b2b02737a247452172bd9` -> `CREATE UNIQUE INDEX "UQ_e87143b2b02737a247452172bd9" ON fit.core_integration_credentials USING btree (integration_id)`
+- **`fit.core_integrations`**: `PK_54a5ec19d93656ac5c2a407e554` -> `CREATE UNIQUE INDEX "PK_54a5ec19d93656ac5c2a407e554" ON fit.core_integrations USING btree (id)`
+- **`fit.core_integrations`**: `uq_account_provider_external` -> `CREATE UNIQUE INDEX uq_account_provider_external ON fit.core_integrations USING btree (account_id, provider, external_id)`
+- **`public.customers_customers`**: `idx_customers_account_id` -> `CREATE INDEX idx_customers_account_id ON public.customers_customers USING btree (account_id)`
+- **`public.customers_customers`**: `idx_customers_shopify_id_unique` -> `CREATE UNIQUE INDEX idx_customers_shopify_id_unique ON public.customers_customers USING btree (account_id, ((metadata ->> 'shopify_customer_id'::text))) WHERE ((metadata ->> 'shopify_customer_id'::text) IS NOT NULL)`
+- **`public.identity_users`**: `idx_identity_users_user_type` -> `CREATE INDEX idx_identity_users_user_type ON public.identity_users USING btree (user_type)`

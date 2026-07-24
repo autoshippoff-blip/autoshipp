@@ -4,4 +4,10 @@ export enum PlatformPermission {
   MARKETPLACE_READ = 'marketplace:read',
   MARKETPLACE_MANAGE = 'marketplace:manage',
   REGISTRY_MANAGE = 'registry:manage',
+  BILLING_PLAN_CREATE = 'billing:plan:create',
+  BILLING_PLAN_UPDATE = 'billing:plan:update',
+  BILLING_PLAN_READ = 'billing:plan:read',
+  BILLING_INVOICE_ISSUE = 'billing:invoice:issue',
+  BILLING_READ = 'billing:read',
+  BILLING_PAY = 'billing:pay',
 }

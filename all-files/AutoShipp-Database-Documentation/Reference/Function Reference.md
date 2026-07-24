@@ -1,0 +1,220 @@
+---
+title: "Function Reference"
+type: "reference"
+status: "active"
+owner: "engineering"
+last_verified: "2026-07-16"
+tags:
+  - reference
+---
+
+# Function Reference
+
+- **`public.citextin`**(cstring) -> `citext`
+- **`public.citextout`**(citext) -> `cstring`
+- **`public.citextrecv`**(internal) -> `citext`
+- **`public.citextsend`**(citext) -> `bytea`
+- **`public.citext`**(character) -> `citext`
+- **`public.citext`**(boolean) -> `citext`
+- **`public.citext`**(inet) -> `citext`
+- **`public.citext_eq`**(citext, citext) -> `boolean`
+- **`public.citext_ne`**(citext, citext) -> `boolean`
+- **`public.citext_lt`**(citext, citext) -> `boolean`
+- **`public.citext_le`**(citext, citext) -> `boolean`
+- **`public.citext_gt`**(citext, citext) -> `boolean`
+- **`public.citext_ge`**(citext, citext) -> `boolean`
+- **`public.citext_cmp`**(citext, citext) -> `integer`
+- **`public.citext_hash`**(citext) -> `integer`
+- **`public.citext_smaller`**(citext, citext) -> `citext`
+- **`public.citext_larger`**(citext, citext) -> `citext`
+- **`public.min`**(citext) -> `citext`
+- **`public.max`**(citext) -> `citext`
+- **`public.texticlike`**(citext, citext) -> `boolean`
+- **`public.texticnlike`**(citext, citext) -> `boolean`
+- **`public.texticregexeq`**(citext, citext) -> `boolean`
+- **`public.texticregexne`**(citext, citext) -> `boolean`
+- **`public.texticlike`**(citext, text) -> `boolean`
+- **`public.texticnlike`**(citext, text) -> `boolean`
+- **`public.texticregexeq`**(citext, text) -> `boolean`
+- **`public.texticregexne`**(citext, text) -> `boolean`
+- **`public.gtrgm_out`**(gtrgm) -> `cstring`
+- **`public.citext_pattern_lt`**(citext, citext) -> `boolean`
+- **`public.citext_pattern_le`**(citext, citext) -> `boolean`
+- **`public.citext_pattern_gt`**(citext, citext) -> `boolean`
+- **`public.citext_pattern_ge`**(citext, citext) -> `boolean`
+- **`public.citext_pattern_cmp`**(citext, citext) -> `integer`
+- **`public.citext_hash_extended`**(citext, bigint) -> `bigint`
+- **`public.gtrgm_consistent`**(internal, text, smallint, oid, internal) -> `boolean`
+- **`public.gtrgm_distance`**(internal, text, smallint, oid, internal) -> `double precision`
+- **`public.gtrgm_compress`**(internal) -> `internal`
+- **`public.gtrgm_decompress`**(internal) -> `internal`
+- **`public.gtrgm_penalty`**(internal, internal, internal) -> `internal`
+- **`public.gtrgm_picksplit`**(internal, internal) -> `internal`
+- **`public.gtrgm_union`**(internal, internal) -> `gtrgm`
+- **`public.gtrgm_same`**(gtrgm, gtrgm, internal) -> `internal`
+- **`public.gin_extract_value_trgm`**(text, internal) -> `internal`
+- **`public.inner_product`**(vector, vector) -> `double precision`
+- **`public.gin_extract_query_trgm`**(text, internal, smallint, internal, internal, internal, internal) -> `internal`
+- **`public.gin_trgm_consistent`**(internal, smallint, text, integer, internal, internal, internal, internal) -> `boolean`
+- **`public.gin_trgm_triconsistent`**(internal, smallint, text, integer, internal, internal, internal) -> `"char"`
+- **`public.strict_word_similarity`**(text, text) -> `real`
+- **`public.strict_word_similarity_op`**(text, text) -> `boolean`
+- **`public.strict_word_similarity_commutator_op`**(text, text) -> `boolean`
+- **`public.strict_word_similarity_dist_op`**(text, text) -> `real`
+- **`public.strict_word_similarity_dist_commutator_op`**(text, text) -> `real`
+- **`public.gtrgm_options`**(internal) -> `void`
+- **`public.vector_in`**(cstring, oid, integer) -> `vector`
+- **`public.vector_out`**(vector) -> `cstring`
+- **`public.vector_typmod_in`**(cstring[]) -> `integer`
+- **`public.vector_recv`**(internal, oid, integer) -> `vector`
+- **`public.vector_send`**(vector) -> `bytea`
+- **`public.l2_distance`**(vector, vector) -> `double precision`
+- **`public.translate`**(citext, citext, text) -> `text`
+- **`public.set_limit`**(real) -> `real`
+- **`public.show_limit`**() -> `real`
+- **`public.show_trgm`**(text) -> `text[]`
+- **`public.similarity`**(text, text) -> `real`
+- **`public.regexp_match`**(string citext, pattern citext) -> `text[]`
+- **`public.regexp_match`**(string citext, pattern citext, flags text) -> `text[]`
+- **`public.regexp_matches`**(string citext, pattern citext) -> `SETOF text[]`
+- **`public.similarity_op`**(text, text) -> `boolean`
+- **`public.word_similarity`**(text, text) -> `real`
+- **`public.word_similarity_op`**(text, text) -> `boolean`
+- **`public.word_similarity_commutator_op`**(text, text) -> `boolean`
+- **`public.similarity_dist`**(text, text) -> `real`
+- **`public.regexp_matches`**(string citext, pattern citext, flags text) -> `SETOF text[]`
+- **`public.regexp_replace`**(string citext, pattern citext, replacement text) -> `text`
+- **`public.regexp_replace`**(string citext, pattern citext, replacement text, flags text) -> `text`
+- **`public.regexp_split_to_array`**(string citext, pattern citext) -> `text[]`
+- **`public.regexp_split_to_array`**(string citext, pattern citext, flags text) -> `text[]`
+- **`public.word_similarity_dist_op`**(text, text) -> `real`
+- **`public.regexp_split_to_table`**(string citext, pattern citext) -> `SETOF text`
+- **`public.regexp_split_to_table`**(string citext, pattern citext, flags text) -> `SETOF text`
+- **`public.strpos`**(citext, citext) -> `integer`
+- **`public.replace`**(citext, citext, citext) -> `text`
+- **`public.split_part`**(citext, citext, integer) -> `text`
+- **`public.word_similarity_dist_commutator_op`**(text, text) -> `real`
+- **`public.gtrgm_in`**(cstring) -> `gtrgm`
+- **`public.cosine_distance`**(vector, vector) -> `double precision`
+- **`public.l1_distance`**(vector, vector) -> `double precision`
+- **`public.vector_dims`**(vector) -> `integer`
+- **`public.vector_norm`**(vector) -> `double precision`
+- **`public.l2_normalize`**(vector) -> `vector`
+- **`public.binary_quantize`**(vector) -> `bit`
+- **`public.subvector`**(vector, integer, integer) -> `vector`
+- **`public.vector_add`**(vector, vector) -> `vector`
+- **`public.vector_sub`**(vector, vector) -> `vector`
+- **`public.vector_mul`**(vector, vector) -> `vector`
+- **`public.vector_concat`**(vector, vector) -> `vector`
+- **`public.vector_lt`**(vector, vector) -> `boolean`
+- **`public.vector_le`**(vector, vector) -> `boolean`
+- **`public.vector_eq`**(vector, vector) -> `boolean`
+- **`public.vector_ne`**(vector, vector) -> `boolean`
+- **`public.vector_ge`**(vector, vector) -> `boolean`
+- **`public.vector_gt`**(vector, vector) -> `boolean`
+- **`public.vector_cmp`**(vector, vector) -> `integer`
+- **`public.vector_l2_squared_distance`**(vector, vector) -> `double precision`
+- **`public.vector_negative_inner_product`**(vector, vector) -> `double precision`
+- **`public.vector_spherical_distance`**(vector, vector) -> `double precision`
+- **`public.vector_accum`**(double precision[], vector) -> `double precision[]`
+- **`public.vector_avg`**(double precision[]) -> `vector`
+- **`public.vector_combine`**(double precision[], double precision[]) -> `double precision[]`
+- **`public.avg`**(vector) -> `vector`
+- **`public.sum`**(vector) -> `vector`
+- **`public.vector`**(vector, integer, boolean) -> `vector`
+- **`public.array_to_vector`**(integer[], integer, boolean) -> `vector`
+- **`public.array_to_vector`**(real[], integer, boolean) -> `vector`
+- **`public.array_to_vector`**(double precision[], integer, boolean) -> `vector`
+- **`public.array_to_vector`**(numeric[], integer, boolean) -> `vector`
+- **`public.vector_to_float4`**(vector, integer, boolean) -> `real[]`
+- **`public.ivfflathandler`**(internal) -> `index_am_handler`
+- **`public.hnswhandler`**(internal) -> `index_am_handler`
+- **`public.ivfflat_halfvec_support`**(internal) -> `internal`
+- **`public.ivfflat_bit_support`**(internal) -> `internal`
+- **`public.hnsw_halfvec_support`**(internal) -> `internal`
+- **`public.hnsw_bit_support`**(internal) -> `internal`
+- **`public.hnsw_sparsevec_support`**(internal) -> `internal`
+- **`public.halfvec_in`**(cstring, oid, integer) -> `halfvec`
+- **`public.halfvec_out`**(halfvec) -> `cstring`
+- **`public.halfvec_typmod_in`**(cstring[]) -> `integer`
+- **`public.halfvec_recv`**(internal, oid, integer) -> `halfvec`
+- **`public.halfvec_send`**(halfvec) -> `bytea`
+- **`public.l2_distance`**(halfvec, halfvec) -> `double precision`
+- **`public.inner_product`**(halfvec, halfvec) -> `double precision`
+- **`public.cosine_distance`**(halfvec, halfvec) -> `double precision`
+- **`public.l1_distance`**(halfvec, halfvec) -> `double precision`
+- **`public.vector_dims`**(halfvec) -> `integer`
+- **`public.l2_norm`**(halfvec) -> `double precision`
+- **`public.l2_normalize`**(halfvec) -> `halfvec`
+- **`public.binary_quantize`**(halfvec) -> `bit`
+- **`public.subvector`**(halfvec, integer, integer) -> `halfvec`
+- **`public.halfvec_add`**(halfvec, halfvec) -> `halfvec`
+- **`public.halfvec_sub`**(halfvec, halfvec) -> `halfvec`
+- **`public.halfvec_mul`**(halfvec, halfvec) -> `halfvec`
+- **`public.halfvec_concat`**(halfvec, halfvec) -> `halfvec`
+- **`public.halfvec_lt`**(halfvec, halfvec) -> `boolean`
+- **`public.halfvec_le`**(halfvec, halfvec) -> `boolean`
+- **`public.halfvec_eq`**(halfvec, halfvec) -> `boolean`
+- **`public.halfvec_ne`**(halfvec, halfvec) -> `boolean`
+- **`public.halfvec_ge`**(halfvec, halfvec) -> `boolean`
+- **`public.halfvec_gt`**(halfvec, halfvec) -> `boolean`
+- **`public.halfvec_cmp`**(halfvec, halfvec) -> `integer`
+- **`public.halfvec_l2_squared_distance`**(halfvec, halfvec) -> `double precision`
+- **`public.halfvec_negative_inner_product`**(halfvec, halfvec) -> `double precision`
+- **`public.halfvec_spherical_distance`**(halfvec, halfvec) -> `double precision`
+- **`public.halfvec_accum`**(double precision[], halfvec) -> `double precision[]`
+- **`public.halfvec_avg`**(double precision[]) -> `halfvec`
+- **`public.halfvec_combine`**(double precision[], double precision[]) -> `double precision[]`
+- **`public.avg`**(halfvec) -> `halfvec`
+- **`public.sum`**(halfvec) -> `halfvec`
+- **`public.halfvec`**(halfvec, integer, boolean) -> `halfvec`
+- **`public.halfvec_to_vector`**(halfvec, integer, boolean) -> `vector`
+- **`public.vector_to_halfvec`**(vector, integer, boolean) -> `halfvec`
+- **`public.array_to_halfvec`**(integer[], integer, boolean) -> `halfvec`
+- **`public.array_to_halfvec`**(real[], integer, boolean) -> `halfvec`
+- **`public.array_to_halfvec`**(double precision[], integer, boolean) -> `halfvec`
+- **`public.array_to_halfvec`**(numeric[], integer, boolean) -> `halfvec`
+- **`public.halfvec_to_float4`**(halfvec, integer, boolean) -> `real[]`
+- **`public.hamming_distance`**(bit, bit) -> `double precision`
+- **`public.jaccard_distance`**(bit, bit) -> `double precision`
+- **`public.sparsevec_in`**(cstring, oid, integer) -> `sparsevec`
+- **`public.sparsevec_out`**(sparsevec) -> `cstring`
+- **`public.sparsevec_typmod_in`**(cstring[]) -> `integer`
+- **`public.sparsevec_recv`**(internal, oid, integer) -> `sparsevec`
+- **`public.sparsevec_send`**(sparsevec) -> `bytea`
+- **`public.l2_distance`**(sparsevec, sparsevec) -> `double precision`
+- **`public.inner_product`**(sparsevec, sparsevec) -> `double precision`
+- **`public.cosine_distance`**(sparsevec, sparsevec) -> `double precision`
+- **`public.l1_distance`**(sparsevec, sparsevec) -> `double precision`
+- **`public.l2_norm`**(sparsevec) -> `double precision`
+- **`public.l2_normalize`**(sparsevec) -> `sparsevec`
+- **`public.sparsevec_lt`**(sparsevec, sparsevec) -> `boolean`
+- **`public.sparsevec_le`**(sparsevec, sparsevec) -> `boolean`
+- **`public.sparsevec_eq`**(sparsevec, sparsevec) -> `boolean`
+- **`public.sparsevec_ne`**(sparsevec, sparsevec) -> `boolean`
+- **`public.sparsevec_ge`**(sparsevec, sparsevec) -> `boolean`
+- **`public.sparsevec_gt`**(sparsevec, sparsevec) -> `boolean`
+- **`public.sparsevec_cmp`**(sparsevec, sparsevec) -> `integer`
+- **`public.sparsevec_l2_squared_distance`**(sparsevec, sparsevec) -> `double precision`
+- **`public.sparsevec_negative_inner_product`**(sparsevec, sparsevec) -> `double precision`
+- **`public.sparsevec`**(sparsevec, integer, boolean) -> `sparsevec`
+- **`public.vector_to_sparsevec`**(vector, integer, boolean) -> `sparsevec`
+- **`public.sparsevec_to_vector`**(sparsevec, integer, boolean) -> `vector`
+- **`public.halfvec_to_sparsevec`**(halfvec, integer, boolean) -> `sparsevec`
+- **`public.sparsevec_to_halfvec`**(sparsevec, integer, boolean) -> `halfvec`
+- **`public.array_to_sparsevec`**(integer[], integer, boolean) -> `sparsevec`
+- **`public.array_to_sparsevec`**(real[], integer, boolean) -> `sparsevec`
+- **`public.array_to_sparsevec`**(double precision[], integer, boolean) -> `sparsevec`
+- **`public.array_to_sparsevec`**(numeric[], integer, boolean) -> `sparsevec`
+- **`public.set_updated_at`**() -> `trigger`
+- **`public.uuid_nil`**() -> `uuid`
+- **`public.uuid_ns_dns`**() -> `uuid`
+- **`public.uuid_ns_url`**() -> `uuid`
+- **`public.uuid_ns_oid`**() -> `uuid`
+- **`public.uuid_ns_x500`**() -> `uuid`
+- **`public.uuid_generate_v1`**() -> `uuid`
+- **`public.uuid_generate_v1mc`**() -> `uuid`
+- **`public.uuid_generate_v3`**(namespace uuid, name text) -> `uuid`
+- **`public.uuid_generate_v4`**() -> `uuid`
+- **`public.uuid_generate_v5`**(namespace uuid, name text) -> `uuid`
+- **`public.show_db_tree`**() -> `TABLE(tree_structure text)`

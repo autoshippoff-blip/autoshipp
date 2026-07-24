@@ -198,6 +198,35 @@ The `WalletService` features and tests are drafted locally, but the hierarchy tr
 ### 14. Remaining Implementation Milestones
 
 - **Milestone 1: Persistence enforcement of D-166** (Architecture Requirement: Database-layer enforcement. Engineering Recommendation: Raw SQL migration for partial unique index).
+
+---
+
+## Session Update: 2026-07-19 — Wallet Epic Implementation Completion
+
+### 1. Executive Summary
+
+The Wallet Epic has been formally implemented, reviewed, and approved across the entire stack. This implementation strictly adhered to the architecture-first, evidence-based review process. The epic successfully introduced the Wallet service layer, strict DTO boundary mapping, authorization layers (Role + Hierarchy), and the Next.js Dashboard UI.
+
+### 2. Implemented Scope
+
+- **Persistence Layer:** Integrated with Prisma using native `Decimal` for financial accuracy.
+- **Service Layer:** Thin, focused domain services managing balance and ledger.
+- **REST APIs:** Controllers built mapping domain objects explicitly to DTOs, preventing Prisma leaks.
+- **Authorization:** Implementation of layered Guards (`JwtAuthGuard`, `OrganizationGuard`, `PermissionGuard`).
+- **Frontend API Abstraction:** Introduced `walletApi.js` for centralized REST communication.
+- **Dashboard UI:** Reused existing UI architecture (`AppShell`, `DataTable`, `EmptyState`) to deliver `/brand/wallet` and `/aggregator/wallet/[orgId]`.
+
+### 3. Intentional Deferrals
+
+To maintain scope discipline and strictly follow the architecture, the following integrations have been **intentionally deferred** and will be addressed as separate future epics:
+
+- **Billing Integration** (Invoicing, Usage tracking).
+- **Payment Providers** (Stripe/Razorpay top-up flow and UI).
+- **Event Infrastructure** (Real-time webhooks, event bus publishing).
+- **Audit Logging** (Action traceability UI).
+
+_Note: Future epics must build upon this current implemented state rather than pre-implementation design documents._
+
 - **Milestone 2: Relationship Management API Capability** (Create, transfer, deactivate).
 - **Milestone 3: Wallet hierarchy traversal unblocking**.
 

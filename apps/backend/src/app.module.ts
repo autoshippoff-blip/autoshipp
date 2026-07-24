@@ -6,6 +6,7 @@ import { UsersModule } from './modules/users/users.module';
 import { OrganizationsModule } from './modules/organizations/organizations.module';
 import { DashboardModule } from './modules/dashboard/dashboard.module';
 import { CommunicationModule } from './modules/communication/communication.module';
+import { WalletModule } from './modules/wallet/wallet.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { CommunicationModule } from './modules/communication/communication.modul
     OrganizationsModule,
     DashboardModule,
     CommunicationModule,
+    WalletModule,
   ],
   controllers: [AppController],
   providers: [AppService],

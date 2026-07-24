@@ -4,6 +4,16 @@
 
 ---
 
+## Epic Implementation Status
+
+| Capability / Epic | Status         | Notes                                                                                                  |
+| ----------------- | -------------- | ------------------------------------------------------------------------------------------------------ |
+| Monorepo & Base   | ✅ Implemented | Turborepo, NextJS, NestJS                                                                              |
+| Auth & Multi-Org  | ✅ Implemented | JWT, Roles, Relationships, Hierarchy Guards                                                            |
+| Wallet            | ✅ Implemented | Persistence, Service Layer, REST APIs, DTOs, Frontend Dashboard UI. (Billing/Payments/Events deferred) |
+
+---
+
 ## What is AutoShipp?
 
 AutoShipp is a **multi-tenant Commerce Intelligence Platform** — not a single SaaS product. It acts like an **operating system for commerce businesses**, providing a shared foundation through which multiple independently deployable products are sold and consumed.
@@ -16,10 +26,10 @@ AutoShipp is a **multi-tenant Commerce Intelligence Platform** — not a single 
 
 The platform is structured as two distinct layers:
 
-| Layer | Responsibility |
-|---|---|
+| Layer              | Responsibility                                                                                            |
+| ------------------ | --------------------------------------------------------------------------------------------------------- |
 | **Platform Layer** | Identity, Orgs, Commerce, Billing, Wallet, Marketplace, Audit, Notifications, Feature Flags, Integrations |
-| **Product Layer** | Fit Intelligence, Delivery ETA, Returns, AI Assistant, Virtual Try-On, Shipping, Future Products |
+| **Product Layer**  | Fit Intelligence, Delivery ETA, Returns, AI Assistant, Virtual Try-On, Shipping, Future Products          |
 
 Products **consume** the platform. They never replace it.
 
@@ -47,18 +57,18 @@ AutoShipp Platform
 
 ## Technology Stack (Final — Locked)
 
-| Layer | Technology |
-|---|---|
-| Frontend | Next.js 16 + React 19 + Tailwind CSS 4 + shadcn/ui + TypeScript 5 |
-| Backend | NestJS (Platform API) |
-| ORM | Prisma (one client per service) |
-| Database | PostgreSQL via Neon (single DB, multi-schema) |
-| Cache | Redis |
-| Queue | BullMQ |
-| Storage | None (Platform has no binary storage, reports are dynamic) |
-| Authentication | JWT + HttpOnly Cookies |
-| Observability | Pino + Prometheus + Grafana + OpenTelemetry + Sentry |
-| CI/CD | GitHub Actions + Docker + Nginx |
+| Layer          | Technology                                                        |
+| -------------- | ----------------------------------------------------------------- |
+| Frontend       | Next.js 16 + React 19 + Tailwind CSS 4 + shadcn/ui + TypeScript 5 |
+| Backend        | NestJS (Platform API)                                             |
+| ORM            | Prisma (one client per service)                                   |
+| Database       | PostgreSQL via Neon (single DB, multi-schema)                     |
+| Cache          | Redis                                                             |
+| Queue          | BullMQ                                                            |
+| Storage        | None (Platform has no binary storage, reports are dynamic)        |
+| Authentication | JWT + HttpOnly Cookies                                            |
+| Observability  | Pino + Prometheus + Grafana + OpenTelemetry + Sentry              |
+| CI/CD          | GitHub Actions + Docker + Nginx                                   |
 
 ---
 
@@ -104,38 +114,45 @@ autoshipp_platform (Neon PostgreSQL)
 ## Key Domain Schemas (Summary)
 
 ### `identity` — IAM Domain
+
 - Users (global, immutable UUID), Sessions, Roles, Permissions, Memberships
 - **Guard Pipeline:** `JwtAuthGuard → OrganizationGuard → PermissionGuard`
 - Token versioning (not blacklists) for instant revocation
 - Future ready: MFA, SSO, OAuth2, API Keys, SCIM
 
 ### `organization` — Org Domain
+
 - Organizations, hierarchy, transfers, settings, contacts, domains
 - Hierarchy modeled via `organization_relationships` (not a `parent_id` column)
 - Brands are immutable identities; ownership can transfer, identity never changes
 
 ### `commerce` — Single Commerce Foundation
+
 - Stores, Products, Variants, Collections, Orders, Order Items, Inventory
 - **One sync pipeline** via Commerce Sync Service; products NEVER sync Shopify independently
 - Supports Shopify, WooCommerce, Magento, Custom APIs
 
 ### `marketplace` — Product Catalog & Licensing
+
 - Product Registry → Editions → Features → Assignments → Entitlements → Runtime Access
 - Subscriptions ≠ Access (billing and licensing are intentionally separated)
 - Every product always visible (Available / Purchased / Locked states, never hidden)
 
 ### `billing` — Commercial Engine
+
 - Plans, Prices, Subscriptions, Invoices, Invoice Items, Payments, Credits
 - Aggregators receive **one consolidated invoice** with per-brand, per-product line items
 - Billing never determines runtime access (Marketplace does)
 
 ### `wallet` — Ledger-First Financial System
+
 - **Append-only transaction ledger** (balance is derived, never stored)
 - Supports: top-ups, credits, usage deductions, reservations, refunds
 - Reservation model for AI requests to prevent double-spending
 - Products request debits through Platform APIs, never write wallet directly
 
 ### `integration` — Universal Provider Framework
+
 - Provider registry + Organization Connections (not one table per provider)
 - Supports: Shopify, Shiprocket, OpenAI, Razorpay, Resend, etc.
 - Credentials stored encrypted (envelope encryption); never plaintext
@@ -152,6 +169,7 @@ Login → Validate password → Check status → Token version check
 ```
 
 **RBAC Roles:**
+
 - Platform: `OWNER`, `MANAGER`, `DEVELOPER`, `SUPPORT`
 - Aggregator: `AGGREGATOR_OWNER`, `AGGREGATOR_ADMIN`, `AGGREGATOR_SUPPORT`, `AGGREGATOR_VIEWER`
 - Brand: `BRAND_ADMIN`, `BRAND_VIEWER`
@@ -159,6 +177,7 @@ Login → Validate password → Check status → Token version check
 **Permission Pattern:** `resource:action` (e.g., `fit:read`, `billing:manage`, `platform:admin`)
 
 **Key Security Decisions:**
+
 - Only Platform OWNER can create Platform users (enforced in service layer, not just guards)
 - Role changes take effect immediately via session invalidation
 - Sessions table for per-device revocation
@@ -179,6 +198,7 @@ Login → Validate password → Check status → Token version check
 ## Frontend Architecture (Next.js)
 
 **Single app, 3 route groups:**
+
 ```
 app/
 ├── (auth)          → Login, Password Reset
@@ -213,18 +233,18 @@ app/
 
 ## Immutable Architecture Principles (IP-001 to IP-010)
 
-| # | Principle |
-|---|---|
-| IP-001 | Platform owns shared capabilities; products extend it |
-| IP-002 | Single source of truth — no duplicated business entities |
-| IP-003 | Products own only their own intelligence |
-| IP-004 | Authentication is centralized in the Platform |
-| IP-005 | Commerce enters platform exactly once (Commerce Sync) |
-| IP-006 | Every product is independently deployable |
-| IP-007 | Every database object has one owner |
-| IP-008 | Every API has one owner |
+| #      | Principle                                                  |
+| ------ | ---------------------------------------------------------- |
+| IP-001 | Platform owns shared capabilities; products extend it      |
+| IP-002 | Single source of truth — no duplicated business entities   |
+| IP-003 | Products own only their own intelligence                   |
+| IP-004 | Authentication is centralized in the Platform              |
+| IP-005 | Commerce enters platform exactly once (Commerce Sync)      |
+| IP-006 | Every product is independently deployable                  |
+| IP-007 | Every database object has one owner                        |
+| IP-008 | Every API has one owner                                    |
 | IP-009 | Security is an architectural property, not an afterthought |
-| IP-010 | Every service is observable from day one |
+| IP-010 | Every service is observable from day one                   |
 
 ---
 
@@ -269,13 +289,13 @@ app/
 
 ## Performance Targets
 
-| Metric | Target |
-|---|---|
-| API Response | < 200ms |
-| Dashboard Load | < 2 sec |
-| Health Check | < 1 sec |
+| Metric           | Target  |
+| ---------------- | ------- |
+| API Response     | < 200ms |
+| Dashboard Load   | < 2 sec |
+| Health Check     | < 1 sec |
 | Queue Processing | < 2 sec |
-| Cache Hit | < 2ms |
+| Cache Hit        | < 2ms   |
 
 ---
 
@@ -283,14 +303,14 @@ app/
 
 Based on `chat-with-architect-gpt.md` (the original planning conversation):
 
-| Phase | Goal | Status |
-|---|---|---|
-| Phase 0 | DB migrations, seed roles/permissions/modules | Planned |
+| Phase   | Goal                                                                      | Status               |
+| ------- | ------------------------------------------------------------------------- | -------------------- |
+| Phase 0 | DB migrations, seed roles/permissions/modules                             | Planned              |
 | Phase 1 | Auth & Shell (JWT guards, Account Context, route guards, dynamic sidebar) | **Highest Priority** |
-| Phase 2 | Brand Dashboard (Fit, Orders, Settings) | Next |
-| Phase 3 | Platform Dashboard (Accounts, Module Toggles, Users) | Next |
-| Phase 4 | Remaining Products (ETA, Returns, AI, Try-On) | Future |
-| Phase 5 | Automated Onboarding (POST /admin/onboard, Nodemailer) | Future |
+| Phase 2 | Brand Dashboard (Fit, Orders, Settings)                                   | Next                 |
+| Phase 3 | Platform Dashboard (Accounts, Module Toggles, Users)                      | Next                 |
+| Phase 4 | Remaining Products (ETA, Returns, AI, Try-On)                             | Future               |
+| Phase 5 | Automated Onboarding (POST /admin/onboard, Nodemailer)                    | Future               |
 
 ---
 

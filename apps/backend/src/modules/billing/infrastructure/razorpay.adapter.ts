@@ -1,10 +1,10 @@
 import { Injectable, OnModuleInit, Logger } from '@nestjs/common';
+import * as crypto from 'crypto';
 import {
   ExternalPaymentPort,
   CreatePaymentIntentDto,
   PaymentIntentResult,
 } from '../domain/external-payment.port';
-import * as RazorpayUtils from 'razorpay/dist/utils/razorpay-utils';
 const Razorpay = require('razorpay');
 
 @Injectable()
@@ -70,10 +70,18 @@ export class RazorpayAdapter implements ExternalPaymentPort, OnModuleInit {
   ): boolean {
     const activeSecret = secret || this.webhookSecret;
     try {
-      return RazorpayUtils.validateWebhookSignature(
-        payload,
-        signature,
-        activeSecret,
+      const expectedSignature = crypto
+        .createHmac('sha256', activeSecret)
+        .update(payload)
+        .digest('hex');
+
+      if (!signature || expectedSignature.length !== signature.length) {
+        return false;
+      }
+
+      return crypto.timingSafeEqual(
+        Buffer.from(expectedSignature),
+        Buffer.from(signature),
       );
     } catch (error) {
       this.logger.error(

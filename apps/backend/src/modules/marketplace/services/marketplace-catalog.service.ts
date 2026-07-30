@@ -91,18 +91,18 @@ export class MarketplaceCatalogService {
       currentVersion: product.currentVersion,
       currentEdition: product.editions?.[0]?.code || null,
       isSubscribed: subscribedProductIds.has(product.id),
-      editions: product.editions.map((e) => ({
+      editions: (product.editions || []).map((e) => ({
         id: e.id,
         code: e.code,
         name: e.name,
         description: e.description,
         sortOrder: e.sortOrder,
         active: e.active,
-        features: e.features.map((f) => ({
-          id: f.feature.id,
-          code: f.feature.code,
-          name: f.feature.name,
-          description: f.feature.description,
+        features: (e.features || []).map((f) => ({
+          id: f.feature?.id,
+          code: f.feature?.code,
+          name: f.feature?.name,
+          description: f.feature?.description,
         })),
       })),
     }));

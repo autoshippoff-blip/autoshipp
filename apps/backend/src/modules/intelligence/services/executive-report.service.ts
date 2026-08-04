@@ -2,6 +2,7 @@ import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../../../prisma.service';
 import { CommerceMetricsService } from './commerce-metrics.service';
 import { LlmOrchestratorService } from './llm-orchestrator.service';
+import { IntelligenceScorerService } from './intelligence-scorer.service';
 import {
   ScorecardResponseDto,
   ReportResponseDto,
@@ -15,6 +16,7 @@ export class ExecutiveReportService {
     private readonly prisma: PrismaService,
     private readonly metricsService: CommerceMetricsService,
     private readonly llmOrchestrator: LlmOrchestratorService,
+    private readonly scorerService: IntelligenceScorerService,
   ) {}
 
   /**
@@ -80,41 +82,11 @@ export class ExecutiveReportService {
       },
     ];
 
-    // 5. Calculate 5-Category Dynamic Scorecard (0-100)
-    const businessScore = Math.max(
-      20,
-      100 - Math.round(metrics.codRejectionRate * 1.5),
+    // 5. Delegate 5-Category Scorecard calculation and persistence to IntelligenceScorerService
+    const scorecard = await this.scorerService.computeAndSaveScorecard(
+      organizationId,
+      activeStoreId || undefined,
     );
-    const operationsScore = Math.max(
-      20,
-      100 - Math.min(60, metrics.unfulfilledCount * 5),
-    );
-    const technicalScore = 82;
-    const marketingScore = 80;
-    const securityScore = 90;
-
-    const overallScore = Math.round(
-      (businessScore +
-        operationsScore +
-        technicalScore +
-        marketingScore +
-        securityScore) /
-        5,
-    );
-
-    // 6. Persist Scorecard and Report
-    await this.prisma.intelligenceScorecard.create({
-      data: {
-        organizationId,
-        storeId: activeStoreId,
-        overallScore,
-        businessScore,
-        technicalScore,
-        marketingScore,
-        securityScore,
-        operationsScore,
-      },
-    });
 
     const report = await this.prisma.intelligenceReport.create({
       data: {
@@ -129,29 +101,18 @@ export class ExecutiveReportService {
     });
 
     this.logger.log(
-      `Generated Intelligence Report [${report.id}] for Org [${organizationId}] (Score: ${overallScore})`,
+      `Generated Intelligence Report [${report.id}] for Org [${organizationId}] (Score: ${scorecard.overallScore})`,
     );
     return new ReportResponseDto(report);
   }
 
   /**
-   * Retrieves the latest scorecard for an organization.
+   * Retrieves the latest scorecard for an organization via IntelligenceScorerService.
    */
   async getLatestScorecard(
     organizationId: string,
   ): Promise<ScorecardResponseDto> {
-    const scorecard = await this.prisma.intelligenceScorecard.findFirst({
-      where: { organizationId },
-      orderBy: { calculatedAt: 'desc' },
-    });
-
-    if (!scorecard) {
-      throw new NotFoundException(
-        'No intelligence scorecard found for this organization',
-      );
-    }
-
-    return new ScorecardResponseDto(scorecard);
+    return await this.scorerService.getLatestScorecard(organizationId);
   }
 
   /**

@@ -7,6 +7,7 @@ import {
   Package,
   BarChart,
   Webhook,
+  Brain,
 } from "lucide-react";
 
 export const NAVIGATION_REGISTRY = [
@@ -75,6 +76,14 @@ export const NAVIGATION_REGISTRY = [
     name: "Analytics",
     href: "/brand/analytics",
     icon: BarChart,
+    roles: ["brand"],
+    group: "Overview",
+  },
+  {
+    id: "brand-intelligence",
+    name: "Intelligence",
+    href: "/brand/intelligence",
+    icon: Brain,
     roles: ["brand"],
     group: "Overview",
   },

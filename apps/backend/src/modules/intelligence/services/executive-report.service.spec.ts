@@ -2,6 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { ExecutiveReportService } from './executive-report.service';
 import { CommerceMetricsService } from './commerce-metrics.service';
 import { LlmOrchestratorService } from './llm-orchestrator.service';
+import { IntelligenceScorerService } from './intelligence-scorer.service';
 import { PrismaService } from '../../../prisma.service';
 
 describe('ExecutiveReportService', () => {
@@ -9,6 +10,7 @@ describe('ExecutiveReportService', () => {
   let prismaService: any;
   let metricsService: any;
   let llmOrchestrator: any;
+  let scorerService: any;
 
   beforeEach(async () => {
     prismaService = {
@@ -33,12 +35,26 @@ describe('ExecutiveReportService', () => {
       generateExecutiveSummary: jest.fn(),
     };
 
+    scorerService = {
+      computeAndSaveScorecard: jest.fn().mockResolvedValue({
+        id: 'scorecard-1',
+        overallScore: 82,
+        businessScore: 70,
+        operationsScore: 75,
+        technicalScore: 82,
+        marketingScore: 80,
+        securityScore: 90,
+      }),
+      getLatestScorecard: jest.fn(),
+    };
+
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         ExecutiveReportService,
         { provide: PrismaService, useValue: prismaService },
         { provide: CommerceMetricsService, useValue: metricsService },
         { provide: LlmOrchestratorService, useValue: llmOrchestrator },
+        { provide: IntelligenceScorerService, useValue: scorerService },
       ],
     }).compile();
 
@@ -86,13 +102,10 @@ describe('ExecutiveReportService', () => {
 
     expect(reportDto).toBeDefined();
     expect(reportDto.title).toContain('Demo Store');
-    expect(prismaService.intelligenceScorecard.create).toHaveBeenCalledWith({
-      data: expect.objectContaining({
-        organizationId: 'org-123',
-        businessScore: expect.any(Number),
-        overallScore: expect.any(Number),
-      }),
-    });
+    expect(scorerService.computeAndSaveScorecard).toHaveBeenCalledWith(
+      'org-123',
+      'store-1',
+    );
     expect(prismaService.intelligenceReport.create).toHaveBeenCalled();
   });
 });

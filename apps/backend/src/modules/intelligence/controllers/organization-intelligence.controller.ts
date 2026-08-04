@@ -6,10 +6,16 @@ import {
   Body,
   UseGuards,
   ParseUUIDPipe,
+  Res,
+  Header,
+  StreamableFile,
 } from '@nestjs/common';
+import type { Response } from 'express';
 import { InjectQueue } from '@nestjs/bullmq';
 import { Queue } from 'bullmq';
 import { ExecutiveReportService } from '../services/executive-report.service';
+import { IntelligenceScorerService } from '../services/intelligence-scorer.service';
+import { IntelligenceExportService } from '../services/intelligence-export.service';
 import {
   ScorecardResponseDto,
   ReportResponseDto,
@@ -26,6 +32,8 @@ import { PlatformPermission } from '../../auth/permissions.enum';
 export class OrganizationIntelligenceController {
   constructor(
     private readonly reportService: ExecutiveReportService,
+    private readonly scorerService: IntelligenceScorerService,
+    private readonly exportService: IntelligenceExportService,
     @InjectQueue('intelligence-scans') private readonly scanQueue: Queue,
   ) {}
 
@@ -34,7 +42,22 @@ export class OrganizationIntelligenceController {
   async getScorecard(
     @Param('orgId', ParseUUIDPipe) orgId: string,
   ): Promise<ScorecardResponseDto> {
-    return await this.reportService.getLatestScorecard(orgId);
+    return await this.scorerService.getLatestScorecard(orgId);
+  }
+
+  @Get('reports/export')
+  @Header('Content-Type', 'text/csv; charset=utf-8')
+  @RequirePermissions(PlatformPermission.MARKETPLACE_READ)
+  async exportCsv(
+    @Param('orgId', ParseUUIDPipe) orgId: string,
+    @Res({ passthrough: true }) res: Response,
+  ): Promise<StreamableFile> {
+    const { streamableFile, filename } =
+      await this.exportService.exportIntelligenceCsv(orgId);
+    res.set({
+      'Content-Disposition': `attachment; filename="${filename}"`,
+    });
+    return streamableFile;
   }
 
   @Get('reports')

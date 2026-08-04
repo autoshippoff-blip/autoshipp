@@ -37,3 +37,37 @@ export function useIntelligenceScorecard() {
 
   return { data, isLoading, error, refetch: fetchScorecard };
 }
+
+export function useExecutiveReport() {
+  const { user } = useAuth();
+  const orgId = user?.organizationId || user?.organization?.id;
+
+  const [data, setData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const fetchReport = useCallback(async () => {
+    if (!orgId) {
+      setIsLoading(false);
+      return;
+    }
+
+    setIsLoading(true);
+    setError(null);
+    try {
+      const report = await intelligenceApi.getExecutiveReport(orgId);
+      setData(report);
+    } catch (err) {
+      setError(err.message || "Failed to fetch executive report");
+    } finally {
+      setIsLoading(false);
+    }
+  }, [orgId]);
+
+  useEffect(() => {
+    // eslint-disable-next-line
+    fetchReport();
+  }, [fetchReport]);
+
+  return { data, isLoading, error, refetch: fetchReport };
+}

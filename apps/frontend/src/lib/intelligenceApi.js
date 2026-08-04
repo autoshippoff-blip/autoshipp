@@ -36,4 +36,18 @@ export const intelligenceApi = {
     });
     return handleResponse(res);
   },
+  getExecutiveReport: async (orgId) => {
+    const url = new URL(`${API_URL}/api/intelligence/executive-report`);
+    url.searchParams.append("organizationId", orgId);
+
+    const res = await fetch(url.toString(), {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "x-organization-id": orgId,
+      },
+      credentials: "include",
+    });
+    return handleResponse(res);
+  },
 };

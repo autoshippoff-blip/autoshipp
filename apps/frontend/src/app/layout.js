@@ -1,7 +1,7 @@
 import { Outfit, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/contexts/AuthContext";
-
+import { MSWProvider } from "@/mocks/MSWProvider";
 const outfit = Outfit({
   variable: "--font-outfit",
   subsets: ["latin"],
@@ -25,7 +25,9 @@ export default function RootLayout({ children }) {
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col" suppressHydrationWarning>
-        <AuthProvider>{children}</AuthProvider>
+        <MSWProvider>
+          <AuthProvider>{children}</AuthProvider>
+        </MSWProvider>
       </body>
     </html>
   );

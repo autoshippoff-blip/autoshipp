@@ -1,13 +1,10 @@
 "use client";
 
 import React from "react";
-import { useExecutiveReport } from "@/hooks/useIntelligence";
 import { EmptyState } from "@/components/EmptyState";
 import { AlertCircle, FileText, RefreshCw } from "lucide-react";
 
-export function ExecutiveNarrative() {
-  const { data, isLoading, error, refetch } = useExecutiveReport();
-
+export function ExecutiveNarrative({ report, isLoading, error, onRetry }) {
   // Handle strict react-hooks/set-state-in-effect lint rule for EmptyState action rendering
   // Rather than passing an object to action, we pass a valid React Node.
 
@@ -34,7 +31,7 @@ export function ExecutiveNarrative() {
           description={error}
           action={
             <button
-              onClick={refetch}
+              onClick={onRetry}
               className="flex items-center gap-2 px-4 py-2 bg-slate-900 dark:bg-white text-white dark:text-black rounded-lg hover:bg-slate-800 dark:hover:bg-slate-200 transition-colors text-sm font-medium"
             >
               <RefreshCw size={16} />
@@ -46,7 +43,7 @@ export function ExecutiveNarrative() {
     );
   }
 
-  if (!data) {
+  if (!report) {
     return (
       <div className="h-full min-h-[400px] flex items-center justify-center">
         <EmptyState
@@ -72,7 +69,7 @@ export function ExecutiveNarrative() {
 
       <div className="flex-1 overflow-y-auto pr-2 custom-scrollbar">
         <div className="prose prose-slate dark:prose-invert max-w-none">
-          {data.executiveSummary.split("\n\n").map((paragraph, index) => (
+          {report.executiveSummary.split("\n\n").map((paragraph, index) => (
             <p
               key={index}
               className="text-slate-600 dark:text-slate-300 leading-relaxed mb-4"
@@ -84,8 +81,10 @@ export function ExecutiveNarrative() {
       </div>
 
       <div className="mt-4 pt-4 border-t border-slate-100 dark:border-white/10 flex justify-between items-center text-xs text-slate-400">
-        <span>Report ID: {data.id}</span>
-        <span>Generated: {new Date(data.createdAt).toLocaleDateString()}</span>
+        <span>Report ID: {report.id}</span>
+        <span>
+          Generated: {new Date(report.createdAt).toLocaleDateString()}
+        </span>
       </div>
     </div>
   );

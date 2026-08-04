@@ -3,6 +3,7 @@
 import { IntelligenceScorecard } from "@/components/dashboard/IntelligenceScorecard";
 import { ExecutiveNarrative } from "@/components/dashboard/ExecutiveNarrative";
 import { OpportunitiesList } from "@/components/dashboard/OpportunitiesList";
+import { ProductRecommendations } from "@/components/dashboard/ProductRecommendations";
 import { PageHeader } from "@/components/PageHeader";
 import { useExecutiveReport } from "@/hooks/useIntelligence";
 
@@ -27,12 +28,21 @@ export default function IntelligencePage() {
         />
       </div>
 
-      <OpportunitiesList
-        report={data}
-        isLoading={isLoading}
-        error={error}
-        onRetry={refetch}
-      />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
+        <OpportunitiesList
+          report={data}
+          isLoading={isLoading}
+          error={error}
+          onRetry={refetch}
+        />
+
+        <ProductRecommendations
+          report={data}
+          isLoading={isLoading}
+          error={error}
+          onRetry={refetch}
+        />
+      </div>
     </div>
   );
 }

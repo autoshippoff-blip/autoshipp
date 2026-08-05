@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { APP_INTERCEPTOR } from '@nestjs/core';
 import { BullModule } from '@nestjs/bullmq';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -13,6 +14,7 @@ import { ShopifyIntegrationModule } from './modules/integrations/shopify/shopify
 import { CommerceSyncModule } from './modules/commerce-sync/commerce-sync.module';
 import { IntelligenceModule } from './modules/intelligence/intelligence.module';
 import { BillingModule } from './modules/billing/billing.module';
+import { DeprecationInterceptor } from './common/interceptors/deprecation.interceptor';
 
 @Module({
   imports: [
@@ -36,6 +38,12 @@ import { BillingModule } from './modules/billing/billing.module';
     BillingModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: DeprecationInterceptor,
+    },
+  ],
 })
 export class AppModule {}

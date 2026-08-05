@@ -16,6 +16,7 @@ export interface IAssignmentService {
     organizationId: string,
     reasonFilter?: string,
   ): Promise<number>;
+  getActiveAssignments(organizationId: string): Promise<any[]>;
 }
 
 export interface IProductRegistryService {

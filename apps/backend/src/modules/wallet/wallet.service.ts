@@ -1,5 +1,6 @@
 import {
   Injectable,
+  Inject,
   BadRequestException,
   NotFoundException,
   NotImplementedException,
@@ -8,7 +9,10 @@ import { PrismaService } from '../../prisma.service';
 import { WalletType, TransactionDirection } from '@prisma/client';
 import { Prisma } from '@prisma/client';
 import { OrganizationRelationshipsService } from '../organizations/organization-relationships.service';
-import { AssignmentService } from '../marketplace/services/assignment.service';
+import {
+  IAssignmentService,
+  ASSIGNMENT_SERVICE_INTERFACE,
+} from '../marketplace/marketplace.interface';
 import { ForbiddenException } from '@nestjs/common';
 
 @Injectable()
@@ -16,7 +20,8 @@ export class WalletService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly orgRelationshipsService: OrganizationRelationshipsService,
-    private readonly assignmentService: AssignmentService,
+    @Inject(ASSIGNMENT_SERVICE_INTERFACE)
+    private readonly assignmentService: any,
   ) {}
 
   async createWallet(

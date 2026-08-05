@@ -14,7 +14,7 @@ import {
 } from '@prisma/client';
 import { Prisma } from '@prisma/client';
 import { OrganizationRelationshipsService } from '../organizations/organization-relationships.service';
-import { AssignmentService } from '../marketplace/services/assignment.service';
+import { ASSIGNMENT_SERVICE_INTERFACE } from '../marketplace/marketplace.interface';
 import { ForbiddenException } from '@nestjs/common';
 
 describe('WalletService', () => {
@@ -41,7 +41,7 @@ describe('WalletService', () => {
           useValue: mockOrgRelationshipsService,
         },
         {
-          provide: AssignmentService,
+          provide: ASSIGNMENT_SERVICE_INTERFACE,
           useValue: mockAssignmentService,
         },
         {
@@ -396,13 +396,11 @@ describe('WalletService', () => {
             provide: PrismaService,
             useValue: {
               wallet: {
-                findUnique: jest
-                  .fn()
-                  .mockResolvedValue({
-                    id: 'wallet-1',
-                    status: WalletStatus.ACTIVE,
-                    organizationId: 'org-1',
-                  }),
+                findUnique: jest.fn().mockResolvedValue({
+                  id: 'wallet-1',
+                  status: WalletStatus.ACTIVE,
+                  organizationId: 'org-1',
+                }),
               },
               $transaction: jest.fn().mockImplementation(async (cb) =>
                 cb({
@@ -410,13 +408,11 @@ describe('WalletService', () => {
                     findUnique: jest.fn().mockResolvedValue(null),
                   },
                   wallet: {
-                    findUnique: jest
-                      .fn()
-                      .mockResolvedValue({
-                        id: 'wallet-1',
-                        status: WalletStatus.ACTIVE,
-                        organizationId: 'org-1',
-                      }),
+                    findUnique: jest.fn().mockResolvedValue({
+                      id: 'wallet-1',
+                      status: WalletStatus.ACTIVE,
+                      organizationId: 'org-1',
+                    }),
                   },
                   $queryRaw: jest
                     .fn()
@@ -429,7 +425,7 @@ describe('WalletService', () => {
             },
           },
           {
-            provide: AssignmentService,
+            provide: ASSIGNMENT_SERVICE_INTERFACE,
             useValue: { getActiveAssignments: jest.fn().mockResolvedValue([]) }, // returns empty array
           },
         ],

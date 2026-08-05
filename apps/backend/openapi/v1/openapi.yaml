@@ -1,0 +1,54 @@
+openapi: 3.0.3
+info:
+  title: AutoShipp Platform API
+  description: Authoritative OpenAPI v1 Contract Specification per AES-041 §7 (D-420)
+  version: 1.0.0
+servers:
+  - url: https://api.autoshipp.in/api/v1
+    description: Production API Server (v1)
+  - url: http://localhost:3001/api/v1
+    description: Local Development Server (v1)
+paths:
+  /auth/login:
+    post:
+      summary: User Authentication & Multi-Organization Session Management
+      operationId: login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+                organizationId:
+                  type: string
+                  nullable: true
+      responses:
+        '200':
+          description: Successful Authentication
+        '401':
+          description: Invalid Credentials
+  /auth/switch-organization:
+    post:
+      summary: Switch Active Organization Session Context (AES-039)
+      operationId: switchOrganization
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - targetOrganizationId
+              properties:
+                targetOrganizationId:
+                  type: string
+      responses:
+        '200':
+          description: Active Organization Context Switched
+        '403':
+          description: Forbidden - User does not have an active membership in target organization

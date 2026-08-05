@@ -54,4 +54,25 @@ describe('CommerceConflictService (AES-038 OCC Resolution)', () => {
     expect(result.shouldWrite).toBe(true);
     expect(result.incrementVersion).toBe(true);
   });
+
+  it('should REJECT_MANUAL_OVERRIDE when record has active manual override', () => {
+    const storedDate = new Date('2026-07-24T10:00:00.000Z');
+    const incomingStr = '2026-07-24T10:10:00.000Z'; // Newer timestamp
+
+    const result = service.evaluateConflict(incomingStr, storedDate, true);
+
+    expect(result.outcome).toEqual(
+      ConflictResolutionOutcome.REJECT_MANUAL_OVERRIDE,
+    );
+    expect(result.shouldWrite).toBe(false);
+  });
+
+  it('should compute deterministic SHA-256 payload hash', () => {
+    const payload = { id: 123, title: 'Test Product' };
+    const hash1 = service.computePayloadHash(payload);
+    const hash2 = service.computePayloadHash(payload);
+
+    expect(hash1).toHaveLength(64);
+    expect(hash1).toEqual(hash2);
+  });
 });

@@ -58,6 +58,7 @@ export class CommerceSyncService {
     const evaluation = this.conflictService.evaluateConflict(
       externalUpdatedAtStr,
       existingOrder?.externalUpdatedAt,
+      existingOrder?.manualOverride ?? false,
     );
 
     // 3. Log Audit Outcome
@@ -111,6 +112,8 @@ export class CommerceSyncService {
           externalCreatedAt,
           externalUpdatedAt,
           syncVersion: 1,
+          syncSource: jobData.payload.sync_source || 'WEBHOOK',
+          manualOverride: false,
         },
         update: {
           orderNumber:
@@ -122,6 +125,7 @@ export class CommerceSyncService {
           fulfillmentStatus: payload.fulfillment_status || 'unfulfilled',
           externalUpdatedAt,
           syncVersion: nextSyncVersion,
+          syncSource: jobData.payload.sync_source || 'WEBHOOK',
         },
       });
 
@@ -177,6 +181,14 @@ export class CommerceSyncService {
       },
     });
 
+    const incomingHash = this.conflictService.computePayloadHash(payload);
+    if (existingProduct && existingProduct.lastSyncHash === incomingHash) {
+      this.logger.log(
+        `Product Sync [${externalProductId}]: Payload hash unchanged. Skip write (AES-038 §8).`,
+      );
+      return;
+    }
+
     const evaluation = this.conflictService.evaluateConflict(
       externalUpdatedAtStr,
       existingProduct?.externalUpdatedAt,
@@ -230,6 +242,8 @@ export class CommerceSyncService {
         externalCreatedAt,
         externalUpdatedAt,
         syncVersion: 1,
+        lastSyncHash: incomingHash,
+        syncSource: jobData.payload.sync_source || 'WEBHOOK',
       },
       update: {
         title: payload.title || 'Untitled Product',
@@ -239,11 +253,46 @@ export class CommerceSyncService {
         status: payload.status || 'ACTIVE',
         externalUpdatedAt,
         syncVersion: nextSyncVersion,
+        lastSyncHash: incomingHash,
+        syncSource: jobData.payload.sync_source || 'WEBHOOK',
       },
     });
 
     this.logger.log(
       `Product Sync Success [${externalProductId}]: Written with version ${nextSyncVersion}`,
     );
+  }
+
+  async applyManualOverride(
+    orderId: string,
+    adminUserId: string,
+    updates: { fulfillmentStatus?: string; financialStatus?: string },
+  ): Promise<any> {
+    return await this.prisma.commerceOrder.update({
+      where: { id: orderId },
+      data: {
+        ...(updates.fulfillmentStatus && {
+          fulfillmentStatus: updates.fulfillmentStatus,
+        }),
+        ...(updates.financialStatus && {
+          financialStatus: updates.financialStatus,
+        }),
+        manualOverride: true,
+        manualOverrideAt: new Date(),
+        manualOverrideBy: adminUserId,
+        syncSource: 'MANUAL_OVERRIDE',
+      },
+    });
+  }
+
+  async releaseManualOverride(orderId: string): Promise<any> {
+    return await this.prisma.commerceOrder.update({
+      where: { id: orderId },
+      data: {
+        manualOverride: false,
+        manualOverrideAt: null,
+        manualOverrideBy: null,
+      },
+    });
   }
 }

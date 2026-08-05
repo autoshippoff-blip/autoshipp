@@ -29,6 +29,7 @@ export class SubscriptionLifecycleService {
         return; // Only Active or Past Due can enter grace period
       }
 
+      const gracePeriodStartsAt = new Date();
       const gracePeriodEndsAt = new Date();
       gracePeriodEndsAt.setDate(
         gracePeriodEndsAt.getDate() + this.DEFAULT_GRACE_PERIOD_DAYS,
@@ -39,6 +40,7 @@ export class SubscriptionLifecycleService {
         data: {
           status: SubscriptionStatus.GRACE_PERIOD,
           suspendedAt: null,
+          gracePeriodStartsAt,
           gracePeriodEndsAt,
         },
       });
@@ -151,6 +153,7 @@ export class SubscriptionLifecycleService {
         data: {
           status: SubscriptionStatus.ACTIVE,
           suspendedAt: null,
+          gracePeriodStartsAt: null,
           gracePeriodEndsAt: null,
         },
       });
@@ -168,5 +171,25 @@ export class SubscriptionLifecycleService {
         },
       });
     });
+  }
+
+  /**
+   * Overrides grace period duration for a subscription by persisting custom end timestamp.
+   */
+  async overrideGracePeriod(
+    subscriptionId: string,
+    days: number,
+  ): Promise<Date> {
+    const gracePeriodEndsAt = new Date();
+    gracePeriodEndsAt.setDate(gracePeriodEndsAt.getDate() + days);
+
+    await this.prisma.subscription.update({
+      where: { id: subscriptionId },
+      data: {
+        gracePeriodEndsAt,
+      },
+    });
+
+    return gracePeriodEndsAt;
   }
 }

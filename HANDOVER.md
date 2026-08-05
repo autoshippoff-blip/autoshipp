@@ -10,8 +10,8 @@ Based on the reviewed primary evidence package, **AES-043 (AutoShipp Intelligenc
 
 - **Integration Baseline Branch:** `pre-prod`
 - **Current Working Branch:** `abbas`
-- **Baseline Commit SHA:** `b51f23727bab0866f815707c9192cd9f115e361d`
-- **Status:** **AES-043 CLOSED & ARCHIVED (Verified Compliant During Architectural Review, 0 Build Errors, 0 TS Errors, All Tests Passing, 44/44 Next.js Static Pages Compiled)**
+- **Baseline Commit SHA:** `6bd2d56`
+- **Status:** **AES-037 CLOSED & ARCHIVED (Verified Compliant During Architectural Review, 0 Build Errors, 0 TS Errors, All Tests Passing, 125/125 Backend Tests Passing)**
 
 ## Work Completed & Verified During Review
 
@@ -32,6 +32,7 @@ Based on the reviewed primary evidence package, **AES-043 (AutoShipp Intelligenc
 - **Prisma Schema & Migrations:** Monolithic asset locked exclusively to **ABBAS**. GRANNY specifies DTO requirements; ABBAS alone executes `npx prisma migrate dev`.
 - **Root NestJS Bootstrap:** `app.module.ts`, `main.ts`, and `permissions.enum.ts` locked to **ABBAS**.
 - **Product Intelligence Domain (AES-043):** **CLOSED & ARCHIVED**.
+- **Subscription Lifecycle & Access Revocation (AES-037):** **CLOSED & ARCHIVED**.
 - **Planned Roadmap Transition (AES-037 / AES-006):** Current planned feature slice per engineering roadmap.
 - **Tenant Isolation:** Enforced via `WHERE organization_id = $tenantId` on all tenant queries.
 - **Binary Asset Strategy (AES-025):** Zero binary storage (no S3/R2). Reports stored as JSON; exports streamed dynamically.
@@ -44,9 +45,8 @@ Based on the reviewed primary evidence package, **AES-043 (AutoShipp Intelligenc
 
 ## Future Roadmap & Development Direction
 
-AES-043 is archived with zero remaining implementation items within its approved scope. Future work should proceed according to the approved roadmap and ABBAS's subsequent direction.
+AES-037 is archived with zero remaining implementation items within its approved scope. Future work should proceed according to the approved roadmap and ABBAS's subsequent direction.
 
-The current planned roadmap transition is **AES-037 (Subscription Lifecycle & Access Revocation)**:
+The current planned roadmap transition is **TBD (Pending Developer Direction)**:
 
-1. **Developer ABBAS:** Execute the ABBAS-owned Prisma schema migration for `AES-037` §7 when scheduled (adding `GRACE_PERIOD` to `SubscriptionStatus`, `gracePeriodStartsAt`/`endsAt` to `Subscription`, and `suspendedAt`/`suspensionReason` to `Assignment`).
-2. **Feature Implementation:** Begin `SubscriptionLifecycleService` and `SubscriptionLifecycleProcessor` execution per the `AES-037` current approved specification.
+1. **Developer ABBAS:** Determine next feature slice per engineering roadmap.

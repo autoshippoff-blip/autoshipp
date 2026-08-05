@@ -78,5 +78,6 @@ export interface AssignmentModel {
   assignedAt: Date;
   assignedBy: string | null;
   isActive: boolean; // Derived from subscription!
+  suspendedAt?: Date | null;
   suspensionReason?: string | null;
 }

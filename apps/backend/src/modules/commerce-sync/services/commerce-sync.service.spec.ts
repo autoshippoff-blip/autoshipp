@@ -112,4 +112,54 @@ describe('CommerceSyncService', () => {
     });
     expect(prismaService.commerceProduct.upsert).not.toHaveBeenCalled();
   });
+
+  it('should reject order sync when order has manualOverride = true', async () => {
+    prismaService.commerceOrder.findUnique.mockResolvedValue({
+      id: 'order-uuid-1',
+      externalUpdatedAt: new Date('2026-07-24T10:00:00Z'),
+      manualOverride: true,
+      syncVersion: 1,
+    });
+
+    await syncService.syncOrder({
+      webhookId: 'evt-3',
+      topic: 'orders/update',
+      shopDomain: 'test.myshopify.com',
+      organizationId: 'org-123',
+      storeId: 'store-456',
+      payload: {
+        id: 999,
+        updated_at: '2026-07-24T12:00:00Z', // Newer timestamp, but frozen
+      },
+      receivedAt: new Date().toISOString(),
+    });
+
+    expect(prismaService.commerceSyncLog.create).toHaveBeenCalledWith({
+      data: expect.objectContaining({
+        action: 'REJECT_MANUAL_OVERRIDE',
+      }),
+    });
+    expect(prismaService.commerceOrder.upsert).not.toHaveBeenCalled();
+  });
+
+  it('should apply and release manual override via service', async () => {
+    prismaService.commerceOrder.update = jest
+      .fn()
+      .mockImplementation(({ data }) => ({
+        id: 'order-uuid-1',
+        ...data,
+      }));
+
+    const applied = await syncService.applyManualOverride(
+      'order-uuid-1',
+      'admin-user-1',
+      { fulfillmentStatus: 'fulfilled' },
+    );
+    expect(applied.manualOverride).toBe(true);
+    expect(applied.manualOverrideBy).toBe('admin-user-1');
+
+    const released = await syncService.releaseManualOverride('order-uuid-1');
+    expect(released.manualOverride).toBe(false);
+    expect(released.manualOverrideBy).toBeNull();
+  });
 });

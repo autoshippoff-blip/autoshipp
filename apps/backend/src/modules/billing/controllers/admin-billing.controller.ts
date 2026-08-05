@@ -80,10 +80,12 @@ export class AdminBillingController {
   async setGracePeriodOverride(
     @Param('subscriptionId', ParseUUIDPipe) subscriptionId: string,
     @Body() dto: GracePeriodOverrideDto,
-  ): Promise<{ status: string }> {
-    // Currently relying on standard default logic in initiateGracePeriod,
-    // future iterations will persist `dto.days` to `billing_metadata`.
-    return { status: 'OVERRIDE_ACKNOWLEDGED' };
+  ): Promise<{ status: string; gracePeriodEndsAt: Date }> {
+    const gracePeriodEndsAt = await this.lifecycleService.overrideGracePeriod(
+      subscriptionId,
+      dto.days,
+    );
+    return { status: 'OVERRIDE_PERSISTED', gracePeriodEndsAt };
   }
 
   @Post('subscriptions/:subscriptionId/suspend')

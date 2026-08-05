@@ -29,6 +29,7 @@ export class AssignmentService {
       assignedAt: prismaAssignment.assignedAt,
       assignedBy: prismaAssignment.assignedBy,
       isActive: subscriptionActive && prismaAssignment.isActive,
+      suspendedAt: prismaAssignment.suspendedAt,
       suspensionReason: prismaAssignment.suspensionReason,
     };
   }
@@ -159,20 +160,31 @@ export class AssignmentService {
       },
       data: {
         isActive: false,
+        suspendedAt: new Date(),
         suspensionReason: reason,
       },
     });
     return result.count;
   }
 
-  async restoreAssignmentsByOrgId(organizationId: string): Promise<number> {
+  async restoreAssignmentsByOrgId(
+    organizationId: string,
+    reasonFilter: string = 'SUBSCRIPTION_EXPIRED',
+  ): Promise<number> {
+    const whereCondition: any = {
+      organizationId,
+      isActive: false,
+    };
+
+    if (reasonFilter !== 'ALL') {
+      whereCondition.suspensionReason = reasonFilter;
+    }
+
     const result = await this.prisma.assignment.updateMany({
-      where: {
-        organizationId,
-        isActive: false,
-      },
+      where: whereCondition,
       data: {
         isActive: true,
+        suspendedAt: null,
         suspensionReason: null,
       },
     });

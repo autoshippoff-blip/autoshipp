@@ -1,9 +1,11 @@
 import { Injectable } from '@nestjs/common';
+import * as crypto from 'crypto';
 
 export enum ConflictResolutionOutcome {
   ACCEPT_OVERWRITE = 'ACCEPT_OVERWRITE',
   IGNORE_DUPLICATE = 'IGNORE_DUPLICATE',
   REJECT_STALE = 'REJECT_STALE',
+  REJECT_MANUAL_OVERRIDE = 'REJECT_MANUAL_OVERRIDE',
   ACCEPT_NULL_WARNING = 'ACCEPT_NULL_WARNING',
 }
 
@@ -23,7 +25,19 @@ export class CommerceConflictService {
   evaluateConflict(
     incomingUpdatedAtStr: string | null | undefined,
     storedUpdatedAt: Date | null | undefined,
+    isManualOverride: boolean = false,
   ): ConflictEvaluationResult {
+    // Scenario 0: Record has manual override enabled (AES-038 §4, §11)
+    if (isManualOverride) {
+      return {
+        outcome: ConflictResolutionOutcome.REJECT_MANUAL_OVERRIDE,
+        message:
+          'Record has an active manual admin override. Reject external sync write.',
+        shouldWrite: false,
+        incrementVersion: false,
+      };
+    }
+
     // Scenario 1: Incoming timestamp is missing or NULL
     if (!incomingUpdatedAtStr) {
       return {
@@ -78,5 +92,13 @@ export class CommerceConflictService {
       shouldWrite: false,
       incrementVersion: false,
     };
+  }
+
+  /**
+   * Computes a deterministic SHA-256 hash of a payload for change detection (AES-038 §8).
+   */
+  computePayloadHash(payload: any): string {
+    const serialized = JSON.stringify(payload);
+    return crypto.createHash('sha256').update(serialized).digest('hex');
   }
 }

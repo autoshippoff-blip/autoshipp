@@ -479,10 +479,11 @@ model Subscription {
   status         SubscriptionStatus @default(ACTIVE)
   billingCycle   BillingCycle       @default(MONTHLY) @map("billing_cycle")
 
-  effectiveFrom  DateTime  @default(now()) @map("effective_from")
-  effectiveUntil DateTime? @map("effective_until")
-  suspendedAt       DateTime? @map("suspended_at")
-  gracePeriodEndsAt DateTime? @map("grace_period_ends_at")
+  effectiveFrom       DateTime  @default(now()) @map("effective_from")
+  effectiveUntil      DateTime? @map("effective_until")
+  suspendedAt         DateTime? @map("suspended_at")
+  gracePeriodStartsAt DateTime? @map("grace_period_starts_at")
+  gracePeriodEndsAt   DateTime? @map("grace_period_ends_at")
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -506,6 +507,7 @@ model Assignment {
   assignedAt       DateTime  @default(now()) @map("assigned_at")
   assignedBy       String?   @map("assigned_by") @db.Uuid
   assignedByOrg    String?   @map("assigned_by_org") @db.Uuid
+  suspendedAt      DateTime? @map("suspended_at")
   suspensionReason String?   @map("suspension_reason") @db.VarChar(255)
 
   subscription Subscription @relation(fields: [subscriptionId], references: [id])
@@ -935,6 +937,9 @@ model CommerceProduct {
   externalCreatedAt DateTime? @map("external_created_at")
   externalUpdatedAt DateTime? @map("external_updated_at")
   syncVersion       Int       @default(1) @map("sync_version")
+  syncEtag          String?   @map("sync_etag")
+  lastSyncHash      String?   @map("last_sync_hash")
+  syncSource        String?   @map("sync_source")
   createdAt         DateTime  @default(now()) @map("created_at")
   updatedAt         DateTime  @updatedAt @map("updated_at")
 
@@ -960,6 +965,10 @@ model CommerceOrder {
   externalCreatedAt DateTime? @map("external_created_at")
   externalUpdatedAt DateTime? @map("external_updated_at")
   syncVersion       Int       @default(1) @map("sync_version")
+  syncSource        String?   @map("sync_source")
+  manualOverride    Boolean   @default(false) @map("manual_override")
+  manualOverrideAt  DateTime? @map("manual_override_at")
+  manualOverrideBy  String?   @map("manual_override_by") @db.Uuid
   createdAt         DateTime  @default(now()) @map("created_at")
   updatedAt         DateTime  @updatedAt @map("updated_at")
 

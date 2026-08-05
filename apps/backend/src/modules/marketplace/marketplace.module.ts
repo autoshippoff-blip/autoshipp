@@ -9,6 +9,10 @@ import { OrganizationMarketplaceController } from './controllers/organization-ma
 import { MarketplaceExceptionFilter } from './marketplace-exception.filter';
 import { APP_FILTER } from '@nestjs/core';
 import { PrismaService } from '../../prisma.service';
+import {
+  ASSIGNMENT_SERVICE_INTERFACE,
+  PRODUCT_REGISTRY_INTERFACE,
+} from './marketplace.interface';
 
 @Module({
   providers: [
@@ -17,6 +21,14 @@ import { PrismaService } from '../../prisma.service';
     MarketplaceCatalogService,
     SubscriptionService,
     AssignmentService,
+    {
+      provide: ASSIGNMENT_SERVICE_INTERFACE,
+      useExisting: AssignmentService,
+    },
+    {
+      provide: PRODUCT_REGISTRY_INTERFACE,
+      useExisting: ProductRegistryService,
+    },
     {
       provide: APP_FILTER,
       useClass: MarketplaceExceptionFilter,
@@ -32,6 +44,8 @@ import { PrismaService } from '../../prisma.service';
     MarketplaceCatalogService,
     SubscriptionService,
     AssignmentService,
+    ASSIGNMENT_SERVICE_INTERFACE,
+    PRODUCT_REGISTRY_INTERFACE,
   ],
 })
 export class MarketplaceModule {}

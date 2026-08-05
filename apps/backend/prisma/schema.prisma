@@ -179,6 +179,7 @@ model Organization {
   createdAt          DateTime           @default(now()) @map("created_at")
   updatedAt          DateTime           @updatedAt @map("updated_at")
   deletedAt          DateTime?          @map("deleted_at")
+  metadata           Json?              @map("metadata")
   createdBy          String?            @map("created_by") @db.Uuid
   updatedBy          String?            @map("updated_by") @db.Uuid
 

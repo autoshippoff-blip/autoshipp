@@ -5,8 +5,14 @@ import { OrganizationRelationshipsController } from './organization-relationship
 import { OrganizationRelationshipsService } from './organization-relationships.service';
 import { PrismaService } from '../../prisma.service';
 
+import { ComplianceController } from './compliance.controller';
+
 @Module({
-  controllers: [OrganizationsController, OrganizationRelationshipsController],
+  controllers: [
+    OrganizationsController,
+    OrganizationRelationshipsController,
+    ComplianceController,
+  ],
   providers: [
     OrganizationsService,
     OrganizationRelationshipsService,

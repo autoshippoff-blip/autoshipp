@@ -1,7 +1,12 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  ForbiddenException,
+} from '@nestjs/common';
 import { PrismaService } from '../../prisma.service';
 import { CreateOrganizationDto } from './dto/create-organization.dto';
 import { UpdateOrganizationDto } from './dto/update-organization.dto';
+import { OrganizationStatus } from '@prisma/client';
 
 @Injectable()
 export class OrganizationsService {
@@ -124,6 +129,92 @@ export class OrganizationsService {
           },
         },
       },
+    });
+  }
+
+  /**
+   * AES-042 Legal Hold Administration (AES-042 §13, D-426).
+   * Places a legal hold on an organization to block all deletion and erasure requests.
+   */
+  async setLegalHold(
+    orgId: string,
+    reason: string,
+    caseReference: string,
+    imposedBy: string,
+  ) {
+    const org = await this.prisma.organization.findUnique({
+      where: { id: orgId },
+    });
+    if (!org) {
+      throw new NotFoundException(`Organization with ID ${orgId} not found`);
+    }
+
+    const currentMetadata =
+      ((org as any).metadata as Record<string, any>) || {};
+    const updatedMetadata = {
+      ...currentMetadata,
+      legal_hold: true,
+      legal_hold_reason: reason,
+      legal_hold_reference: caseReference,
+      legal_hold_imposed_by: imposedBy,
+      legal_hold_imposed_at: new Date().toISOString(),
+    };
+
+    return this.prisma.organization.update({
+      where: { id: orgId },
+      data: { metadata: updatedMetadata },
+    });
+  }
+
+  /**
+   * AES-042 Lifts a legal hold from an organization.
+   */
+  async removeLegalHold(orgId: string) {
+    const org = await this.prisma.organization.findUnique({
+      where: { id: orgId },
+    });
+    if (!org) {
+      throw new NotFoundException(`Organization with ID ${orgId} not found`);
+    }
+
+    const currentMetadata =
+      ((org as any).metadata as Record<string, any>) || {};
+    const {
+      legal_hold,
+      legal_hold_reason,
+      legal_hold_reference,
+      legal_hold_imposed_by,
+      legal_hold_imposed_at,
+      ...rest
+    } = currentMetadata;
+
+    return this.prisma.organization.update({
+      where: { id: orgId },
+      data: { metadata: rest },
+    });
+  }
+
+  /**
+   * AES-042 Soft-deletes an organization after verifying no active legal hold exists.
+   */
+  async deleteOrganization(orgId: string) {
+    const org = await this.prisma.organization.findUnique({
+      where: { id: orgId },
+    });
+    if (!org) {
+      throw new NotFoundException(`Organization with ID ${orgId} not found`);
+    }
+
+    const metadata = ((org as any).metadata as Record<string, any>) || {};
+    if (metadata.legal_hold === true) {
+      throw new ForbiddenException(
+        `Organization ${orgId} cannot be deleted because it is under active legal hold: ${metadata.legal_hold_reason || 'Legal Hold Active'}`,
+      );
+    }
+
+    return this.prisma.organization.update({
+      where: { id: orgId },
+      data: { deletedAt: new Date(), status: OrganizationStatus.SUSPENDED },
     });
   }
 }

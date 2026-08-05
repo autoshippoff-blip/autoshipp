@@ -57,7 +57,13 @@ export interface SubscriptionModel {
   id: string;
   organizationId: string;
   productId: string;
-  status: 'ACTIVE' | 'CANCELED' | 'SUSPENDED' | 'EXPIRED';
+  status:
+    | 'ACTIVE'
+    | 'CANCELED'
+    | 'SUSPENDED'
+    | 'EXPIRED'
+    | 'PAST_DUE'
+    | 'GRACE_PERIOD';
   billingCycle: 'MONTHLY' | 'YEARLY' | 'ONE_TIME';
   effectiveFrom: Date;
   effectiveUntil: Date | null;
@@ -72,4 +78,5 @@ export interface AssignmentModel {
   assignedAt: Date;
   assignedBy: string | null;
   isActive: boolean; // Derived from subscription!
+  suspensionReason?: string | null;
 }

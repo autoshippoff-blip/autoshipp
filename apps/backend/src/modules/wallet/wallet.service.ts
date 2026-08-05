@@ -8,12 +8,15 @@ import { PrismaService } from '../../prisma.service';
 import { WalletType, TransactionDirection } from '@prisma/client';
 import { Prisma } from '@prisma/client';
 import { OrganizationRelationshipsService } from '../organizations/organization-relationships.service';
+import { AssignmentService } from '../marketplace/services/assignment.service';
+import { ForbiddenException } from '@nestjs/common';
 
 @Injectable()
 export class WalletService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly orgRelationshipsService: OrganizationRelationshipsService,
+    private readonly assignmentService: AssignmentService,
   ) {}
 
   async createWallet(
@@ -226,6 +229,15 @@ export class WalletService {
           throw new BadRequestException('wallet-suspended');
         if (wallet.status === 'CLOSED')
           throw new BadRequestException('wallet-closed');
+
+        // AI Reservation Security Check (AC-5)
+        const activeAssignments =
+          await this.assignmentService.getActiveAssignments(
+            wallet.organizationId,
+          );
+        if (activeAssignments.length === 0) {
+          throw new ForbiddenException('AI access is currently suspended');
+        }
 
         // Lock the balance row to prevent race conditions during negative balance check
         const currentBalance = await tx.$queryRaw<

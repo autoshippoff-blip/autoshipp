@@ -14,6 +14,8 @@ import {
 } from '@prisma/client';
 import { Prisma } from '@prisma/client';
 import { OrganizationRelationshipsService } from '../organizations/organization-relationships.service';
+import { AssignmentService } from '../marketplace/services/assignment.service';
+import { ForbiddenException } from '@nestjs/common';
 
 describe('WalletService', () => {
   let service: WalletService;
@@ -25,12 +27,22 @@ describe('WalletService', () => {
       getAncestorOrganizationIds: jest.fn(),
     };
 
+    const mockAssignmentService = {
+      getActiveAssignments: jest
+        .fn()
+        .mockResolvedValue([{ id: 'mock-assignment' }]),
+    };
+
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         WalletService,
         {
           provide: OrganizationRelationshipsService,
           useValue: mockOrgRelationshipsService,
+        },
+        {
+          provide: AssignmentService,
+          useValue: mockAssignmentService,
         },
         {
           provide: PrismaService,
@@ -370,6 +382,72 @@ describe('WalletService', () => {
       };
 
       await expect(service.debit(params)).rejects.toThrow('wallet-suspended');
+    });
+
+    it('should throw ForbiddenException if AI access is suspended (no active assignments)', async () => {
+      const module = await Test.createTestingModule({
+        providers: [
+          WalletService,
+          {
+            provide: OrganizationRelationshipsService,
+            useValue: { getAncestorOrganizationIds: jest.fn() },
+          },
+          {
+            provide: PrismaService,
+            useValue: {
+              wallet: {
+                findUnique: jest
+                  .fn()
+                  .mockResolvedValue({
+                    id: 'wallet-1',
+                    status: WalletStatus.ACTIVE,
+                    organizationId: 'org-1',
+                  }),
+              },
+              $transaction: jest.fn().mockImplementation(async (cb) =>
+                cb({
+                  walletTransaction: {
+                    findUnique: jest.fn().mockResolvedValue(null),
+                  },
+                  wallet: {
+                    findUnique: jest
+                      .fn()
+                      .mockResolvedValue({
+                        id: 'wallet-1',
+                        status: WalletStatus.ACTIVE,
+                        organizationId: 'org-1',
+                      }),
+                  },
+                  $queryRaw: jest
+                    .fn()
+                    .mockResolvedValue([{ available_balance: 200 }]),
+                }),
+              ),
+              $queryRaw: jest
+                .fn()
+                .mockResolvedValue([{ available_balance: 200 }]),
+            },
+          },
+          {
+            provide: AssignmentService,
+            useValue: { getActiveAssignments: jest.fn().mockResolvedValue([]) }, // returns empty array
+          },
+        ],
+      }).compile();
+
+      const testService = module.get<WalletService>(WalletService);
+
+      const params = {
+        walletId: 'wallet-1',
+        idempotencyKey: 'idemp-5',
+        transactionTypeId: 'type-usage',
+        amount: 100,
+        referenceType: 'ai_request',
+      };
+
+      await expect(testService.debit(params)).rejects.toThrow(
+        ForbiddenException,
+      );
     });
 
     it('should return existing transaction if idempotencyKey matches', async () => {

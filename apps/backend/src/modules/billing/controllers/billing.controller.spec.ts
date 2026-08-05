@@ -18,6 +18,7 @@ import {
   PlanNotFoundException,
 } from '../exceptions/billing.exceptions';
 import { BillingExceptionFilter } from '../filters/billing-exception.filter';
+import { SubscriptionLifecycleService } from '../services/subscription-lifecycle.service';
 
 describe('Billing Controllers', () => {
   let adminController: AdminBillingController;
@@ -44,6 +45,13 @@ describe('Billing Controllers', () => {
     },
   };
 
+  const mockLifecycleService = {
+    suspendSubscription: jest.fn(),
+    restoreSubscription: jest.fn(),
+    initiateGracePeriod: jest.fn(),
+    processExpiredGracePeriods: jest.fn(),
+  };
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [AdminBillingController, OrganizationBillingController],
@@ -53,6 +61,10 @@ describe('Billing Controllers', () => {
         { provide: PaymentService, useValue: mockPaymentService },
         { provide: PrismaClient, useValue: mockPrisma },
         { provide: PrismaService, useValue: mockPrisma },
+        {
+          provide: SubscriptionLifecycleService,
+          useValue: mockLifecycleService,
+        },
       ],
     }).compile();
 

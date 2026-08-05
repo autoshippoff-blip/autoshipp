@@ -22,8 +22,13 @@ import {
   PlanPriceResponseDto,
   InvoiceResponseDto,
 } from '../dtos/billing.dtos';
+import {
+  GracePeriodOverrideDto,
+  SuspendAccessDto,
+} from '../dtos/lifecycle.dto';
 import { BillingDtoMapper } from '../mappers/billing.mapper';
 import { BillingExceptionFilter } from '../filters/billing-exception.filter';
+import { SubscriptionLifecycleService } from '../services/subscription-lifecycle.service';
 
 @Controller('admin/billing')
 @UseGuards(JwtAuthGuard, PlatformRoleGuard, PermissionGuard)
@@ -32,6 +37,7 @@ export class AdminBillingController {
   constructor(
     private readonly planService: PlanService,
     private readonly billingService: BillingService,
+    private readonly lifecycleService: SubscriptionLifecycleService,
   ) {}
 
   @Post('plans')
@@ -67,5 +73,35 @@ export class AdminBillingController {
   ): Promise<InvoiceResponseDto> {
     const invoice = await this.billingService.issueInvoice(invoiceId);
     return BillingDtoMapper.toInvoiceResponse(invoice);
+  }
+
+  @Post('subscriptions/:subscriptionId/grace-period-override')
+  @RequirePermissions(PlatformPermission.BILLING_MANAGE_LIFECYCLE)
+  async setGracePeriodOverride(
+    @Param('subscriptionId', ParseUUIDPipe) subscriptionId: string,
+    @Body() dto: GracePeriodOverrideDto,
+  ): Promise<{ status: string }> {
+    // Currently relying on standard default logic in initiateGracePeriod,
+    // future iterations will persist `dto.days` to `billing_metadata`.
+    return { status: 'OVERRIDE_ACKNOWLEDGED' };
+  }
+
+  @Post('subscriptions/:subscriptionId/suspend')
+  @RequirePermissions(PlatformPermission.BILLING_MANAGE_LIFECYCLE)
+  async suspendAccess(
+    @Param('subscriptionId', ParseUUIDPipe) subscriptionId: string,
+    @Body() dto: SuspendAccessDto,
+  ): Promise<{ status: string }> {
+    await this.lifecycleService.suspendSubscription(subscriptionId, dto.reason);
+    return { status: 'SUSPENDED' };
+  }
+
+  @Post('subscriptions/:subscriptionId/restore')
+  @RequirePermissions(PlatformPermission.BILLING_MANAGE_LIFECYCLE)
+  async restoreAccess(
+    @Param('subscriptionId', ParseUUIDPipe) subscriptionId: string,
+  ): Promise<{ status: string }> {
+    await this.lifecycleService.restoreSubscription(subscriptionId);
+    return { status: 'RESTORED' };
   }
 }

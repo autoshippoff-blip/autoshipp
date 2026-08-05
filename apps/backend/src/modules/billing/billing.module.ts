@@ -16,6 +16,10 @@ import { UsageMeteringService } from './services/usage-metering.service';
 import { PaymentWebhookProcessor } from './processors/payment-webhook.processor';
 import { RazorpayWebhookController } from './controllers/razorpay-webhook.controller';
 import { WalletModule } from '../wallet/wallet.module';
+import { MarketplaceModule } from '../marketplace/marketplace.module';
+import { SubscriptionLifecycleService } from './services/subscription-lifecycle.service';
+import { SubscriptionLifecycleProcessor } from './processors/subscription-lifecycle.processor';
+import { GracePeriodScheduler } from './schedulers/grace-period.scheduler';
 
 @Module({
   imports: [
@@ -25,7 +29,11 @@ import { WalletModule } from '../wallet/wallet.module';
     BullModule.registerQueue({
       name: 'payment-webhooks',
     }),
+    BullModule.registerQueue({
+      name: 'subscription-lifecycle',
+    }),
     WalletModule,
+    MarketplaceModule,
   ],
   controllers: [
     AdminBillingController,
@@ -47,6 +55,9 @@ import { WalletModule } from '../wallet/wallet.module';
       provide: EXTERNAL_PAYMENT_PORT,
       useClass: RazorpayAdapter,
     },
+    SubscriptionLifecycleService,
+    SubscriptionLifecycleProcessor,
+    GracePeriodScheduler,
   ],
   exports: [
     BillingService,

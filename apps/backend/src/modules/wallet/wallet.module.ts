@@ -4,8 +4,10 @@ import { PrismaService } from '../../prisma.service';
 import { WalletController } from './wallet.controller';
 import { OrganizationsModule } from '../organizations/organizations.module';
 
+import { MarketplaceModule } from '../marketplace/marketplace.module';
+
 @Module({
-  imports: [OrganizationsModule],
+  imports: [OrganizationsModule, MarketplaceModule],
   controllers: [WalletController],
   providers: [WalletService, PrismaService],
   exports: [WalletService],

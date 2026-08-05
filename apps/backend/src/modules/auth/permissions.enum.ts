@@ -10,4 +10,5 @@ export enum PlatformPermission {
   BILLING_INVOICE_ISSUE = 'billing:invoice:issue',
   BILLING_READ = 'billing:read',
   BILLING_PAY = 'billing:pay',
+  BILLING_MANAGE_LIFECYCLE = 'billing:manage_lifecycle',
 }

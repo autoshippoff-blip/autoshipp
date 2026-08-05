@@ -28,7 +28,8 @@ export class AssignmentService {
       organizationId: prismaAssignment.organizationId,
       assignedAt: prismaAssignment.assignedAt,
       assignedBy: prismaAssignment.assignedBy,
-      isActive: subscriptionActive,
+      isActive: subscriptionActive && prismaAssignment.isActive,
+      suspensionReason: prismaAssignment.suspensionReason,
     };
   }
 
@@ -145,5 +146,36 @@ export class AssignmentService {
     return assignments
       .map((a) => this.mapToDomain(a, this.isSubscriptionValid(a.subscription)))
       .filter((a) => a.isActive); // Domain Invariant: dynamic validity
+  }
+
+  async suspendAssignmentsByOrgId(
+    organizationId: string,
+    reason: string,
+  ): Promise<number> {
+    const result = await this.prisma.assignment.updateMany({
+      where: {
+        organizationId,
+        isActive: true,
+      },
+      data: {
+        isActive: false,
+        suspensionReason: reason,
+      },
+    });
+    return result.count;
+  }
+
+  async restoreAssignmentsByOrgId(organizationId: string): Promise<number> {
+    const result = await this.prisma.assignment.updateMany({
+      where: {
+        organizationId,
+        isActive: false,
+      },
+      data: {
+        isActive: true,
+        suspensionReason: null,
+      },
+    });
+    return result.count;
   }
 }

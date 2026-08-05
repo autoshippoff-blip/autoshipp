@@ -41,11 +41,20 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     // Omit password hash from req.user
     const { passwordHash, ...result } = user;
 
-    // Inject the tenant context validated from the JWT payload
+    // Read AES-039 active_organization_id claim with TEMPORARY migration fallback to legacy organization_id
+    // TEMPORARY FALLBACK: Preserved for backward compatibility during active migration to AES-039.
+    const activeOrgId =
+      payload.active_organization_id || payload.organization_id;
+
+    // Inject the active tenant context validated from the JWT payload
     return {
       ...result,
-      tenantId: payload.organization_id,
+      tenantId: activeOrgId,
+      active_organization_id: activeOrgId,
       organization_type: payload.organization_type,
+      user_type: payload.user_type,
+      role: payload.role,
+      membership_count: payload.membership_count,
     };
   }
 }

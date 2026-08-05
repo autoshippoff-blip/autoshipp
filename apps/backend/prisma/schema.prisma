@@ -328,7 +328,8 @@ model Session {
   createdAt        DateTime  @default(now()) @map("created_at")
   lastSeenAt       DateTime  @default(now()) @map("last_seen_at")
   expiresAt        DateTime  @map("expires_at")
-  revokedAt        DateTime? @map("revoked_at")
+  revokedAt                DateTime? @map("revoked_at")
+  lastActiveOrganizationId String?   @map("last_active_organization_id") @db.Uuid
 
   user User @relation(fields: [userId], references: [id])
 

@@ -4807,13 +4807,17 @@ Validates:
 
 ---
 
-### OrganizationGuard
+### OrganizationGuard (UserTypeGuard)
+
+_Note: Later architecture decisions (e.g., D-226) established `UserTypeGuard` as the canonical name for this guard. The term `OrganizationGuard` used here is a pre-existing documentation inconsistency. The guard pipeline remains `JwtAuthGuard → UserTypeGuard → PermissionGuard`._
 
 Determines:
 
 Organization context.
 
-Validates membership.
+For `user_type = PLATFORM` users, this guard resolves the target Organization context from the request **without** requiring the user to hold a membership in that Organization (Platform Super Admin bypass defined in AES-044). Specific administrative capabilities are then enforced by service-layer role checks.
+
+Validates membership (except for Platform Super Admins).
 
 Enforces organization scope.
 
@@ -22844,7 +22848,7 @@ Every platform table that stores tenant-owned data contains
 organization_id
 ```
 
-Every query automatically scopes by organization unless the requester is a Platform user with sufficient privileges.
+Every query automatically scopes by organization unless the requester is of `user_type = PLATFORM` with appropriate Platform role, utilizing the Super Admin bypass defined in AES-044.
 
 Examples
 
@@ -27618,6 +27622,7 @@ Every PR requires
 - AES-033 — Performance & Scalability
 - AES-034 — Testing & Quality Assurance
 - **AES-035 — Master Architecture Summary (this document)**
+- AES-044 — Platform Super Admin & Organization Service Governance Specification
 
 ---
 
@@ -31154,3 +31159,95 @@ The Intelligence Platform will be built in phases to manage complexity:
 - **V4:** Autonomous AI Assistant (Chat interface for store operators).
 
 ---
+
+# AES-044 - Platform Super Admin & Organization Service Governance Specification
+
+**Document ID:** AES-044
+
+## 1. Purpose
+
+Formally incorporates the Platform Super Admin architecture into the AutoShipp architecture. Establishes the authorization model, target-organization administration semantics, and product governance for Platform administrators.
+
+## 2. Scope
+
+This specification defines the boundaries of Platform Super Admin capabilities, separating complete Organization Domain administration from Product Service Governance.
+
+## 3. Platform Super Admin Definition
+
+A Platform Super Admin is an authenticated user with `user_type = PLATFORM` who is authorized to administer target Organizations without holding a membership in them.
+
+## 4. Decision Register
+
+| ID    | Decision                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Status    |
+| ----- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------- |
+| D-431 | Platform Super Admin Organization Domain administration is assigned to users with `user_type = PLATFORM` holding the `OWNER` role and the required organization-management permission/capability. The authorization pipeline utilizes `UserTypeGuard` to resolve the target organization context from the request without requiring the Platform user to hold a membership in that target organization. This authorization completes the suite of explicitly defined OWNER-only capabilities by granting the right to administer the target Organization through the Platform Organization Domain APIs. All actions are executed in the explicit target organization's context, strictly backend-enforced at the service layer, validated against cross-tenant operation, and fully audited. Product availability governance remains available to OWNER and MANAGER roles as established in AES-037. | ✅ Locked |
+
+## 5. Authorization Model
+
+The authorization model for Platform Super Admins utilizes the existing established pipeline (`JwtAuthGuard → UserTypeGuard → PermissionGuard`). The `UserTypeGuard` skips target-organization membership validation for `user_type = PLATFORM` users. Privileged operations remain service-layer enforced.
+
+## 6. Target-Organization Context
+
+All actions by a Platform Super Admin are executed in the explicit target organization's context.
+
+## 7. Organization Governance Scope
+
+The Organization Domain encompasses:
+
+- Identity
+- Metadata
+- Contacts
+- Addresses
+- Settings
+- Lifecycle
+- Transfer
+
+**Authorization:** `PLATFORM + OWNER`
+_(Note: Create Platform Users, Transfer Organizations, Archive Organizations, Create Products, and Modify Billing Rules are explicitly established as OWNER-only capabilities per AES-005. This amendment extends Organization Domain authorization to cover the remaining sub-resources without rewriting existing decisions)._
+
+## 8. Product Service Governance Scope
+
+Product governance remains managed via `marketplace.product_assignments`.
+
+**Authorization:** `PLATFORM + OWNER` or `PLATFORM + MANAGER`
+_(Note: Manual suspend/restore is explicitly established by AES-037 for both OWNER and MANAGER roles)._
+
+## 9. Product Enable/Disable Semantics
+
+- **Disable:** Platform OWNER or MANAGER may manually suspend product access using the existing `MANUAL_ADMIN_ACTION` mechanism.
+- **Enable:** Platform OWNER or MANAGER may explicitly restore a product assignment previously suspended through `MANUAL_ADMIN_ACTION`, according to the existing AES-037 restoration semantics. Billing lifecycle events do not automatically restore `MANUAL_ADMIN_ACTION` suspensions.
+
+## 10. Organization Settings/Configuration Relationship
+
+Organization settings remain under the Organization Domain and are governed by `PLATFORM + OWNER` authority, independent of Product Governance.
+
+## 11. Tenant Isolation Requirements
+
+Tenant isolation is not generally disabled. Unauthorized cross-tenant operations must still be rejected. The implementation must validate that a Platform administrator cannot accidentally operate on the wrong target organization.
+
+## 12. Audit Requirements
+
+All Platform actions are explicitly audited. Existing audit models (AES-017, AES-037) apply.
+
+## 13. Backend Enforcement Requirements
+
+Platform administrative features must have backend authorization enforced at the service layer. Platform governance controls must not rely on frontend visibility as enforcement.
+
+## 14. Terminology Mappings
+
+- **"sub-brand"**: Refers to a `BRAND` type organization under an `AGGREGATOR`. No fourth organization type (`SUB_BRAND`) is introduced.
+- **"supported AutoShipp service"**: Maps to a customer-facing Product for this amendment only.
+
+## 15. Architecture Cross-References
+
+- **AES-004:** Organization Domain
+- **AES-005:** IAM & Privilege Escalation
+- **AES-010:** Organization Schema & Settings
+- **AES-029:** Multi-Tenant & RLS
+- **AES-037:** Product Assignment Lifecycle
+
+## 16. Preservation Statements
+
+- **Organization Types:** Exactly three organization types exist (`PLATFORM`, `AGGREGATOR`, `BRAND`). No new organization type is introduced.
+- **Guard Pipeline:** The existing guard pipeline is preserved. No new guard is introduced.
+- **Product Governance:** Product Governance continues using existing `marketplace.product_assignments`.

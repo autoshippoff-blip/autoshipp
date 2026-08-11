@@ -578,6 +578,7 @@ Merge into `pre-prod` only if:
 - [x] API contract updated (if changed)
 - [x] PR approved & CI green
 - [x] Feature behind flag if incomplete
+- [ ] Platform administrative features must have backend authorization enforced at the service layer, persistence performed through the owning domain, required audit records confirmed, and target-organization isolation validated.
 
 ---
 
@@ -661,6 +662,8 @@ For every release, verify as a minimum:
 - [x] SQL injection, XSS, CSRF protection
 - [x] Dependency vulnerability & Secret scanning
 - [x] Rate limiting & Secure HTTP headers
+- [ ] Platform governance controls must not rely on frontend visibility as enforcement. Backend authorization is the authoritative control.
+- [ ] The implementation must validate that a Platform administrator cannot accidentally operate on the wrong target organization.
 
 > **For the complete security validation checklist, follow `.agents/rules/security-checklist.md`.** That document contains the full multi-section checklist covering authentication, API security, data security, infrastructure security, and compliance requirements.
 
@@ -764,6 +767,8 @@ For every release, verify as a minimum:
 
 **Documentation Structure:**
 `architecture.md`, `api.md`, `setup.md`, `deployment.md`, `troubleshooting.md`, `decisions.md` (ADR Log).
+
+- Changes to Platform Super Admin capabilities require amendment to AES-044 and approval by the architecture authority before implementation.
 
 ### 31. Backup Responsibilities
 

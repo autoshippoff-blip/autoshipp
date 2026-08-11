@@ -4,7 +4,7 @@
 > **Repository:** autoshipp (`d:\DEV-ENV\autosipp-projects\autoshipp`)  
 > **Working Branch:** `abbas`  
 > **Repository Baseline Commit:** `e57a625`  
-> **Working Tree Status:** **CLEAN** (excluding intentional user `.agents/rules/` changes)  
+> **Working Tree Status:** **CLEAN**  
 > **Test Suite Status:** **151/151 Backend Tests Passing**
 
 ---
@@ -53,7 +53,7 @@ All core architectural engineering specifications defined in `Full-architecture-
 ## 5. Current Project State
 
 - **TypeScript Compilation / Tests:** Assumed green (tests were not executed this session as work was purely documentation sync, last run was 151/151 passing).
-- **Working Tree:** Clean, except for intentional `.agents/rules/security-checklist.md` and `.agents/rules/test-rules.md` manual user modifications.
+- **Working Tree:** Clean.
 
 ---
 

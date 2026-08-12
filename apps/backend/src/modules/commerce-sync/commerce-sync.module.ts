@@ -1,25 +1,34 @@
 import { Module } from '@nestjs/common';
 import { BullModule } from '@nestjs/bullmq';
+import { ConfigModule } from '@nestjs/config';
 import { PrismaService } from '../../prisma.service';
 import { CommerceConflictService } from './services/commerce-conflict.service';
 import { CommerceSyncService } from './services/commerce-sync.service';
+import { OrderSyncService } from './services/order-sync.service';
+import { ShopifyFetchProvider } from './providers/shopify-fetch.provider';
 import { ShopifyWebhookProcessor } from './processors/shopify-webhook.processor';
-
-import { CommerceSyncController } from './controllers/commerce-sync.controller';
+import { OrderSyncProcessor } from './processors/order-sync.processor';
 
 @Module({
   imports: [
-    BullModule.registerQueue({
-      name: 'shopify-webhooks',
-    }),
+    ConfigModule,
+    BullModule.registerQueue(
+      { name: 'shopify-webhooks' },
+      { name: 'order-sync' },
+    ),
   ],
-  controllers: [CommerceSyncController],
   providers: [
     PrismaService,
     CommerceConflictService,
     CommerceSyncService,
+    OrderSyncService,
+    OrderSyncProcessor,
     ShopifyWebhookProcessor,
+    {
+      provide: 'CommerceFetchProvider',
+      useClass: ShopifyFetchProvider,
+    },
   ],
-  exports: [CommerceConflictService, CommerceSyncService],
+  exports: [CommerceConflictService, CommerceSyncService, OrderSyncService],
 })
 export class CommerceSyncModule {}

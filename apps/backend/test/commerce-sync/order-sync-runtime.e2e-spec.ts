@@ -92,6 +92,7 @@ describe('Commerce Sync Phase 1 — Order Sync Runtime Harness (e2e)', () => {
         OrderSyncService,
         CommerceConflictService,
         ConfigService,
+        PrismaService,
         {
           provide: 'CommerceFetchProvider',
           useValue: mockFetchProvider,
@@ -189,293 +190,273 @@ describe('Commerce Sync Phase 1 — Order Sync Runtime Harness (e2e)', () => {
   });
 
   // =========================================================================
-  // 2. LIVE DATABASE SCENARIOS (Executed Only When Isolated DB Is Present)
+  // 2. LIVE DATABASE SCENARIOS (Explicitly Skipped When No Isolated DB Exists)
   // =========================================================================
 
-  describe('Live Database Validation Scenarios', () => {
-    beforeEach(() => {
-      if (!isDatabaseAvailable) {
-        // Skip DB tests safely when no isolated DB URL is supplied
-        return;
-      }
-    });
+  const describeDatabaseScenarios = isDatabaseAvailable
+    ? describe
+    : describe.skip;
 
-    it('Scenario 1: Schema Readiness & Foreign Key Integrity', async () => {
-      if (!isDatabaseAvailable) return;
-
-      // Verify prerequisite tables and candidate checkpoint model exist in DB schema
-      const storeCount = await (prisma as any).store.count();
-      const checkpointCount = await (
-        prisma as any
-      ).commerceSyncCheckpoint.count();
-      expect(typeof storeCount).toBe('number');
-      expect(typeof checkpointCount).toBe('number');
-    });
-
-    it('Scenario 2: Valid Tenant Order Sync Execution', async () => {
-      if (!isDatabaseAvailable) return;
-
-      const orgId = '00000000-0000-0000-0000-000000000001';
-      const storeId = '00000000-0000-0000-0000-000000000002';
-
-      // 1. Seed synthetic Organization & Store
-      await (prisma as any).organization.upsert({
-        where: { id: orgId },
-        create: { id: orgId, name: 'Synthetic Org A', slug: 'syn-org-a' },
-        update: {},
-      });
-      await (prisma as any).store.upsert({
-        where: { id: storeId },
-        create: {
-          id: storeId,
-          organizationId: orgId,
-          name: 'Synthetic Store A',
-          domain: 'synthetic-a.myshopify.com',
-        },
-        update: {},
+  describeDatabaseScenarios(
+    'Live Database Validation Scenarios (Requires Authorized Isolated PostgreSQL DB)',
+    () => {
+      it('Scenario 1: Schema Readiness & Foreign Key Integrity', async () => {
+        const storeCount = await (prisma as any).store.count();
+        const checkpointCount = await (
+          prisma as any
+        ).commerceSyncCheckpoint.count();
+        expect(typeof storeCount).toBe('number');
+        expect(typeof checkpointCount).toBe('number');
       });
 
-      // 2. Configure synthetic order page
-      const mockOrder: RawCommerceOrder = {
-        id: 'ext-ord-101',
-        orderNumber: '1001',
-        totalPrice: '150.00',
-        currency: 'USD',
-        financialStatus: 'paid',
-        fulfillmentStatus: 'fulfilled',
-        createdAt: '2026-08-12T10:00:00Z',
-        updatedAt: '2026-08-12T10:00:00Z',
-      };
-      mockFetchProvider.setPageResult(undefined, {
-        orders: [mockOrder],
-        nextCursor: undefined,
-        hasMore: false,
-      });
+      it('Scenario 2: Valid Tenant Order Sync Execution', async () => {
+        const orgId = '00000000-0000-0000-0000-000000000001';
+        const storeId = '00000000-0000-0000-0000-000000000002';
 
-      // 3. Execute startOrResumeSync & processPageBatch
-      const telemetry = await orderSyncService.startOrResumeSync(
-        orgId,
-        storeId,
-      );
-      expect(telemetry.status).toBe(SyncStatus.IN_PROGRESS);
-
-      const pageResult = await orderSyncService.processPageBatch(
-        orgId,
-        storeId,
-      );
-      expect(pageResult.recordsProcessed).toBe(1);
-      expect(pageResult.status).toBe(SyncStatus.COMPLETED);
-
-      // 4. Verify persisted database row
-      const savedOrder = await (prisma as any).commerceOrder.findUnique({
-        where: {
-          storeId_externalOrderId: {
-            storeId,
-            externalOrderId: 'ext-ord-101',
+        await (prisma as any).organization.upsert({
+          where: { id: orgId },
+          create: { id: orgId, name: 'Synthetic Org A', slug: 'syn-org-a' },
+          update: {},
+        });
+        await (prisma as any).store.upsert({
+          where: { id: storeId },
+          create: {
+            id: storeId,
+            organizationId: orgId,
+            name: 'Synthetic Store A',
+            domain: 'synthetic-a.myshopify.com',
           },
-        },
-      });
-      expect(savedOrder).toBeDefined();
-      expect(savedOrder.organizationId).toBe(orgId);
-    });
+          update: {},
+        });
 
-    it('Scenario 3: Cross-Tenant Store Access Rejection', async () => {
-      if (!isDatabaseAvailable) return;
-
-      const orgAId = '00000000-0000-0000-0000-000000000001';
-      const orgBId = '00000000-0000-0000-0000-000000000003';
-      const storeBId = '00000000-0000-0000-0000-000000000004';
-
-      await (prisma as any).organization.upsert({
-        where: { id: orgBId },
-        create: { id: orgBId, name: 'Synthetic Org B', slug: 'syn-org-b' },
-        update: {},
-      });
-      await (prisma as any).store.upsert({
-        where: { id: storeBId },
-        create: {
-          id: storeBId,
-          organizationId: orgBId,
-          name: 'Synthetic Store B',
-          domain: 'synthetic-b.myshopify.com',
-        },
-        update: {},
-      });
-
-      // Mismatched invocation: Org A requesting Store B (owned by Org B)
-      await expect(
-        orderSyncService.startOrResumeSync(orgAId, storeBId),
-      ).rejects.toThrow(NotFoundException);
-
-      // Verify zero checkpoints created under Store B by Org A
-      const checkpoint = await (
-        prisma as any
-      ).commerceSyncCheckpoint.findUnique({
-        where: { storeId: storeBId },
-      });
-      expect(checkpoint).toBeNull();
-    });
-
-    it('Scenario 4: Atomic CAS Concurrency Lock Enforcement', async () => {
-      if (!isDatabaseAvailable) return;
-
-      const orgId = '00000000-0000-0000-0000-000000000001';
-      const storeId = '00000000-0000-0000-0000-000000000002';
-
-      // Reset checkpoint status to IDLE
-      await (prisma as any).commerceSyncCheckpoint.update({
-        where: { storeId },
-        data: { status: SyncStatus.IDLE },
-      });
-
-      // Issue two concurrent startOrResumeSync calls
-      const results = await Promise.allSettled([
-        orderSyncService.startOrResumeSync(orgId, storeId),
-        orderSyncService.startOrResumeSync(orgId, storeId),
-      ]);
-
-      const fulfilled = results.filter((r) => r.status === 'fulfilled');
-      const rejected = results.filter((r) => r.status === 'rejected');
-
-      expect(fulfilled.length).toBe(1);
-      expect(rejected.length).toBe(1);
-      expect((rejected[0] as PromiseRejectedResult).reason).toBeInstanceOf(
-        ConflictException,
-      );
-    });
-
-    it('Scenario 5: Cursor Persistence & Resumability', async () => {
-      if (!isDatabaseAvailable) return;
-
-      const orgId = '00000000-0000-0000-0000-000000000001';
-      const storeId = '00000000-0000-0000-0000-000000000002';
-
-      // Reset checkpoint status
-      await (prisma as any).commerceSyncCheckpoint.update({
-        where: { storeId },
-        data: { status: SyncStatus.IN_PROGRESS, nextCursor: 'cursor-page-2' },
-      });
-
-      const mockOrderPage2: RawCommerceOrder = {
-        id: 'ext-ord-102',
-        orderNumber: '1002',
-        totalPrice: '200.00',
-        createdAt: '2026-08-12T11:00:00Z',
-      };
-      mockFetchProvider.setPageResult('cursor-page-2', {
-        orders: [mockOrderPage2],
-        nextCursor: undefined,
-        hasMore: false,
-      });
-
-      const pageResult = await orderSyncService.processPageBatch(
-        orgId,
-        storeId,
-      );
-      expect(pageResult.status).toBe(SyncStatus.COMPLETED);
-
-      const savedOrder = await (prisma as any).commerceOrder.findUnique({
-        where: {
-          storeId_externalOrderId: { storeId, externalOrderId: 'ext-ord-102' },
-        },
-      });
-      expect(savedOrder).toBeDefined();
-    });
-
-    it('Scenario 6: Timestamp-Based OCC Stale-Write Rejection', async () => {
-      if (!isDatabaseAvailable) return;
-
-      const orgId = '00000000-0000-0000-0000-000000000001';
-      const storeId = '00000000-0000-0000-0000-000000000002';
-
-      // Seed existing order with NEWER timestamp (12:00:00)
-      await (prisma as any).commerceOrder.upsert({
-        where: {
-          storeId_externalOrderId: { storeId, externalOrderId: 'ext-occ-200' },
-        },
-        create: {
-          storeId,
-          organizationId: orgId,
-          externalOrderId: 'ext-occ-200',
-          orderNumber: '2000',
+        const mockOrder: RawCommerceOrder = {
+          id: 'ext-ord-101',
+          orderNumber: '1001',
+          totalPrice: '150.00',
           currency: 'USD',
-          totalPrice: '500.00',
-          subtotalPrice: '500.00',
           financialStatus: 'paid',
           fulfillmentStatus: 'fulfilled',
-          externalCreatedAt: new Date('2026-08-12T12:00:00Z'),
-          externalUpdatedAt: new Date('2026-08-12T12:00:00Z'),
-          syncVersion: 2,
-        },
-        update: {
-          externalUpdatedAt: new Date('2026-08-12T12:00:00Z'),
-          totalPrice: '500.00',
-        },
-      });
+          createdAt: '2026-08-12T10:00:00Z',
+          updatedAt: '2026-08-12T10:00:00Z',
+        };
+        mockFetchProvider.setPageResult(undefined, {
+          orders: [mockOrder],
+          nextCursor: undefined,
+          hasMore: false,
+        });
 
-      // Attempt historical sync update with OLDER timestamp (10:00:00)
-      const staleOrder: RawCommerceOrder = {
-        id: 'ext-occ-200',
-        orderNumber: '2000',
-        totalPrice: '100.00', // Stale price
-        createdAt: '2026-08-12T10:00:00Z',
-        updatedAt: '2026-08-12T10:00:00Z',
-      };
-
-      await orderSyncService.processPageBatch(
-        orgId,
-        storeId,
-        [staleOrder],
-        undefined,
-      );
-
-      // Verify stored order retains NEWER state (price 500.00, not 100.00)
-      const persisted = await (prisma as any).commerceOrder.findUnique({
-        where: {
-          storeId_externalOrderId: { storeId, externalOrderId: 'ext-occ-200' },
-        },
-      });
-      expect(Number(persisted.totalPrice)).toBe(500.0);
-    });
-
-    it('Scenario 7: Atomic Transaction Rollback on Database Error', async () => {
-      if (!isDatabaseAvailable) return;
-
-      const orgId = '00000000-0000-0000-0000-000000000001';
-      const storeId = '00000000-0000-0000-0000-000000000002';
-
-      const initialCheckpoint = await (
-        prisma as any
-      ).commerceSyncCheckpoint.findUnique({
-        where: { storeId },
-      });
-      const initialRecordsCount = initialCheckpoint?.recordsProcessed || 0;
-
-      // Pass an invalid order payload that causes database constraint failure
-      const malformedOrder: any = {
-        id: 'ext-malformed-999',
-        orderNumber: '9999',
-        totalPrice: 'INVALID_NUMERIC_DECIMAL_STRING_THAT_FAILS_DB_CAST',
-      };
-
-      await expect(
-        orderSyncService.processPageBatch(
+        const telemetry = await orderSyncService.startOrResumeSync(
           orgId,
           storeId,
-          [malformedOrder],
-          'cursor-next',
-        ),
-      ).rejects.toThrow();
+        );
+        expect(telemetry.status).toBe(SyncStatus.IN_PROGRESS);
 
-      // Verify checkpoint recordsProcessed was NOT incremented (atomic transaction rollback)
-      const afterRollbackCheckpoint = await (
-        prisma as any
-      ).commerceSyncCheckpoint.findUnique({
-        where: { storeId },
+        const pageResult = await orderSyncService.processPageBatch(
+          orgId,
+          storeId,
+        );
+        expect(pageResult.recordsProcessed).toBe(1);
+        expect(pageResult.status).toBe(SyncStatus.COMPLETED);
+
+        const savedOrder = await (prisma as any).commerceOrder.findUnique({
+          where: {
+            storeId_externalOrderId: {
+              storeId,
+              externalOrderId: 'ext-ord-101',
+            },
+          },
+        });
+        expect(savedOrder).toBeDefined();
+        expect(savedOrder.organizationId).toBe(orgId);
       });
-      expect(afterRollbackCheckpoint.recordsProcessed).toBe(
-        initialRecordsCount,
-      );
-    });
-  });
+
+      it('Scenario 3: Cross-Tenant Store Access Rejection', async () => {
+        const orgAId = '00000000-0000-0000-0000-000000000001';
+        const orgBId = '00000000-0000-0000-0000-000000000003';
+        const storeBId = '00000000-0000-0000-0000-000000000004';
+
+        await (prisma as any).organization.upsert({
+          where: { id: orgBId },
+          create: { id: orgBId, name: 'Synthetic Org B', slug: 'syn-org-b' },
+          update: {},
+        });
+        await (prisma as any).store.upsert({
+          where: { id: storeBId },
+          create: {
+            id: storeBId,
+            organizationId: orgBId,
+            name: 'Synthetic Store B',
+            domain: 'synthetic-b.myshopify.com',
+          },
+          update: {},
+        });
+
+        await expect(
+          orderSyncService.startOrResumeSync(orgAId, storeBId),
+        ).rejects.toThrow(NotFoundException);
+
+        const checkpoint = await (
+          prisma as any
+        ).commerceSyncCheckpoint.findUnique({
+          where: { storeId: storeBId },
+        });
+        expect(checkpoint).toBeNull();
+      });
+
+      it('Scenario 4: Atomic CAS Concurrency Lock Enforcement', async () => {
+        const orgId = '00000000-0000-0000-0000-000000000001';
+        const storeId = '00000000-0000-0000-0000-000000000002';
+
+        await (prisma as any).commerceSyncCheckpoint.update({
+          where: { storeId },
+          data: { status: SyncStatus.IDLE },
+        });
+
+        const results = await Promise.allSettled([
+          orderSyncService.startOrResumeSync(orgId, storeId),
+          orderSyncService.startOrResumeSync(orgId, storeId),
+        ]);
+
+        const fulfilled = results.filter((r) => r.status === 'fulfilled');
+        const rejected = results.filter((r) => r.status === 'rejected');
+
+        expect(fulfilled.length).toBe(1);
+        expect(rejected.length).toBe(1);
+        expect((rejected[0] as PromiseRejectedResult).reason).toBeInstanceOf(
+          ConflictException,
+        );
+      });
+
+      it('Scenario 5: Cursor Persistence & Resumability', async () => {
+        const orgId = '00000000-0000-0000-0000-000000000001';
+        const storeId = '00000000-0000-0000-0000-000000000002';
+
+        await (prisma as any).commerceSyncCheckpoint.update({
+          where: { storeId },
+          data: { status: SyncStatus.IN_PROGRESS, nextCursor: 'cursor-page-2' },
+        });
+
+        const mockOrderPage2: RawCommerceOrder = {
+          id: 'ext-ord-102',
+          orderNumber: '1002',
+          totalPrice: '200.00',
+          createdAt: '2026-08-12T11:00:00Z',
+        };
+        mockFetchProvider.setPageResult('cursor-page-2', {
+          orders: [mockOrderPage2],
+          nextCursor: undefined,
+          hasMore: false,
+        });
+
+        const pageResult = await orderSyncService.processPageBatch(
+          orgId,
+          storeId,
+        );
+        expect(pageResult.status).toBe(SyncStatus.COMPLETED);
+
+        const savedOrder = await (prisma as any).commerceOrder.findUnique({
+          where: {
+            storeId_externalOrderId: {
+              storeId,
+              externalOrderId: 'ext-ord-102',
+            },
+          },
+        });
+        expect(savedOrder).toBeDefined();
+      });
+
+      it('Scenario 6: Timestamp-Based OCC Stale-Write Rejection', async () => {
+        const orgId = '00000000-0000-0000-0000-000000000001';
+        const storeId = '00000000-0000-0000-0000-000000000002';
+
+        await (prisma as any).commerceOrder.upsert({
+          where: {
+            storeId_externalOrderId: {
+              storeId,
+              externalOrderId: 'ext-occ-200',
+            },
+          },
+          create: {
+            storeId,
+            organizationId: orgId,
+            externalOrderId: 'ext-occ-200',
+            orderNumber: '2000',
+            currency: 'USD',
+            totalPrice: '500.00',
+            subtotalPrice: '500.00',
+            financialStatus: 'paid',
+            fulfillmentStatus: 'fulfilled',
+            externalCreatedAt: new Date('2026-08-12T12:00:00Z'),
+            externalUpdatedAt: new Date('2026-08-12T12:00:00Z'),
+            syncVersion: 2,
+          },
+          update: {
+            externalUpdatedAt: new Date('2026-08-12T12:00:00Z'),
+            totalPrice: '500.00',
+          },
+        });
+
+        const staleOrder: RawCommerceOrder = {
+          id: 'ext-occ-200',
+          orderNumber: '2000',
+          totalPrice: '100.00',
+          createdAt: '2026-08-12T10:00:00Z',
+          updatedAt: '2026-08-12T10:00:00Z',
+        };
+
+        await orderSyncService.processPageBatch(
+          orgId,
+          storeId,
+          [staleOrder],
+          undefined,
+        );
+
+        const persisted = await (prisma as any).commerceOrder.findUnique({
+          where: {
+            storeId_externalOrderId: {
+              storeId,
+              externalOrderId: 'ext-occ-200',
+            },
+          },
+        });
+        expect(Number(persisted.totalPrice)).toBe(500.0);
+      });
+
+      it('Scenario 7: Atomic Transaction Rollback on Database Error', async () => {
+        const orgId = '00000000-0000-0000-0000-000000000001';
+        const storeId = '00000000-0000-0000-0000-000000000002';
+
+        const initialCheckpoint = await (
+          prisma as any
+        ).commerceSyncCheckpoint.findUnique({
+          where: { storeId },
+        });
+        const initialRecordsCount = initialCheckpoint?.recordsProcessed || 0;
+
+        const malformedOrder: any = {
+          id: 'ext-malformed-999',
+          orderNumber: '9999',
+          totalPrice: 'INVALID_NUMERIC_DECIMAL_STRING_THAT_FAILS_DB_CAST',
+        };
+
+        await expect(
+          orderSyncService.processPageBatch(
+            orgId,
+            storeId,
+            [malformedOrder],
+            'cursor-next',
+          ),
+        ).rejects.toThrow();
+
+        const afterRollbackCheckpoint = await (
+          prisma as any
+        ).commerceSyncCheckpoint.findUnique({
+          where: { storeId },
+        });
+        expect(afterRollbackCheckpoint.recordsProcessed).toBe(
+          initialRecordsCount,
+        );
+      });
+    },
+  );
 });

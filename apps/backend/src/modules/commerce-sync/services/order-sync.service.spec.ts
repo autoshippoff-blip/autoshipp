@@ -1,5 +1,6 @@
 import { ConflictException, NotFoundException } from '@nestjs/common';
-import { SyncStatus, SyncEntityType, OrderSyncService } from './order-sync.service';
+import { SyncStatus, SyncEntityType } from '@prisma/client';
+import { OrderSyncService } from './order-sync.service';
 import { CommerceConflictService } from './commerce-conflict.service';
 import { ConfigService } from '@nestjs/config';
 

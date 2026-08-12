@@ -285,4 +285,37 @@ describe('OrderSyncService', () => {
       expect(prismaMock.commerceOrder.upsert).not.toHaveBeenCalled();
     });
   });
+
+  describe('Tenant Isolation & Store Ownership Security', () => {
+    it('rejects startOrResumeSync when store does not belong to the requesting organization (Negative Test)', async () => {
+      // Store-1 belongs to org-1
+      prismaMock.store.findUnique.mockResolvedValue({
+        id: 'store-1',
+        organizationId: 'org-1',
+        domain: 'store-1.myshopify.com',
+      });
+
+      // Request coming from org-ATTACKER attempting to access store-1
+      await expect(
+        service.startOrResumeSync('org-ATTACKER', 'store-1'),
+      ).rejects.toThrow(NotFoundException);
+
+      expect(prismaMock.commerceSyncCheckpoint.create).not.toHaveBeenCalled();
+      expect(prismaMock.commerceSyncCheckpoint.updateMany).not.toHaveBeenCalled();
+    });
+
+    it('rejects processPageBatch when store does not belong to the requesting organization (Negative Test)', async () => {
+      prismaMock.store.findUnique.mockResolvedValue({
+        id: 'store-1',
+        organizationId: 'org-1',
+        domain: 'store-1.myshopify.com',
+      });
+
+      await expect(
+        service.processPageBatch('org-ATTACKER', 'store-1', [], undefined),
+      ).rejects.toThrow(NotFoundException);
+
+      expect(prismaMock.commerceOrder.upsert).not.toHaveBeenCalled();
+    });
+  });
 });

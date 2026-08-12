@@ -55,7 +55,7 @@ export class OrderSyncService {
       where: { id: storeId },
     });
 
-    if (!store) {
+    if (!store || store.organizationId !== organizationId) {
       throw new NotFoundException(`Store [${storeId}] not found.`);
     }
 
@@ -124,7 +124,7 @@ export class OrderSyncService {
       where: { id: storeId },
     });
 
-    if (!store) {
+    if (!store || store.organizationId !== organizationId) {
       throw new NotFoundException(`Store [${storeId}] not found.`);
     }
 

@@ -1,8 +1,11 @@
 import { ConflictException, NotFoundException } from '@nestjs/common';
-import { SyncStatus, SyncEntityType } from '@prisma/client';
-import { OrderSyncService } from './order-sync.service';
+import {
+  OrderSyncService,
+  ConfigService,
+  SyncStatus,
+  SyncEntityType,
+} from './order-sync.service';
 import { CommerceConflictService } from './commerce-conflict.service';
-import { ConfigService } from '@nestjs/config';
 
 describe('OrderSyncService', () => {
   let service: OrderSyncService;

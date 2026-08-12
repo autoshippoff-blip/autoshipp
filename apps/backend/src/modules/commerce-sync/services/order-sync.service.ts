@@ -5,8 +5,23 @@ import {
   ConflictException,
   NotFoundException,
 } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { SyncStatus, SyncEntityType } from '@prisma/client';
+export interface ConfigService {
+  get<T = any>(propertyPath: string, defaultValue?: T): T;
+}
+export enum SyncStatus {
+  IDLE = 'IDLE',
+  IN_PROGRESS = 'IN_PROGRESS',
+  PAUSED = 'PAUSED',
+  FAILED = 'FAILED',
+  COMPLETED = 'COMPLETED',
+}
+
+export enum SyncEntityType {
+  ORDER = 'ORDER',
+  PRODUCT = 'PRODUCT',
+  CUSTOMER = 'CUSTOMER',
+  INVENTORY = 'INVENTORY',
+}
 import { PrismaService } from '../../../prisma.service';
 import { CommerceConflictService } from './commerce-conflict.service';
 import type {

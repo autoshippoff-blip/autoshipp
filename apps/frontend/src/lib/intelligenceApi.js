@@ -21,14 +21,36 @@ const handleResponse = async (res) => {
 
 export const intelligenceApi = {
   getScorecard: async (orgId) => {
-    const res = await fetch(
-      `${API_URL}/organizations/${orgId}/intelligence/scorecard`,
-      {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
+    const url = new URL(`${API_URL}/api/intelligence/scorecard`);
+    if (orgId) {
+      url.searchParams.append("organizationId", orgId);
+    }
+
+    const res = await fetch(url.toString(), {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        ...(orgId ? { "x-organization-id": orgId } : {}),
       },
-    );
+      credentials: "include",
+    });
+    return handleResponse(res);
+  },
+
+  getExecutiveReport: async (orgId) => {
+    const url = new URL(`${API_URL}/api/intelligence/executive-report`);
+    if (orgId) {
+      url.searchParams.append("organizationId", orgId);
+    }
+
+    const res = await fetch(url.toString(), {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        ...(orgId ? { "x-organization-id": orgId } : {}),
+      },
+      credentials: "include",
+    });
     return handleResponse(res);
   },
 
@@ -37,7 +59,10 @@ export const intelligenceApi = {
       `${API_URL}/organizations/${orgId}/intelligence/reports`,
       {
         method: "GET",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          ...(orgId ? { "x-organization-id": orgId } : {}),
+        },
         credentials: "include",
       },
     );
@@ -49,7 +74,10 @@ export const intelligenceApi = {
       `${API_URL}/organizations/${orgId}/intelligence/scan`,
       {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          ...(orgId ? { "x-organization-id": orgId } : {}),
+        },
         body: JSON.stringify({ storeId }),
         credentials: "include",
       },
@@ -62,6 +90,9 @@ export const intelligenceApi = {
       `${API_URL}/organizations/${orgId}/intelligence/reports/export`,
       {
         method: "GET",
+        headers: {
+          ...(orgId ? { "x-organization-id": orgId } : {}),
+        },
         credentials: "include",
       },
     );
@@ -70,7 +101,6 @@ export const intelligenceApi = {
       throw new Error("Export request failed");
     }
 
-    // Extract filename from Content-Disposition header
     const disposition = res.headers.get("content-disposition");
     let filename = `autoshipp-intelligence-${orgId}.csv`;
     if (disposition && disposition.includes("filename=")) {
@@ -88,6 +118,6 @@ export const intelligenceApi = {
     document.body.appendChild(a);
     a.click();
     a.remove();
-    window.URL.revokeObjectURL(url); // Revoke Blob URL to prevent memory leaks
+    window.URL.revokeObjectURL(url);
   },
 };

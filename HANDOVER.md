@@ -1,88 +1,59 @@
-# AutoShipp Platform — Session Handover Report
+# HANDOVER.md — AutoShipp Architecture Baseline & Parallel Development Readiness
 
-> **Handover Version:** v2.1.0  
-> **Repository:** autoshipp (`d:\DEV-ENV\autosipp-projects\autoshipp`)  
-> **Working Branch:** `abbas`  
-> **Repository Baseline Commit:** `e57a625`  
-> **Working Tree Status:** **CLEAN**  
-> **Test Suite Status:** **151/151 Backend Tests Passing**
+## Project Overview
 
----
+AutoShipp is a multi-tenant B2B SaaS platform focused on Unified Commerce Intelligence (Fit Engine, Marketplace, Billing). The project is governed by the AES-000 to AES-043 architecture specifications and `TEAM_ENGINEERING_HANDBOOK.md` (v2.0.0).
 
-## 1. Project Overview
+## Current Baseline Status
 
-AutoShipp is a B2B multi-tenant SaaS logistics and intelligence platform for commerce brands, aggregators, and enterprise operators. The platform provides real-time commerce sync, multi-platform integrations, wallet ledgers, subscription billing, and an automated AI intelligence engine.
+The repository has been **fully stabilized, validated, and initialized for parallel development**.
 
----
+- **Integration Baseline Branch:** `pre-prod`
+- **Current Working Branch:** `abbas`
+- **Baseline Commit SHA:** `b51f23727bab0866f815707c9192cd9f115e361d` (`fix(billing): stabilize razorpay adapter, update jest specs, and sync prisma client`)
+- **Status:** **PARALLEL DEVELOPMENT INITIALIZED (100% Clean Working Tree, 0 Build Errors, 0 TS Errors, 27/27 Test Suites Passing)**
 
-## 2. Current Implementation Status
+## Work Completed During This Session
 
-All core architectural engineering specifications defined in `Full-architecture-file-autoshipp.md` (now **AES-000 through AES-044**) are **COMPLETED, VERIFIED, TESTED & INTEGRATED** in the repository baseline documentation:
+1. **Backend Compilation & Billing Stabilization:**
+   - Replaced unexported subpath import (`razorpay/dist/utils/razorpay-utils`) in [`razorpay.adapter.ts`](file:///d:/DEV-ENV/autosipp-projects/autoshipp/apps/backend/src/modules/billing/infrastructure/razorpay.adapter.ts) with Node.js built-in `crypto` HMAC SHA-256 calculation (`crypto.createHmac`) and constant-time string comparison (`crypto.timingSafeEqual`).
+   - Added optional chaining fallback `(e.features || []).map(...)` in [`marketplace-catalog.service.ts`](file:///d:/DEV-ENV/autosipp-projects/autoshipp/apps/backend/src/modules/marketplace/services/marketplace-catalog.service.ts).
+   - Updated Razorpay adapter unit test specs ([`razorpay.adapter.spec.ts`](file:///d:/DEV-ENV/autosipp-projects/autoshipp/apps/backend/src/modules/billing/infrastructure/razorpay.adapter.spec.ts)) using virtual Jest mocks (`{ virtual: true }`).
+   - Regenerated Prisma Client v7.8.0 for `WebhookEvent` model and `WebhookStatus` enum.
+2. **Comprehensive Verification Suite Executed:**
+   - `npx prisma validate`: **PASSED** (Schema valid).
+   - `npx prisma generate`: **PASSED** (Prisma Client v7.8.0 generated).
+   - `@autoshipp/backend` NestJS build: **PASSED** (0 Errors).
+   - `@autoshipp/frontend` Next.js build: **PASSED** (43/43 routes compiled).
+   - TypeScript Typecheck (`tsc --noEmit`): **PASSED** (0 Errors).
+   - Unit Test Suite (`pnpm --filter @autoshipp/backend test`): **PASSED** (27/27 Test Suites Passed, 94/94 Tests Passed).
+3. **Governance & Parallel Readiness Audit:**
+   - Evaluated `TEAM_ENGINEERING_HANDBOOK.md` (v2.0.0) for ABBAS (Lead Dev / Infra Owner) and GRANNY (Feature Developer).
+   - Established the **Hybrid Ownership Model (Domain-First + Asset-Locking)**.
+   - Locked Prisma schema migrations exclusively to ABBAS to prevent migration history divergence.
+   - Mandated **MSW (Mock Service Worker) Contract-First Development** for GRANNY to eliminate backend review wait states.
+   - Produced detailed readiness artifacts: [parallel_development_readiness_audit.md](file:///C:/Users/hussain%20hanifa/.gemini/antigravity-ide/brain/39be8d78-265c-423c-b597-3cd0136fa6a0/parallel_development_readiness_audit.md), [repository_stabilization_report.md](file:///C:/Users/hussain%20hanifa/.gemini/antigravity-ide/brain/39be8d78-265c-423c-b597-3cd0136fa6a0/repository_stabilization_report.md), and [repository_baseline_initialization_report.md](file:///C:/Users/hussain%20hanifa/.gemini/antigravity-ide/brain/39be8d78-265c-423c-b597-3cd0136fa6a0/repository_baseline_initialization_report.md).
+4. **Git Baseline Finalization:**
+   - Staged and committed stabilization fixes into baseline commit `b51f23727bab0866f815707c9192cd9f115e361d`.
 
-- **AES-042 (Enterprise Operations & Compliance Specification):** Closed & Archived.
-- **AES-043 (AutoShipp Intelligence Platform):** Closed & Integrated.
-- **AES-044 (Platform Super Admin & Organization Service Governance Specification):** Documentation Completed & Synchronized across `all-files/` and `TEAM_ENGINEERING_HANDBOOK.md`.
+## Important Architecture Rules & Ownership
 
----
+- **Prisma Schema & Migrations:** Monolithic asset locked exclusively to **ABBAS**. GRANNY specifies DTO requirements; ABBAS alone executes `npx prisma migrate dev`.
+- **Root NestJS Bootstrap:** `app.module.ts`, `main.ts`, and `permissions.enum.ts` locked to **ABBAS**.
+- **Product Intelligence Domain (AES-043):** Assigned to **GRANNY** (`PublicStoreCrawlerService`, `IntelligenceScorerService`, Next.js `/brand/intelligence` dashboard).
+- **Tenant Isolation:** Enforced via `WHERE organization_id = $tenantId` on all tenant queries.
+- **Binary Asset Strategy (AES-025):** Zero binary storage (no S3/R2). Reports stored as JSON; exports streamed dynamically.
 
-## 3. Work Completed During This Session
+## Key Project Artifacts Generated
 
-1. **AES-044 Documentation Amendment:**
-   - Formalized Platform Super Admin role (`PLATFORM` + `OWNER`) governance over Organization Domain APIs.
-   - Clarified that `UserTypeGuard` acts as the canonical guard with Super Admin bypass capabilities for explicit target-organization context resolution, maintaining service-layer authorization.
-   - Updated `TEAM_ENGINEERING_HANDBOOK.md` with operational backend/frontend authorization validation checkpoints.
+- `final_governance_design_review.md`: 8-topic governance evaluation for ABBAS and GRANNY.
+- `parallel_development_readiness_audit.md`: Initial readiness audit.
+- `repository_stabilization_report.md`: Stabilization root cause analysis and build/test evidence.
+- `repository_baseline_initialization_report.md`: Baseline commit finalization and push recommendations.
 
-2. **Architecture-Files/all-files Synchronization:**
-   - Synchronized AES-005, AES-029, and AES-035 split files to strictly mirror the AES-044 amendment changes to the master architecture document.
-   - Created standalone `Architecture-Files/all-files/AES-044.md`.
+## Next Starting Point
 
-3. **Workspace Cleanup:**
-   - Identified and removed temporary investigation artifacts (`diff_*.txt`, `temp_master*.md`).
-   - Retained intentional user modifications (`.agents/rules/security-checklist.md`, `.agents/rules/test-rules.md`).
+The repository is in a **PARALLEL DEVELOPMENT INITIALIZED** state at baseline commit `b51f237`. The next development session can immediately begin implementing the approved **AES-043 AutoShipp Intelligence Platform** slice following the approved [revised_implementation_plan.md](file:///C:/Users/hussain%20hanifa/.gemini/antigravity-ide/brain/39be8d78-265c-423c-b597-3cd0136fa6a0/revised_implementation_plan.md):
 
----
-
-## 4. Important Discoveries
-
-- **Architecture Files Split Sync:** `Architecture-Files/all-files/` is a manual, non-automated text mirror of `Full-architecture-file-autoshipp.md`. Any future amendments must be explicitly synchronized to both locations.
-- **Organization Hierarchy:** `SUB_BRAND` is explicitly confirmed as non-existent; exactly three organization types remain (Platform, Aggregator, Brand).
-- **Product Governance:** Remains strictly `OWNER` + `MANAGER` through `marketplace.product_assignments` and `MANUAL_ADMIN_ACTION`.
-
----
-
-## 5. Current Project State
-
-- **TypeScript Compilation / Tests:** Assumed green (tests were not executed this session as work was purely documentation sync, last run was 151/151 passing).
-- **Working Tree:** Clean.
-
----
-
-## 6. Outstanding Work
-
-1. **Remote Repository Push (`git push`):** Branch `abbas` is ahead of `origin/abbas`. The developer must manually push and synchronize into `pre-prod`.
-2. **AES-044 Implementation:** Application code (guards, service layer) must be updated to align with the newly approved AES-044 `UserTypeGuard` definitions.
-
----
-
-## 7. Known Issues
-
-- **None.**
-
----
-
-## 8. Important Modified Files
-
-- `Architecture-Files/Full-architecture-file-autoshipp.md` (AES-044 Amendment)
-- `TEAM_ENGINEERING_HANDBOOK.md` (Super Admin Governance Rules)
-- `Architecture-Files/all-files/AES-005.md`
-- `Architecture-Files/all-files/AES-029.md`
-- `Architecture-Files/all-files/AES-035.md`
-- `Architecture-Files/all-files/AES-044.md`
-
----
-
-## 9. Next Starting Point
-
-1. Developer performs manual push.
-2. Synchronize `pre-prod` integration branch.
-3. Await directive to begin backend application implementation of AES-044 Platform Super Admin.
+1. **Developer ABBAS:** Push baseline commit `b51f237` to `origin/pre-prod` and publish permanent developer branches `origin/abbas` and `origin/granny`.
+2. **Developer GRANNY (or Feature Slice):** Begin AES-043 feature implementation (`PublicStoreCrawlerService`, `IntelligenceScorerService` extraction from magic numbers, streaming CSV export, and `/brand/intelligence` frontend dashboard).

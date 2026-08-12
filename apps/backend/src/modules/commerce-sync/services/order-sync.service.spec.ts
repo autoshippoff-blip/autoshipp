@@ -1,4 +1,4 @@
-import { ConflictException } from '@nestjs/common';
+import { ConflictException, NotFoundException } from '@nestjs/common';
 import { SyncStatus, SyncEntityType } from '@prisma/client';
 import { OrderSyncService } from './order-sync.service';
 import { CommerceConflictService } from './commerce-conflict.service';
@@ -301,7 +301,9 @@ describe('OrderSyncService', () => {
       ).rejects.toThrow(NotFoundException);
 
       expect(prismaMock.commerceSyncCheckpoint.create).not.toHaveBeenCalled();
-      expect(prismaMock.commerceSyncCheckpoint.updateMany).not.toHaveBeenCalled();
+      expect(
+        prismaMock.commerceSyncCheckpoint.updateMany,
+      ).not.toHaveBeenCalled();
     });
 
     it('rejects processPageBatch when store does not belong to the requesting organization (Negative Test)', async () => {

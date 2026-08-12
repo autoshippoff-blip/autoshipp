@@ -1,4 +1,4 @@
-﻿-- CreateEnum
+-- CreateEnum
 CREATE TYPE "SyncStatus" AS ENUM ('IDLE', 'IN_PROGRESS', 'PAUSED', 'FAILED', 'COMPLETED');
 
 -- CreateEnum

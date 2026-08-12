@@ -5,9 +5,7 @@ import {
   ConflictException,
   NotFoundException,
 } from '@nestjs/common';
-export interface ConfigService {
-  get<T = any>(propertyPath: string, defaultValue?: T): T;
-}
+import { ConfigService } from '@nestjs/config';
 export enum SyncStatus {
   IDLE = 'IDLE',
   IN_PROGRESS = 'IN_PROGRESS',

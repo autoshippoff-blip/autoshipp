@@ -4,10 +4,11 @@ import {
   NotFoundException,
   ConflictException,
 } from '@nestjs/common';
-import { OrderSyncService, ConfigService } from './order-sync.service';
+import { ConfigService } from '@nestjs/config';
 import { PrismaClient, SyncStatus, SyncEntityType } from '@prisma/client';
 import { Pool } from 'pg';
 import { PrismaPg } from '@prisma/adapter-pg';
+import { OrderSyncService } from './order-sync.service';
 import { CommerceConflictService } from './commerce-conflict.service';
 import { OrderSyncTelemetryService } from './order-sync-telemetry.service';
 import {

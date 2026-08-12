@@ -1,11 +1,7 @@
 import { ConflictException, NotFoundException } from '@nestjs/common';
-import {
-  OrderSyncService,
-  ConfigService,
-  SyncStatus,
-  SyncEntityType,
-} from './order-sync.service';
+import { SyncStatus, SyncEntityType, OrderSyncService } from './order-sync.service';
 import { CommerceConflictService } from './commerce-conflict.service';
+import { ConfigService } from '@nestjs/config';
 
 describe('OrderSyncService', () => {
   let service: OrderSyncService;

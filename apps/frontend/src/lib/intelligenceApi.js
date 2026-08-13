@@ -21,37 +21,34 @@ const handleResponse = async (res) => {
 
 export const intelligenceApi = {
   getScorecard: async (orgId) => {
-    const url = new URL(`${API_URL}/api/intelligence/scorecard`);
-    if (orgId) {
-      url.searchParams.append("organizationId", orgId);
-    }
-
-    const res = await fetch(url.toString(), {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        ...(orgId ? { "x-organization-id": orgId } : {}),
+    const res = await fetch(
+      `${API_URL}/organizations/${orgId}/intelligence/scorecard`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          ...(orgId ? { "x-organization-id": orgId } : {}),
+        },
+        credentials: "include",
       },
-      credentials: "include",
-    });
+    );
     return handleResponse(res);
   },
 
   getExecutiveReport: async (orgId) => {
-    const url = new URL(`${API_URL}/api/intelligence/executive-report`);
-    if (orgId) {
-      url.searchParams.append("organizationId", orgId);
-    }
-
-    const res = await fetch(url.toString(), {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        ...(orgId ? { "x-organization-id": orgId } : {}),
+    const res = await fetch(
+      `${API_URL}/organizations/${orgId}/intelligence/reports`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          ...(orgId ? { "x-organization-id": orgId } : {}),
+        },
+        credentials: "include",
       },
-      credentials: "include",
-    });
-    return handleResponse(res);
+    );
+    const data = await handleResponse(res);
+    return Array.isArray(data) ? data[0] || null : data;
   },
 
   getReports: async (orgId) => {
